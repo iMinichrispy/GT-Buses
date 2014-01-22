@@ -1,0 +1,24 @@
+//
+//  Colors.h
+//  GT-Buses
+//
+//  Created by Alex Perez on 1/30/14.
+//  Copyright (c) 2014 Alex Perez. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+#define BLUE_COLOR  [UIColor colorWithRed:(24/255.0) green:(124/255.0) blue:(199/255.0) alpha:1.0]
+
+@interface Colors : NSObject
+
++ (UIColor *)colorWithHexString:(NSString *)hexString;
++ (UIColor *)darkerColorForColor:(UIColor *)color;
+
+@end
+
+@interface UIImage (Overlay)
+
+- (UIImage *)imageWithColor:(UIColor *)color;
+
+@end
