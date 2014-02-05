@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "BusAnnotation.h"
+#import "BusStopAnnotation.h"
+#import "BusRouteLine.h"
 
 @interface MapHandler : NSObject <MKMapViewDelegate>
 

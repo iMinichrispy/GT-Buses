@@ -7,10 +7,13 @@
 //
 
 #import "BusAnnotation.h"
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 @implementation BusAnnotation
 @synthesize busIdentifier;
 @synthesize heading;
+@synthesize color;
+@synthesize arrowImageView;
 
 - (BOOL)isEqual:(id)other {
     if (other == self)
@@ -18,6 +21,10 @@
     if (!other || ![other isKindOfClass:[self class]])
         return NO;
     return [self.busIdentifier isEqualToString:((BusAnnotation *)other).busIdentifier];
+}
+
+- (void)updateHeading {
+    self.arrowImageView.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(self.heading));
 }
 
 @end

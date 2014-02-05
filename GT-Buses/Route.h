@@ -22,6 +22,6 @@
 @property (nonatomic, readwrite) MKCoordinateRegion region;
 
 + (Route *)toRoute:(NSDictionary *)dic;
-+ (MKCoordinateRegion)regionForTag:(NSString *)tag latMax:(double)latMax latMin:(double)latMin lonMax:(double)lonMax lonMin:(double)lonMin;
++ (MKCoordinateRegion)regionForTag:(NSString *)tag latMax:(float)latMax latMin:(float)latMin lonMax:(float)lonMax lonMin:(float)lonMin;
 
 @end

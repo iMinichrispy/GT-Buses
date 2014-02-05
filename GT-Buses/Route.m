@@ -49,24 +49,29 @@
     MKCoordinateRegion region;
     
     NSDictionary *regionDic = [REGION_SETUP objectForKey:tag];
+//    CLLocationCoordinate2D center = CLLocationCoordinate2DMake([[regionDic objectForKey:@"centerLat"] floatValue], [[regionDic objectForKey:@"centerLon"] floatValue]);
+//    return MKCoordinateRegionMakeWithDistance(center, 1000, 1000);
+    
+//    NSDictionary *regionDic = [REGION_SETUP objectForKey:tag];
+    NSLog(@"%@ Region Setup: (%f,%f,%f,%f)",tag, [[regionDic objectForKey:@"centerLat"] floatValue],[[regionDic objectForKey:@"centerLon"] floatValue],[[regionDic objectForKey:@"spanLat"] floatValue],[[regionDic objectForKey:@"spanLon"] floatValue]);
     if (regionDic) {
-        region.center.latitude = [[regionDic objectForKey:@"centerLat"] floatValue];
-        region.center.longitude = [[regionDic objectForKey:@"centerLon"] floatValue];
-        region.span.latitudeDelta = [[regionDic objectForKey:@"spanLat"] floatValue];
-        region.span.longitudeDelta = [[regionDic objectForKey:@"spanLon"] floatValue];
+        region.center.latitude = 33.778640;//[[regionDic objectForKey:@"centerLat"] floatValue];
+        region.center.longitude = -84.398765;//[[regionDic objectForKey:@"centerLon"] floatValue];
+        region.span.latitudeDelta = 0.020521;//[[regionDic objectForKey:@"spanLat"] floatValue];
+        region.span.longitudeDelta = 0.018992;//[[regionDic objectForKey:@"spanLon"] floatValue];
         return region;
     }
     
-    CLLocation *locSouthWest = [[CLLocation alloc] initWithLatitude:latMin longitude:lonMin];
-    CLLocation *locNorthEast = [[CLLocation alloc] initWithLatitude:latMax longitude:lonMax];
+//    CLLocation *locSouthWest = [[CLLocation alloc] initWithLatitude:latMin longitude:lonMin];
+//    CLLocation *locNorthEast = [[CLLocation alloc] initWithLatitude:latMax longitude:lonMax];
+//    
+//    CLLocationDistance meters = [locSouthWest distanceFromLocation:locNorthEast];
+//    
+//    region.center.latitude = (locSouthWest.coordinate.latitude + locNorthEast.coordinate.latitude) / 2.0;
+//    region.center.longitude = (locSouthWest.coordinate.longitude + locNorthEast.coordinate.longitude) / 2.0;
+//    region.span.latitudeDelta = meters / (.00385*(meters*meters)-(39.788*meters)+160685.138);
+//    region.span.longitudeDelta = 0;
     
-    CLLocationDistance meters = [locSouthWest distanceFromLocation:locNorthEast];
-    
-    region.center.latitude = (locSouthWest.coordinate.latitude + locNorthEast.coordinate.latitude) / 2.0;
-    region.center.longitude = (locSouthWest.coordinate.longitude + locNorthEast.coordinate.longitude) / 2.0;
-    region.span.latitudeDelta = meters / (.00385*(meters*meters)-(39.788*meters)+160685.138);
-    region.span.longitudeDelta = 0;
-        
     return region;
 }
 

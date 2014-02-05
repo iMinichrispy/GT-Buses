@@ -7,10 +7,15 @@
 //
 
 #import <MapKit/MapKit.h>
+#import "Colors.h"
 
 @interface BusAnnotation : MKPointAnnotation
 
 @property (nonatomic, strong) NSString *busIdentifier;
-@property (nonatomic, strong) NSNumber *heading;
+@property (nonatomic, readwrite) int heading;
+@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong) UIImageView *arrowImageView;
+
+- (void)updateHeading;
 
 @end

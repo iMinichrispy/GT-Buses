@@ -9,6 +9,7 @@
 #import "RequestHandler.h"
 #define API_URL @"http://m.cip.gatech.edu/widget/buses/content/api"
 #define BUS_LOCATIONS_URL @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=vehicleLocations&r="
+//#define BUS_LOCATIONS_URL @"http://localhost:5000/bus"
 #define BUS_PREDICTIONS_URL @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=predictionsForMultiStops&r="
 #define ROUTE_CONFIG_URL @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=routeConfig"
 
@@ -42,6 +43,7 @@
 
 - (void)positionForBus:(NSString *)tag {
     [self getRequestWithURL:[NSString stringWithFormat:@"%@%@",BUS_LOCATIONS_URL,tag]];
+//    [self getRequestWithURL:[NSString stringWithFormat:@"%@",BUS_LOCATIONS_URL]];
 }
 
 - (void)predictionsForBus:(NSString *)tag {
@@ -75,7 +77,6 @@
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
          {
-             //NSLog(@"%lli",response.expectedContentLength);
              if ([data length] > 0 && error == nil) {
                  if ([((NSHTTPURLResponse *)response) statusCode] == 400)
                      [self mainThreadCode:400 message:@"Request could not be understood by server."];
@@ -91,9 +92,9 @@
              else if (error != nil && error.code == NSURLErrorTimedOut)
                  [self mainThreadCode:503 message:@"Request has timed out."];
              else if (error != nil)
-                 [self handleErrorCode:(int)[error code] message:[error description]];
+                 [self mainThreadCode:ABS((int)[error code]) message:[error description]];
              else
-                 [self handleErrorCode:9002 message:@"Request failed for unknown reason."];
+                 [self mainThreadCode:9002 message:@"Request failed for unknown reason."];
          }];
     }
     else {

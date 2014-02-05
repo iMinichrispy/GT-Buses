@@ -11,5 +11,7 @@
 @interface BusStopAnnotation : MKPointAnnotation
 
 @property (nonatomic, strong) NSString *tag;
+@property (nonatomic, strong) NSString *stopTag;
+@property (nonatomic, strong) UIColor *color;
 
 @end

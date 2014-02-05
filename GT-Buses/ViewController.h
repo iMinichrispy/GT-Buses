@@ -13,10 +13,11 @@
 #import "Route.h"
 #import "BusAnnotation.h"
 #import "BusStopAnnotation.h"
+#import "BusRouteLine.h"
 #import "Colors.h"
-#import "Reachability.h"
+#import "MapHandler.h"
 
-@interface ViewController : UIViewController <RequestHandlerDelegate,MKMapViewDelegate> {
+@interface ViewController : UIViewController <RequestHandlerDelegate,CLLocationManagerDelegate> {
     MKMapView *mapView;
     UISegmentedControl *busRouteControl;
     UIView *busrouteControlView;

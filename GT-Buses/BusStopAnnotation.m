@@ -9,6 +9,8 @@
 #import "BusStopAnnotation.h"
 
 @implementation BusStopAnnotation
-@synthesize tag;
+@synthesize tag,stopTag;
+@synthesize color;
+
 
 @end
