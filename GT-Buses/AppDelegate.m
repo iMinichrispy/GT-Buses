@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  GT-Buses
 //
-//  Created by Alex Perez on 1/22/14.
+//  Created by Alex Perez on 2/4/14.
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
@@ -14,8 +14,6 @@
 {
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
         [self firstLaunch];
-    
-    
     return YES;
 }
 

@@ -98,7 +98,7 @@
          }];
     }
     else {
-        [self checkDelegateHandleError:3001 message:@"Error connecting to server. Please make sure you are connected to the Internet."];
+        [self checkDelegateHandleError:1008 message:@"Error connecting to server. Please make sure you are connected to the Internet."];
     }
 }
 
@@ -144,8 +144,8 @@
         [self alertWithTitle:@"Server Error" message:[NSString stringWithFormat:@"Error Processing Request: %@",message] code:code];
     else if (code == 503)
         [self alertWithTitle:@"Timeout Error" message:[NSString stringWithFormat:@"Error Loading Resource: %@",message] code:code];
-    else if (code == 3001)
-        [self alertWithTitle:@"Connection Error" message:@"Error connecting to server. Please make sure you are connected to the Internet." code:3001];
+    else if (code == 1008)
+        [self alertWithTitle:@"Connection Error" message:@"Error connecting to server. Please make sure you are connected to the Internet." code:1008];
     else
         [self alertWithTitle:@"Unknown Error" message:@"An unknown error occurred." code:9001];
 }

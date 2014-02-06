@@ -16,6 +16,7 @@
 #import "BusRouteLine.h"
 #import "Colors.h"
 #import "MapHandler.h"
+#import "AboutView.h"
 
 @interface ViewController : UIViewController <RequestHandlerDelegate,CLLocationManagerDelegate> {
     MKMapView *mapView;

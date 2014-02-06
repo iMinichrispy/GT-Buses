@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 #define BLUE_COLOR  [UIColor colorWithRed:(24/255.0) green:(124/255.0) blue:(199/255.0) alpha:1.0]
+//#define BLUE_COLOR  [UIColor colorWithRed:(230/255.0) green:(207/255.0) blue:(98/255.0) alpha:1.0]
+
 
 @interface Colors : NSObject
 

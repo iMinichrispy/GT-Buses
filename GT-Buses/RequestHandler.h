@@ -11,8 +11,8 @@
 
 @class RequestHandler;
 @protocol RequestHandlerDelegate <NSObject>
-//requestDidFail
-//requestDidSucceed
+
+@required
 - (void)handleResponse:(RequestHandler *)handler data:(id)data;
 
 @optional

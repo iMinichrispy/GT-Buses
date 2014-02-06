@@ -24,6 +24,7 @@
     UILabel *errorConnectingLabel;
     Route *selectedRoute;
     MapHandler *mapHandler;
+    AboutView *aboutView;
 }
 
 @end
@@ -44,18 +45,17 @@
     else
         self.navigationController.navigationBar.tintColor = BLUE_COLOR;
     
+    self.navigationController.navigationBar.topItem.title = @"GT Buses";
     self.navigationController.navigationBar.translucent = NO;
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(aboutPressed)];
-    aboutButton.tintColor = [UIColor whiteColor];
+    aboutButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : BLUE_COLOR;
     self.navigationItem.leftBarButtonItem = aboutButton;
     
     busRouteControl = [[UISegmentedControl alloc] initWithFrame:CGRectMake(5,5,310,30)];
     busRouteControl.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : BLUE_COLOR;
     busRouteControl.segmentedControlStyle = UISegmentedControlStyleBar;
-//    busRouteControl.autosizeToFitSegments = NO;
-//    [busRouteControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"Open-Sans" size:15.0]} forState:UIControlStateNormal];
     [busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
     
     activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(150,12,20,20)];
@@ -63,8 +63,9 @@
     activityIndicator.hidesWhenStopped = YES;
     [activityIndicator startAnimating];
     
-    errorConnectingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 11, SCREEN_WIDTH, 22)];
+    errorConnectingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 20)];
     errorConnectingLabel.textColor = [UIColor whiteColor];
+    errorConnectingLabel.backgroundColor = [UIColor clearColor];
     errorConnectingLabel.textAlignment = NSTextAlignmentCenter;
     errorConnectingLabel.hidden = YES;
     
@@ -81,16 +82,14 @@
         mapView.rotateEnabled = NO;
     mapHandler = [[MapHandler alloc] init];
     mapView.delegate = mapHandler;
-    mapView.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(33.775978,-84.399269), MKCoordinateSpanMake(0.025059,0.023190));
+//    mapView.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(33.775978,-84.399269), MKCoordinateSpanMake(0.025059,0.023190));
     [self.view addSubview:mapView];
     [self.view addSubview:busrouteControlView];
     
+    aboutView = [[AboutView alloc] init];
+    [self.view addSubview:aboutView];
+    
     routes = [[NSMutableArray alloc] init];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    NSLog(@"Memory warning");
 }
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification {
@@ -102,11 +101,14 @@
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     [mapView setShowsUserLocation:YES];
     [self updateVehicleLocations];
-    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(updateVehicleLocations) userInfo:nil repeats:YES];
+    if (!refreshTimer.isValid)
+        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(updateVehicleLocations) userInfo:nil repeats:YES];
 }
 
 - (void)aboutPressed {
-    NSLog(@"%f,%f,%f,%f",mapView.region.center.latitude,mapView.region.center.longitude,mapView.region.span.latitudeDelta,mapView.region.span.longitudeDelta);
+    [UIView animateWithDuration:.2 animations:^{
+        aboutView.alpha = 1.0;
+    }];
 }
 
 - (void)handleResponse:(RequestHandler *)handler data:(id)data {
@@ -114,33 +116,22 @@
     
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
-
-//    NSError *error;
-//    NSDictionary *dictionary;
-//    
-//    dictionary = [XMLReader dictionaryForXMLData:data error:&error];
-//    if (!dictionary) {
-//        dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-//    }
     
     if (!error) {
         self.navigationItem.rightBarButtonItem =nil;
         errorConnectingLabel.hidden = YES;
         busRouteControl.hidden = NO;
         if ([handler.task isEqualToString:@"routeConfig"]) {
-            if (busRouteControl.numberOfSegments ==0) {
+            if (busRouteControl.numberOfSegments == 0) {
                 NSArray *newRoutes = [[dictionary objectForKey:@"body"] objectForKey:@"route"];
                 for (int x = 0; x < [newRoutes count]; x++) {
                     NSDictionary *routeDic = [newRoutes objectAtIndex:x];
                     Route *route = [Route toRoute:routeDic];
                     [routes addObject:route];
-                    [busRouteControl insertSegmentWithTitle:route.title atIndex:x animated:NO];
-                    [busRouteControl setWidth:(busRouteControl.frame.size.width/[newRoutes count]) forSegmentAtIndex:x];
+                    [busRouteControl insertSegmentWithTitle:route.title atIndex:x animated:YES];
                 }
                 busRouteControl.selectedSegmentIndex = [[NSUserDefaults standardUserDefaults] integerForKey:@"selectedBusRoute"];
-//                busRouteControl.frame = CGRectMake(5,5,310,30);
-//                busRouteControl.center = CGPointMake(160, busRouteControl.center.y);
-//                NSLog(@"(%f,%f) (%f,%f)",busRouteControl.frame.origin.x,busRouteControl.frame.origin.y, busRouteControl.frame.size.width,busRouteControl.frame.size.height);
+                busRouteControl.frame = CGRectMake(5,5,310,30);
                 [self didChangeBusRoute];
             }
         }
@@ -222,6 +213,8 @@
                             else
                                 busStopAnnotation.subtitle = @"No Predictions";
                             
+                            busStopAnnotation.subtitle = @"Next: 1, 8, 15";
+                            
                             [busStopAnnotations removeObject:busStopAnnotation];
                             break;
                         }
@@ -235,16 +228,26 @@
 }
 
 - (void)handleError:(RequestHandler *)handler code:(int)code message:(NSString *)message {
-    NSLog(@"%i: %@",code,message);
     [activityIndicator stopAnimating];
     errorConnectingLabel.hidden = NO;
     busRouteControl.hidden = YES;
     
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(updateVehicleLocations)];
-    refreshButton.tintColor = [UIColor whiteColor];
+    refreshButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : BLUE_COLOR;
     self.navigationItem.rightBarButtonItem = refreshButton;
     
-    errorConnectingLabel.text = [NSString stringWithFormat:@"Error Connecting (-%i)",code];
+    if (code == 1008 || code == 1009)
+        errorConnectingLabel.text = [NSString stringWithFormat:@"No Internet Connection (-%i)",code];
+    else if (code == 400)
+        errorConnectingLabel.text = [NSString stringWithFormat:@"Bad Request (-%i)",code];
+    else if (code == 404)
+        errorConnectingLabel.text = [NSString stringWithFormat:@"Resource Error (-%i)",code];
+    else if (code == 500)
+        errorConnectingLabel.text = [NSString stringWithFormat:@"Internal Server Error (-%i)",code];
+    else if (code == 503)
+        errorConnectingLabel.text = [NSString stringWithFormat:@"Timed Out (-%i)",code];
+    else
+        errorConnectingLabel.text = [NSString stringWithFormat:@"Error Connecting (-%i)",code];
 }
 
 - (void)updateVehicleLocations {
@@ -269,17 +272,12 @@
     
     [mapView removeAnnotations:mapView.annotations];
     [mapView removeOverlays:mapView.overlays];
-
+    
     selectedRoute = [routes objectAtIndex:busRouteControl.selectedSegmentIndex];
     [UIView animateWithDuration:.4 animations:^{
-//        [mapView setRegion:[mapView regionThatFits:selectedRoute.region]];
-        [mapView setRegion:selectedRoute.region];
-    } completion:^(BOOL finished) {
-        NSLog(@"%@: (%f,%f,%f,%f)",selectedRoute.tag,mapView.region.center.latitude,mapView.region.center.longitude,mapView.region.span.latitudeDelta,mapView.region.span.longitudeDelta);
+        [mapView setRegion:[mapView regionThatFits:selectedRoute.region]];
     }];
-
-//    [mapView setRegion:[mapView regionThatFits:selectedRoute.region] animated:YES];
-
+    
     [self updateVehicleLocations];
     
     for (NSDictionary *path in selectedRoute.paths) {

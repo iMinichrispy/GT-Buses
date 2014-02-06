@@ -7,257 +7,270 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA1FE96318A1D8ED00757643 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1FE96218A1D8ED00757643 /* SystemConfiguration.framework */; };
-		FA3A877F189C805C00A0B1DB /* BusAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3A877E189C805C00A0B1DB /* BusAnnotation.m */; };
-		FA638F8E189AF730001ADA37 /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA638F8D189AF730001ADA37 /* Colors.m */; };
-		FA9031821899B969008C21E9 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9031811899B969008C21E9 /* Route.m */; };
-		FA961DB2189DD52400F4F64C /* MapHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA961DB1189DD52400F4F64C /* MapHandler.m */; };
-		FA961DB9189DDAAB00F4F64C /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA961DB8189DDAAB00F4F64C /* XMLReader.m */; };
-		FAA4542C189003A300AABECD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA4542B189003A300AABECD /* Foundation.framework */; };
-		FAA4542E189003A300AABECD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA4542D189003A300AABECD /* CoreGraphics.framework */; };
-		FAA45430189003A300AABECD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA4542F189003A300AABECD /* UIKit.framework */; };
-		FAA45436189003A300AABECD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAA45434189003A300AABECD /* InfoPlist.strings */; };
-		FAA45438189003A300AABECD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA45437189003A300AABECD /* main.m */; };
-		FAA4543C189003A300AABECD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA4543B189003A300AABECD /* AppDelegate.m */; };
-		FAA4543F189003A300AABECD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAA4543D189003A300AABECD /* Main.storyboard */; };
-		FAA45442189003A300AABECD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA45441189003A300AABECD /* ViewController.m */; };
-		FAA45444189003A300AABECD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA45443189003A300AABECD /* Images.xcassets */; };
-		FAA4544B189003A300AABECD /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA4544A189003A300AABECD /* XCTest.framework */; };
-		FAA4544C189003A300AABECD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA4542B189003A300AABECD /* Foundation.framework */; };
-		FAA4544D189003A300AABECD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA4542F189003A300AABECD /* UIKit.framework */; };
-		FAA45455189003A300AABECD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAA45453189003A300AABECD /* InfoPlist.strings */; };
-		FAA45457189003A300AABECD /* GT_BusesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA45456189003A300AABECD /* GT_BusesTests.m */; };
-		FAA45462189003C200AABECD /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA45461189003C200AABECD /* RequestHandler.m */; };
-		FAA45466189003DD00AABECD /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA45465189003DD00AABECD /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAA45468189009D300AABECD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA45467189009D300AABECD /* MapKit.framework */; };
-		FAA7421818A1443800037E48 /* BusRouteLine.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7421718A1443800037E48 /* BusRouteLine.m */; };
-		FAB6B75A189C908800592C89 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB6B759189C908800592C89 /* Arrow.png */; };
-		FAB6B75D189CB60200592C89 /* BusStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB6B75C189CB60200592C89 /* BusStopAnnotation.m */; };
-		FAB6B762189CBB6600592C89 /* BlueDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB6B75E189CBB6600592C89 /* BlueDot@2x.png */; };
-		FAB6B763189CBB6600592C89 /* GreenDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB6B75F189CBB6600592C89 /* GreenDot@2x.png */; };
-		FAB6B764189CBB6600592C89 /* RedDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB6B760189CBB6600592C89 /* RedDot@2x.png */; };
-		FAB6B765189CBB6600592C89 /* YellowDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAB6B761189CBB6600592C89 /* YellowDot@2x.png */; };
+		FA1FE92A18A1D8A300757643 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1FE92918A1D8A300757643 /* Foundation.framework */; };
+		FA1FE92C18A1D8A300757643 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1FE92B18A1D8A300757643 /* CoreGraphics.framework */; };
+		FA1FE92E18A1D8A300757643 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1FE92D18A1D8A300757643 /* UIKit.framework */; };
+		FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE93218A1D8A300757643 /* InfoPlist.strings */; };
+		FA1FE93618A1D8A300757643 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE93518A1D8A300757643 /* main.m */; };
+		FA1FE93A18A1D8A300757643 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE93918A1D8A300757643 /* AppDelegate.m */; };
+		FA1FE93D18A1D8A300757643 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE93B18A1D8A300757643 /* Main.storyboard */; };
+		FA1FE94018A1D8A300757643 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE93F18A1D8A300757643 /* ViewController.m */; };
+		FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE94118A1D8A300757643 /* Images.xcassets */; };
+		FA1FE94918A1D8A300757643 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1FE94818A1D8A300757643 /* XCTest.framework */; };
+		FA1FE94A18A1D8A300757643 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1FE92918A1D8A300757643 /* Foundation.framework */; };
+		FA1FE94B18A1D8A300757643 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1FE92D18A1D8A300757643 /* UIKit.framework */; };
+		FA1FE95318A1D8A300757643 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE95118A1D8A300757643 /* InfoPlist.strings */; };
+		FA1FE95518A1D8A300757643 /* GT_BusesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE95418A1D8A300757643 /* GT_BusesTests.m */; };
+		FA1FE95F18A1D8C600757643 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1FE95E18A1D8C600757643 /* MapKit.framework */; };
+		FA1FE96118A1D8E300757643 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1FE96018A1D8E300757643 /* SystemConfiguration.framework */; };
+		FA1FE96718A1D96500757643 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96618A1D96500757643 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FA1FE96D18A1D9A400757643 /* MapHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96A18A1D9A400757643 /* MapHandler.m */; };
+		FA1FE96E18A1D9A400757643 /* Route.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96C18A1D9A400757643 /* Route.m */; };
+		FA1FE97518A1D9B000757643 /* BusAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97018A1D9B000757643 /* BusAnnotation.m */; };
+		FA1FE97618A1D9B000757643 /* BusRouteLine.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97218A1D9B000757643 /* BusRouteLine.m */; };
+		FA1FE97718A1D9B000757643 /* BusStopAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97418A1D9B000757643 /* BusStopAnnotation.m */; };
+		FA1FE97C18A1D9C600757643 /* Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* Colors.m */; };
+		FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
+		FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
+		FA1FE98B18A1DD3600757643 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE98618A1DD3600757643 /* Arrow.png */; };
+		FA1FE98C18A1DD3600757643 /* BlueDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE98718A1DD3600757643 /* BlueDot@2x.png */; };
+		FA1FE98D18A1DD3600757643 /* GreenDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE98818A1DD3600757643 /* GreenDot@2x.png */; };
+		FA1FE98E18A1DD3600757643 /* RedDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE98918A1DD3600757643 /* RedDot@2x.png */; };
+		FA1FE98F18A1DD3600757643 /* YellowDot@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE98A18A1DD3600757643 /* YellowDot@2x.png */; };
+		FA9D3D9518A34ABC00F4128E /* AboutView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA9D3D9418A34ABC00F4128E /* AboutView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FAA4544E189003A300AABECD /* PBXContainerItemProxy */ = {
+		FA1FE94C18A1D8A300757643 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FAA45420189003A300AABECD /* Project object */;
+			containerPortal = FA1FE91E18A1D8A300757643 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = FAA45427189003A300AABECD;
+			remoteGlobalIDString = FA1FE92518A1D8A300757643;
 			remoteInfo = "GT-Buses";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FA1FE96218A1D8ED00757643 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		FA3A877D189C805C00A0B1DB /* BusAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BusAnnotation.h; path = "GT-Buses/BusAnnotation.h"; sourceTree = "<group>"; };
-		FA3A877E189C805C00A0B1DB /* BusAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BusAnnotation.m; path = "GT-Buses/BusAnnotation.m"; sourceTree = "<group>"; };
-		FA638F8C189AF730001ADA37 /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
-		FA638F8D189AF730001ADA37 /* Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colors.m; sourceTree = "<group>"; };
-		FA9031801899B969008C21E9 /* Route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Route.h; path = "GT-Buses/Route.h"; sourceTree = "<group>"; };
-		FA9031811899B969008C21E9 /* Route.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Route.m; path = "GT-Buses/Route.m"; sourceTree = "<group>"; };
-		FA961DB0189DD52400F4F64C /* MapHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapHandler.h; path = "GT-Buses/MapHandler.h"; sourceTree = "<group>"; };
-		FA961DB1189DD52400F4F64C /* MapHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapHandler.m; path = "GT-Buses/MapHandler.m"; sourceTree = "<group>"; };
-		FA961DB7189DDAAB00F4F64C /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
-		FA961DB8189DDAAB00F4F64C /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
-		FAA45428189003A300AABECD /* GT-Buses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GT-Buses.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAA4542B189003A300AABECD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		FAA4542D189003A300AABECD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		FAA4542F189003A300AABECD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		FAA45433189003A300AABECD /* GT-Buses-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GT-Buses-Info.plist"; sourceTree = "<group>"; };
-		FAA45435189003A300AABECD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FAA45437189003A300AABECD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		FAA45439189003A300AABECD /* GT-Buses-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GT-Buses-Prefix.pch"; sourceTree = "<group>"; };
-		FAA4543A189003A300AABECD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		FAA4543B189003A300AABECD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		FAA4543E189003A300AABECD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		FAA45440189003A300AABECD /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		FAA45441189003A300AABECD /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		FAA45443189003A300AABECD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "GT-Buses/Images.xcassets"; sourceTree = "<group>"; };
-		FAA45449189003A300AABECD /* GT-BusesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GT-BusesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAA4544A189003A300AABECD /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		FAA45452189003A300AABECD /* GT-BusesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GT-BusesTests-Info.plist"; sourceTree = "<group>"; };
-		FAA45454189003A300AABECD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FAA45456189003A300AABECD /* GT_BusesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GT_BusesTests.m; sourceTree = "<group>"; };
-		FAA45460189003C200AABECD /* RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHandler.h; sourceTree = "<group>"; };
-		FAA45461189003C200AABECD /* RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHandler.m; sourceTree = "<group>"; };
-		FAA45464189003DD00AABECD /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		FAA45465189003DD00AABECD /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		FAA45467189009D300AABECD /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		FAA7421518A1443000037E48 /* To-Do.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "To-Do.txt"; path = "../To-Do.txt"; sourceTree = "<group>"; };
-		FAA7421618A1443800037E48 /* BusRouteLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BusRouteLine.h; path = "GT-Buses/BusRouteLine.h"; sourceTree = "<group>"; };
-		FAA7421718A1443800037E48 /* BusRouteLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BusRouteLine.m; path = "GT-Buses/BusRouteLine.m"; sourceTree = "<group>"; };
-		FAB6B759189C908800592C89 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
-		FAB6B75B189CB60200592C89 /* BusStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BusStopAnnotation.h; path = "GT-Buses/BusStopAnnotation.h"; sourceTree = "<group>"; };
-		FAB6B75C189CB60200592C89 /* BusStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BusStopAnnotation.m; path = "GT-Buses/BusStopAnnotation.m"; sourceTree = "<group>"; };
-		FAB6B75E189CBB6600592C89 /* BlueDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueDot@2x.png"; sourceTree = "<group>"; };
-		FAB6B75F189CBB6600592C89 /* GreenDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GreenDot@2x.png"; sourceTree = "<group>"; };
-		FAB6B760189CBB6600592C89 /* RedDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedDot@2x.png"; sourceTree = "<group>"; };
-		FAB6B761189CBB6600592C89 /* YellowDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "YellowDot@2x.png"; sourceTree = "<group>"; };
+		FA1FE92618A1D8A300757643 /* GT-Buses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GT-Buses.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA1FE92918A1D8A300757643 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FA1FE92B18A1D8A300757643 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FA1FE92D18A1D8A300757643 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FA1FE93118A1D8A300757643 /* GT-Buses-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GT-Buses-Info.plist"; sourceTree = "<group>"; };
+		FA1FE93318A1D8A300757643 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FA1FE93518A1D8A300757643 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FA1FE93718A1D8A300757643 /* GT-Buses-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GT-Buses-Prefix.pch"; sourceTree = "<group>"; };
+		FA1FE93818A1D8A300757643 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		FA1FE93918A1D8A300757643 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FA1FE93C18A1D8A300757643 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FA1FE93E18A1D8A300757643 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		FA1FE93F18A1D8A300757643 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		FA1FE94118A1D8A300757643 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "GT-Buses/Images.xcassets"; sourceTree = "<group>"; };
+		FA1FE94718A1D8A300757643 /* GT-BusesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GT-BusesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA1FE94818A1D8A300757643 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		FA1FE95018A1D8A300757643 /* GT-BusesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GT-BusesTests-Info.plist"; sourceTree = "<group>"; };
+		FA1FE95218A1D8A300757643 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FA1FE95418A1D8A300757643 /* GT_BusesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GT_BusesTests.m; sourceTree = "<group>"; };
+		FA1FE95E18A1D8C600757643 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		FA1FE96018A1D8E300757643 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		FA1FE96518A1D96500757643 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		FA1FE96618A1D96500757643 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		FA1FE96918A1D9A400757643 /* MapHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapHandler.h; sourceTree = "<group>"; };
+		FA1FE96A18A1D9A400757643 /* MapHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapHandler.m; sourceTree = "<group>"; };
+		FA1FE96B18A1D9A400757643 /* Route.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Route.h; sourceTree = "<group>"; };
+		FA1FE96C18A1D9A400757643 /* Route.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Route.m; sourceTree = "<group>"; };
+		FA1FE96F18A1D9B000757643 /* BusAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusAnnotation.h; sourceTree = "<group>"; };
+		FA1FE97018A1D9B000757643 /* BusAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusAnnotation.m; sourceTree = "<group>"; };
+		FA1FE97118A1D9B000757643 /* BusRouteLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusRouteLine.h; sourceTree = "<group>"; };
+		FA1FE97218A1D9B000757643 /* BusRouteLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusRouteLine.m; sourceTree = "<group>"; };
+		FA1FE97318A1D9B000757643 /* BusStopAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusStopAnnotation.h; sourceTree = "<group>"; };
+		FA1FE97418A1D9B000757643 /* BusStopAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusStopAnnotation.m; sourceTree = "<group>"; };
+		FA1FE97818A1D9C600757643 /* Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colors.h; sourceTree = "<group>"; };
+		FA1FE97918A1D9C600757643 /* Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colors.m; sourceTree = "<group>"; };
+		FA1FE97F18A1D9DD00757643 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
+		FA1FE98018A1D9DD00757643 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
+		FA1FE98218A1D9F800757643 /* RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHandler.h; sourceTree = "<group>"; };
+		FA1FE98318A1D9F800757643 /* RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHandler.m; sourceTree = "<group>"; };
+		FA1FE98618A1DD3600757643 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
+		FA1FE98718A1DD3600757643 /* BlueDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BlueDot@2x.png"; sourceTree = "<group>"; };
+		FA1FE98818A1DD3600757643 /* GreenDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GreenDot@2x.png"; sourceTree = "<group>"; };
+		FA1FE98918A1DD3600757643 /* RedDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RedDot@2x.png"; sourceTree = "<group>"; };
+		FA1FE98A18A1DD3600757643 /* YellowDot@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "YellowDot@2x.png"; sourceTree = "<group>"; };
+		FA5678F118A2C9BF00386A71 /* To-Do.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "To-Do.txt"; path = "../To-Do.txt"; sourceTree = "<group>"; };
+		FA9D3D9318A34ABC00F4128E /* AboutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutView.h; sourceTree = "<group>"; };
+		FA9D3D9418A34ABC00F4128E /* AboutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FAA45425189003A300AABECD /* Frameworks */ = {
+		FA1FE92318A1D8A300757643 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA1FE96318A1D8ED00757643 /* SystemConfiguration.framework in Frameworks */,
-				FAA45468189009D300AABECD /* MapKit.framework in Frameworks */,
-				FAA4542E189003A300AABECD /* CoreGraphics.framework in Frameworks */,
-				FAA45430189003A300AABECD /* UIKit.framework in Frameworks */,
-				FAA4542C189003A300AABECD /* Foundation.framework in Frameworks */,
+				FA1FE96118A1D8E300757643 /* SystemConfiguration.framework in Frameworks */,
+				FA1FE95F18A1D8C600757643 /* MapKit.framework in Frameworks */,
+				FA1FE92C18A1D8A300757643 /* CoreGraphics.framework in Frameworks */,
+				FA1FE92E18A1D8A300757643 /* UIKit.framework in Frameworks */,
+				FA1FE92A18A1D8A300757643 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FAA45446189003A300AABECD /* Frameworks */ = {
+		FA1FE94418A1D8A300757643 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAA4544B189003A300AABECD /* XCTest.framework in Frameworks */,
-				FAA4544D189003A300AABECD /* UIKit.framework in Frameworks */,
-				FAA4544C189003A300AABECD /* Foundation.framework in Frameworks */,
+				FA1FE94918A1D8A300757643 /* XCTest.framework in Frameworks */,
+				FA1FE94B18A1D8A300757643 /* UIKit.framework in Frameworks */,
+				FA1FE94A18A1D8A300757643 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FA638F92189B4693001ADA37 /* Images */ = {
+		FA1FE91D18A1D8A300757643 = {
 			isa = PBXGroup;
 			children = (
-				FAB6B759189C908800592C89 /* Arrow.png */,
-				FAB6B75E189CBB6600592C89 /* BlueDot@2x.png */,
-				FAB6B75F189CBB6600592C89 /* GreenDot@2x.png */,
-				FAB6B760189CBB6600592C89 /* RedDot@2x.png */,
-				FAB6B761189CBB6600592C89 /* YellowDot@2x.png */,
+				FA5678F118A2C9BF00386A71 /* To-Do.txt */,
+				FA1FE98518A1DD3600757643 /* Images */,
+				FA1FE92F18A1D8A300757643 /* GT-Buses */,
+				FA1FE94118A1D8A300757643 /* Images.xcassets */,
+				FA1FE94E18A1D8A300757643 /* GT-BusesTests */,
+				FA1FE92818A1D8A300757643 /* Frameworks */,
+				FA1FE92718A1D8A300757643 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FA1FE92718A1D8A300757643 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE92618A1D8A300757643 /* GT-Buses.app */,
+				FA1FE94718A1D8A300757643 /* GT-BusesTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA1FE92818A1D8A300757643 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE96018A1D8E300757643 /* SystemConfiguration.framework */,
+				FA1FE95E18A1D8C600757643 /* MapKit.framework */,
+				FA1FE92918A1D8A300757643 /* Foundation.framework */,
+				FA1FE92B18A1D8A300757643 /* CoreGraphics.framework */,
+				FA1FE92D18A1D8A300757643 /* UIKit.framework */,
+				FA1FE94818A1D8A300757643 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FA1FE92F18A1D8A300757643 /* GT-Buses */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE93818A1D8A300757643 /* AppDelegate.h */,
+				FA1FE93918A1D8A300757643 /* AppDelegate.m */,
+				FA1FE93B18A1D8A300757643 /* Main.storyboard */,
+				FA1FE93E18A1D8A300757643 /* ViewController.h */,
+				FA1FE93F18A1D8A300757643 /* ViewController.m */,
+				FA1FE98218A1D9F800757643 /* RequestHandler.h */,
+				FA1FE98318A1D9F800757643 /* RequestHandler.m */,
+				FA1FE97818A1D9C600757643 /* Colors.h */,
+				FA1FE97918A1D9C600757643 /* Colors.m */,
+				FA9D3D9318A34ABC00F4128E /* AboutView.h */,
+				FA9D3D9418A34ABC00F4128E /* AboutView.m */,
+				FA1FE96818A1D97100757643 /* Map */,
+				FA1FE93018A1D8A300757643 /* Supporting Files */,
+			);
+			path = "GT-Buses";
+			sourceTree = "<group>";
+		};
+		FA1FE93018A1D8A300757643 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE96418A1D96500757643 /* Reachability */,
+				FA1FE97E18A1D9DD00757643 /* XMLReader */,
+				FA1FE93118A1D8A300757643 /* GT-Buses-Info.plist */,
+				FA1FE93218A1D8A300757643 /* InfoPlist.strings */,
+				FA1FE93518A1D8A300757643 /* main.m */,
+				FA1FE93718A1D8A300757643 /* GT-Buses-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA1FE94E18A1D8A300757643 /* GT-BusesTests */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE95418A1D8A300757643 /* GT_BusesTests.m */,
+				FA1FE94F18A1D8A300757643 /* Supporting Files */,
+			);
+			path = "GT-BusesTests";
+			sourceTree = "<group>";
+		};
+		FA1FE94F18A1D8A300757643 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE95018A1D8A300757643 /* GT-BusesTests-Info.plist */,
+				FA1FE95118A1D8A300757643 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA1FE96418A1D96500757643 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE96518A1D96500757643 /* Reachability.h */,
+				FA1FE96618A1D96500757643 /* Reachability.m */,
+			);
+			path = Reachability;
+			sourceTree = "<group>";
+		};
+		FA1FE96818A1D97100757643 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE96918A1D9A400757643 /* MapHandler.h */,
+				FA1FE96A18A1D9A400757643 /* MapHandler.m */,
+				FA1FE96B18A1D9A400757643 /* Route.h */,
+				FA1FE96C18A1D9A400757643 /* Route.m */,
+				FA1FE96F18A1D9B000757643 /* BusAnnotation.h */,
+				FA1FE97018A1D9B000757643 /* BusAnnotation.m */,
+				FA1FE97318A1D9B000757643 /* BusStopAnnotation.h */,
+				FA1FE97418A1D9B000757643 /* BusStopAnnotation.m */,
+				FA1FE97118A1D9B000757643 /* BusRouteLine.h */,
+				FA1FE97218A1D9B000757643 /* BusRouteLine.m */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		FA1FE97E18A1D9DD00757643 /* XMLReader */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE97F18A1D9DD00757643 /* XMLReader.h */,
+				FA1FE98018A1D9DD00757643 /* XMLReader.m */,
+			);
+			path = XMLReader;
+			sourceTree = "<group>";
+		};
+		FA1FE98518A1DD3600757643 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				FA1FE98618A1DD3600757643 /* Arrow.png */,
+				FA1FE98718A1DD3600757643 /* BlueDot@2x.png */,
+				FA1FE98818A1DD3600757643 /* GreenDot@2x.png */,
+				FA1FE98918A1DD3600757643 /* RedDot@2x.png */,
+				FA1FE98A18A1DD3600757643 /* YellowDot@2x.png */,
 			);
 			name = Images;
 			path = "GT-Buses/Images";
 			sourceTree = "<group>";
 		};
-		FA961DB3189DD56800F4F64C /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				FA961DB0189DD52400F4F64C /* MapHandler.h */,
-				FA961DB1189DD52400F4F64C /* MapHandler.m */,
-				FA9031801899B969008C21E9 /* Route.h */,
-				FA9031811899B969008C21E9 /* Route.m */,
-				FA3A877D189C805C00A0B1DB /* BusAnnotation.h */,
-				FA3A877E189C805C00A0B1DB /* BusAnnotation.m */,
-				FAB6B75B189CB60200592C89 /* BusStopAnnotation.h */,
-				FAB6B75C189CB60200592C89 /* BusStopAnnotation.m */,
-				FAA7421618A1443800037E48 /* BusRouteLine.h */,
-				FAA7421718A1443800037E48 /* BusRouteLine.m */,
-			);
-			name = Map;
-			path = ..;
-			sourceTree = "<group>";
-		};
-		FAA4541F189003A300AABECD = {
-			isa = PBXGroup;
-			children = (
-				FAA7421518A1443000037E48 /* To-Do.txt */,
-				FA638F92189B4693001ADA37 /* Images */,
-				FAA45431189003A300AABECD /* GT-Buses */,
-				FAA45443189003A300AABECD /* Images.xcassets */,
-				FAA45450189003A300AABECD /* GT-BusesTests */,
-				FAA4542A189003A300AABECD /* Frameworks */,
-				FAA45429189003A300AABECD /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		FAA45429189003A300AABECD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				FAA45428189003A300AABECD /* GT-Buses.app */,
-				FAA45449189003A300AABECD /* GT-BusesTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		FAA4542A189003A300AABECD /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FA1FE96218A1D8ED00757643 /* SystemConfiguration.framework */,
-				FAA45467189009D300AABECD /* MapKit.framework */,
-				FAA4542B189003A300AABECD /* Foundation.framework */,
-				FAA4542D189003A300AABECD /* CoreGraphics.framework */,
-				FAA4542F189003A300AABECD /* UIKit.framework */,
-				FAA4544A189003A300AABECD /* XCTest.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		FAA45431189003A300AABECD /* GT-Buses */ = {
-			isa = PBXGroup;
-			children = (
-				FAA4543A189003A300AABECD /* AppDelegate.h */,
-				FAA4543B189003A300AABECD /* AppDelegate.m */,
-				FAA4543D189003A300AABECD /* Main.storyboard */,
-				FAA45440189003A300AABECD /* ViewController.h */,
-				FAA45441189003A300AABECD /* ViewController.m */,
-				FAA45460189003C200AABECD /* RequestHandler.h */,
-				FAA45461189003C200AABECD /* RequestHandler.m */,
-				FA961DB7189DDAAB00F4F64C /* XMLReader.h */,
-				FA961DB8189DDAAB00F4F64C /* XMLReader.m */,
-				FA638F8C189AF730001ADA37 /* Colors.h */,
-				FA638F8D189AF730001ADA37 /* Colors.m */,
-				FA961DB3189DD56800F4F64C /* Map */,
-				FAA45432189003A300AABECD /* Supporting Files */,
-			);
-			path = "GT-Buses";
-			sourceTree = "<group>";
-		};
-		FAA45432189003A300AABECD /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FAA45463189003DD00AABECD /* Reachability */,
-				FAA45433189003A300AABECD /* GT-Buses-Info.plist */,
-				FAA45434189003A300AABECD /* InfoPlist.strings */,
-				FAA45437189003A300AABECD /* main.m */,
-				FAA45439189003A300AABECD /* GT-Buses-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		FAA45450189003A300AABECD /* GT-BusesTests */ = {
-			isa = PBXGroup;
-			children = (
-				FAA45456189003A300AABECD /* GT_BusesTests.m */,
-				FAA45451189003A300AABECD /* Supporting Files */,
-			);
-			path = "GT-BusesTests";
-			sourceTree = "<group>";
-		};
-		FAA45451189003A300AABECD /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FAA45452189003A300AABECD /* GT-BusesTests-Info.plist */,
-				FAA45453189003A300AABECD /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		FAA45463189003DD00AABECD /* Reachability */ = {
-			isa = PBXGroup;
-			children = (
-				FAA45464189003DD00AABECD /* Reachability.h */,
-				FAA45465189003DD00AABECD /* Reachability.m */,
-			);
-			path = Reachability;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FAA45427189003A300AABECD /* GT-Buses */ = {
+		FA1FE92518A1D8A300757643 /* GT-Buses */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FAA4545A189003A300AABECD /* Build configuration list for PBXNativeTarget "GT-Buses" */;
+			buildConfigurationList = FA1FE95818A1D8A300757643 /* Build configuration list for PBXNativeTarget "GT-Buses" */;
 			buildPhases = (
-				FAA45424189003A300AABECD /* Sources */,
-				FAA45425189003A300AABECD /* Frameworks */,
-				FAA45426189003A300AABECD /* Resources */,
+				FA1FE92218A1D8A300757643 /* Sources */,
+				FA1FE92318A1D8A300757643 /* Frameworks */,
+				FA1FE92418A1D8A300757643 /* Resources */,
+				FA9D6C9918A3E93400DAE1D7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -265,42 +278,42 @@
 			);
 			name = "GT-Buses";
 			productName = "GT-Buses";
-			productReference = FAA45428189003A300AABECD /* GT-Buses.app */;
+			productReference = FA1FE92618A1D8A300757643 /* GT-Buses.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FAA45448189003A300AABECD /* GT-BusesTests */ = {
+		FA1FE94618A1D8A300757643 /* GT-BusesTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FAA4545D189003A300AABECD /* Build configuration list for PBXNativeTarget "GT-BusesTests" */;
+			buildConfigurationList = FA1FE95B18A1D8A300757643 /* Build configuration list for PBXNativeTarget "GT-BusesTests" */;
 			buildPhases = (
-				FAA45445189003A300AABECD /* Sources */,
-				FAA45446189003A300AABECD /* Frameworks */,
-				FAA45447189003A300AABECD /* Resources */,
+				FA1FE94318A1D8A300757643 /* Sources */,
+				FA1FE94418A1D8A300757643 /* Frameworks */,
+				FA1FE94518A1D8A300757643 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				FAA4544F189003A300AABECD /* PBXTargetDependency */,
+				FA1FE94D18A1D8A300757643 /* PBXTargetDependency */,
 			);
 			name = "GT-BusesTests";
 			productName = "GT-BusesTests";
-			productReference = FAA45449189003A300AABECD /* GT-BusesTests.xctest */;
+			productReference = FA1FE94718A1D8A300757643 /* GT-BusesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		FAA45420189003A300AABECD /* Project object */ = {
+		FA1FE91E18A1D8A300757643 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Alex Perez";
 				TargetAttributes = {
-					FAA45448189003A300AABECD = {
-						TestTargetID = FAA45427189003A300AABECD;
+					FA1FE94618A1D8A300757643 = {
+						TestTargetID = FA1FE92518A1D8A300757643;
 					};
 				};
 			};
-			buildConfigurationList = FAA45423189003A300AABECD /* Build configuration list for PBXProject "GT-Buses" */;
+			buildConfigurationList = FA1FE92118A1D8A300757643 /* Build configuration list for PBXProject "GT-Buses" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -308,102 +321,119 @@
 				en,
 				Base,
 			);
-			mainGroup = FAA4541F189003A300AABECD;
-			productRefGroup = FAA45429189003A300AABECD /* Products */;
+			mainGroup = FA1FE91D18A1D8A300757643;
+			productRefGroup = FA1FE92718A1D8A300757643 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FAA45427189003A300AABECD /* GT-Buses */,
-				FAA45448189003A300AABECD /* GT-BusesTests */,
+				FA1FE92518A1D8A300757643 /* GT-Buses */,
+				FA1FE94618A1D8A300757643 /* GT-BusesTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		FAA45426189003A300AABECD /* Resources */ = {
+		FA1FE92418A1D8A300757643 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAB6B765189CBB6600592C89 /* YellowDot@2x.png in Resources */,
-				FAB6B763189CBB6600592C89 /* GreenDot@2x.png in Resources */,
-				FAB6B764189CBB6600592C89 /* RedDot@2x.png in Resources */,
-				FAB6B75A189C908800592C89 /* Arrow.png in Resources */,
-				FAA45444189003A300AABECD /* Images.xcassets in Resources */,
-				FAA45436189003A300AABECD /* InfoPlist.strings in Resources */,
-				FAA4543F189003A300AABECD /* Main.storyboard in Resources */,
-				FAB6B762189CBB6600592C89 /* BlueDot@2x.png in Resources */,
+				FA1FE98F18A1DD3600757643 /* YellowDot@2x.png in Resources */,
+				FA1FE98D18A1DD3600757643 /* GreenDot@2x.png in Resources */,
+				FA1FE98E18A1DD3600757643 /* RedDot@2x.png in Resources */,
+				FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */,
+				FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */,
+				FA1FE93D18A1D8A300757643 /* Main.storyboard in Resources */,
+				FA1FE98B18A1DD3600757643 /* Arrow.png in Resources */,
+				FA1FE98C18A1DD3600757643 /* BlueDot@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FAA45447189003A300AABECD /* Resources */ = {
+		FA1FE94518A1D8A300757643 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAA45455189003A300AABECD /* InfoPlist.strings in Resources */,
+				FA1FE95318A1D8A300757643 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		FA9D6C9918A3E93400DAE1D7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		FAA45424189003A300AABECD /* Sources */ = {
+		FA1FE92218A1D8A300757643 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA3A877F189C805C00A0B1DB /* BusAnnotation.m in Sources */,
-				FAB6B75D189CB60200592C89 /* BusStopAnnotation.m in Sources */,
-				FAA45442189003A300AABECD /* ViewController.m in Sources */,
-				FA9031821899B969008C21E9 /* Route.m in Sources */,
-				FAA4543C189003A300AABECD /* AppDelegate.m in Sources */,
-				FAA45462189003C200AABECD /* RequestHandler.m in Sources */,
-				FA961DB2189DD52400F4F64C /* MapHandler.m in Sources */,
-				FAA45438189003A300AABECD /* main.m in Sources */,
-				FA638F8E189AF730001ADA37 /* Colors.m in Sources */,
-				FA961DB9189DDAAB00F4F64C /* XMLReader.m in Sources */,
-				FAA7421818A1443800037E48 /* BusRouteLine.m in Sources */,
-				FAA45466189003DD00AABECD /* Reachability.m in Sources */,
+				FA9D3D9518A34ABC00F4128E /* AboutView.m in Sources */,
+				FA1FE94018A1D8A300757643 /* ViewController.m in Sources */,
+				FA1FE97518A1D9B000757643 /* BusAnnotation.m in Sources */,
+				FA1FE97618A1D9B000757643 /* BusRouteLine.m in Sources */,
+				FA1FE93A18A1D8A300757643 /* AppDelegate.m in Sources */,
+				FA1FE96D18A1D9A400757643 /* MapHandler.m in Sources */,
+				FA1FE97C18A1D9C600757643 /* Colors.m in Sources */,
+				FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */,
+				FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */,
+				FA1FE96E18A1D9A400757643 /* Route.m in Sources */,
+				FA1FE96718A1D96500757643 /* Reachability.m in Sources */,
+				FA1FE97718A1D9B000757643 /* BusStopAnnotation.m in Sources */,
+				FA1FE93618A1D8A300757643 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FAA45445189003A300AABECD /* Sources */ = {
+		FA1FE94318A1D8A300757643 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAA45457189003A300AABECD /* GT_BusesTests.m in Sources */,
+				FA1FE95518A1D8A300757643 /* GT_BusesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		FAA4544F189003A300AABECD /* PBXTargetDependency */ = {
+		FA1FE94D18A1D8A300757643 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FAA45427189003A300AABECD /* GT-Buses */;
-			targetProxy = FAA4544E189003A300AABECD /* PBXContainerItemProxy */;
+			target = FA1FE92518A1D8A300757643 /* GT-Buses */;
+			targetProxy = FA1FE94C18A1D8A300757643 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		FAA45434189003A300AABECD /* InfoPlist.strings */ = {
+		FA1FE93218A1D8A300757643 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAA45435189003A300AABECD /* en */,
+				FA1FE93318A1D8A300757643 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		FAA4543D189003A300AABECD /* Main.storyboard */ = {
+		FA1FE93B18A1D8A300757643 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAA4543E189003A300AABECD /* Base */,
+				FA1FE93C18A1D8A300757643 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		FAA45453189003A300AABECD /* InfoPlist.strings */ = {
+		FA1FE95118A1D8A300757643 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FAA45454189003A300AABECD /* en */,
+				FA1FE95218A1D8A300757643 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -411,7 +441,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		FAA45458189003A300AABECD /* Debug */ = {
+		FA1FE95618A1D8A300757643 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -441,16 +471,16 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
-		FAA45459189003A300AABECD /* Release */ = {
+		FA1FE95718A1D8A300757643 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -474,18 +504,19 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		FAA4545B189003A300AABECD /* Debug */ = {
+		FA1FE95918A1D8A300757643 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -493,13 +524,15 @@
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
-		FAA4545C189003A300AABECD /* Release */ = {
+		FA1FE95A18A1D8A300757643 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -507,11 +540,12 @@
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
-		FAA4545E189003A300AABECD /* Debug */ = {
+		FA1FE95C18A1D8A300757643 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
@@ -534,7 +568,7 @@
 			};
 			name = Debug;
 		};
-		FAA4545F189003A300AABECD /* Release */ = {
+		FA1FE95D18A1D8A300757643 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
@@ -556,34 +590,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FAA45423189003A300AABECD /* Build configuration list for PBXProject "GT-Buses" */ = {
+		FA1FE92118A1D8A300757643 /* Build configuration list for PBXProject "GT-Buses" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FAA45458189003A300AABECD /* Debug */,
-				FAA45459189003A300AABECD /* Release */,
+				FA1FE95618A1D8A300757643 /* Debug */,
+				FA1FE95718A1D8A300757643 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FAA4545A189003A300AABECD /* Build configuration list for PBXNativeTarget "GT-Buses" */ = {
+		FA1FE95818A1D8A300757643 /* Build configuration list for PBXNativeTarget "GT-Buses" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FAA4545B189003A300AABECD /* Debug */,
-				FAA4545C189003A300AABECD /* Release */,
+				FA1FE95918A1D8A300757643 /* Debug */,
+				FA1FE95A18A1D8A300757643 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FAA4545D189003A300AABECD /* Build configuration list for PBXNativeTarget "GT-BusesTests" */ = {
+		FA1FE95B18A1D8A300757643 /* Build configuration list for PBXNativeTarget "GT-BusesTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FAA4545E189003A300AABECD /* Debug */,
-				FAA4545F189003A300AABECD /* Release */,
+				FA1FE95C18A1D8A300757643 /* Debug */,
+				FA1FE95D18A1D8A300757643 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = FAA45420189003A300AABECD /* Project object */;
+	rootObject = FA1FE91E18A1D8A300757643 /* Project object */;
 }
