@@ -20,13 +20,6 @@
     return [UIColor colorWithRed:r / 255.0f green:g / 255.0f blue:b / 255.0f alpha:1.0f];
 }
 
-+ (UIColor *)darkerColorForColor:(UIColor *)color {
-    CGFloat r, g, b, a;
-    if ([color getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MAX(r - 0.5, 0.0) green:MAX(g - 0.5, 0.0) blue:MAX(b - 0.5, 0.0) alpha:a];
-    return nil;
-}
-
 @end
 
 @implementation UIImage (Overlay)
@@ -44,6 +37,17 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
+}
+
+@end
+
+@implementation UIColor (DarkerColor)
+
+- (UIColor *)darkerColor:(float)rate {
+    CGFloat r, g, b, a;
+    if ([self getRed:&r green:&g blue:&b alpha:&a])
+        return [UIColor colorWithRed:MAX(r - rate, 0.0) green:MAX(g - rate, 0.0) blue:MAX(b - rate, 0.0) alpha:a];
+    return nil;
 }
 
 @end

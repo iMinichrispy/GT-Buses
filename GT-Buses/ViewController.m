@@ -24,12 +24,12 @@
     UILabel *errorConnectingLabel;
     Route *selectedRoute;
     MapHandler *mapHandler;
-    AboutView *aboutView;
 }
 
 @end
 
 @implementation ViewController
+
 
 - (void)viewDidLoad
 {
@@ -45,9 +45,12 @@
     else
         self.navigationController.navigationBar.tintColor = BLUE_COLOR;
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    
     self.navigationController.navigationBar.topItem.title = @"GT Buses";
     self.navigationController.navigationBar.translucent = NO;
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")))
+        self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(aboutPressed)];
     aboutButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : BLUE_COLOR;
@@ -61,7 +64,6 @@
     activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(150,12,20,20)];
     activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
     activityIndicator.hidesWhenStopped = YES;
-    [activityIndicator startAnimating];
     
     errorConnectingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 20)];
     errorConnectingLabel.textColor = [UIColor whiteColor];
@@ -82,14 +84,25 @@
         mapView.rotateEnabled = NO;
     mapHandler = [[MapHandler alloc] init];
     mapView.delegate = mapHandler;
-//    mapView.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(33.775978,-84.399269), MKCoordinateSpanMake(0.025059,0.023190));
+    mapView.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(33.775978,-84.399269), MKCoordinateSpanMake(0.025059,0.023190));
     [self.view addSubview:mapView];
     [self.view addSubview:busrouteControlView];
     
-    aboutView = [[AboutView alloc] init];
-    [self.view addSubview:aboutView];
-    
     routes = [[NSMutableArray alloc] init];
+    
+    self.menuContainerViewController.menuWidth = 150;
+    self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuStateEventOccurred:) name:MFSideMenuStateNotificationEvent object:nil];
+    
+    if (!(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")))
+        [self updateVehicleLocations];
+}
+
+- (void)menuStateEventOccurred:(NSNotification *)notification {
+    if (self.menuContainerViewController.menuState == MFSideMenuStateClosed)
+        self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
+    else
+        self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 }
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification {
@@ -106,9 +119,10 @@
 }
 
 - (void)aboutPressed {
-    [UIView animateWithDuration:.2 animations:^{
-        aboutView.alpha = 1.0;
-    }];
+    if (self.menuContainerViewController.menuState == MFSideMenuStateClosed)
+        [self.menuContainerViewController setMenuState:MFSideMenuStateLeftMenuOpen completion:^{}];
+    else
+        [self.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:^{}];
 }
 
 - (void)handleResponse:(RequestHandler *)handler data:(id)data {
@@ -121,6 +135,7 @@
         self.navigationItem.rightBarButtonItem =nil;
         errorConnectingLabel.hidden = YES;
         busRouteControl.hidden = NO;
+        
         if ([handler.task isEqualToString:@"routeConfig"]) {
             if (busRouteControl.numberOfSegments == 0) {
                 NSArray *newRoutes = [[dictionary objectForKey:@"body"] objectForKey:@"route"];
@@ -147,7 +162,7 @@
                 for (NSDictionary *busPosition in vehicles) {
                     BusAnnotation *annotation = [[BusAnnotation alloc] init];
                     annotation.busIdentifier = [busPosition objectForKey:@"id"];
-                    annotation.color = [Colors darkerColorForColor:selectedRoute.color];
+                    annotation.color = [selectedRoute.color darkerColor:0.5];;
                     
                     BOOL found = NO;
                     for (int x = 0; x < [busAnnotations count]; x++) {
@@ -169,7 +184,7 @@
                         }];
                     }
                     
-                    if (!found)
+                    if (!found && [selectedRoute.tag isEqualToString:[busPosition objectForKey:@"routeTag"]])
                         [mapView addAnnotation:annotation];
                 }
                 
@@ -212,8 +227,6 @@
                             }
                             else
                                 busStopAnnotation.subtitle = @"No Predictions";
-                            
-                            busStopAnnotation.subtitle = @"Next: 1, 8, 15";
                             
                             [busStopAnnotations removeObject:busStopAnnotation];
                             break;
@@ -267,8 +280,9 @@
 }
 
 - (void)didChangeBusRoute {
-    [[NSUserDefaults standardUserDefaults] setInteger:busRouteControl.selectedSegmentIndex forKey:@"selectedBusRoute"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if (busRouteControl.selectedSegmentIndex > -1)
+        [[NSUserDefaults standardUserDefaults] setInteger:busRouteControl.selectedSegmentIndex forKey:@"selectedBusRoute"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     
     [mapView removeAnnotations:mapView.annotations];
     [mapView removeOverlays:mapView.overlays];

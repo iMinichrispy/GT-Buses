@@ -15,12 +15,17 @@
 @interface Colors : NSObject
 
 + (UIColor *)colorWithHexString:(NSString *)hexString;
-+ (UIColor *)darkerColorForColor:(UIColor *)color;
 
 @end
 
 @interface UIImage (Overlay)
 
 - (UIImage *)imageWithColor:(UIColor *)color;
+
+@end
+
+@interface UIColor (DarkerColor)
+
+- (UIColor *)darkerColor:(float)rate;
 
 @end

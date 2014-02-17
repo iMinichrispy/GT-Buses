@@ -41,7 +41,6 @@
     route.paths = [dic objectForKey:@"path"];
     route.region = [Route regionForTag:[dic objectForKey:@"tag"] latMax:[[dic objectForKey:@"latMax"] floatValue] latMin:[[dic objectForKey:@"latMin"] floatValue] lonMax:[[dic objectForKey:@"lonMax"] floatValue] lonMin:[[dic objectForKey:@"lonMin"] floatValue]];
     route.stops = [dic objectForKey:@"stop"];
-    NSLog(@"%@",route.stops);
     route.color = [Colors colorWithHexString:[dic objectForKey:@"color"]];
     return route;
 }

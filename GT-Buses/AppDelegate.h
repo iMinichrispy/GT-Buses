@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ViewController.h"
+#import "AboutController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (nonatomic, strong) ViewController *viewController;
 
 @property (strong, nonatomic) UIWindow *window;
 

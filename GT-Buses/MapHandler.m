@@ -17,7 +17,7 @@
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView *line = [[MKPolylineView alloc] initWithPolyline:overlay];
         line.strokeColor = ((BusRouteLine *)overlay).color;
-        line.lineWidth = 10;
+        line.lineWidth = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) ? 10 : 6;
         line.alpha = .5;
         line.lineCap = kCGLineCapButt;
         return line;
@@ -58,9 +58,9 @@
         annotationView.canShowCallout = YES;
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
-        NSString *imageForTag = [ROUTE_SETUP objectForKey:((BusStopAnnotation *)annotation).tag];
-        NSString *imagePath = (imageForTag) ? imageForTag : @"RedDot@2x";
-        imageView.image = [UIImage imageNamed:imagePath];
+        UIImage *dotImage = [UIImage imageNamed:@"Dot.png"];
+        imageView.image = [dotImage imageWithColor:[((BusStopAnnotation *)annotation).color darkerColor:0.2]];
+        imageView.alpha = .7;
         [annotationView addSubview:imageView];
         return annotationView;
     }
