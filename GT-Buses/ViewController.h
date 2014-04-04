@@ -21,7 +21,7 @@
 @interface ViewController : UIViewController <RequestHandlerDelegate,CLLocationManagerDelegate> {
     MKMapView *mapView;
     UISegmentedControl *busRouteControl;
-    UIView *busrouteControlView;
+    UIView *busRouteControlView;
     UIActivityIndicatorView *activityIndicator;
 }
 

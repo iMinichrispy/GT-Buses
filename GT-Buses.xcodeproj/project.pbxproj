@@ -41,6 +41,7 @@
 		FAA1235018A57DDF0049A5FA /* MailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234F18A57DDF0049A5FA /* MailComposer.m */; };
 		FAA1235318A57E040049A5FA /* Email.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1235218A57E040049A5FA /* Email.m */; };
 		FAA1431618A4A41300213E1C /* Dot.png in Resources */ = {isa = PBXBuildFile; fileRef = FAA1431518A4A41300213E1C /* Dot.png */; };
+		FABEF89118C53FA100BB3200 /* Main-iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FABEF88F18C53FA100BB3200 /* Main-iPad.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		FA1FE98218A1D9F800757643 /* RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHandler.h; sourceTree = "<group>"; };
 		FA1FE98318A1D9F800757643 /* RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHandler.m; sourceTree = "<group>"; };
 		FA1FE98618A1DD3600757643 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
+		FA5678F118A2C9BF00386A71 /* To-Do.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "To-Do.txt"; path = "../To-Do.txt"; sourceTree = "<group>"; };
 		FAA1233618A51EE70049A5FA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FAA1233918A520710049A5FA /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
 		FAA1233A18A520710049A5FA /* MFSideMenuContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenuContainerViewController.h; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 		FAA1235118A57E040049A5FA /* Email.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Email.h; sourceTree = "<group>"; };
 		FAA1235218A57E040049A5FA /* Email.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Email.m; sourceTree = "<group>"; };
 		FAA1431518A4A41300213E1C /* Dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dot.png; sourceTree = "<group>"; };
+		FABEF89018C53FA100BB3200 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = "en.lproj/Main-iPad.storyboard"; sourceTree = "<group>"; };
 		FAEA9D7F18A461CA00F539C6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -142,6 +145,7 @@
 		FA1FE91D18A1D8A300757643 = {
 			isa = PBXGroup;
 			children = (
+				FA5678F118A2C9BF00386A71 /* To-Do.txt */,
 				FA1FE98518A1DD3600757643 /* Images */,
 				FA1FE92F18A1D8A300757643 /* GT-Buses */,
 				FA1FE94118A1D8A300757643 /* Images.xcassets */,
@@ -180,6 +184,7 @@
 				FA1FE93818A1D8A300757643 /* AppDelegate.h */,
 				FA1FE93918A1D8A300757643 /* AppDelegate.m */,
 				FA1FE93B18A1D8A300757643 /* Main.storyboard */,
+				FABEF88F18C53FA100BB3200 /* Main-iPad.storyboard */,
 				FA1FE93E18A1D8A300757643 /* ViewController.h */,
 				FA1FE93F18A1D8A300757643 /* ViewController.m */,
 				FA1FE98218A1D9F800757643 /* RequestHandler.h */,
@@ -386,6 +391,7 @@
 			files = (
 				FAA1431618A4A41300213E1C /* Dot.png in Resources */,
 				FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */,
+				FABEF89118C53FA100BB3200 /* Main-iPad.storyboard in Resources */,
 				FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */,
 				FA1FE93D18A1D8A300757643 /* Main.storyboard in Resources */,
 				FA1FE98B18A1DD3600757643 /* Arrow.png in Resources */,
@@ -488,6 +494,14 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		FABEF88F18C53FA100BB3200 /* Main-iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FABEF89018C53FA100BB3200 /* en */,
+			);
+			name = "Main-iPad.storyboard";
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -577,7 +591,8 @@
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = "armv7 armv7s arm64";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -594,7 +609,8 @@
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = "armv7 armv7s arm64";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

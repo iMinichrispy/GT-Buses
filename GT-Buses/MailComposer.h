@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MessageUI/MessageUI.h>
 #import "Email.h"
+#import "Colors.h"
 
 @interface MailComposer : NSObject
 

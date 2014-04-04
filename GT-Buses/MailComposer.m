@@ -7,6 +7,7 @@
 //
 
 #import "MailComposer.h"
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 @implementation MailComposer
 @synthesize mailDelegate;
@@ -36,13 +37,17 @@
 
 - (void)displayMailComposerSheet {
 	MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
+    picker.delegate = mailDelegate;
 	picker.mailComposeDelegate = mailDelegate;
 	
 	[picker setSubject:[Email subject]];
 	[picker setToRecipients:[NSArray arrayWithObject:[Email recipients]]];
 	[picker setMessageBody:[Email body] isHTML:NO];
 	
-	[mailDelegate presentViewController:picker animated:YES completion:NULL];
+	[mailDelegate presentViewController:picker animated:YES completion:^{
+        if (IS_IPAD)
+            [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }];
 }
 
 @end

@@ -31,6 +31,7 @@
         self.backgroundColor = [BLUE_COLOR darkerColor:0.2];
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:16];
+        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self addTarget:self action:@selector(buttonHighlighted) forControlEvents:UIControlEventTouchDown];
         [self addTarget:self action:@selector(buttonNormal) forControlEvents:UIControlEventTouchUpInside];
         [self addTarget:self action:@selector(buttonNormal) forControlEvents:UIControlEventTouchUpOutside];

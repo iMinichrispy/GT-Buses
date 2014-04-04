@@ -25,17 +25,6 @@
     return self;
 }
 
-+ (NSString *)userAgent {
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *bundleName = [info objectForKey:@"CFBundleDisplayName"];
-    NSString *version = [info objectForKey:@"CFBundleShortVersionString"];
-    NSString *model = [[UIDevice currentDevice] model];
-    NSString *systemName = [[UIDevice currentDevice] systemName];
-    NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
-    NSString *localeIdentifier = [[NSLocale currentLocale] localeIdentifier];
-    return [NSString stringWithFormat:@"%@ %@ (%@; %@ %@; %@)", bundleName, version, model, systemName, systemVersion, localeIdentifier];
-}
-
 - (void)routeConfig {
     [self getRequestWithURL:ROUTE_CONFIG_URL];
 }
@@ -151,6 +140,17 @@
 - (void)alertWithTitle:(NSString *)title message:(NSString *)message code:(int)code {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[NSString stringWithFormat:@"%@ (-%i)",message, code] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     [alert show];
+}
+
++ (NSString *)userAgent {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *bundleName = [info objectForKey:@"CFBundleDisplayName"];
+    NSString *version = [info objectForKey:@"CFBundleShortVersionString"];
+    NSString *model = [[UIDevice currentDevice] model];
+    NSString *systemName = [[UIDevice currentDevice] systemName];
+    NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+    NSString *localeIdentifier = [[NSLocale currentLocale] localeIdentifier];
+    return [NSString stringWithFormat:@"%@ %@ (%@; %@ %@; %@)", bundleName, version, model, systemName, systemVersion, localeIdentifier];
 }
 
 @end

@@ -9,6 +9,7 @@
 #import "MapHandler.h"
 #define ROUTE_SETUP @{@"red":@"RedDot@2x.png", @"green":@"GreenDot@2x.png", @"blue":@"BlueDot@2x.png", @"trolley":@"YellowDot@2x.png", @"emory":@"RedDot@2x.png", @"night":@"RedDot@2x.png"}
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 
 @implementation MapHandler
@@ -17,7 +18,12 @@
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView *line = [[MKPolylineView alloc] initWithPolyline:overlay];
         line.strokeColor = ((BusRouteLine *)overlay).color;
-        line.lineWidth = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) ? 10 : 6;
+        
+        if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")))
+            line.lineWidth = (IS_IPAD) ? 20 : 10;
+        else
+            line.lineWidth = (IS_IPAD) ? 12 : 6;
+        
         line.alpha = .5;
         line.lineCap = kCGLineCapButt;
         return line;
@@ -29,7 +35,7 @@
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *line = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
         line.strokeColor = ((BusRouteLine *)overlay).color;
-        line.lineWidth = 6;
+        line.lineWidth =  (IS_IPAD) ? 10 : 6;
         line.alpha = .5;
         line.lineCap = kCGLineCapButt;
         return line;
@@ -53,11 +59,12 @@
         return annotationView;
     }
     else if ([annotation isKindOfClass:[BusStopAnnotation class]]) {
+        int size = (IS_IPAD) ? 17 : 10;
         MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:Nil];
-        annotationView.frame = CGRectMake(0, 0, 10, 10);
+        annotationView.frame = CGRectMake(0, 0, size, size);
         annotationView.canShowCallout = YES;
         
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
         UIImage *dotImage = [UIImage imageNamed:@"Dot.png"];
         imageView.image = [dotImage imageWithColor:[((BusStopAnnotation *)annotation).color darkerColor:0.2]];
         imageView.alpha = .7;
