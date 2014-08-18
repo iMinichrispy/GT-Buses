@@ -9,6 +9,5 @@
 #import "BusRouteLine.h"
 
 @implementation BusRouteLine
-@synthesize color;
 
 @end

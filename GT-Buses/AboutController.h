@@ -6,11 +6,6 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "AvenirUI.h"
-#import "Colors.h"
-#import "MailComposer.h"
-
 @interface AboutController : UIViewController
 
 @end

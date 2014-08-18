@@ -6,13 +6,12 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import <MapKit/MapKit.h>
-#import "Colors.h"
+@import MapKit;
 
 @interface BusAnnotation : MKPointAnnotation
 
 @property (nonatomic, strong) NSString *busIdentifier;
-@property (nonatomic, readwrite) int heading;
+@property (nonatomic, readwrite) NSInteger heading;
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, strong) UIImageView *arrowImageView;
 

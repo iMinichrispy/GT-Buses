@@ -6,9 +6,42 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "Colors.h"
+#import "GBColors.h"
 
-@implementation Colors
+#import "GBConstants.h"
+
+//#define BLUE_COLOR  [UIColor colorWithRed:(230/255.0) green:(207/255.0) blue:(98/255.0) alpha:1.0]
+
+@implementation UIColor (GBColors)
+
++ (UIColor *)blueTintColor {
+    return RGBColor(24, 124, 199);
+}
+
++ (UIColor *)redTintColor {
+    return RGBColor(198, 42, 46);
+}
+
+- (UIColor *)darkerColor:(float)rate {
+    CGFloat r, g, b, a;
+    if ([self getRed:&r green:&g blue:&b alpha:&a])
+        return [UIColor colorWithRed:MAX(r - rate, 0.0) green:MAX(g - rate, 0.0) blue:MAX(b - rate, 0.0) alpha:a];
+    return nil;
+}
+#warning querying nsuserdefaults current tint color is inefficient
++ (UIColor *)currentTintColor {
+    NSInteger colorValue = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeyColor];
+    UIColor *tintColor = [self appTintColor:colorValue];
+    return tintColor;
+}
+
++ (UIColor *)appTintColor:(GBAppTintColor)color {
+    switch (color) {
+        case GBAppTintColorRed: return [self redTintColor];
+        case GBAppTintColorBlue:
+        default: return [self blueTintColor];
+    }
+}
 
 + (UIColor *)colorWithHexString:(NSString *)hexString {
     unsigned int hex;
@@ -21,6 +54,7 @@
 }
 
 @end
+
 
 @implementation UIImage (Overlay)
 
@@ -37,17 +71,6 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
-}
-
-@end
-
-@implementation UIColor (DarkerColor)
-
-- (UIColor *)darkerColor:(float)rate {
-    CGFloat r, g, b, a;
-    if ([self getRed:&r green:&g blue:&b alpha:&a])
-        return [UIColor colorWithRed:MAX(r - rate, 0.0) green:MAX(g - rate, 0.0) blue:MAX(b - rate, 0.0) alpha:a];
-    return nil;
 }
 
 @end

@@ -6,9 +6,7 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-@interface Email : NSString
+@interface GBSupportEmail : NSString
 
 + (NSString *)subject;
 + (NSString *)recipients;

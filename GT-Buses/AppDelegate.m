@@ -7,17 +7,20 @@
 //
 
 #import "AppDelegate.h"
+
+#import "RootViewController.h"
+#import "AboutController.h"
 #import "MFSideMenu.h"
-#import "Colors.h"
+#import "GBConstants.h"
 
 @implementation AppDelegate
-@synthesize viewController;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    viewController = [[ViewController alloc] init];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    self.viewController = [[RootViewController alloc] init];
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
     
     AboutController *aboutController = [[AboutController alloc] init];
     
@@ -25,15 +28,14 @@
     self.window.rootViewController = container;
     [self.window makeKeyAndVisible];
 
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"])
-        [self firstLaunch];
+    [self registerDefaults];
     return YES;
 }
 
-- (void)firstLaunch {
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"selectedBusRoute"];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+- (void)registerDefaults {
+    NSString *defaultPath = [[NSBundle mainBundle] pathForResource:GBUserDefaultsFilePath ofType:@"plist"];
+    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultPath];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
 @end

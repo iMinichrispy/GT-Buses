@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "Email.h"
+#import "GBSupportEmail.h"
 #import <sys/utsname.h>
 #define FORMAT(format,...) [NSString stringWithFormat:(format), ##__VA_ARGS__]
 
-@implementation Email
+@implementation GBSupportEmail
 
 + (NSString *)subject {
     return @"GT Buses Support";
@@ -22,7 +22,7 @@
 
 + (NSString *)body {
     NSMutableString *body = [NSMutableString stringWithString:@"\n\n\n"];
-    [body appendString:FORMAT(@"%@\n",[Email deviceInfo])];
+    [body appendString:FORMAT(@"%@\n", [self deviceInfo])];
     return [body copy];
 }
 
@@ -31,11 +31,11 @@
     [deviceInfo appendString:@"Report Type: Support\n"];
     [deviceInfo appendString:@"Product: GT Buses\n"];
     NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
-    [deviceInfo appendString:FORMAT(@"Version: %@\n",[infoDict objectForKey:@"CFBundleShortVersionString"])];
-    [deviceInfo appendString:FORMAT(@"Build: %@\n",[infoDict objectForKey:@"CFBundleVersion"])];
-    [deviceInfo appendString:FORMAT(@"Model: %@\n",[[UIDevice currentDevice] model])];
-    [deviceInfo appendString:FORMAT(@"Model Identifier: %@\n",machineName())];
-    [deviceInfo appendString:FORMAT(@"System: %@ %@\n",[[UIDevice currentDevice] systemName],[[UIDevice currentDevice] systemVersion])];
+    [deviceInfo appendString:FORMAT(@"Version: %@\n", [infoDict objectForKey:@"CFBundleShortVersionString"])];
+    [deviceInfo appendString:FORMAT(@"Build: %@\n", [infoDict objectForKey:@"CFBundleVersion"])];
+    [deviceInfo appendString:FORMAT(@"Model: %@\n", [[UIDevice currentDevice] model])];
+    [deviceInfo appendString:FORMAT(@"Model Identifier: %@\n", machineName())];
+    [deviceInfo appendString:FORMAT(@"System: %@ %@\n", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion])];
     return deviceInfo;
 }
 

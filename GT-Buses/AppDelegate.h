@@ -6,13 +6,10 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "ViewController.h"
-#import "AboutController.h"
-
+@class RootViewController;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (nonatomic, strong) ViewController *viewController;
+@property (nonatomic, strong) RootViewController *viewController;
 
 @property (strong, nonatomic) UIWindow *window;
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import <MapKit/MapKit.h>
+@import MapKit;
 
 @interface BusStopAnnotation : MKPointAnnotation
 

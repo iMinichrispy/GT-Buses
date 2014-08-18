@@ -7,46 +7,35 @@
 //
 
 #import "RequestHandler.h"
-#define API_URL @"http://m.cip.gatech.edu/widget/buses/content/api"
-#define BUS_LOCATIONS_URL @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=vehicleLocations&r="
-#define BUS_PREDICTIONS_URL @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=predictionsForMultiStops&r="
-#define ROUTE_CONFIG_URL @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=routeConfig"
+
+#import "Reachability.h"
 
 @implementation RequestHandler
-@synthesize delegate;
-@synthesize task;
 
-- (id)initWithDelegate:(id)requestDelegate task:(NSString *)newTask {
+- (instancetype)initWithDelegate:(id<RequestHandlerDelegate>)delegate task:(NSString *)task {
     self = [super init];
     if (self) {
-        self.delegate = requestDelegate;
-        self.task = newTask;
+        self.delegate = delegate;
+        self.task = task;
     }
     return self;
 }
 
-- (void)routeConfig {
-    [self getRequestWithURL:ROUTE_CONFIG_URL];
-}
-
-- (void)positionForBus:(NSString *)tag {
-    [self getRequestWithURL:[NSString stringWithFormat:@"%@%@",BUS_LOCATIONS_URL,tag]];
-}
-
-- (void)predictionsForBus:(NSString *)tag {
-    [self getRequestWithURL:[NSString stringWithFormat:@"%@%@",BUS_PREDICTIONS_URL,tag]];
+- (NSString *)referrer {
+    return nil;
 }
 
 - (void)getRequestWithURL:(NSString *)url {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
+    [request setValue:[self referrer] forHTTPHeaderField:@"Referer"];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     [request setValue:[RequestHandler userAgent] forHTTPHeaderField:@"User-Agent"];
     [self requestWithRequest:request];
 }
 
-- (void)postRequestWithPath:(NSString *)path postData:(NSData *)postData {
-    NSString *urlString = [NSString stringWithFormat:@"%@%@",API_URL,path];
+- (void)postRequestWithURL:(NSString *)url postData:(NSData *)postData {
+    NSString *urlString = [NSString stringWithFormat:@"%@", url];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
@@ -56,11 +45,13 @@
     [self requestWithRequest:request];
 }
 
+#warning network activity indicator doesnt work with extensions. disabled temprarily here
+
 - (void)requestWithRequest:(NSURLRequest *)request {
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
          {
@@ -110,19 +101,21 @@
 }
 
 - (void)receivedData:(NSData *)data {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [delegate handleResponse:self data:data];
+//    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    if ([self.delegate respondsToSelector:@selector(handleResponse:data:)]) {
+        [self.delegate handleResponse:self data:data];
+    }
 }
 
 - (void)checkDelegateHandleError:(int)code message:(NSString *)message {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     if ([self.delegate respondsToSelector:@selector(handleError:code:message:)])
-        [delegate handleError:self code:code message:message];
+        [self.delegate handleError:self code:code message:message];
     else
         [self handleErrorCode:code message:message];
 }
 
-- (void)handleErrorCode:(int)code message:(NSString *)message {
+- (void)handleErrorCode:(NSInteger)code message:(NSString *)message {
     if (code == 400)
         [self alertWithTitle:@"Bad Request" message:[NSString stringWithFormat:@"Error Processing Request: %@", message] code:code];
     else if (code == 404)
@@ -137,9 +130,10 @@
         [self alertWithTitle:@"Unknown Error" message:@"An unknown error occurred." code:9001];
 }
 
-- (void)alertWithTitle:(NSString *)title message:(NSString *)message code:(int)code {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[NSString stringWithFormat:@"%@ (-%i)",message, code] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    [alert show];
+- (void)alertWithTitle:(NSString *)title message:(NSString *)message code:(NSInteger)code {
+    NSLog(@"ALERT!!");
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[NSString stringWithFormat:@"%@ (-%i)",message, code] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+//    [alert show];
 }
 
 + (NSString *)userAgent {

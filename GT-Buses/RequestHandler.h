@@ -6,8 +6,7 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "Reachability.h"
+@import UIKit;
 
 @class RequestHandler;
 @protocol RequestHandlerDelegate <NSObject>
@@ -16,23 +15,18 @@
 - (void)handleResponse:(RequestHandler *)handler data:(id)data;
 
 @optional
-- (void)handleError:(RequestHandler *)handler code:(int)code message:(NSString *)message;
+- (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message;
 
 @end
 
-@interface RequestHandler : NSObject <NSURLConnectionDelegate> {
-    NSMutableData *responseData;
-}
+@interface RequestHandler : NSObject <NSURLConnectionDelegate>
 
 @property (nonatomic, weak) id <RequestHandlerDelegate> delegate;
 @property (nonatomic, strong) NSString *task;
 
-- (id)initWithDelegate:(id)requestDelegate task:(NSString *)newTask;
-- (void)postRequestWithPath:(NSString *)path postData:(NSData *)postData;
+- (instancetype)initWithDelegate:(id<RequestHandlerDelegate>)requestDelegate task:(NSString *)newTask;
 - (void)getRequestWithURL:(NSString *)url;
-- (void)handleErrorCode:(int)code message:(NSString *)message;
-- (void)routeConfig;
-- (void)positionForBus:(NSString *)tag;
-- (void)predictionsForBus:(NSString *)tag;
+- (void)postRequestWithURL:(NSString *)url postData:(NSData *)postData;
+- (void)handleErrorCode:(NSInteger)code message:(NSString *)message;
 
 @end
