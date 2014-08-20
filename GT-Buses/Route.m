@@ -8,7 +8,7 @@
 
 #import "Route.h"
 
-#define REGION_SETUP @{@"red":@{@"centerLat":@33.774974,@"centerLon":@(-84.398013),@"spanLat":@0.014157,@"spanLon":@0.013101},                                                                                @"blue":@{@"centerLat":@33.774553,@"centerLon":@(-84.397973),@"spanLat":@0.014269,@"spanLon":@0.013205},  @"green":@{@"centerLat":@33.778637,@"centerLon":@(-84.398992),@"spanLat":@0.020040,@"spanLon":@0.018546},     @"trolley":@{@"centerLat":@33.776728,@"centerLon":@(-84.394176),@"spanLat":@0.018577,@"spanLon":@0.017192},   @"emory":@{@"centerLat":@33.790824,@"centerLon":@(-84.357531),@"spanLat":@0.090284,@"spanLon":@0.083565},      @"night":@{@"centerLat":@33.775468,@"centerLon":@(-84.398033),@"spanLat":@0.013653,@"spanLon":@0.012635}, @"greenday":@{@"centerLat":@33.778637,@"centerLon":@(-84.398992),@"spanLat":@0.020040,@"spanLon":@0.018546}}
+#define REGION_SETUP @{@"red":@{@"centerLat":@33.774974,@"centerLon":@(-84.398013),@"spanLat":@0.014157,@"spanLon":@0.013101},                                                                                @"blue":@{@"centerLat":@33.774553,@"centerLon":@(-84.397973),@"spanLat":@0.014269,@"spanLon":@0.013205},  @"green":@{@"centerLat":@33.778637,@"centerLon":@(-84.398992),@"spanLat":@0.020040,@"spanLon":@0.018546},                        @"trolley":@{@"centerLat":@33.776728,@"centerLon":@(-84.394176),@"spanLat":@0.018577,@"spanLon":@0.017192},                       @"emory":@{@"centerLat":@33.790824,@"centerLon":@(-84.357531),@"spanLat":@0.090284,@"spanLon":@0.083565},                       @"night":@{@"centerLat":@33.775468,@"centerLon":@(-84.398033),@"spanLat":@0.013653,@"spanLon":@0.012635}, @"greenday":@{@"centerLat":@33.778637,@"centerLon":@(-84.398992),@"spanLat":@0.020040,@"spanLon":@0.018546},                  @"glc":@{@"centerLat":@33.779169,@"centerLon":@(-84.395217),@"spanLat":@0.010133,@"spanLon":@0.007740}}
 
 
 //Red: (33.774974,-84.398013), Span: (0.014157,0.013101)
@@ -26,7 +26,7 @@
     
     Route *route = [[Route alloc] initWithTitle:title tag:lowercaseTitle];
     route.paths = self[@"path"];
-    route.region = [Route regionForTag:self[@"tag"] latMax:[self[@"latMax"] floatValue] latMin:[self[@"latMin"] floatValue] lonMax:[self[@"lonMax"] floatValue] lonMin:[self[@"lonMin"] floatValue]];
+    route.region = [Route regionForTag:lowercaseTitle latMax:[self[@"latMax"] floatValue] latMin:[self[@"latMin"] floatValue] lonMax:[self[@"lonMax"] floatValue] lonMin:[self[@"lonMin"] floatValue]];
     route.stops = self[@"stop"];
     route.color = [UIColor colorWithHexString:self[@"color"]];
     return route;
@@ -68,6 +68,10 @@
     region.span.longitudeDelta = 0;
     
     return region;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<Title: %@, Tag: %@>", self.title, self.tag];
 }
 
 @end

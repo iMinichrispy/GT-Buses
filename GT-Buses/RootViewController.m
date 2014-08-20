@@ -53,8 +53,21 @@
     if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")))
         self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     
+    UIColor *color = [UIColor appTintColor];
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
+        self.navigationController.navigationBar.barTintColor = color;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    } else {
+        self.navigationController.navigationBar.tintColor = color;
+    }
+    UIColor *tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : color;
+    self.navigationItem.leftBarButtonItem.tintColor = tintColor;
+    self.navigationItem.rightBarButtonItem.tintColor = tintColor;
+    self.busRouteControlView.busRouteControl.tintColor = tintColor;
+    self.busRouteControlView.backgroundColor = color;
+    
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(aboutPressed)];
-    aboutButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : [UIColor appTintColor];
+    aboutButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : color;
     self.navigationItem.leftBarButtonItem = aboutButton;
     
 //    UIImage *faceImage = [UIImage imageNamed:@"List.png"];
@@ -138,6 +151,7 @@
 }
 
 - (void)aboutPressed {
+    NSLog(@"(%f,%f,%f,%f)", self.mapView.region.center.latitude, self.mapView.region.center.longitude, self.mapView.region.span.latitudeDelta, self.mapView.region.span.longitudeDelta);
     if (self.menuContainerViewController.menuState == MFSideMenuStateClosed)
         [self.menuContainerViewController setMenuState:MFSideMenuStateLeftMenuOpen completion:NULL];
     else

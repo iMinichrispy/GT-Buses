@@ -22,7 +22,7 @@
         self.errorLabel = [[GBErrorLabel alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 20)];
         self.errorLabel.hidden = YES;
         
-        self.backgroundColor = [UIColor currentTintColor];
+        self.backgroundColor = [UIColor appTintColor];
         
         [self addSubview:self.busRouteControl];
         [self addSubview:self.activityIndicator];
