@@ -30,7 +30,7 @@
         [self.view setClipsToBounds:YES];
     }
     
-    UIColor *color = [UIColor currentTintColor];
+    UIColor *color = [UIColor appTintColor];
     
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
         self.navigationController.navigationBar.barTintColor = color;
@@ -59,22 +59,14 @@
     [appReviewButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:appReviewButton];
     
-#warning Temporary
-    GBButton *colorButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - 100, (IS_IPAD) ? SIDE_WIDTH_IPAD : SIDE_WIDTH, 40)];
-    [colorButton setTitle:@"Color" forState:UIControlStateNormal];
-    [colorButton addTarget:self action:@selector(changeTintColor:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:colorButton];
-    
     [[UINavigationBar appearance] setTintColor:color];
 }
 
 - (void)newItemWithTitle:(NSString *)title value:(NSString *)value atY:(float)y {
     float origin = [self origin];
     
-    UIColor *tintColor = [UIColor currentTintColor];
-    
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, origin + y + 25, SIDE_WIDTH_IPAD, 40)];
-    view.backgroundColor = [tintColor darkerColor:0.15];
+    view.backgroundColor = [[UIColor appTintColor] darkerColor:0.15];
     [self.view addSubview:view];
     
     GBLabel *titleLabel = [[GBLabel alloc] initWithFrame:CGRectMake(8, origin + y, SIDE_WIDTH, 20) size:14];
@@ -95,46 +87,7 @@
 }
 
 - (void)reviewApp {
-    [self changeTintColor:nil];
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/gtbuses"]];
-}
-
-- (void)changeTintColor:(id)sender {
-    //[sender tag];
-    
-#warning handle this better
-    int value;
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeyColor] == 0) {
-        value = 1;
-    } else {
-        value = 0;
-    }
-    
-    [[NSUserDefaults standardUserDefaults] setInteger:value forKey:GBUserDefaultsKeyColor];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    UIColor *appTintColor = [UIColor appTintColor:value];
-    
-    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
-        self.navigationController.navigationBar.barTintColor = appTintColor;
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    }
-    else
-        self.navigationController.navigationBar.tintColor = appTintColor;
-    
-    self.view.backgroundColor = [appTintColor darkerColor:0.05];
-    [[UINavigationBar appearance] setTintColor:appTintColor];
-    
-    for (UIView *view in self.view.subviews) {
-        if ([view isMemberOfClass:[GBButton class]]) {
-            ((GBButton *)view).backgroundColor = [appTintColor darkerColor:0.2];
-        }
-        else if ([view isMemberOfClass:[UIView class]]) {
-            view.backgroundColor = [appTintColor darkerColor:0.15];
-        }
-    }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBAppTintColorDidChangeNotification object:appTintColor];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/gtbuses"]];
 }
 
 - (float)frameHeight {

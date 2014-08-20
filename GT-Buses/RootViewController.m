@@ -42,37 +42,11 @@
 
 @implementation RootViewController
 
-- (void)appTintColorDidChange:(NSNotification *)notification {
-    UIColor *color = notification.object;
-    [self updateInterfaceForColor:color];
-}
-
-- (void)updateInterfaceForColor:(UIColor *)color {
-    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
-        self.navigationController.navigationBar.barTintColor = color;
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    }
-    else
-        self.navigationController.navigationBar.tintColor = color;
-    
-    UIColor *tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : color;
-    
-    self.navigationItem.leftBarButtonItem.tintColor = tintColor;
-    self.navigationItem.rightBarButtonItem.tintColor = tintColor;
-    self.busRouteControlView.busRouteControl.tintColor = tintColor;
-    self.busRouteControlView.backgroundColor = color;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appTintColorDidChange:) name:GBAppTintColorDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
-    UIColor *tintColor = [UIColor currentTintColor];
-    
-    [self updateInterfaceForColor:tintColor];
     
     self.navigationController.navigationBar.topItem.title = @"GT Buses";
     self.navigationController.navigationBar.translucent = NO;
@@ -80,7 +54,7 @@
         self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(aboutPressed)];
-    aboutButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : tintColor;
+    aboutButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : [UIColor appTintColor];
     self.navigationItem.leftBarButtonItem = aboutButton;
     
 //    UIImage *faceImage = [UIImage imageNamed:@"List.png"];
@@ -270,6 +244,7 @@
                             if (![predictionData isKindOfClass:[NSArray class]])
                                 predictionData = [NSArray arrayWithObject:predictionData];
                             
+#warning why not just do else if condition?
                             if ([predictionData count] >= 3)
                                 predictions = [predictionData subarrayWithRange:NSMakeRange(0, 3)];
                             else if ([predictionData count] > 0)
@@ -309,7 +284,7 @@
     self.busRouteControlView.errorLabel.hidden = NO;
     self.busRouteControlView.busRouteControl.hidden = YES;
     
-    UIColor *tintColor = [UIColor currentTintColor];
+    UIColor *tintColor = [UIColor appTintColor];
     
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(updateVehicleLocations)];
     refreshButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : tintColor;

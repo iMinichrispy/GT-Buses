@@ -7,12 +7,9 @@
 //
 
 extern NSString *const GBUserDefaultsFilePath;
-extern NSString *const GBUserDefaultsKeyColor;
 extern NSString *const GBUserDefaultsKeySelectedRoute;
 
 extern NSString *const GBFontDefault;
-
-extern NSString *const GBAppTintColorDidChangeNotification;
 
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)

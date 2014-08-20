@@ -31,7 +31,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [[UIColor currentTintColor] darkerColor:0.2];
+        self.backgroundColor = [[UIColor appTintColor] darkerColor:0.2];
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.font = [UIFont fontWithName:GBFontDefault size:16];
         self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -44,11 +44,11 @@
 }
 
 - (void)buttonHighlighted {
-    self.backgroundColor = [[UIColor currentTintColor] darkerColor:.26];
+    self.backgroundColor = [[UIColor appTintColor] darkerColor:.26];
 }
 
 - (void)buttonNormal {
-    self.backgroundColor = [[UIColor currentTintColor] darkerColor:0.2];
+    self.backgroundColor = [[UIColor appTintColor] darkerColor:0.2];
 }
 
 @end
@@ -62,7 +62,7 @@
         self.segmentedControlStyle = UISegmentedControlStyleBar;
         self.apportionsSegmentWidthsByContent = NO;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : [UIColor currentTintColor];
+        self.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : [UIColor appTintColor];
     }
     return self;
 }

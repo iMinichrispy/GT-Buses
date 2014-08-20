@@ -11,7 +11,4 @@
 NSString *const GBFontDefault = @"Avenir-Medium";
 
 NSString *const GBUserDefaultsFilePath = @"GBDefaultPreferences";
-NSString *const GBUserDefaultsKeyColor = @"GBUserDefaultsKeyColor";
 NSString *const GBUserDefaultsKeySelectedRoute = @"GBUserDefaultsKeySelectedRoute";
-
-NSString *const GBAppTintColorDidChangeNotification = @"GBAppTintColorDidChangeNotification";
