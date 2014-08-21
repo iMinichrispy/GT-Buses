@@ -42,7 +42,7 @@
     self.view.backgroundColor = [color darkerColor:0.05];
     
     NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *version = [NSString stringWithFormat:@"%@ (%@)",[infoDict objectForKey:@"CFBundleShortVersionString"],[infoDict objectForKey:@"CFBundleVersion"]];
+    NSString *version = [NSString stringWithFormat:@"%@ (%@)", infoDict[@"CFBundleShortVersionString"], infoDict[@"CFBundleVersion"]];
     
     [self newItemWithTitle:@"Version" value:version atY:36];
     [self newItemWithTitle:@"Developer" value:@"Alex Perez" atY:115];

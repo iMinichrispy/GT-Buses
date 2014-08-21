@@ -31,8 +31,8 @@
     [deviceInfo appendString:@"Report Type: Support\n"];
     [deviceInfo appendString:@"Product: GT Buses\n"];
     NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
-    [deviceInfo appendString:FORMAT(@"Version: %@\n", [infoDict objectForKey:@"CFBundleShortVersionString"])];
-    [deviceInfo appendString:FORMAT(@"Build: %@\n", [infoDict objectForKey:@"CFBundleVersion"])];
+    [deviceInfo appendString:FORMAT(@"Version: %@\n", infoDict[@"CFBundleShortVersionString"])];
+    [deviceInfo appendString:FORMAT(@"Build: %@\n", infoDict[@"CFBundleVersion"])];
     [deviceInfo appendString:FORMAT(@"Model: %@\n", [[UIDevice currentDevice] model])];
     [deviceInfo appendString:FORMAT(@"Model Identifier: %@\n", machineName())];
     [deviceInfo appendString:FORMAT(@"System: %@ %@\n", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion])];

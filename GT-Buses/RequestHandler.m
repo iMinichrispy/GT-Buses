@@ -138,8 +138,8 @@
 
 + (NSString *)userAgent {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *bundleName = [info objectForKey:@"CFBundleDisplayName"];
-    NSString *version = [info objectForKey:@"CFBundleShortVersionString"];
+    NSString *bundleName = info[@"CFBundleDisplayName"];
+    NSString *version = info[@"CFBundleShortVersionString"];
     NSString *model = [[UIDevice currentDevice] model];
     NSString *systemName = [[UIDevice currentDevice] systemName];
     NSString *systemVersion = [[UIDevice currentDevice] systemVersion];

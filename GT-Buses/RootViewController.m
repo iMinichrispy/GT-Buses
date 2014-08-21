@@ -24,6 +24,8 @@
 #import "GBUserInterface.h"
 #import "BusRouteControlView.h"
 
+int const kMaxNumPredictions = 3;
+
 @interface RootViewController () <RequestHandlerDelegate, CLLocationManagerDelegate> {
     NSTimer *refreshTimer;
     NSArray *busPositionData;
@@ -151,7 +153,6 @@
 }
 
 - (void)aboutPressed {
-    NSLog(@"(%f,%f,%f,%f)", self.mapView.region.center.latitude, self.mapView.region.center.longitude, self.mapView.region.span.latitudeDelta, self.mapView.region.span.longitudeDelta);
     if (self.menuContainerViewController.menuState == MFSideMenuStateClosed)
         [self.menuContainerViewController setMenuState:MFSideMenuStateLeftMenuOpen completion:NULL];
     else
@@ -171,10 +172,10 @@
         
         if ([handler.task isEqualToString:@"routeConfig"]) {
             if (self.busRouteControlView.busRouteControl.numberOfSegments == 0) {
-                NSArray *newRoutes = [[dictionary objectForKey:@"body"] objectForKey:@"route"];
+                NSArray *newRoutes = dictionary[@"body"][@"route"];
                 
                 for (int x = 0; x < [newRoutes count]; x++) {
-                    NSDictionary *routeDic = [newRoutes objectAtIndex:x];
+                    NSDictionary *routeDic = newRoutes[x];
                     Route *route = [routeDic toRoute];
                     [routes addObject:route];
                     [self.busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:x animated:YES];
@@ -193,10 +194,10 @@
             }
         }
         else if ([handler.task isEqualToString:@"vehicleLocations"]) {
-            long long newLocationUpdate = [[[[dictionary objectForKey:@"body"] objectForKey:@"lastTime"] objectForKey:@"time"] longLongValue];
+            long long newLocationUpdate = [dictionary[@"body"][@"lastTime"][@"time"] longLongValue];
             
             if (newLocationUpdate != lastLocationUpdate) {
-                NSArray *vehicles = [[dictionary objectForKey:@"body"] objectForKey:@"vehicle"];
+                NSArray *vehicles = dictionary[@"body"][@"vehicle"];
                 
                 if (vehicles) {
                     if (![vehicles isKindOfClass:[NSArray class]])
@@ -207,12 +208,12 @@
                     
                     for (NSDictionary *busPosition in vehicles) {
                         BusAnnotation *annotation = [[BusAnnotation alloc] init];
-                        annotation.busIdentifier = [busPosition objectForKey:@"id"];
+                        annotation.busIdentifier = busPosition[@"id"];
                         annotation.color = [selectedRoute.color darkerColor:0.5];
                         
                         BOOL found = NO;
                         for (int x = 0; x < [busAnnotations count]; x++) {
-                            BusAnnotation *busAnnotation = [busAnnotations objectAtIndex:x];
+                            BusAnnotation *busAnnotation = busAnnotations[x];
                             if ([busAnnotation isEqual:annotation]) {
                                 [busAnnotations removeObject:busAnnotation];
                                 annotation = busAnnotation;
@@ -221,16 +222,16 @@
                             }
                         }
                         
-                        annotation.heading = [[busPosition objectForKey:@"heading"] intValue];
+                        annotation.heading = [busPosition[@"heading"] intValue];
                         
-                        if (annotation.coordinate.latitude != [[busPosition objectForKey:@"lat"] doubleValue] || annotation.coordinate.longitude != [[busPosition objectForKey:@"lon"] doubleValue]) {
+                        if (annotation.coordinate.latitude != [busPosition[@"lat"] doubleValue] || annotation.coordinate.longitude != [busPosition[@"lon"] doubleValue]) {
                             [UIView animateWithDuration:1 animations:^{
                                 [annotation updateHeading];
-                                [annotation setCoordinate:CLLocationCoordinate2DMake([[busPosition objectForKey:@"lat"] doubleValue], [[busPosition objectForKey:@"lon"] doubleValue])];
+                                [annotation setCoordinate:CLLocationCoordinate2DMake([busPosition[@"lat"] doubleValue], [busPosition[@"lon"] doubleValue])];
                             }];
                         }
                         
-                        if (!found && [selectedRoute.tag isEqualToString:[busPosition objectForKey:@"routeTag"]])
+                        if (!found && [selectedRoute.tag isEqualToString:busPosition[@"routeTag"]])
                             [self.mapView addAnnotation:annotation];
                     }
                     
@@ -241,40 +242,39 @@
             lastLocationUpdate = newLocationUpdate;
         }
         else if ([handler.task isEqualToString:@"vehiclePredictions"]) {
-            long long newPredictionUpdate = [[[[dictionary objectForKey:@"body"] objectForKey:@"keyForNextTime"] objectForKey:@"value"] longLongValue];
+            long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
             if (newPredictionUpdate != lastPredictionUpdate) {
-                NSArray *predictions = [[dictionary objectForKey:@"body"] objectForKey:@"predictions"];
+                NSArray *predictions = dictionary[@"body"][@"predictions"];
                 if (predictions) {
                     if (![predictions isKindOfClass:[NSArray class]])
                         predictions = [NSArray arrayWithObject:predictions];
                     
-                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@",[BusStopAnnotation class]];
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [BusStopAnnotation class]];
                     NSMutableArray *busStopAnnotations = [[self.mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
                     
                     for (NSDictionary *busStop in predictions) {
-                        NSArray *predictionData = [[busStop objectForKey:@"direction"] objectForKey:@"prediction"];
+                        NSArray *predictionData = busStop[@"direction"][@"prediction"];
                         NSArray *predictions;
                         if (predictionData) {
                             if (![predictionData isKindOfClass:[NSArray class]])
                                 predictionData = [NSArray arrayWithObject:predictionData];
                             
-#warning why not just do else if condition?
-                            if ([predictionData count] >= 3)
-                                predictions = [predictionData subarrayWithRange:NSMakeRange(0, 3)];
-                            else if ([predictionData count] > 0)
-                                predictions = [predictionData subarrayWithRange:NSMakeRange(0, [predictionData count])];
+                            // Only show the first three predictions
+                            predictions = [predictionData subarrayWithRange:NSMakeRange(0, fmin(kMaxNumPredictions, [predictionData count]))];
                         }
                         
+                        NSString *stopTag = busStop[@"stopTag"];
                         for (int x = 0; x < [busStopAnnotations count]; x++) {
-                            BusStopAnnotation *busStopAnnotation = [busStopAnnotations objectAtIndex:x];
-                            if ([busStopAnnotation.stopTag isEqualToString:[busStop objectForKey:@"stopTag"]]) {
-                                if (predictions) {
-                                    NSMutableString *subtitle = [NSMutableString stringWithFormat:@"Next: "];
+                            BusStopAnnotation *busStopAnnotation = busStopAnnotations[x];
+                            if ([busStopAnnotation.stopTag isEqualToString:stopTag]) {
+                                if ([predictions count]) {
+                                    NSMutableString *subtitle = [NSMutableString stringWithString:@"Next: "];
                                     for (int x = 0; x < [predictions count]; x++) {
-                                        NSDictionary *prediction = [predictions objectAtIndex:x];
-                                        [subtitle appendFormat:(x == [predictions count]-1) ? @"%@" : @"%@, ", [prediction objectForKey:@"minutes"]];
+                                        NSDictionary *prediction = predictions[x];
+                                        // Don't add comma if it's the last element
+                                        [subtitle appendFormat:(x == [predictions count] - 1) ? @"%@" : @"%@, ", prediction[@"minutes"]];
                                     }
-                                    busStopAnnotation.subtitle = ([predictions count] > 0) ? subtitle : @"No Predictions";
+                                    busStopAnnotation.subtitle = subtitle;
                                 }
                                 else
                                     busStopAnnotation.subtitle = @"No Predictions";
@@ -342,7 +342,7 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self.mapView removeOverlays:self.mapView.overlays];
     
-    selectedRoute = [routes objectAtIndex:self.busRouteControlView.busRouteControl.selectedSegmentIndex];
+    selectedRoute = routes[self.busRouteControlView.busRouteControl.selectedSegmentIndex];
     [UIView animateWithDuration:.4 animations:^{
         if (IS_IPAD && UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]))
             [self.mapView setRegion:selectedRoute.region];
@@ -353,11 +353,11 @@
     [self updateVehicleLocations];
     
     for (NSDictionary *path in selectedRoute.paths) {
-        NSArray *points = [path objectForKey:@"point"];
+        NSArray *points = path[@"point"];
         CLLocationCoordinate2D coordinates[[points count]];
         for (int y = 0; y < [points count]; y++) {
-            NSDictionary *point = [points objectAtIndex:y];
-            coordinates[y] = CLLocationCoordinate2DMake([[point objectForKey:@"lat"] floatValue],[[point objectForKey:@"lon"] floatValue]);
+            NSDictionary *point = points[y];
+            coordinates[y] = CLLocationCoordinate2DMake([point[@"lat"] floatValue],[point[@"lon"] floatValue]);
         }
         BusRouteLine *polygon = [BusRouteLine polylineWithCoordinates:coordinates count:[points count]];
         polygon.color = selectedRoute.color;
@@ -366,12 +366,12 @@
     
     for (NSDictionary *stop in selectedRoute.stops) {
         BusStopAnnotation *stopPin = [[BusStopAnnotation alloc] init];
-        stopPin.title = [stop objectForKey:@"title"];
+        stopPin.title = stop[@"title"];
         stopPin.subtitle = @"No Predictions";
         stopPin.tag = selectedRoute.tag;
-        stopPin.stopTag = [stop objectForKey:@"tag"];
+        stopPin.stopTag = stop[@"tag"];
         stopPin.color = selectedRoute.color;
-        [stopPin setCoordinate:CLLocationCoordinate2DMake([[stop objectForKey:@"lat"] doubleValue], [[stop objectForKey:@"lon"] doubleValue])];
+        [stopPin setCoordinate:CLLocationCoordinate2DMake([stop[@"lat"] doubleValue], [stop[@"lon"] doubleValue])];
         [self.mapView addAnnotation:stopPin];
     }
 }

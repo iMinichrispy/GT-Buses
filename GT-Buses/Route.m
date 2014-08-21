@@ -48,12 +48,12 @@
 + (MKCoordinateRegion)regionForTag:(NSString *)tag latMax:(float)latMax latMin:(float)latMin lonMax:(float)lonMax lonMin:(float)lonMin {
     MKCoordinateRegion region;
     
-    NSDictionary *regionDic = [REGION_SETUP objectForKey:tag];
+    NSDictionary *regionDic = REGION_SETUP[@"tag"];
     if (regionDic) {
-        region.center.latitude = [[regionDic objectForKey:@"centerLat"] floatValue];
-        region.center.longitude = [[regionDic objectForKey:@"centerLon"] floatValue];
-        region.span.latitudeDelta = [[regionDic objectForKey:@"spanLat"] floatValue];
-        region.span.longitudeDelta = [[regionDic objectForKey:@"spanLon"] floatValue];
+        region.center.latitude = [regionDic[@"centerLat"] floatValue];
+        region.center.longitude = [regionDic[@"centerLon"] floatValue];
+        region.span.latitudeDelta = [regionDic[@"spanLat"] floatValue];
+        region.span.longitudeDelta = [regionDic[@"spanLon"] floatValue];
         return region;
     }
     
