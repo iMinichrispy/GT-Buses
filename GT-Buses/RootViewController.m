@@ -25,6 +25,7 @@
 #import "BusRouteControlView.h"
 
 int const kMaxNumPredictions = 3;
+float const kSetRegionAnimationSpeed = .4;
 
 @interface RootViewController () <RequestHandlerDelegate, CLLocationManagerDelegate> {
     NSTimer *refreshTimer;
@@ -36,6 +37,7 @@ int const kMaxNumPredictions = 3;
     long long lastPredictionUpdate;
 }
 
+@property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) BusRouteControlView *busRouteControlView;
 @property (nonatomic, strong) MapHandler *mapHandler;
 @property (nonatomic, strong) CLLocationManager *manager;
@@ -52,8 +54,7 @@ int const kMaxNumPredictions = 3;
     
     self.navigationController.navigationBar.topItem.title = @"GT Buses";
     self.navigationController.navigationBar.translucent = NO;
-    if ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")))
-        self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     
     UIColor *color = [UIColor appTintColor];
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
@@ -82,20 +83,41 @@ int const kMaxNumPredictions = 3;
 //    listButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : [Colors appTintColor];
 //    self.navigationItem.rightBarButtonItem = listButton;
     
-    self.busRouteControlView = [[BusRouteControlView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
-    [self.busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
+    _busRouteControlView = [[BusRouteControlView alloc] init];
+    [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
     
-    float mapHeight = SCREEN_HEIGHT - (20 + 44);
-    self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, self.busRouteControlView.frame.origin.y, SCREEN_WIDTH, mapHeight)];
-    if ([self.mapView respondsToSelector:@selector(setRotateEnabled:)]) {
-        self.mapView.rotateEnabled = NO;
-    }
-    self.mapHandler = [[MapHandler alloc] init];
-    self.mapView.delegate = self.mapHandler;
-    self.mapView.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(33.775978, -84.399269), MKCoordinateSpanMake(0.025059, 0.023190));
-    self.mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self.view addSubview:self.mapView];
-    [self.view addSubview:self.busRouteControlView];
+    _mapView = [[MKMapView alloc] init];
+    _mapView.translatesAutoresizingMaskIntoConstraints = NO;
+    if ([_mapView respondsToSelector:@selector(setRotateEnabled:)]) _mapView.rotateEnabled = NO;
+    
+    _mapView.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(33.775978, -84.399269), MKCoordinateSpanMake(0.025059, 0.023190));
+    [self.view addSubview:_mapView];
+    [self.view addSubview:_busRouteControlView];
+    
+    _mapHandler = [[MapHandler alloc] init];
+    _mapView.delegate = _mapHandler;
+    
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObjectsFromArray:[NSLayoutConstraint
+                                      constraintsWithVisualFormat:@"H:|[_mapView]|"
+                                      options:0
+                                      metrics:nil
+                                      views:NSDictionaryOfVariableBindings(_mapView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint
+                                      constraintsWithVisualFormat:@"H:|[_busRouteControlView]|"
+                                      options:0
+                                      metrics:nil
+                                      views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint
+                                      constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][_mapView]|"
+                                      options:0
+                                      metrics:@{@"controlViewHeight":@40}
+                                      views:NSDictionaryOfVariableBindings(_busRouteControlView, _mapView)]];
+    [self.view addConstraints:constraints];
+    
+    
+    
     
     routes = [NSMutableArray new];
     
@@ -103,8 +125,7 @@ int const kMaxNumPredictions = 3;
     self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuStateEventOccurred:) name:MFSideMenuStateNotificationEvent object:nil];
     
-    if (!(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")))
-        [self updateVehicleLocations];
+    [self updateVehicleLocations];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -182,18 +203,12 @@ int const kMaxNumPredictions = 3;
                 }
                 
                 NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeySelectedRoute];
-                if (self.busRouteControlView.busRouteControl.numberOfSegments > 0)
+                if (self.busRouteControlView.busRouteControl.numberOfSegments)
                     self.busRouteControlView.busRouteControl.selectedSegmentIndex = (index < self.busRouteControlView.busRouteControl.numberOfSegments) ? index : 0;
-                
-                if (!IS_IPAD)
-                    self.busRouteControlView.busRouteControl.frame = CGRectMake(5, 5, SCREEN_WIDTH - ((SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? 9 : 10), 30);
-                else if (UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
-                    self.busRouteControlView.busRouteControl.frame = CGRectMake(15, 5, SCREEN_HEIGHT - 30, 30);
                 
                 [self didChangeBusRoute];
             }
-        }
-        else if ([handler.task isEqualToString:@"vehicleLocations"]) {
+        } else if ([handler.task isEqualToString:@"vehicleLocations"]) {
             long long newLocationUpdate = [dictionary[@"body"][@"lastTime"][@"time"] longLongValue];
             
             if (newLocationUpdate != lastLocationUpdate) {
@@ -240,8 +255,7 @@ int const kMaxNumPredictions = 3;
                 }
             }
             lastLocationUpdate = newLocationUpdate;
-        }
-        else if ([handler.task isEqualToString:@"vehiclePredictions"]) {
+        } else if ([handler.task isEqualToString:@"vehiclePredictions"]) {
             long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
             if (newPredictionUpdate != lastPredictionUpdate) {
                 NSArray *predictions = dictionary[@"body"][@"predictions"];
@@ -288,8 +302,7 @@ int const kMaxNumPredictions = 3;
             }
             lastPredictionUpdate = newPredictionUpdate;
         }
-    }
-    else
+    } else
         [self handleError:handler code:4923 message:@"Error Parsing Data"];
 }
 
@@ -343,11 +356,8 @@ int const kMaxNumPredictions = 3;
     [self.mapView removeOverlays:self.mapView.overlays];
     
     selectedRoute = routes[self.busRouteControlView.busRouteControl.selectedSegmentIndex];
-    [UIView animateWithDuration:.4 animations:^{
-        if (IS_IPAD && UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]))
-            [self.mapView setRegion:selectedRoute.region];
-        else
-            [self.mapView setRegion:[self.mapView regionThatFits:selectedRoute.region]];
+    [UIView animateWithDuration:kSetRegionAnimationSpeed animations:^{
+        [self.mapView setRegion:[self.mapView regionThatFits:selectedRoute.region]];
     }];
     
     [self updateVehicleLocations];
@@ -381,11 +391,8 @@ int const kMaxNumPredictions = 3;
 }
 
 - (void)fixRegion {
-    [UIView animateWithDuration:.4 animations:^{
-        if (UIDeviceOrientationIsLandscape([[UIDevice currentDevice] orientation]))
-            [self.mapView setRegion:selectedRoute.region];
-        else
-            [self.mapView setRegion:[self.mapView regionThatFits:selectedRoute.region]];
+    [UIView animateWithDuration:kSetRegionAnimationSpeed animations:^{
+        [self.mapView setRegion:[self.mapView regionThatFits:selectedRoute.region]];
     }];
 }
 

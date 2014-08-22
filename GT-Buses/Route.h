@@ -8,8 +8,6 @@
 
 @import MapKit;
 
-#import "GBColors.h"
-
 @class Route;
 @interface NSDictionary (Route)
 
@@ -26,8 +24,6 @@
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, strong) NSArray *paths;
 @property (nonatomic, strong) NSArray *stops;
-@property (nonatomic, readwrite) MKCoordinateRegion region;
-
-+ (MKCoordinateRegion)regionForTag:(NSString *)tag latMax:(float)latMax latMin:(float)latMin lonMax:(float)lonMax lonMin:(float)lonMin;
+@property (nonatomic) MKCoordinateRegion region;
 
 @end

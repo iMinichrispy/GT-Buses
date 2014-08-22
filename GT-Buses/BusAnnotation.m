@@ -15,10 +15,8 @@
 @implementation BusAnnotation
 
 - (BOOL)isEqual:(id)other {
-    if (other == self)
-        return YES;
-    if (!other || ![other isKindOfClass:[self class]])
-        return NO;
+    if (other == self) return YES;
+    if (!other || ![other isKindOfClass:[self class]]) return NO;
     return [self.busIdentifier isEqualToString:((BusAnnotation *)other).busIdentifier];
 }
 

@@ -26,6 +26,7 @@
         [self presentViewController:picker animated:YES completion:^{
             if (IS_IPAD)
                 [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+#warning isnt lightcontent invalid on ios 6?
         }];
     } else {
         NSString *recipients = [NSString stringWithFormat:@"mailto:%@", [GBSupportEmail recipients]];

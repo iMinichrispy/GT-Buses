@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A9E9F8B7-A0C2-4C85-953A-92BFDD02E479</string>
+	<key>IDESourceControlProjectName</key>
+	<string>GT-Buses</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8E2C5416-4645-4890-941C-DB979CAAA49B</key>
+		<string>ssh://gitlab.com/iMinichrispy/gt-buses.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>GT-Buses.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8E2C5416-4645-4890-941C-DB979CAAA49B</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://gitlab.com/iMinichrispy/gt-buses.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8E2C5416-4645-4890-941C-DB979CAAA49B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8E2C5416-4645-4890-941C-DB979CAAA49B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>GT-Buses</string>
+		</dict>
+	</array>
+</dict>
+</plist>

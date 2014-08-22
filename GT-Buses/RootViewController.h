@@ -6,9 +6,6 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-@class MKMapView;
 @interface RootViewController : UIViewController
-
-@property (nonatomic, strong) IBOutlet MKMapView *mapView;
 
 @end

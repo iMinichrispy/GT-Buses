@@ -11,9 +11,9 @@
 @interface BusAnnotation : MKPointAnnotation
 
 @property (nonatomic, strong) NSString *busIdentifier;
-@property (nonatomic, readwrite) NSInteger heading;
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, strong) UIImageView *arrowImageView;
+@property (nonatomic) NSInteger heading;
 
 - (void)updateHeading;
 
