@@ -8,7 +8,7 @@
 
 #import "GBConstants.h"
 
-NSString *const GBFontDefault = @"Avenir-Medium";
+NSString * const GBFontDefault = @"Avenir-Medium";
 
-NSString *const GBUserDefaultsFilePath = @"GBDefaultPreferences";
-NSString *const GBUserDefaultsKeySelectedRoute = @"GBUserDefaultsKeySelectedRoute";
+NSString * const GBUserDefaultsFilePath = @"GBDefaultPreferences";
+NSString * const GBUserDefaultsKeySelectedRoute = @"GBUserDefaultsKeySelectedRoute";

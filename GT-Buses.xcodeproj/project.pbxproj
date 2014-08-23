@@ -31,6 +31,7 @@
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
 		FAA1235318A57E040049A5FA /* GBSupportEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1235218A57E040049A5FA /* GBSupportEmail.m */; };
 		FAA1431618A4A41300213E1C /* Dot.png in Resources */ = {isa = PBXBuildFile; fileRef = FAA1431518A4A41300213E1C /* Dot.png */; };
+		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
 		FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
 		FADE7D0D196750E600F318D5 /* GBDefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = FADE7D0C196750E600F318D5 /* GBDefaultPreferences.plist */; };
@@ -110,6 +111,8 @@
 		FAA1235118A57E040049A5FA /* GBSupportEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSupportEmail.h; sourceTree = "<group>"; };
 		FAA1235218A57E040049A5FA /* GBSupportEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSupportEmail.m; sourceTree = "<group>"; };
 		FAA1431518A4A41300213E1C /* Dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dot.png; sourceTree = "<group>"; };
+		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
+		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
 		FAB682D0199D436600C0BF89 /* UIViewController+GBMailComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+GBMailComposer.h"; sourceTree = "<group>"; };
 		FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GBMailComposer.m"; sourceTree = "<group>"; };
 		FADE7D091967504600F318D5 /* GBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConstants.h; sourceTree = "<group>"; };
@@ -170,6 +173,8 @@
 				FA1FE93918A1D8A300757643 /* GBAppDelegate.m */,
 				FA1FE93E18A1D8A300757643 /* GBRootViewController.h */,
 				FA1FE93F18A1D8A300757643 /* GBRootViewController.m */,
+				FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */,
+				FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */,
 				FADE7D0E1967555800F318D5 /* GBBusRouteControlView.h */,
 				FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */,
 				FADE7D141967605B00F318D5 /* GBRequestHandler.h */,
@@ -426,6 +431,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA1FE94018A1D8A300757643 /* GBRootViewController.m in Sources */,
+				FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */,
 				FAA1234518A523170049A5FA /* GBAboutController.m in Sources */,
 				FAA1235318A57E040049A5FA /* GBSupportEmail.m in Sources */,
 				FA1FE97518A1D9B000757643 /* GBBusAnnotation.m in Sources */,

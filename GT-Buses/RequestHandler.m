@@ -12,23 +12,18 @@
 
 @implementation RequestHandler
 
-- (instancetype)initWithDelegate:(id<RequestHandlerDelegate>)delegate task:(NSString *)task {
+- (instancetype)initWithTask:(NSString *)task delegate:(id<RequestHandlerDelegate>)delegate {
     self = [super init];
     if (self) {
-        self.delegate = delegate;
         self.task = task;
+        self.delegate = delegate;
     }
     return self;
-}
-
-- (NSString *)referrer {
-    return nil;
 }
 
 - (void)getRequestWithURL:(NSString *)url {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
-    [request setValue:[self referrer] forHTTPHeaderField:@"Referer"];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     [request setValue:[RequestHandler userAgent] forHTTPHeaderField:@"User-Agent"];
     [self requestWithRequest:request];
@@ -45,16 +40,13 @@
     [self requestWithRequest:request];
 }
 
-#warning network activity indicator doesnt work with extensions. disabled temprarily here
-
 - (void)requestWithRequest:(NSURLRequest *)request {
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
     if (internetStatus != NotReachable) {
-//        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-        [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-         {
+        [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
              if ([data length] > 0 && error == nil) {
                  if ([((NSHTTPURLResponse *)response) statusCode] == 400)
                      [self mainThreadCode:400 message:@"Request could not be understood by server."];
@@ -101,14 +93,14 @@
 }
 
 - (void)receivedData:(NSData *)data {
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     if ([self.delegate respondsToSelector:@selector(handleResponse:data:)]) {
         [self.delegate handleResponse:self data:data];
     }
 }
 
 - (void)checkDelegateHandleError:(int)code message:(NSString *)message {
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     if ([self.delegate respondsToSelector:@selector(handleError:code:message:)])
         [self.delegate handleError:self code:code message:message];
     else
@@ -121,9 +113,9 @@
     else if (code == 404)
         [self alertWithTitle:@"Resource Error" message:[NSString stringWithFormat:@"Error Loading Resource: %@", message] code:code];
     else if (code == 500)
-        [self alertWithTitle:@"Server Error" message:[NSString stringWithFormat:@"Error Processing Request: %@",message] code:code];
+        [self alertWithTitle:@"Server Error" message:[NSString stringWithFormat:@"Error Processing Request: %@", message] code:code];
     else if (code == 503)
-        [self alertWithTitle:@"Timeout Error" message:[NSString stringWithFormat:@"Error Loading Resource: %@",message] code:code];
+        [self alertWithTitle:@"Timeout Error" message:[NSString stringWithFormat:@"Error Loading Resource: %@", message] code:code];
     else if (code == 1008)
         [self alertWithTitle:@"Connection Error" message:@"Error connecting to server. Please make sure you are connected to the Internet." code:1008];
     else
@@ -131,9 +123,8 @@
 }
 
 - (void)alertWithTitle:(NSString *)title message:(NSString *)message code:(NSInteger)code {
-    NSLog(@"ALERT!!");
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[NSString stringWithFormat:@"%@ (-%i)",message, code] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-//    [alert show];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[NSString stringWithFormat:@"%@ (-%i)", message, code] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    [alert show];
 }
 
 + (NSString *)userAgent {

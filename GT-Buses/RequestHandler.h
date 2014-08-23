@@ -21,10 +21,10 @@
 
 @interface RequestHandler : NSObject <NSURLConnectionDelegate>
 
-@property (nonatomic, weak) id <RequestHandlerDelegate> delegate;
 @property (nonatomic, strong) NSString *task;
+@property (nonatomic, weak) id <RequestHandlerDelegate> delegate;
 
-- (instancetype)initWithDelegate:(id<RequestHandlerDelegate>)requestDelegate task:(NSString *)newTask;
+- (instancetype)initWithTask:(NSString *)task delegate:(id<RequestHandlerDelegate>)delegate;
 - (void)getRequestWithURL:(NSString *)url;
 - (void)postRequestWithURL:(NSString *)url postData:(NSData *)postData;
 - (void)handleErrorCode:(NSInteger)code message:(NSString *)message;

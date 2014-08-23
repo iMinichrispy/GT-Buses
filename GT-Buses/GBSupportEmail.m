@@ -21,8 +21,7 @@
 }
 
 + (NSString *)body {
-    NSMutableString *body = [NSMutableString stringWithString:@"\n\n\n"];
-    [body appendString:FORMAT(@"%@\n", [self deviceInfo])];
+    NSString *body = FORMAT(@"\n\n\n%@\n", [self deviceInfo]);
     return [body copy];
 }
 
@@ -30,9 +29,9 @@
     NSMutableString *deviceInfo = [NSMutableString stringWithString:@"<------- [Info] ------->\n"];
     [deviceInfo appendString:@"Report Type: Support\n"];
     [deviceInfo appendString:@"Product: GT Buses\n"];
-    NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
-    [deviceInfo appendString:FORMAT(@"Version: %@\n", infoDict[@"CFBundleShortVersionString"])];
-    [deviceInfo appendString:FORMAT(@"Build: %@\n", infoDict[@"CFBundleVersion"])];
+    NSDictionary* info = [[NSBundle mainBundle] infoDictionary];
+    [deviceInfo appendString:FORMAT(@"Version: %@\n", info[@"CFBundleShortVersionString"])];
+    [deviceInfo appendString:FORMAT(@"Build: %@\n", info[@"CFBundleVersion"])];
     [deviceInfo appendString:FORMAT(@"Model: %@\n", [[UIDevice currentDevice] model])];
     [deviceInfo appendString:FORMAT(@"Model Identifier: %@\n", machineName())];
     [deviceInfo appendString:FORMAT(@"System: %@ %@\n", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion])];

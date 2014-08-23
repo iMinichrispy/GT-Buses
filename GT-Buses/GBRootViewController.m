@@ -24,8 +24,19 @@
 #import "GBUserInterface.h"
 #import "GBBusRouteControlView.h"
 
-NSString * const GBRootViewControllerTitle = @"GT Buses";
-int const kMaxNumPredictions = 3;
+#define APPSTORE_MAP false
+
+#if APPSTORE_MAP
+#import "MKMapView+AppStoreMap.h"
+#endif
+
+#define DEFAULT_REGION MKCoordinateRegionMake(CLLocationCoordinate2DMake(33.775978, -84.399269), MKCoordinateSpanMake(0.025059, 0.023190))
+
+static NSString * const GBRootViewControllerTitle = @"GT Buses";
+static NSString * const GBRouteConfigTask = @"routeConfig";
+static NSString * const GBVehicleLocationsTask = @"vehicleLocations";
+static NSString * const GBVehiclePredictionsTask = @"vehiclePredictions";
+
 float const kSetRegionAnimationSpeed = 0.4f;
 
 @interface GBRootViewController () <RequestHandlerDelegate, CLLocationManagerDelegate> {
@@ -72,16 +83,6 @@ float const kSetRegionAnimationSpeed = 0.4f;
     aboutButton.tintColor = tintColor;
     self.navigationItem.leftBarButtonItem = aboutButton;
     
-//    UIImage *faceImage = [UIImage imageNamed:@"List.png"];
-//    UIButton *face = [UIButton buttonWithType:UIButtonTypeCustom];
-//    face.bounds = CGRectMake(0, 0, faceImage.size.width/2, faceImage.size.height/2);
-//    [face setImage:faceImage forState:UIControlStateNormal];
-    
-//    UIBarButtonItem *listButton = [[UIBarButtonItem alloc] initWithCustomView:face];
-//    UIBarButtonItem *listButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"List.png"] style:UIBarButtonItemStylePlain target:self action:nil];
-//    listButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : [Colors appTintColor];
-//    self.navigationItem.rightBarButtonItem = listButton;
-    
     _busRouteControlView = [[GBBusRouteControlView alloc] init];
     [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
     
@@ -89,7 +90,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
     _mapView.translatesAutoresizingMaskIntoConstraints = NO;
     if ([_mapView respondsToSelector:@selector(setRotateEnabled:)]) _mapView.rotateEnabled = NO;
     
-    _mapView.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(33.775978, -84.399269), MKCoordinateSpanMake(0.025059, 0.023190));
+    _mapView.region = DEFAULT_REGION;
     [self.view addSubview:_mapView];
     [self.view addSubview:_busRouteControlView];
     
@@ -120,8 +121,6 @@ float const kSetRegionAnimationSpeed = 0.4f;
     self.menuContainerViewController.menuWidth = (IS_IPAD) ? 200 : 150;
     self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuStateEventOccurred:) name:MFSideMenuStateNotificationEvent object:nil];
-    
-    [self updateVehicleLocations];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -149,6 +148,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
     [_mapView setShowsUserLocation:YES];
     
     [self updateVehicleLocations];
+    
     if (!refreshTimer.isValid)
         refreshTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(updateVehicleLocations) userInfo:nil repeats:YES];
 }
@@ -173,7 +173,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
         _busRouteControlView.errorLabel.hidden = YES;
         _busRouteControlView.busRouteControl.hidden = NO;
         
-        if ([handler.task isEqualToString:@"routeConfig"]) {
+        if (handler.task == GBRouteConfigTask) {
             if (_busRouteControlView.busRouteControl.numberOfSegments == 0) {
                 NSArray *newRoutes = dictionary[@"body"][@"route"];
                 
@@ -190,7 +190,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
                 
                 [self didChangeBusRoute];
             }
-        } else if ([handler.task isEqualToString:@"vehicleLocations"]) {
+        } else if (handler.task == GBVehicleLocationsTask) {
             long long newLocationUpdate = [dictionary[@"body"][@"lastTime"][@"time"] longLongValue];
             
             if (newLocationUpdate != lastLocationUpdate) {
@@ -238,8 +238,9 @@ float const kSetRegionAnimationSpeed = 0.4f;
                         [_mapView removeAnnotation:annotation];
                 }
             }
+            
             lastLocationUpdate = newLocationUpdate;
-        } else if ([handler.task isEqualToString:@"vehiclePredictions"]) {
+        } else if (handler.task == GBVehiclePredictionsTask) {
             long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
             if (newPredictionUpdate != lastPredictionUpdate) {
                 NSArray *predictions = dictionary[@"body"][@"predictions"];
@@ -259,7 +260,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
                                 predictionData = [NSArray arrayWithObject:predictionData];
                             
                             // Only show the first three predictions
-                            predictions = [predictionData subarrayWithRange:NSMakeRange(0, fmin(kMaxNumPredictions, [predictionData count]))];
+                            predictions = [predictionData subarrayWithRange:NSMakeRange(0, fmin(3, [predictionData count]))];
                         }
                         
                         NSString *stopTag = busStop[@"stopTag"];
@@ -275,8 +276,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
                                     }
                                     busStopAnnotation.subtitle = subtitle;
                                 }
-                                else
-                                    busStopAnnotation.subtitle = @"No Predictions";
+                                else busStopAnnotation.subtitle = @"No Predictions";
                                 
                                 [busStopAnnotations removeObject:busStopAnnotation];
                                 break;
@@ -287,7 +287,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
             }
             lastPredictionUpdate = newPredictionUpdate;
         }
-    } else [self handleError:handler code:4923 message:@"Error Parsing Data"];
+    } else [self handleError:handler code:2923 message:@"Parsing Error"];
 }
 
 - (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message {
@@ -323,14 +323,21 @@ float const kSetRegionAnimationSpeed = 0.4f;
 - (void)updateVehicleLocations {
     GBRoute *selectedRoute = [self selectedRoute];
     if (selectedRoute) {
-        GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithDelegate:self task:@"vehicleLocations"];
+#if APPSTORE_MAP
+        [_mapView showBusesWithRoute:selectedRoute];
+        
+        if (refreshTimer) [refreshTimer invalidate];
+#else
+        GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithTask:GBVehicleLocationsTask delegate:self];
         [locationHandler positionForBus:selectedRoute.tag];
         
-        GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithDelegate:self task:@"vehiclePredictions"];
+        GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBVehiclePredictionsTask delegate:self];
         [predictionHandler predictionsForBus:selectedRoute.tag];
+#endif
+        
     }
     else {
-        GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithDelegate:self task:@"routeConfig"];
+        GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRouteConfigTask delegate:self];
         [_busRouteControlView.activityIndicator startAnimating];
         _busRouteControlView.errorLabel.hidden = YES;
         [requestHandler routeConfig];
@@ -368,7 +375,11 @@ float const kSetRegionAnimationSpeed = 0.4f;
     for (NSDictionary *stop in selectedRoute.stops) {
         GBBusStopAnnotation *stopPin = [[GBBusStopAnnotation alloc] init];
         stopPin.title = stop[@"title"];
+#if APPSTORE_MAP
+        stopPin.subtitle = [MKMapView predictionsStringForRoute:selectedRoute];
+#else
         stopPin.subtitle = @"No Predictions";
+#endif
         stopPin.tag = selectedRoute.tag;
         stopPin.stopTag = stop[@"tag"];
         stopPin.color = selectedRoute.color;
