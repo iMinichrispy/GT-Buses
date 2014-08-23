@@ -10,7 +10,7 @@
 
 #import "GBConstants.h"
 
-//#define BLUE_COLOR  [UIColor colorWithRed:(230/255.0) green:(207/255.0) blue:(98/255.0) alpha:1.0]
+//#define YELLOW_COLOR  [UIColor colorWithRed:(230/255.0) green:(207/255.0) blue:(98/255.0) alpha:1.0]
 
 @implementation UIColor (GBColors)
 

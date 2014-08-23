@@ -41,11 +41,9 @@
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    if ([annotation isKindOfClass:[MKUserLocation class]])
-        return nil;
-    else if ([annotation isKindOfClass:[GBBusAnnotation class]]) {
+    if ([annotation isKindOfClass:[GBBusAnnotation class]]) {
         GBBusAnnotation *busAnnotation = (GBBusAnnotation *)annotation;
-        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:Nil];
+        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
         UIImage *arrowImage = [UIImage imageNamed:@"Arrow.png"];
         UIImage *colorArrowImage = [arrowImage imageWithColor:busAnnotation.color];
         busAnnotation.arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 35, 32)];
@@ -58,7 +56,7 @@
     }
     else if ([annotation isKindOfClass:[GBBusStopAnnotation class]]) {
         float size = (IS_IPAD) ? 17.0f : 10.0f;
-        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:Nil];
+        MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
         annotationView.frame = CGRectMake(0, 0, size, size);
         annotationView.canShowCallout = YES;
         

@@ -16,10 +16,6 @@
 #define SIDE_WIDTH          150
 #define SIDE_WIDTH_IPAD     200
 
-@interface GBAboutController ()
-
-@end
-
 @implementation GBAboutController
 
 - (void)viewDidLoad {
@@ -27,11 +23,10 @@
     
     if (IS_IPAD) {
         self.view.frame = CGRectMake(0, 0, 200, [self frameHeight]);
-        [self.view setClipsToBounds:YES];
+        self.view.clipsToBounds = YES;
     }
     
     UIColor *color = [UIColor appTintColor];
-    
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
         self.navigationController.navigationBar.barTintColor = color;
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -41,20 +36,21 @@
     
     self.view.backgroundColor = [color darkerColor:0.05];
     
-    NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
-    NSString *version = [NSString stringWithFormat:@"%@ (%@)", infoDict[@"CFBundleShortVersionString"], infoDict[@"CFBundleVersion"]];
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = [NSString stringWithFormat:@"%@ (%@)", info[@"CFBundleShortVersionString"], info[@"CFBundleVersion"]];
     
     [self newItemWithTitle:@"Version" value:version atY:36];
     [self newItemWithTitle:@"Developer" value:@"Alex Perez" atY:115];
     [self newItemWithTitle:@"Design" value:@"Felipe Salazar" atY:194];
     
+    float width = (IS_IPAD) ? SIDE_WIDTH_IPAD : SIDE_WIDTH;
     float yValue = [self frameHeight] - 50 + [self origin];
-    GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, (IS_IPAD) ? SIDE_WIDTH_IPAD : SIDE_WIDTH, 40)];
+    GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, 40)];
     [supportButton setTitle:@"Support" forState:UIControlStateNormal];
     [supportButton addTarget:self action:@selector(showMailPicker) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:supportButton];
     
-    GBButton *appReviewButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - 50, (IS_IPAD) ? SIDE_WIDTH_IPAD : SIDE_WIDTH, 40)];
+    GBButton *appReviewButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - 50, width, 40)];
     [appReviewButton setTitle:@"Review App" forState:UIControlStateNormal];
     [appReviewButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:appReviewButton];

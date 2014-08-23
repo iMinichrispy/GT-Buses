@@ -12,21 +12,21 @@
 
 #import "GBAboutController.h"
 #import "GBRequestHandler.h"
-#import "XMLReader.h"
 #import "GBRoute.h"
 #import "GBBusAnnotation.h"
 #import "GBBusStopAnnotation.h"
 #import "GBBusRouteLine.h"
 #import "GBColors.h"
 #import "GBMapHandler.h"
-#import "MFSideMenu.h"
 #import "GBConstants.h"
 #import "GBUserInterface.h"
 #import "GBBusRouteControlView.h"
+#import "XMLReader.h"
+#import "MFSideMenu.h"
 
-#define APPSTORE_MAP false
+#define APP_STORE_MAP false
 
-#if APPSTORE_MAP
+#if APP_STORE_MAP
 #import "MKMapView+AppStoreMap.h"
 #endif
 
@@ -168,7 +168,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
     
-    if (!error) {
+    if (!error && dictionary) {
         self.navigationItem.rightBarButtonItem = nil;
         _busRouteControlView.errorLabel.hidden = YES;
         _busRouteControlView.busRouteControl.hidden = NO;
@@ -323,9 +323,8 @@ float const kSetRegionAnimationSpeed = 0.4f;
 - (void)updateVehicleLocations {
     GBRoute *selectedRoute = [self selectedRoute];
     if (selectedRoute) {
-#if APPSTORE_MAP
+#if APP_STORE_MAP
         [_mapView showBusesWithRoute:selectedRoute];
-        
         if (refreshTimer) [refreshTimer invalidate];
 #else
         GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithTask:GBVehicleLocationsTask delegate:self];
@@ -375,7 +374,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
     for (NSDictionary *stop in selectedRoute.stops) {
         GBBusStopAnnotation *stopPin = [[GBBusStopAnnotation alloc] init];
         stopPin.title = stop[@"title"];
-#if APPSTORE_MAP
+#if APP_STORE_MAP
         stopPin.subtitle = [MKMapView predictionsStringForRoute:selectedRoute];
 #else
         stopPin.subtitle = @"No Predictions";

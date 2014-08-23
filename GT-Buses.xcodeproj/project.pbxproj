@@ -173,8 +173,6 @@
 				FA1FE93918A1D8A300757643 /* GBAppDelegate.m */,
 				FA1FE93E18A1D8A300757643 /* GBRootViewController.h */,
 				FA1FE93F18A1D8A300757643 /* GBRootViewController.m */,
-				FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */,
-				FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */,
 				FADE7D0E1967555800F318D5 /* GBBusRouteControlView.h */,
 				FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */,
 				FADE7D141967605B00F318D5 /* GBRequestHandler.h */,
@@ -244,6 +242,8 @@
 				FA1FE97418A1D9B000757643 /* GBBusStopAnnotation.m */,
 				FA1FE97118A1D9B000757643 /* GBBusRouteLine.h */,
 				FA1FE97218A1D9B000757643 /* GBBusRouteLine.m */,
+				FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */,
+				FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */,
 			);
 			name = Map;
 			sourceTree = "<group>";
