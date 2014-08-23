@@ -99,17 +99,3 @@
 }
 
 @end
-
-
-@implementation GBBusRouteControlView
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.alpha = .9;
-    }
-    return self;
-}
-
-@end

@@ -27,7 +27,3 @@
 @interface GBErrorLabel : UILabel
 
 @end
-
-@interface GBBusRouteControlView : UILabel
-
-@end

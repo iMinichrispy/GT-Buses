@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "BusRouteLine.h"
+#import "GBBusRouteLine.h"
 
-@implementation BusRouteLine
+@implementation GBBusRouteLine
 
 @end

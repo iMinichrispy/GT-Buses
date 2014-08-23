@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "BusStopAnnotation.h"
+#import "GBBusStopAnnotation.h"
 
-@implementation BusStopAnnotation
+@implementation GBBusStopAnnotation
 
 @end

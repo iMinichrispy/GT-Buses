@@ -1,5 +1,5 @@
 //
-//  MapHandler.h
+//  BusRouteLine.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 2/1/14.
@@ -8,6 +8,8 @@
 
 @import MapKit;
 
-@interface MapHandler : NSObject <MKMapViewDelegate>
+@interface GBBusRouteLine : MKPolyline
+
+@property (nonatomic, strong) UIColor *color;
 
 @end

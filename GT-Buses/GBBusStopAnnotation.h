@@ -8,7 +8,7 @@
 
 @import MapKit;
 
-@interface BusStopAnnotation : MKPointAnnotation
+@interface GBBusStopAnnotation : MKPointAnnotation
 
 @property (nonatomic, strong) NSString *tag;
 @property (nonatomic, strong) NSString *stopTag;

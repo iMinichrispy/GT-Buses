@@ -8,14 +8,14 @@
 
 @import MapKit;
 
-@class Route;
+@class GBRoute;
 @interface NSDictionary (Route)
 
-- (Route *)toRoute;
+- (GBRoute *)toRoute;
 
 @end
 
-@interface Route : NSObject
+@interface GBRoute : NSObject
 
 - (instancetype)initWithTitle:(NSString *)title tag:(NSString *)tag;
 

@@ -6,21 +6,21 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "AboutController.h"
+#import "GBAboutController.h"
 
 #import "GBUserInterface.h"
 #import "GBColors.h"
 #import "GBConstants.h"
-#import "UIViewController+MailComposer.h"
+#import "UIViewController+GBMailComposer.h"
 
 #define SIDE_WIDTH          150
 #define SIDE_WIDTH_IPAD     200
 
-@interface AboutController ()
+@interface GBAboutController ()
 
 @end
 
-@implementation AboutController
+@implementation GBAboutController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

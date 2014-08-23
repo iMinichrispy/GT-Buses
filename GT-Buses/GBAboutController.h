@@ -6,6 +6,6 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-@interface AboutController : UIViewController
+@interface GBAboutController : UIViewController
 
 @end

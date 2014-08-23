@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "UIViewController+MailComposer.h"
+#import "UIViewController+GBMailComposer.h"
 
 #import "GBConstants.h"
 #import "GBSupportEmail.h"
 #import "GBColors.h"
 
-@implementation UIViewController (MailComposer)
+@implementation UIViewController (GBMailComposer)
 
 - (void)showMailPicker {
     if ([MFMailComposeViewController canSendMail]) {

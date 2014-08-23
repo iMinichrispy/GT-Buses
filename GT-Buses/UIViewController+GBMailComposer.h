@@ -9,7 +9,7 @@
 @import Foundation;
 @import MessageUI;
 
-@interface UIViewController (MailComposer) <MFMailComposeViewControllerDelegate>
+@interface UIViewController (GBMailComposer) <MFMailComposeViewControllerDelegate>
 
 - (void)showMailPicker;
 

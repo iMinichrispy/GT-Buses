@@ -6,23 +6,23 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "GBAppDelegate.h"
 
-#import "RootViewController.h"
-#import "AboutController.h"
+#import "GBRootViewController.h"
+#import "GBAboutController.h"
 #import "MFSideMenu.h"
 #import "GBConstants.h"
 
-@implementation AppDelegate
+@implementation GBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.viewController = [[RootViewController alloc] init];
+    self.viewController = [[GBRootViewController alloc] init];
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
     
-    AboutController *aboutController = [[AboutController alloc] init];
+    GBAboutController *aboutController = [[GBAboutController alloc] init];
     
     MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:navController leftMenuViewController:aboutController rightMenuViewController:nil];
     self.window.rootViewController = container;

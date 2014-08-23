@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "BusRouteControlView.h"
+#import "GBBusRouteControlView.h"
 
 #import "GBUserInterface.h"
 #import "GBConstants.h"
 #import "GBColors.h"
 
-@implementation BusRouteControlView
+@implementation GBBusRouteControlView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -76,10 +76,6 @@
         [self addConstraints:constraints];
     }
     return self;
-}
-
-- (void)showErrorLabelWithMessage:(NSString *)message {
-    
 }
 
 @end

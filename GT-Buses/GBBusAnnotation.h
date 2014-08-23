@@ -8,7 +8,7 @@
 
 @import MapKit;
 
-@interface BusAnnotation : MKPointAnnotation
+@interface GBBusAnnotation : MKPointAnnotation
 
 @property (nonatomic, strong) NSString *busIdentifier;
 @property (nonatomic, strong) UIColor *color;

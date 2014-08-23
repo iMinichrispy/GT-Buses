@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "Route.h"
+#import "GBRoute.h"
 
 #import "GBColors.h"
 
 float const kMapRegionPadding = 0.0005f;
 
-@interface Route ()
+@interface GBRoute ()
 
 + (MKCoordinateRegion)regionForPaths:(NSArray *)paths;
 
@@ -20,13 +20,13 @@ float const kMapRegionPadding = 0.0005f;
 
 @implementation NSDictionary (Route)
 
-- (Route *)toRoute {
+- (GBRoute *)toRoute {
     NSString *lowercaseTitle = self[@"tag"];
     NSString *title = [NSString stringWithFormat:@"%@%@", [[lowercaseTitle substringToIndex:1] uppercaseString], [lowercaseTitle substringFromIndex:1]];
     
-    Route *route = [[Route alloc] initWithTitle:title tag:lowercaseTitle];
+    GBRoute *route = [[GBRoute alloc] initWithTitle:title tag:lowercaseTitle];
     route.paths = self[@"path"];
-    route.region = [Route regionForPaths:route.paths];
+    route.region = [GBRoute regionForPaths:route.paths];
     route.stops = self[@"stop"];
     route.color = [UIColor colorWithHexString:self[@"color"]];
     
@@ -35,7 +35,7 @@ float const kMapRegionPadding = 0.0005f;
 
 @end
 
-@implementation Route
+@implementation GBRoute
 
 - (instancetype)initWithTitle:(NSString *)title tag:(NSString *)tag {
     self = [super init];

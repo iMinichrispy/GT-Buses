@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-@class RootViewController;
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@class GBRootViewController;
+@interface GBAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (nonatomic, strong) RootViewController *viewController;
+@property (nonatomic, strong) GBRootViewController *viewController;
 
 @property (strong, nonatomic) UIWindow *window;
 

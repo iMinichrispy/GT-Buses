@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-@interface BusRouteControlView : UIView
+@interface GBBusRouteControlView : UIView
 
 @property (nonatomic, strong) UILabel *errorLabel;
 @property (nonatomic, strong) UISegmentedControl *busRouteControl;

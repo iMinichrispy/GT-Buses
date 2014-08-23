@@ -6,45 +6,44 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "RootViewController.h"
+#import "GBRootViewController.h"
 
 @import MapKit;
 
-#import "AboutController.h"
+#import "GBAboutController.h"
 #import "GBRequestHandler.h"
 #import "XMLReader.h"
-#import "Route.h"
-#import "BusAnnotation.h"
-#import "BusStopAnnotation.h"
-#import "BusRouteLine.h"
+#import "GBRoute.h"
+#import "GBBusAnnotation.h"
+#import "GBBusStopAnnotation.h"
+#import "GBBusRouteLine.h"
 #import "GBColors.h"
-#import "MapHandler.h"
+#import "GBMapHandler.h"
 #import "MFSideMenu.h"
 #import "GBConstants.h"
 #import "GBUserInterface.h"
-#import "BusRouteControlView.h"
+#import "GBBusRouteControlView.h"
 
+NSString * const GBRootViewControllerTitle = @"GT Buses";
 int const kMaxNumPredictions = 3;
-float const kSetRegionAnimationSpeed = .4;
+float const kSetRegionAnimationSpeed = 0.4f;
 
-@interface RootViewController () <RequestHandlerDelegate, CLLocationManagerDelegate> {
+@interface GBRootViewController () <RequestHandlerDelegate, CLLocationManagerDelegate> {
     NSTimer *refreshTimer;
-    NSArray *busPositionData;
-    NSMutableArray *routes;
-    Route *selectedRoute;
     
     long long lastLocationUpdate;
     long long lastPredictionUpdate;
 }
 
 @property (nonatomic, strong) MKMapView *mapView;
-@property (nonatomic, strong) BusRouteControlView *busRouteControlView;
-@property (nonatomic, strong) MapHandler *mapHandler;
+@property (nonatomic, strong) GBBusRouteControlView *busRouteControlView;
+@property (nonatomic, strong) GBMapHandler *mapHandler;
 @property (nonatomic, strong) CLLocationManager *manager;
+@property (nonatomic, strong) NSMutableArray *routes;
 
 @end
 
-@implementation RootViewController
+@implementation GBRootViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,7 +51,7 @@ float const kSetRegionAnimationSpeed = .4;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     
-    self.navigationController.navigationBar.topItem.title = @"GT Buses";
+    self.navigationController.navigationBar.topItem.title = GBRootViewControllerTitle;
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     
@@ -66,11 +65,11 @@ float const kSetRegionAnimationSpeed = .4;
     UIColor *tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : color;
     self.navigationItem.leftBarButtonItem.tintColor = tintColor;
     self.navigationItem.rightBarButtonItem.tintColor = tintColor;
-    self.busRouteControlView.busRouteControl.tintColor = tintColor;
-    self.busRouteControlView.backgroundColor = color;
+    _busRouteControlView.busRouteControl.tintColor = tintColor;
+    _busRouteControlView.backgroundColor = color;
     
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(aboutPressed)];
-    aboutButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : color;
+    aboutButton.tintColor = tintColor;
     self.navigationItem.leftBarButtonItem = aboutButton;
     
 //    UIImage *faceImage = [UIImage imageNamed:@"List.png"];
@@ -83,7 +82,7 @@ float const kSetRegionAnimationSpeed = .4;
 //    listButton.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : [Colors appTintColor];
 //    self.navigationItem.rightBarButtonItem = listButton;
     
-    _busRouteControlView = [[BusRouteControlView alloc] init];
+    _busRouteControlView = [[GBBusRouteControlView alloc] init];
     [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
     
     _mapView = [[MKMapView alloc] init];
@@ -94,7 +93,7 @@ float const kSetRegionAnimationSpeed = .4;
     [self.view addSubview:_mapView];
     [self.view addSubview:_busRouteControlView];
     
-    _mapHandler = [[MapHandler alloc] init];
+    _mapHandler = [[GBMapHandler alloc] init];
     _mapView.delegate = _mapHandler;
     
     
@@ -116,10 +115,7 @@ float const kSetRegionAnimationSpeed = .4;
                                       views:NSDictionaryOfVariableBindings(_busRouteControlView, _mapView)]];
     [self.view addConstraints:constraints];
     
-    
-    
-    
-    routes = [NSMutableArray new];
+    _routes = [NSMutableArray new];
     
     self.menuContainerViewController.menuWidth = (IS_IPAD) ? 200 : 150;
     self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
@@ -147,13 +143,13 @@ float const kSetRegionAnimationSpeed = .4;
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     NSLog(@"didChangeAuthorizationStatus: %d",status);
     if (status == kCLAuthorizationStatusAuthorized || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-        [self.mapView setShowsUserLocation:YES];
+        [_mapView setShowsUserLocation:YES];
     }
 }
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification {
     if (refreshTimer) [refreshTimer invalidate];
-    [self.mapView setShowsUserLocation:NO];
+    [_mapView setShowsUserLocation:NO];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
@@ -165,7 +161,7 @@ float const kSetRegionAnimationSpeed = .4;
         [self.manager requestWhenInUseAuthorization];
     }
     else {
-        [self.mapView setShowsUserLocation:YES];
+        [_mapView setShowsUserLocation:YES];
     }
     
     [self updateVehicleLocations];
@@ -180,31 +176,33 @@ float const kSetRegionAnimationSpeed = .4;
         [self.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:NULL];
 }
 
+#pragma mark Request Handler Delegate
+
 - (void)handleResponse:(RequestHandler *)handler data:(id)data {
-    [self.busRouteControlView.activityIndicator stopAnimating];
+    [_busRouteControlView.activityIndicator stopAnimating];
     
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
     
     if (!error) {
         self.navigationItem.rightBarButtonItem = nil;
-        self.busRouteControlView.errorLabel.hidden = YES;
-        self.busRouteControlView.busRouteControl.hidden = NO;
+        _busRouteControlView.errorLabel.hidden = YES;
+        _busRouteControlView.busRouteControl.hidden = NO;
         
         if ([handler.task isEqualToString:@"routeConfig"]) {
-            if (self.busRouteControlView.busRouteControl.numberOfSegments == 0) {
+            if (_busRouteControlView.busRouteControl.numberOfSegments == 0) {
                 NSArray *newRoutes = dictionary[@"body"][@"route"];
                 
-                for (int x = 0; x < [newRoutes count]; x++) {
-                    NSDictionary *routeDic = newRoutes[x];
-                    Route *route = [routeDic toRoute];
-                    [routes addObject:route];
-                    [self.busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:x animated:YES];
+                for (NSDictionary *dictionary in newRoutes) {
+                    GBRoute *route = [dictionary toRoute];
+                    [_routes addObject:route];
+                    NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
+                    [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
                 }
                 
                 NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeySelectedRoute];
-                if (self.busRouteControlView.busRouteControl.numberOfSegments)
-                    self.busRouteControlView.busRouteControl.selectedSegmentIndex = (index < self.busRouteControlView.busRouteControl.numberOfSegments) ? index : 0;
+                if (_busRouteControlView.busRouteControl.numberOfSegments)
+                    _busRouteControlView.busRouteControl.selectedSegmentIndex = (index < _busRouteControlView.busRouteControl.numberOfSegments) ? index : 0;
                 
                 [self didChangeBusRoute];
             }
@@ -218,17 +216,19 @@ float const kSetRegionAnimationSpeed = .4;
                     if (![vehicles isKindOfClass:[NSArray class]])
                         vehicles = [NSArray arrayWithObject:vehicles];
                     
-                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@",[BusAnnotation class]];
-                    NSMutableArray *busAnnotations = [[self.mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@",[GBBusAnnotation class]];
+                    NSMutableArray *busAnnotations = [[_mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
+                    
+                    GBRoute *selectedRoute = [self selectedRoute];
                     
                     for (NSDictionary *busPosition in vehicles) {
-                        BusAnnotation *annotation = [[BusAnnotation alloc] init];
+                        GBBusAnnotation *annotation = [[GBBusAnnotation alloc] init];
                         annotation.busIdentifier = busPosition[@"id"];
                         annotation.color = [selectedRoute.color darkerColor:0.5];
                         
                         BOOL found = NO;
                         for (int x = 0; x < [busAnnotations count]; x++) {
-                            BusAnnotation *busAnnotation = busAnnotations[x];
+                            GBBusAnnotation *busAnnotation = busAnnotations[x];
                             if ([busAnnotation isEqual:annotation]) {
                                 [busAnnotations removeObject:busAnnotation];
                                 annotation = busAnnotation;
@@ -247,11 +247,11 @@ float const kSetRegionAnimationSpeed = .4;
                         }
                         
                         if (!found && [selectedRoute.tag isEqualToString:busPosition[@"routeTag"]])
-                            [self.mapView addAnnotation:annotation];
+                            [_mapView addAnnotation:annotation];
                     }
                     
-                    for (BusAnnotation *annotation in busAnnotations)
-                        [self.mapView removeAnnotation:annotation];
+                    for (GBBusAnnotation *annotation in busAnnotations)
+                        [_mapView removeAnnotation:annotation];
                 }
             }
             lastLocationUpdate = newLocationUpdate;
@@ -263,13 +263,14 @@ float const kSetRegionAnimationSpeed = .4;
                     if (![predictions isKindOfClass:[NSArray class]])
                         predictions = [NSArray arrayWithObject:predictions];
                     
-                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [BusStopAnnotation class]];
-                    NSMutableArray *busStopAnnotations = [[self.mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBusStopAnnotation class]];
+                    NSMutableArray *busStopAnnotations = [[_mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
                     
                     for (NSDictionary *busStop in predictions) {
                         NSArray *predictionData = busStop[@"direction"][@"prediction"];
                         NSArray *predictions;
                         if (predictionData) {
+                            // If object is not array, add it to an array (XML workaround)
                             if (![predictionData isKindOfClass:[NSArray class]])
                                 predictionData = [NSArray arrayWithObject:predictionData];
                             
@@ -279,7 +280,7 @@ float const kSetRegionAnimationSpeed = .4;
                         
                         NSString *stopTag = busStop[@"stopTag"];
                         for (int x = 0; x < [busStopAnnotations count]; x++) {
-                            BusStopAnnotation *busStopAnnotation = busStopAnnotations[x];
+                            GBBusStopAnnotation *busStopAnnotation = busStopAnnotations[x];
                             if ([busStopAnnotation.stopTag isEqualToString:stopTag]) {
                                 if ([predictions count]) {
                                     NSMutableString *subtitle = [NSMutableString stringWithString:@"Next: "];
@@ -302,14 +303,13 @@ float const kSetRegionAnimationSpeed = .4;
             }
             lastPredictionUpdate = newPredictionUpdate;
         }
-    } else
-        [self handleError:handler code:4923 message:@"Error Parsing Data"];
+    } else [self handleError:handler code:4923 message:@"Error Parsing Data"];
 }
 
 - (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message {
-    [self.busRouteControlView.activityIndicator stopAnimating];
-    self.busRouteControlView.errorLabel.hidden = NO;
-    self.busRouteControlView.busRouteControl.hidden = YES;
+    [_busRouteControlView.activityIndicator stopAnimating];
+    _busRouteControlView.errorLabel.hidden = NO;
+    _busRouteControlView.busRouteControl.hidden = YES;
     
     UIColor *tintColor = [UIColor appTintColor];
     
@@ -318,20 +318,26 @@ float const kSetRegionAnimationSpeed = .4;
     self.navigationItem.rightBarButtonItem = refreshButton;
     
     if (code == 1008 || code == 1009)
-        self.busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"No Internet Connection (-%i)",code];
+        _busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"No Internet Connection (-%i)", code];
     else if (code == 400)
-        self.busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Bad Request (-%i)",code];
+        _busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Bad Request (-%i)", code];
     else if (code == 404)
-        self.busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Resource Error (-%i)",code];
+        _busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Resource Error (-%i)", code];
     else if (code == 500)
-        self.busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Internal Server Error (-%i)",code];
+        _busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Internal Server Error (-%i)", code];
     else if (code == 503)
-        self.busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Timed Out (-%i)",code];
+        _busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Timed Out (-%i)", code];
     else
-        self.busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Error Connecting (-%i)",code];
+        _busRouteControlView.errorLabel.text = [NSString stringWithFormat:@"Error Connecting (-%i)", code];
+}
+
+- (GBRoute *)selectedRoute {
+    NSInteger index = _busRouteControlView.busRouteControl.selectedSegmentIndex;
+    return (index != UISegmentedControlNoSegment) ? _routes[index] : nil;
 }
 
 - (void)updateVehicleLocations {
+    GBRoute *selectedRoute = [self selectedRoute];
     if (selectedRoute) {
         GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithDelegate:self task:@"vehicleLocations"];
         [locationHandler positionForBus:selectedRoute.tag];
@@ -341,23 +347,24 @@ float const kSetRegionAnimationSpeed = .4;
     }
     else {
         GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithDelegate:self task:@"routeConfig"];
-        [self.busRouteControlView.activityIndicator startAnimating];
-        self.busRouteControlView.errorLabel.hidden = YES;
+        [_busRouteControlView.activityIndicator startAnimating];
+        _busRouteControlView.errorLabel.hidden = YES;
         [requestHandler routeConfig];
     }
 }
 
 - (void)didChangeBusRoute {
-    if (self.busRouteControlView.busRouteControl.selectedSegmentIndex > -1)
-        [[NSUserDefaults standardUserDefaults] setInteger:self.busRouteControlView.busRouteControl.selectedSegmentIndex forKey:GBUserDefaultsKeySelectedRoute];
+    NSInteger index = _busRouteControlView.busRouteControl.selectedSegmentIndex;
+    if (index != UISegmentedControlNoSegment)
+        [[NSUserDefaults standardUserDefaults] setInteger:index forKey:GBUserDefaultsKeySelectedRoute];
         [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self.mapView removeAnnotations:self.mapView.annotations];
-    [self.mapView removeOverlays:self.mapView.overlays];
+    [_mapView removeAnnotations:_mapView.annotations];
+    [_mapView removeOverlays:_mapView.overlays];
     
-    selectedRoute = routes[self.busRouteControlView.busRouteControl.selectedSegmentIndex];
+    GBRoute *selectedRoute = [self selectedRoute];
     [UIView animateWithDuration:kSetRegionAnimationSpeed animations:^{
-        [self.mapView setRegion:[self.mapView regionThatFits:selectedRoute.region]];
+        [_mapView setRegion:[_mapView regionThatFits:selectedRoute.region]];
     }];
     
     [self updateVehicleLocations];
@@ -367,22 +374,22 @@ float const kSetRegionAnimationSpeed = .4;
         CLLocationCoordinate2D coordinates[[points count]];
         for (int y = 0; y < [points count]; y++) {
             NSDictionary *point = points[y];
-            coordinates[y] = CLLocationCoordinate2DMake([point[@"lat"] floatValue],[point[@"lon"] floatValue]);
+            coordinates[y] = CLLocationCoordinate2DMake([point[@"lat"] floatValue], [point[@"lon"] floatValue]);
         }
-        BusRouteLine *polygon = [BusRouteLine polylineWithCoordinates:coordinates count:[points count]];
+        GBBusRouteLine *polygon = [GBBusRouteLine polylineWithCoordinates:coordinates count:[points count]];
         polygon.color = selectedRoute.color;
-        [self.mapView addOverlay:polygon];
+        [_mapView addOverlay:polygon];
     }
     
     for (NSDictionary *stop in selectedRoute.stops) {
-        BusStopAnnotation *stopPin = [[BusStopAnnotation alloc] init];
+        GBBusStopAnnotation *stopPin = [[GBBusStopAnnotation alloc] init];
         stopPin.title = stop[@"title"];
         stopPin.subtitle = @"No Predictions";
         stopPin.tag = selectedRoute.tag;
         stopPin.stopTag = stop[@"tag"];
         stopPin.color = selectedRoute.color;
         [stopPin setCoordinate:CLLocationCoordinate2DMake([stop[@"lat"] doubleValue], [stop[@"lon"] doubleValue])];
-        [self.mapView addAnnotation:stopPin];
+        [_mapView addAnnotation:stopPin];
     }
 }
 
@@ -391,8 +398,9 @@ float const kSetRegionAnimationSpeed = .4;
 }
 
 - (void)fixRegion {
+    GBRoute *selectedRoute = [self selectedRoute];
     [UIView animateWithDuration:kSetRegionAnimationSpeed animations:^{
-        [self.mapView setRegion:[self.mapView regionThatFits:selectedRoute.region]];
+        [_mapView setRegion:[_mapView regionThatFits:selectedRoute.region]];
     }];
 }
 

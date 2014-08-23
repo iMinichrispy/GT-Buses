@@ -6,20 +6,20 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "MapHandler.h"
+#import "GBMapHandler.h"
 
-#import "BusAnnotation.h"
-#import "BusStopAnnotation.h"
-#import "BusRouteLine.h"
+#import "GBBusAnnotation.h"
+#import "GBBusStopAnnotation.h"
+#import "GBBusRouteLine.h"
 #import "GBColors.h"
 #import "GBConstants.h"
 
-@implementation MapHandler
+@implementation GBMapHandler
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView *line = [[MKPolylineView alloc] initWithPolyline:overlay];
-        line.strokeColor = ((BusRouteLine *)overlay).color;
+        line.strokeColor = ((GBBusRouteLine *)overlay).color;
         line.lineWidth = (IS_IPAD) ? 20 : 10;
         line.alpha = .5;
         line.lineCap = kCGLineCapButt;
@@ -31,7 +31,7 @@
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id <MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *line = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
-        line.strokeColor = ((BusRouteLine *)overlay).color;
+        line.strokeColor = ((GBBusRouteLine *)overlay).color;
         line.lineWidth =  (IS_IPAD) ? 10 : 6;
         line.alpha = .5;
         line.lineCap = kCGLineCapButt;
@@ -43,8 +43,8 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[MKUserLocation class]])
         return nil;
-    else if ([annotation isKindOfClass:[BusAnnotation class]]) {
-        BusAnnotation *busAnnotation = (BusAnnotation *)annotation;
+    else if ([annotation isKindOfClass:[GBBusAnnotation class]]) {
+        GBBusAnnotation *busAnnotation = (GBBusAnnotation *)annotation;
         MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:Nil];
         UIImage *arrowImage = [UIImage imageNamed:@"Arrow.png"];
         UIImage *colorArrowImage = [arrowImage imageWithColor:busAnnotation.color];
@@ -56,7 +56,7 @@
         annotationView.canShowCallout = NO;
         return annotationView;
     }
-    else if ([annotation isKindOfClass:[BusStopAnnotation class]]) {
+    else if ([annotation isKindOfClass:[GBBusStopAnnotation class]]) {
         float size = (IS_IPAD) ? 17.0f : 10.0f;
         MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:Nil];
         annotationView.frame = CGRectMake(0, 0, size, size);
@@ -64,8 +64,7 @@
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
         UIImage *dotImage = [UIImage imageNamed:@"Dot.png"];
-        imageView.image = [dotImage imageWithColor:[((BusStopAnnotation *)annotation).color darkerColor:0.2]];
-#warning UIImageRenderingMode?
+        imageView.image = [dotImage imageWithColor:[((GBBusStopAnnotation *)annotation).color darkerColor:0.2]];
         imageView.alpha = .7;
         [annotationView addSubview:imageView];
         return annotationView;
