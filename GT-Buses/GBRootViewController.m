@@ -140,29 +140,13 @@ float const kSetRegionAnimationSpeed = 0.4f;
         self.menuContainerViewController.panMode = MFSideMenuPanModeCenterViewController;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    NSLog(@"didChangeAuthorizationStatus: %d",status);
-    if (status == kCLAuthorizationStatusAuthorized || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-        [_mapView setShowsUserLocation:YES];
-    }
-}
-
 - (void)applicationDidEnterBackground:(NSNotification *)notification {
     if (refreshTimer) [refreshTimer invalidate];
     [_mapView setShowsUserLocation:NO];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    NSLog(@"CLAuthorizationStatus: %d",status);
-#warning only needed on ios 8
-    if(status == kCLAuthorizationStatusNotDetermined) {
-        self.manager = [[CLLocationManager alloc] init];
-        [self.manager requestWhenInUseAuthorization];
-    }
-    else {
-        [_mapView setShowsUserLocation:YES];
-    }
+    [_mapView setShowsUserLocation:YES];
     
     [self updateVehicleLocations];
     if (!refreshTimer.isValid)
