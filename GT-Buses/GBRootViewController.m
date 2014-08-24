@@ -189,6 +189,9 @@ float const kSetRegionAnimationSpeed = 0.4f;
                     _busRouteControlView.busRouteControl.selectedSegmentIndex = (index < _busRouteControlView.busRouteControl.numberOfSegments) ? index : 0;
                 
                 [self didChangeBusRoute];
+            } else {
+#warning delete if never reached
+                NSLog(@"delete if reached");
             }
         } else if (handler.task == GBVehicleLocationsTask) {
             long long newLocationUpdate = [dictionary[@"body"][@"lastTime"][@"time"] longLongValue];
@@ -200,7 +203,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
                     if (![vehicles isKindOfClass:[NSArray class]])
                         vehicles = [NSArray arrayWithObject:vehicles];
                     
-                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@",[GBBusAnnotation class]];
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBusAnnotation class]];
                     NSMutableArray *busAnnotations = [[_mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
                     
                     GBRoute *selectedRoute = [self selectedRoute];
@@ -260,7 +263,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
                                 predictionData = [NSArray arrayWithObject:predictionData];
                             
                             // Only show the first three predictions
-                            predictions = [predictionData subarrayWithRange:NSMakeRange(0, fmin(3, [predictionData count]))];
+                            predictions = [predictionData subarrayWithRange:NSMakeRange(0, MIN(3, [predictionData count]))];
                         }
                         
                         NSString *stopTag = busStop[@"stopTag"];
@@ -339,6 +342,8 @@ float const kSetRegionAnimationSpeed = 0.4f;
         GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRouteConfigTask delegate:self];
         [_busRouteControlView.activityIndicator startAnimating];
         _busRouteControlView.errorLabel.hidden = YES;
+        NSLog(@"%i", _busRouteControlView.busRouteControl.numberOfSegments);
+#warning different behavior occurs whether busroutecontrol is loaded or not - in terms of refreshing when no internet connection
         [requestHandler routeConfig];
     }
 }

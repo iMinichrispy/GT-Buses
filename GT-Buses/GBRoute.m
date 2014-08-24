@@ -21,10 +21,10 @@ float const kMapRegionPadding = 0.0005f;
 @implementation NSDictionary (Route)
 
 - (GBRoute *)toRoute {
-    NSString *lowercaseTitle = self[@"tag"];
-    NSString *title = [NSString stringWithFormat:@"%@%@", [[lowercaseTitle substringToIndex:1] uppercaseString], [lowercaseTitle substringFromIndex:1]];
+    NSString *tag = self[@"tag"];
+    NSString *title = [NSString stringWithFormat:@"%@", [tag capitalizedString]];
     
-    GBRoute *route = [[GBRoute alloc] initWithTitle:title tag:lowercaseTitle];
+    GBRoute *route = [[GBRoute alloc] initWithTitle:title tag:tag];
     route.paths = self[@"path"];
     route.region = [GBRoute regionForPaths:route.paths];
     route.stops = self[@"stop"];

@@ -14,7 +14,6 @@
 		FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE94118A1D8A300757643 /* Images.xcassets */; };
 		FA1FE95318A1D8A300757643 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE95118A1D8A300757643 /* InfoPlist.strings */; };
 		FA1FE95518A1D8A300757643 /* GT_BusesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE95418A1D8A300757643 /* GT_BusesTests.m */; };
-		FA1FE96718A1D96500757643 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96618A1D96500757643 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FA1FE96D18A1D9A400757643 /* GBMapHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96A18A1D9A400757643 /* GBMapHandler.m */; };
 		FA1FE96E18A1D9A400757643 /* GBRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96C18A1D9A400757643 /* GBRoute.m */; };
 		FA1FE97518A1D9B000757643 /* GBBusAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97018A1D9B000757643 /* GBBusAnnotation.m */; };
@@ -24,6 +23,7 @@
 		FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
 		FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
 		FA1FE98B18A1DD3600757643 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE98618A1DD3600757643 /* Arrow.png */; };
+		FA3C921819AA8AD300CEC529 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
 		FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233B18A520710049A5FA /* MFSideMenuContainerViewController.m */; };
 		FAA1234118A520710049A5FA /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233D18A520710049A5FA /* MFSideMenuShadow.m */; };
 		FAA1234218A520710049A5FA /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233F18A520710049A5FA /* UIViewController+MFSideMenuAdditions.m */; };
@@ -77,8 +77,6 @@
 		FA1FE95018A1D8A300757643 /* GT-BusesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GT-BusesTests-Info.plist"; sourceTree = "<group>"; };
 		FA1FE95218A1D8A300757643 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FA1FE95418A1D8A300757643 /* GT_BusesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GT_BusesTests.m; sourceTree = "<group>"; };
-		FA1FE96518A1D96500757643 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		FA1FE96618A1D96500757643 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		FA1FE96918A1D9A400757643 /* GBMapHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBMapHandler.h; sourceTree = "<group>"; };
 		FA1FE96A18A1D9A400757643 /* GBMapHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBMapHandler.m; sourceTree = "<group>"; };
 		FA1FE96B18A1D9A400757643 /* GBRoute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBRoute.h; sourceTree = "<group>"; };
@@ -96,6 +94,7 @@
 		FA1FE98218A1D9F800757643 /* RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHandler.h; sourceTree = "<group>"; };
 		FA1FE98318A1D9F800757643 /* RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHandler.m; sourceTree = "<group>"; };
 		FA1FE98618A1DD3600757643 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
+		FA3C921719AA8AD300CEC529 /* RouteConfig.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RouteConfig.xml; sourceTree = "<group>"; };
 		FA5678F118A2C9BF00386A71 /* To-Do.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "To-Do.txt"; path = "../To-Do.txt"; sourceTree = "<group>"; };
 		FAA1233918A520710049A5FA /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
 		FAA1233A18A520710049A5FA /* MFSideMenuContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenuContainerViewController.h; sourceTree = "<group>"; };
@@ -192,7 +191,6 @@
 			children = (
 				FAA4EB9119A7BEB200AF68E3 /* RequestHandler */,
 				FAA1233818A520710049A5FA /* MFSideMenu */,
-				FA1FE96418A1D96500757643 /* Reachability */,
 				FA1FE97E18A1D9DD00757643 /* XMLReader */,
 				FA1FE93118A1D8A300757643 /* GT-Buses-Info.plist */,
 				FA1FE93218A1D8A300757643 /* InfoPlist.strings */,
@@ -216,17 +214,9 @@
 			children = (
 				FA1FE95018A1D8A300757643 /* GT-BusesTests-Info.plist */,
 				FA1FE95118A1D8A300757643 /* InfoPlist.strings */,
+				FA3C921719AA8AD300CEC529 /* RouteConfig.xml */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		FA1FE96418A1D96500757643 /* Reachability */ = {
-			isa = PBXGroup;
-			children = (
-				FA1FE96518A1D96500757643 /* Reachability.h */,
-				FA1FE96618A1D96500757643 /* Reachability.m */,
-			);
-			path = Reachability;
 			sourceTree = "<group>";
 		};
 		FA1FE96818A1D97100757643 /* Map */ = {
@@ -404,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA1FE95318A1D8A300757643 /* InfoPlist.strings in Resources */,
+				FA3C921819AA8AD300CEC529 /* RouteConfig.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,7 +438,6 @@
 				FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */,
 				FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */,
 				FA1FE96E18A1D9A400757643 /* GBRoute.m in Sources */,
-				FA1FE96718A1D96500757643 /* Reachability.m in Sources */,
 				FA1FE97718A1D9B000757643 /* GBBusStopAnnotation.m in Sources */,
 				FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */,
 				FA1FE93618A1D8A300757643 /* main.m in Sources */,
@@ -574,6 +564,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Alex Perez (LGJY9MHR7M)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
@@ -592,6 +583,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Alex Perez (LGJY9MHR7M)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
@@ -606,7 +598,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/GT-Buses.app/GT-Buses";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -630,7 +622,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/GT-Buses.app/GT-Buses";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

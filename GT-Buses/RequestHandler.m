@@ -8,8 +8,6 @@
 
 #import "RequestHandler.h"
 
-#import "Reachability.h"
-
 @implementation RequestHandler
 
 - (instancetype)initWithTask:(NSString *)task delegate:(id<RequestHandlerDelegate>)delegate {
@@ -26,7 +24,11 @@
     [request setHTTPMethod:@"GET"];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     [request setValue:[RequestHandler userAgent] forHTTPHeaderField:@"User-Agent"];
-    [self requestWithRequest:request];
+    if ([NSURLConnection canHandleRequest:request]) {
+        [self requestWithRequest:request];
+    } else {
+        [self mainThreadCode:504 message:@"Can't Handle Request"];
+    }
 }
 
 - (void)postRequestWithURL:(NSString *)url postData:(NSData *)postData {
@@ -41,35 +43,33 @@
 }
 
 - (void)requestWithRequest:(NSURLRequest *)request {
-    Reachability *reachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
-    if (internetStatus != NotReachable) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-        [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-             if ([data length] > 0 && error == nil) {
-                 if ([((NSHTTPURLResponse *)response) statusCode] == 400)
-                     [self mainThreadCode:400 message:@"Request could not be understood by server."];
-                 else if ([((NSHTTPURLResponse *)response) statusCode] == 404)
-                     [self mainThreadCode:404 message:@"Resource could not be found."];
-                 else if ([((NSHTTPURLResponse *)response) statusCode] == 500)
-                     [self mainThreadCode:500 message:@"Internal Server Error."];
-                 else if ([((NSHTTPURLResponse *)response) statusCode] == 503)
-                     [self mainThreadCode:503 message:@"Request has timed out."];
-                 else
-                     [self mainThreadData:data];
-             }
-             else if (error != nil && error.code == NSURLErrorTimedOut)
-                 [self mainThreadCode:503 message:@"Request has timed out."];
-             else if (error != nil)
-                 [self mainThreadCode:ABS((int)[error code]) message:[error description]];
-             else
-                 [self mainThreadCode:9002 message:@"Request failed for unknown reason."];
-         }];
-    }
-    else {
-        [self checkDelegateHandleError:1008 message:@"Error connecting to server. Please make sure you are connected to the Internet."];
-    }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if ([data length] > 0 && error == nil) {
+            NSInteger code = [((NSHTTPURLResponse *)response) statusCode];
+            if (code == 400)
+                [self mainThreadCode:code message:@"Request could not be understood by server."];
+            else if (code == 404)
+                [self mainThreadCode:code message:@"Resource could not be found."];
+            else if (code == 500)
+                [self mainThreadCode:code message:@"Internal Server Error."];
+            else if (code == 503)
+                [self mainThreadCode:code message:@"Request has timed out."];
+            else if (code == 1003)
+                [self mainThreadCode:code message:@"A server with the specified hostname could not be found."];
+            else if (code == 1009)
+                [self mainThreadCode:code message:@"Connection appears to be offline."];
+            else
+                [self mainThreadData:data];
+        }
+        else if (error != nil && error.code == NSURLErrorTimedOut)
+            [self mainThreadCode:503 message:@"Request has timed out."];
+        else if (error != nil)
+            [self mainThreadCode:ABS([error code]) message:[error localizedDescription]];
+        else
+            [self mainThreadCode:9002 message:@"Request failed for unknown reason."];
+    }];
 }
 
 - (void)mainThreadData:(NSData *)data {
@@ -82,7 +82,7 @@
     }
 }
 
-- (void)mainThreadCode:(int)code message:(NSString *)message {
+- (void)mainThreadCode:(NSInteger)code message:(NSString *)message {
     if ([NSThread isMainThread])
         [self checkDelegateHandleError:code message:message];
     else {
@@ -99,7 +99,7 @@
     }
 }
 
-- (void)checkDelegateHandleError:(int)code message:(NSString *)message {
+- (void)checkDelegateHandleError:(NSInteger)code message:(NSString *)message {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     if ([self.delegate respondsToSelector:@selector(handleError:code:message:)])
         [self.delegate handleError:self code:code message:message];
@@ -116,10 +116,12 @@
         [self alertWithTitle:@"Server Error" message:[NSString stringWithFormat:@"Error Processing Request: %@", message] code:code];
     else if (code == 503)
         [self alertWithTitle:@"Timeout Error" message:[NSString stringWithFormat:@"Error Loading Resource: %@", message] code:code];
-    else if (code == 1008)
-        [self alertWithTitle:@"Connection Error" message:@"Error connecting to server. Please make sure you are connected to the Internet." code:1008];
+    else if (code == 1003)
+        [self alertWithTitle:@"Resource Error" message:[NSString stringWithFormat:@"Error Loading Resource: %@",message] code:code];
+    else if (code == 1008 || code == 1009)
+        [self alertWithTitle:@"Connection Error" message:[NSString stringWithFormat:@"Error Connecting: %@", message] code:code];
     else
-        [self alertWithTitle:@"Unknown Error" message:@"An unknown error occurred." code:9001];
+        [self alertWithTitle:@"Error" message:[NSString stringWithFormat:@"Error (%li) occurred: %@", (long)code, message] code:9001];
 }
 
 - (void)alertWithTitle:(NSString *)title message:(NSString *)message code:(NSInteger)code {

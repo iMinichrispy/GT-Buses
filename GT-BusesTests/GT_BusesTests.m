@@ -8,6 +8,9 @@
 
 #import <XCTest/XCTest.h>
 
+#import "XMLReader.h"
+#import "GBRoute.h"
+
 @interface GT_BusesTests : XCTestCase
 
 @end
@@ -28,7 +31,29 @@
 
 - (void)testExample
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+//    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
 }
+
+- (void)testPerformance {
+    NSMutableArray *routes = [NSMutableArray new];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"RouteConfig" ofType:@"xml"];
+    NSData *data = [NSData dataWithContentsOfFile:path options:0 error:nil];
+    
+    [self measureBlock:^{
+        NSError *error;
+        NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
+        NSArray *newRoutes = dictionary[@"body"][@"route"];
+        
+        for (NSDictionary *dictionary in newRoutes) {
+            GBRoute *route = [dictionary toRoute];
+            [routes addObject:route];
+        }
+    }];
+    
+    
+    
+//    XCTAssert(!error, @"An error occured: %@", [error localizedDescription]);
+}
+
 
 @end

@@ -10,7 +10,6 @@
 
 #import "GBConstants.h"
 #import "GBSupportEmail.h"
-#import "GBColors.h"
 
 @implementation UIViewController (GBMailComposer)
 
