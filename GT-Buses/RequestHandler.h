@@ -12,7 +12,7 @@
 @protocol RequestHandlerDelegate <NSObject>
 
 @required
-- (void)handleResponse:(RequestHandler *)handler data:(id)data;
+- (void)handleResponse:(RequestHandler *)handler data:(NSData *)data;
 
 @optional
 - (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message;
@@ -21,7 +21,7 @@
 
 @interface RequestHandler : NSObject <NSURLConnectionDelegate>
 
-@property (nonatomic, strong) NSString *task;
+@property (nonatomic, weak) NSString *task;
 @property (nonatomic, weak) id <RequestHandlerDelegate> delegate;
 
 - (instancetype)initWithTask:(NSString *)task delegate:(id<RequestHandlerDelegate>)delegate;

@@ -24,7 +24,7 @@
 + (UIColor *)appTintColor {
     static UIColor *color;
     if (!color) {
-#if DEBUG
+#ifdef DEBUG
         color = RGBColor(198, 42, 46);
 #else
         color = RGBColor(24, 124, 199);

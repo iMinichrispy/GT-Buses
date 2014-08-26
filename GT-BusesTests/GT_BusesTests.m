@@ -37,6 +37,7 @@
 - (void)testPerformance {
     NSMutableArray *routes = [NSMutableArray new];
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RouteConfig" ofType:@"xml"];
+    NSLog(@"%@",path);
     NSData *data = [NSData dataWithContentsOfFile:path options:0 error:nil];
     
     [self measureBlock:^{

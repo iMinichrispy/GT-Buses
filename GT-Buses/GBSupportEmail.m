@@ -7,8 +7,9 @@
 //
 
 #import "GBSupportEmail.h"
+
+#import "GBConstants.h"
 #import <sys/utsname.h>
-#define FORMAT(format,...) [NSString stringWithFormat:(format), ##__VA_ARGS__]
 
 @implementation GBSupportEmail
 

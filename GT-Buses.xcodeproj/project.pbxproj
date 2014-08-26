@@ -23,7 +23,8 @@
 		FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
 		FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
 		FA1FE98B18A1DD3600757643 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE98618A1DD3600757643 /* Arrow.png */; };
-		FA3C921819AA8AD300CEC529 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
+		FA8F828919AC0131008FE578 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
+		FA8F828A19AC0200008FE578 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
 		FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233B18A520710049A5FA /* MFSideMenuContainerViewController.m */; };
 		FAA1234118A520710049A5FA /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233D18A520710049A5FA /* MFSideMenuShadow.m */; };
 		FAA1234218A520710049A5FA /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233F18A520710049A5FA /* UIViewController+MFSideMenuAdditions.m */; };
@@ -32,6 +33,7 @@
 		FAA1235318A57E040049A5FA /* GBSupportEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1235218A57E040049A5FA /* GBSupportEmail.m */; };
 		FAA1431618A4A41300213E1C /* Dot.png in Resources */ = {isa = PBXBuildFile; fileRef = FAA1431518A4A41300213E1C /* Dot.png */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
+		FAB03DE719AD40BF001B2523 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB03DE619AD40BF001B2523 /* STHTTPRequest.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
 		FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
 		FADE7D0D196750E600F318D5 /* GBDefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = FADE7D0C196750E600F318D5 /* GBDefaultPreferences.plist */; };
@@ -112,6 +114,8 @@
 		FAA1431518A4A41300213E1C /* Dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dot.png; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
+		FAB03DE519AD40BF001B2523 /* STHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STHTTPRequest.h; sourceTree = "<group>"; };
+		FAB03DE619AD40BF001B2523 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
 		FAB682D0199D436600C0BF89 /* UIViewController+GBMailComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+GBMailComposer.h"; sourceTree = "<group>"; };
 		FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GBMailComposer.m"; sourceTree = "<group>"; };
 		FADE7D091967504600F318D5 /* GBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConstants.h; sourceTree = "<group>"; };
@@ -189,6 +193,7 @@
 		FA1FE93018A1D8A300757643 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				FAB03DE419AD40B0001B2523 /* STHTTPRequest */,
 				FAA4EB9119A7BEB200AF68E3 /* RequestHandler */,
 				FAA1233818A520710049A5FA /* MFSideMenu */,
 				FA1FE97E18A1D9DD00757643 /* XMLReader */,
@@ -302,6 +307,15 @@
 			name = RequestHandler;
 			sourceTree = "<group>";
 		};
+		FAB03DE419AD40B0001B2523 /* STHTTPRequest */ = {
+			isa = PBXGroup;
+			children = (
+				FAB03DE519AD40BF001B2523 /* STHTTPRequest.h */,
+				FAB03DE619AD40BF001B2523 /* STHTTPRequest.m */,
+			);
+			name = STHTTPRequest;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -386,6 +400,7 @@
 				FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */,
 				FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */,
 				FA1FE98B18A1DD3600757643 /* Arrow.png in Resources */,
+				FA8F828A19AC0200008FE578 /* RouteConfig.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,7 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA1FE95318A1D8A300757643 /* InfoPlist.strings in Resources */,
-				FA3C921819AA8AD300CEC529 /* RouteConfig.xml in Resources */,
+				FA8F828919AC0131008FE578 /* RouteConfig.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +439,7 @@
 				FA1FE94018A1D8A300757643 /* GBRootViewController.m in Sources */,
 				FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */,
 				FAA1234518A523170049A5FA /* GBAboutController.m in Sources */,
+				FAB03DE719AD40BF001B2523 /* STHTTPRequest.m in Sources */,
 				FAA1235318A57E040049A5FA /* GBSupportEmail.m in Sources */,
 				FA1FE97518A1D9B000757643 /* GBBusAnnotation.m in Sources */,
 				FA1FE97618A1D9B000757643 /* GBBusRouteLine.m in Sources */,
