@@ -8,8 +8,12 @@
 
 #import "GBColors.h"
 
+@interface GBNavigationController : UINavigationController
+
+@end
+
 @interface GBLabel : UILabel
-- (instancetype)initWithFrame:(CGRect)frame size:(float)size;
+
 @end
 
 @interface GBButton : UIButton

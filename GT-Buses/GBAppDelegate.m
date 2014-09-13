@@ -9,26 +9,27 @@
 #import "GBAppDelegate.h"
 
 #import "GBRootViewController.h"
+#import "GBUserInterface.h"
 #import "GBAboutController.h"
-#import "MFSideMenu.h"
 #import "GBConstants.h"
+#import "MFSideMenu.h"
 
 @implementation GBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
     self.viewController = [[GBRootViewController alloc] init];
     
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
-    
+    GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:self.viewController];
     GBAboutController *aboutController = [[GBAboutController alloc] init];
     
     MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:navController leftMenuViewController:aboutController rightMenuViewController:nil];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = container;
     [self.window makeKeyAndVisible];
     
     [self registerDefaults];
+    
     return YES;
 }
 

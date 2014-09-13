@@ -34,7 +34,7 @@
         [self addSubview:_activityIndicator];
         [self addSubview:_errorLabel];
         
-        float segmentedControlSidePadding = (IS_IPAD) ? 15 : 6;
+        float segmentedControlSidePadding = IS_IPAD ? 15 : 6;
         
         NSMutableArray *constraints = [NSMutableArray new];
         [constraints addObjectsFromArray:[NSLayoutConstraint

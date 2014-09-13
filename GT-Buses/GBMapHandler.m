@@ -20,7 +20,7 @@
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView *line = [[MKPolylineView alloc] initWithPolyline:overlay];
         line.strokeColor = ((GBBusRouteLine *)overlay).color;
-        line.lineWidth = (IS_IPAD) ? 20 : 10;
+        line.lineWidth = IS_IPAD ? 20 : 10;
         line.alpha = .5;
         line.lineCap = kCGLineCapButt;
         return line;
@@ -32,7 +32,7 @@
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *line = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
         line.strokeColor = ((GBBusRouteLine *)overlay).color;
-        line.lineWidth =  (IS_IPAD) ? 10 : 6;
+        line.lineWidth =  IS_IPAD ? 10 : 6;
         line.alpha = .5;
         line.lineCap = kCGLineCapButt;
         return line;
@@ -48,7 +48,7 @@
         UIImage *colorArrowImage = [arrowImage imageWithColor:busAnnotation.color];
         busAnnotation.arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 35, 32)];
         busAnnotation.arrowImageView.image = colorArrowImage;
-        [busAnnotation updateHeading];
+        [busAnnotation updateArrowImageRotation];
         [annotationView addSubview:busAnnotation.arrowImageView];
         annotationView.frame = busAnnotation.arrowImageView.frame;
         annotationView.canShowCallout = NO;
@@ -83,7 +83,7 @@
         return annotationView;
     }
     else if ([annotation isKindOfClass:[GBBusStopAnnotation class]]) {
-        float size = (IS_IPAD) ? 17.0f : 10.0f;
+        float size = IS_IPAD ? 17.0f : 10.0f;
         MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
         annotationView.frame = CGRectMake(0, 0, size, size);
         annotationView.canShowCallout = YES;

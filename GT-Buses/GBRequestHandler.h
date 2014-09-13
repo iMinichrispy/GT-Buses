@@ -11,7 +11,7 @@
 @interface GBRequestHandler : RequestHandler
 
 - (void)routeConfig;
-- (void)positionForBus:(NSString *)tag;
-- (void)predictionsForBus:(NSString *)tag;
+- (void)locationsForRoute:(NSString *)tag;
+- (void)predictionsForRoute:(NSString *)tag;
 
 @end

@@ -23,8 +23,7 @@
         [picker setMessageBody:[GBSupportEmail body] isHTML:NO];
         
         [self presentViewController:picker animated:YES completion:^{
-            if (IS_IPAD)
-                [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+            if IS_IPAD [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 #warning isnt lightcontent invalid on ios 6?
         }];
     } else {

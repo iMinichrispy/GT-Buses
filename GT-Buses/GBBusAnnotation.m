@@ -20,8 +20,10 @@
     return [self.busIdentifier isEqualToString:((GBBusAnnotation *)other).busIdentifier];
 }
 
-- (void)updateHeading {
+- (void)updateArrowImageRotation {
     self.arrowImageView.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(self.heading));
 }
+
+
 
 @end

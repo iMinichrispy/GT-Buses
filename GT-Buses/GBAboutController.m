@@ -13,18 +13,17 @@
 #import "GBConstants.h"
 #import "UIViewController+GBMailComposer.h"
 
-#define SIDE_WIDTH          150
-#define SIDE_WIDTH_IPAD     200
+float const kSideBarItemsInitY = 36.0f;
+float const kSideBarItemLabelHeight = 20.0f;
+float const kSideBarItemViewHeight = 40.0f;
+float const kSideBarItemSpacing = kSideBarItemViewHeight + (kSideBarItemLabelHeight * 2) - 1;
+
+float const kButtonHeight = 40.0f;
 
 @implementation GBAboutController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if (IS_IPAD) {
-        self.view.frame = CGRectMake(0, 0, 200, [self frameHeight]);
-        self.view.clipsToBounds = YES;
-    }
     
     UIColor *color = [UIColor appTintColor];
     if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
@@ -38,19 +37,17 @@
     
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *version = [NSString stringWithFormat:@"%@ (%@)", info[@"CFBundleShortVersionString"], info[@"CFBundleVersion"]];
+    NSArray *sideBaritems = @[@{@"title":@"Version", @"value":version}, @{@"title":@"Developer", @"value":@"Alex Perez"}, @{@"title":@"Design", @"value":@"Felipe Salazar"}];
+    [self addSidebarItems:sideBaritems];
     
-    [self newItemWithTitle:@"Version" value:version atY:36];
-    [self newItemWithTitle:@"Developer" value:@"Alex Perez" atY:115];
-    [self newItemWithTitle:@"Design" value:@"Felipe Salazar" atY:194];
-    
-    float width = (IS_IPAD) ? SIDE_WIDTH_IPAD : SIDE_WIDTH;
+    float width = IS_IPAD ? kSideWidthiPad : kSideWidth;
     float yValue = [self frameHeight] - 50 + [self origin];
-    GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, 40)];
+    GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, kButtonHeight)];
     [supportButton setTitle:@"Support" forState:UIControlStateNormal];
     [supportButton addTarget:self action:@selector(showMailPicker) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:supportButton];
     
-    GBButton *appReviewButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - 50, width, 40)];
+    GBButton *appReviewButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - 50, width, kButtonHeight)];
     [appReviewButton setTitle:@"Review App" forState:UIControlStateNormal];
     [appReviewButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:appReviewButton];
@@ -58,43 +55,51 @@
     [[UINavigationBar appearance] setTintColor:color];
 }
 
-- (void)newItemWithTitle:(NSString *)title value:(NSString *)value atY:(float)y {
-    float origin = [self origin];
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, origin + y + 25, SIDE_WIDTH_IPAD, 40)];
-    view.backgroundColor = [[UIColor appTintColor] darkerColor:0.15];
-    [self.view addSubview:view];
-    
-    GBLabel *titleLabel = [[GBLabel alloc] initWithFrame:CGRectMake(8, origin + y, SIDE_WIDTH, 20) size:14];
-    titleLabel.text = title;
-    [self.view addSubview:titleLabel];
-    
-    GBLabel *valueLabel = [[GBLabel alloc] initWithFrame:CGRectMake(10, origin + y + 35, SIDE_WIDTH, 20) size:16];
-    valueLabel.text = value;
-    [self.view addSubview:valueLabel];
+- (void)addSidebarItems:(NSArray *)sideBaritems {
+    float y = [self origin] + kSideBarItemsInitY;
+    for (NSDictionary *sideBarItem in sideBaritems) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, y + 25, kSideWidthiPad, kSideBarItemViewHeight)];
+        view.backgroundColor = [[UIColor appTintColor] darkerColor:0.15];
+        [self.view addSubview:view];
+        
+        GBLabel *titleLabel = [[GBLabel alloc] init];
+        titleLabel.frame = CGRectMake(8, y, kSideWidth, kSideBarItemLabelHeight);
+        titleLabel.font = [UIFont fontWithName:GBFontDefault size:14];
+        titleLabel.text = sideBarItem[@"title"];
+        [self.view addSubview:titleLabel];
+        
+        GBLabel *valueLabel = [[GBLabel alloc] init];
+        valueLabel.frame = CGRectMake(10, y + 35, kSideWidth, kSideBarItemLabelHeight);
+        valueLabel.font = [UIFont fontWithName:GBFontDefault size:16];
+        valueLabel.text = sideBarItem[@"value"];
+        [self.view addSubview:valueLabel];
+        
+        y += kSideBarItemSpacing;
+    }
 }
 
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
-    if (result == MFMailComposeResultFailed) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message Failed" message:@"Your message has failed to send." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-        [alert show];
-    }
-	[self dismissViewControllerAnimated:YES completion:NULL];
+- (float)frameHeight {
+    if (IS_IPAD && UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
+        return [[UIScreen mainScreen] bounds].size.width;
+    return [[UIScreen mainScreen] bounds].size.height;
+}
+
+- (float)origin {
+    return SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? 0 : -20;
 }
 
 - (void)reviewApp {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/gtbuses"]];
 }
 
-- (float)frameHeight {
-    if (IS_IPAD && UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        return  [[UIScreen mainScreen] bounds].size.width;
-    }
-    return [[UIScreen mainScreen] bounds].size.height;
-}
+#pragma mark - MFMailComposeViewControllerDelegate
 
-- (float)origin {
-    return (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? 0 : -20;
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    if (result == MFMailComposeResultFailed) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message Failed" message:@"Your message has failed to send." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [alert show];
+    }
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end

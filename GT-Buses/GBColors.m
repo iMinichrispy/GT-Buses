@@ -33,6 +33,14 @@
     return color;
 }
 
++ (UIColor *)controlTintColor {
+    static UIColor *color;
+    if (!color) {
+        color = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? [UIColor whiteColor] : [UIColor appTintColor];
+    }
+    return color;
+}
+
 + (UIColor *)colorWithHexString:(NSString *)hexString {
     unsigned int hex;
     [[NSScanner scannerWithString:hexString] scanHexInt:&hex];

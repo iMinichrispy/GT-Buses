@@ -15,6 +15,6 @@
 @property (nonatomic, strong) UIImageView *arrowImageView;
 @property (nonatomic) NSInteger heading;
 
-- (void)updateHeading;
+- (void)updateArrowImageRotation;
 
 @end

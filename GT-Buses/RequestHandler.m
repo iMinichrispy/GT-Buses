@@ -42,8 +42,14 @@
     [self requestWithRequest:request];
 }
 
-- (void)requestWithRequest:(NSURLRequest *)request {
+- (void)setActivityIndicatorVisible:(BOOL)hidden {
+#if !EXTENSION
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+#endif
+}
+
+- (void)requestWithRequest:(NSURLRequest *)request {
+    [self setActivityIndicatorVisible:YES];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         if ([data length] > 0 && error == nil) {
@@ -93,14 +99,14 @@
 }
 
 - (void)receivedData:(NSData *)data {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self setActivityIndicatorVisible:NO];
     if ([self.delegate respondsToSelector:@selector(handleResponse:data:)]) {
         [self.delegate handleResponse:self data:data];
     }
 }
 
 - (void)checkDelegateHandleError:(NSInteger)code message:(NSString *)message {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self setActivityIndicatorVisible:NO];
     if ([self.delegate respondsToSelector:@selector(handleError:code:message:)])
         [self.delegate handleError:self code:code message:message];
     else
@@ -125,19 +131,25 @@
 }
 
 - (void)alertWithTitle:(NSString *)title message:(NSString *)message code:(NSInteger)code {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[NSString stringWithFormat:@"%@ (-%i)", message, code] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+#if !EXTENSION
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[NSString stringWithFormat:@"%@ (-%li)", message, (long)code] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
     [alert show];
+#endif
 }
 
 + (NSString *)userAgent {
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *bundleName = info[@"CFBundleDisplayName"];
-    NSString *version = info[@"CFBundleShortVersionString"];
-    NSString *model = [[UIDevice currentDevice] model];
-    NSString *systemName = [[UIDevice currentDevice] systemName];
-    NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
-    NSString *localeIdentifier = [[NSLocale currentLocale] localeIdentifier];
-    return [NSString stringWithFormat:@"%@ %@ (%@; %@ %@; %@)", bundleName, version, model, systemName, systemVersion, localeIdentifier];
+    static NSString *userAgentString;
+    if (!userAgentString) {
+        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+        NSString *bundleName = info[(NSString *)kCFBundleNameKey];
+        NSString *version = info[@"CFBundleShortVersionString"];
+        NSString *model = [[UIDevice currentDevice] model];
+        NSString *systemName = [[UIDevice currentDevice] systemName];
+        NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+        NSString *localeIdentifier = [[NSLocale currentLocale] localeIdentifier];
+        userAgentString = [NSString stringWithFormat:@"%@ %@ (%@; %@ %@; %@)", bundleName, version, model, systemName, systemVersion, localeIdentifier];
+    }
+    return userAgentString;
 }
 
 @end

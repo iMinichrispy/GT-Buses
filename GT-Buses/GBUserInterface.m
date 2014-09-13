@@ -11,13 +11,32 @@
 #import "GBColors.h"
 #import "GBConstants.h"
 
+@implementation GBNavigationController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    
+    self.navigationBar.translucent = NO;
+    self.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
+    
+    UIColor *color = [UIColor appTintColor];
+    if ([self.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
+        self.navigationBar.barTintColor = color;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    } else {
+        self.navigationBar.tintColor = color;
+    }
+}
+
+@end
+
 @implementation GBLabel
 
-- (instancetype)initWithFrame:(CGRect)frame size:(float)size {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.font = [UIFont fontWithName:GBFontDefault size:size];
+        self.backgroundColor = [UIColor clearColor]; // Default background color is white on >=iOS6
         self.textColor = [UIColor whiteColor];
     }
     return self;
@@ -35,20 +54,15 @@
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.font = [UIFont fontWithName:GBFontDefault size:16];
         self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        [self addTarget:self action:@selector(buttonHighlighted) forControlEvents:UIControlEventTouchDown];
-        [self addTarget:self action:@selector(buttonNormal) forControlEvents:UIControlEventTouchUpInside];
-        [self addTarget:self action:@selector(buttonNormal) forControlEvents:UIControlEventTouchUpOutside];
-        [self addTarget:self action:@selector(buttonNormal) forControlEvents:UIControlEventTouchDragOutside];
     }
     return self;
 }
 
-- (void)buttonHighlighted {
-    self.backgroundColor = [[UIColor appTintColor] darkerColor:.26];
-}
-
-- (void)buttonNormal {
-    self.backgroundColor = [[UIColor appTintColor] darkerColor:0.2];
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    
+    float colorFactor = highlighted ? 0.26f : 0.2f;
+    self.backgroundColor = [[UIColor appTintColor] darkerColor:colorFactor];
 }
 
 @end
@@ -62,7 +76,7 @@
         self.segmentedControlStyle = UISegmentedControlStyleBar;
         self.apportionsSegmentWidthsByContent = NO;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.tintColor = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? [UIColor whiteColor] : [UIColor appTintColor];
+        self.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? [UIColor whiteColor] : [UIColor appTintColor];
     }
     return self;
 }
