@@ -23,6 +23,8 @@
 		FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
 		FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
 		FA1FE98B18A1DD3600757643 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE98618A1DD3600757643 /* Arrow.png */; };
+		FA8A287719C7485900B02EDA /* Predictions.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287519C7485900B02EDA /* Predictions.xml */; };
+		FA8A287B19C7487500B02EDA /* Locations.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287919C7487500B02EDA /* Locations.xml */; };
 		FA8F828919AC0131008FE578 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
 		FA8F828A19AC0200008FE578 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
 		FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233B18A520710049A5FA /* MFSideMenuContainerViewController.m */; };
@@ -119,6 +121,8 @@
 		FA1FE98618A1DD3600757643 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
 		FA3C921719AA8AD300CEC529 /* RouteConfig.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RouteConfig.xml; sourceTree = "<group>"; };
 		FA5678F118A2C9BF00386A71 /* To-Do.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "To-Do.txt"; path = "../To-Do.txt"; sourceTree = "<group>"; };
+		FA8A287519C7485900B02EDA /* Predictions.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Predictions.xml; sourceTree = "<group>"; };
+		FA8A287919C7487500B02EDA /* Locations.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Locations.xml; sourceTree = "<group>"; };
 		FAA1233918A520710049A5FA /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
 		FAA1233A18A520710049A5FA /* MFSideMenuContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenuContainerViewController.h; sourceTree = "<group>"; };
 		FAA1233B18A520710049A5FA /* MFSideMenuContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenuContainerViewController.m; sourceTree = "<group>"; };
@@ -255,6 +259,8 @@
 				FA1FE95018A1D8A300757643 /* GT-BusesTests-Info.plist */,
 				FA1FE95118A1D8A300757643 /* InfoPlist.strings */,
 				FA3C921719AA8AD300CEC529 /* RouteConfig.xml */,
+				FA8A287919C7487500B02EDA /* Locations.xml */,
+				FA8A287519C7485900B02EDA /* Predictions.xml */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -484,7 +490,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA8A287B19C7487500B02EDA /* Locations.xml in Resources */,
 				FA1FE95318A1D8A300757643 /* InfoPlist.strings in Resources */,
+				FA8A287719C7485900B02EDA /* Predictions.xml in Resources */,
 				FA8F828919AC0131008FE578 /* RouteConfig.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

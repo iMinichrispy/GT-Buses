@@ -10,8 +10,6 @@
 
 #import "GBConstants.h"
 
-#define API_URL @"http://m.cip.gatech.edu/widget/buses/content/api"
-
 static NSString * const GBRouteConfigURL =      @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=routeConfig";
 static NSString * const GBBusLocationsURL =     @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=vehicleLocations&r=";
 static NSString * const GBBusPredictionsURL =   @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=predictionsForMultiStops&r=";

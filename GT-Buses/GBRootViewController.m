@@ -67,12 +67,8 @@ float const kSetRegionAnimationSpeed = 0.4f;
     
     self.title = @"GT Buses";
     
-    UIColor *controlTintColor = [UIColor controlTintColor];
-    _busRouteControlView.busRouteControl.tintColor = controlTintColor;
-    _busRouteControlView.backgroundColor = [UIColor appTintColor];
-    
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(aboutPressed)];
-    aboutButton.tintColor = controlTintColor;
+    aboutButton.tintColor = [UIColor controlTintColor];
     self.navigationItem.leftBarButtonItem = aboutButton;
     
     _busRouteControlView = [[GBBusRouteControlView alloc] init];
@@ -166,7 +162,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
 }
 
 #pragma mark - Request Handler Delegate
-added notification center widget, ios 8 location manager, minor improvements
+
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     [_busRouteControlView.activityIndicator stopAnimating];
     NSError *error;
@@ -316,6 +312,7 @@ added notification center widget, ios 8 location manager, minor improvements
     return index != UISegmentedControlNoSegment ? _routes[index] : nil;
 }
 
+//requestUpdates,updtelocationpredictionrouteconfi,updatedata,requestdataupdate
 - (void)updateVehicleLocations {
     GBRoute *selectedRoute = [self selectedRoute];
     if (selectedRoute) {

@@ -16,7 +16,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     self.navigationBar.translucent = NO;
     self.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     
@@ -75,8 +74,7 @@
     if (self) {
         self.segmentedControlStyle = UISegmentedControlStyleBar;
         self.apportionsSegmentWidthsByContent = NO;
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.tintColor = SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? [UIColor whiteColor] : [UIColor appTintColor];
+        self.tintColor = [UIColor controlTintColor];
     }
     return self;
 }
@@ -89,7 +87,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
+        // Aren't these both the default? Test >iOS 7
         self.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
         self.hidesWhenStopped = YES;
     }
@@ -107,7 +105,6 @@
         self.textColor = [UIColor whiteColor];
         self.backgroundColor = [UIColor clearColor];
         self.textAlignment = NSTextAlignmentCenter;
-        self.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
     }
     return self;
 }

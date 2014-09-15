@@ -21,7 +21,6 @@
     
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:self.viewController];
     GBAboutController *aboutController = [[GBAboutController alloc] init];
-    
     MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:navController leftMenuViewController:aboutController rightMenuViewController:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

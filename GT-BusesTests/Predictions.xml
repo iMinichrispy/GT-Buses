@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<body copyright="All data copyright Georgia Tech Campus 2014.">
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="North Ave &amp; President&apos;s Lot" stopTag="nortpres">
+        <direction title="fithalll">
+            <prediction epochTime="1410797768500" seconds="161" minutes="2" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="439" block="201" />
+            <prediction epochTime="1410798848500" seconds="1241" minutes="20" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="442" block="204" />
+            <prediction epochTime="1410799208500" seconds="1601" minutes="26" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="439" block="201" />
+            <prediction epochTime="1410799568500" seconds="1961" minutes="32" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="441" block="202" />
+            <prediction epochTime="1410800288500" seconds="2681" minutes="44" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="442" block="204" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="Tech Pkwy &amp; Aerospace" stopTag="techaero">
+        <direction title="fithalll">
+            <prediction epochTime="1410797824961" seconds="218" minutes="3" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="439" block="201" />
+            <prediction epochTime="1410798904961" seconds="1298" minutes="21" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="442" block="204" />
+            <prediction epochTime="1410799264961" seconds="1658" minutes="27" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="439" block="201" />
+            <prediction epochTime="1410799624961" seconds="2018" minutes="33" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="441" block="202" />
+            <prediction epochTime="1410800344961" seconds="2738" minutes="45" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="442" block="204" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="Tech Pkwy &amp; State St" stopTag="techstat">
+        <direction title="fithalll">
+            <prediction epochTime="1410797873254" seconds="266" minutes="4" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="439" block="201" />
+            <prediction epochTime="1410798953254" seconds="1346" minutes="22" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="442" block="204" />
+            <prediction epochTime="1410799313254" seconds="1706" minutes="28" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="439" block="201" />
+            <prediction epochTime="1410799673254" seconds="2066" minutes="34" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="441" block="202" />
+            <prediction epochTime="1410800393254" seconds="2786" minutes="46" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="442" block="204" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="Recreation Center" stopTag="creccent">
+        <direction title="fithalll">
+            <prediction epochTime="1410797698923" seconds="91" minutes="1" isDeparture="false" dirTag="fithalll" vehicle="441" block="202" />
+            <prediction epochTime="1410797975260" seconds="368" minutes="6" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="439" block="201" />
+            <prediction epochTime="1410799055260" seconds="1448" minutes="24" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="442" block="204" />
+            <prediction epochTime="1410799415260" seconds="1808" minutes="30" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="439" block="201" />
+            <prediction epochTime="1410799775260" seconds="2168" minutes="36" isDeparture="false" affectedByLayover="true" dirTag="fithalll" vehicle="441" block="202" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="Fitten Hall - Hidden Departure" stopTag="fitthall">
+        <direction title="North Ave Apts">
+            <prediction epochTime="1410798240000" seconds="633" minutes="10" isDeparture="true" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410798600000" seconds="993" minutes="16" isDeparture="true" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+            <prediction epochTime="1410799320000" seconds="1713" minutes="28" isDeparture="true" affectedByLayover="true" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410799680000" seconds="2073" minutes="34" isDeparture="true" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410800040000" seconds="2433" minutes="40" isDeparture="true" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="McMillian St &amp; 8th St" stopTag="mcmil8th">
+        <direction title="North Ave Apts">
+            <prediction epochTime="1410798280066" seconds="673" minutes="11" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410798640066" seconds="1033" minutes="17" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+            <prediction epochTime="1410799360066" seconds="1753" minutes="29" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410799720066" seconds="2113" minutes="35" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410800080066" seconds="2473" minutes="41" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="8th St &amp; Hemphill Ave" stopTag="8thhemp">
+        <direction title="North Ave Apts">
+            <prediction epochTime="1410798333282" seconds="726" minutes="12" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410798693282" seconds="1086" minutes="18" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+            <prediction epochTime="1410799413282" seconds="1806" minutes="30" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410799773282" seconds="2166" minutes="36" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410800133282" seconds="2526" minutes="42" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="Ferst Dr &amp; Hemphill Ave" stopTag="fershemp">
+        <direction title="North Ave Apts">
+            <prediction epochTime="1410798393447" seconds="786" minutes="13" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410798753447" seconds="1146" minutes="19" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+            <prediction epochTime="1410799473447" seconds="1866" minutes="31" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410799833447" seconds="2226" minutes="37" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410800193447" seconds="2586" minutes="43" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="Ferst Dr &amp; State St" stopTag="fersstat">
+        <direction title="North Ave Apts">
+            <prediction epochTime="1410798417359" seconds="810" minutes="13" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410798777359" seconds="1170" minutes="19" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+            <prediction epochTime="1410799497359" seconds="1890" minutes="31" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410799857359" seconds="2250" minutes="37" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410800217359" seconds="2610" minutes="43" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="Ferst Dr &amp; Atlantic Dr" stopTag="fersatla">
+        <direction title="North Ave Apts">
+            <prediction epochTime="1410797654612" seconds="47" minutes="0" isDeparture="false" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410798476698" seconds="869" minutes="14" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410798836698" seconds="1229" minutes="20" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+            <prediction epochTime="1410799556698" seconds="1949" minutes="32" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410799916698" seconds="2309" minutes="38" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="Klaus Building" stopTag="klaubldg">
+        <direction title="North Ave Apts">
+            <prediction epochTime="1410797727281" seconds="120" minutes="2" isDeparture="false" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410798549367" seconds="942" minutes="15" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410798909367" seconds="1302" minutes="21" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+            <prediction epochTime="1410799629367" seconds="2022" minutes="33" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410799989367" seconds="2382" minutes="39" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="Ferst Dr &amp; Fowler St" stopTag="fersfowl">
+        <direction title="North Ave Apts">
+            <prediction epochTime="1410797789012" seconds="182" minutes="3" isDeparture="false" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410798611098" seconds="1004" minutes="16" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410798971098" seconds="1364" minutes="22" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+            <prediction epochTime="1410799691098" seconds="2084" minutes="34" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410800051098" seconds="2444" minutes="40" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <predictions agencyTitle="Georgia Tech Campus" routeTitle="Red" routeTag="red" stopTitle="North Avenue Apartments - Arrival" stopTag="naveapts_a">
+        <direction title="North Ave Apts">
+            <prediction epochTime="1410798026936" seconds="419" minutes="6" isDeparture="false" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410798849022" seconds="1242" minutes="20" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+            <prediction epochTime="1410799209022" seconds="1602" minutes="26" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="441" block="202" />
+            <prediction epochTime="1410799929022" seconds="2322" minutes="38" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="442" block="204" />
+            <prediction epochTime="1410800289022" seconds="2682" minutes="44" isDeparture="false" affectedByLayover="true" dirTag="naveapts" vehicle="439" block="201" />
+        </direction>
+        <message text="Stingers and Midnight Rambler will return to their regular Ferst&amp;Cherry routes and stops on Wed morning, Sept 17.  1 month early, yeah!" priority="Normal"/>
+    </predictions>
+    <keyForNextTime value="228802454495" />
+</body>
+

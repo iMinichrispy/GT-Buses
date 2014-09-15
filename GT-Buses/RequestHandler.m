@@ -44,7 +44,7 @@
 
 - (void)setActivityIndicatorVisible:(BOOL)hidden {
 #if !EXTENSION
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = hidden;
 #endif
 }
 

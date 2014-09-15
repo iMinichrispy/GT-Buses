@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<body copyright="All data copyright Georgia Tech Campus 2014.">
+    <vehicle id="442" routeTag="red" dirTag="naveapts" lat="33.778239" lon="-84.399423" secsSinceReport="16" predictable="true" heading="96" speedKmHr="0"/>
+    <vehicle id="441" routeTag="red" dirTag="fithalll" lat="33.773075" lon="-84.398965" secsSinceReport="16" predictable="true" heading="279" speedKmHr="0"/>
+    <vehicle id="439" routeTag="red" dirTag="fithalll" lat="33.769911" lon="-84.391703" secsSinceReport="16" predictable="true" heading="51" speedKmHr="0"/>
+    <lastTime time="1410797590824"/>
+    <keyForNextTime value="228309355752" />
+</body>
