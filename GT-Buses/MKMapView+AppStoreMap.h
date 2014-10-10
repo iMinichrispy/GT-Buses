@@ -1,12 +1,11 @@
 //
-//  MKMapView+AppStoreImages.h
+//  MKMapView+AppStoreMap.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 8/23/14.
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-@import Foundation;
 @import MapKit;
 
 @class GBRoute;

@@ -11,17 +11,17 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>E5156265DBFB30B24CF1469D9782E77C7884BB77</key>
-		<string>ssh://gitlab.com/iMinichrispy/gt-buses.git</string>
+		<string>gitlab.com:iMinichrispy/gt-buses.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>GT-Buses.xcodeproj/project.xcworkspace</string>
+	<string>GT-Buses.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>E5156265DBFB30B24CF1469D9782E77C7884BB77</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://gitlab.com/iMinichrispy/gt-buses.git</string>
+	<string>gitlab.com:iMinichrispy/gt-buses.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

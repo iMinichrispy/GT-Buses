@@ -12,6 +12,9 @@ NSString * const GBFontDefault = @"Avenir-Medium";
 
 NSString * const GBUserDefaultsFilePath = @"GBDefaultPreferences";
 NSString * const GBUserDefaultsKeySelectedRoute = @"GBUserDefaultsKeySelectedRoute";
+NSString * const GBUserDefaultsKeySelectedColor = @"GBUserDefaultsKeySelectedColor";
+
+NSString * const GBNotificationTintColorDidChange = @"GBNotificationTintColorDidChange";
 
 float const kSideWidth = 150.0f;
 float const kSideWidthiPad = 200.0f;

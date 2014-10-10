@@ -10,6 +10,9 @@ extern NSString * const GBFontDefault;
 
 extern NSString * const GBUserDefaultsFilePath;
 extern NSString * const GBUserDefaultsKeySelectedRoute;
+extern NSString * const GBUserDefaultsKeySelectedColor;
+
+extern NSString * const GBNotificationTintColorDidChange;
 
 extern float const kSideWidth;
 extern float const kSideWidthiPad;

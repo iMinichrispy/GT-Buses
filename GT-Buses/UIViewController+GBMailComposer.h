@@ -11,6 +11,7 @@
 
 @interface UIViewController (GBMailComposer) <MFMailComposeViewControllerDelegate>
 
-- (void)showMailPicker;
+- (void)showSupportEmailComposer;
+- (void)showDebugEmailComposer;
 
 @end

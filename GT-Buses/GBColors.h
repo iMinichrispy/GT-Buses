@@ -10,6 +10,20 @@ static inline UIColor *RGBColor(CGFloat red, CGFloat green, CGFloat blue) {
     return [UIColor colorWithRed:(red / 255.0) green:(green / 255.0) blue:(blue / 255.0) alpha:1.0];
 }
 
+@protocol GBTintColorDelegate <NSObject>
+
+@required
+- (void)updateTintColor;
+
+@end
+
+@interface GBColors : NSObject
+
++ (void)setAppTintColor:(UIColor *)color;
++ (NSArray *)availableTintColors;
+
+@end
+
 @interface UIColor (GBColors)
 
 - (UIColor *)darkerColor:(float)rate;

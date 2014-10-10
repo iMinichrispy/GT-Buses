@@ -20,20 +20,16 @@ float const kSideBarItemSpacing = kSideBarItemViewHeight + (kSideBarItemLabelHei
 
 float const kButtonHeight = 40.0f;
 
+@interface GBAboutController () <UIActionSheetDelegate, GBTintColorDelegate>
+
+@end
+
 @implementation GBAboutController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIColor *color = [UIColor appTintColor];
-    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
-        self.navigationController.navigationBar.barTintColor = color;
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    }
-    else
-        self.navigationController.navigationBar.tintColor = color;
-    
-    self.view.backgroundColor = [color darkerColor:0.05];
+    [self updateTintColor];
     
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *version = [NSString stringWithFormat:@"%@ (%@)", info[@"CFBundleShortVersionString"], info[@"CFBundleVersion"]];
@@ -44,7 +40,7 @@ float const kButtonHeight = 40.0f;
     float yValue = [self frameHeight] - 50 + [self origin];
     GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, kButtonHeight)];
     [supportButton setTitle:@"Support" forState:UIControlStateNormal];
-    [supportButton addTarget:self action:@selector(showMailPicker) forControlEvents:UIControlEventTouchUpInside];
+    [supportButton addTarget:self action:@selector(showSupportEmailComposer) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:supportButton];
     
     GBButton *appReviewButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - 50, width, kButtonHeight)];
@@ -52,14 +48,18 @@ float const kButtonHeight = 40.0f;
     [appReviewButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:appReviewButton];
     
-    [[UINavigationBar appearance] setTintColor:color];
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeColor:)];
+    [longPress setMinimumPressDuration:2];
+    [appReviewButton addGestureRecognizer:longPress];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
 }
 
 - (void)addSidebarItems:(NSArray *)sideBaritems {
     float y = [self origin] + kSideBarItemsInitY;
     for (NSDictionary *sideBarItem in sideBaritems) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, y + 25, kSideWidthiPad, kSideBarItemViewHeight)];
-        view.backgroundColor = [[UIColor appTintColor] darkerColor:0.15];
+        GBSideBarView *view = [[GBSideBarView alloc] initWithFrame:CGRectMake(0, y + 25, kSideWidthiPad, kSideBarItemViewHeight)];
+        [view updateTintColor];
         [self.view addSubview:view];
         
         GBLabel *titleLabel = [[GBLabel alloc] init];
@@ -90,6 +90,59 @@ float const kButtonHeight = 40.0f;
 
 - (void)reviewApp {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/gtbuses"]];
+}
+
+#pragma mark - Tint Color
+
+- (void)updateTintColor {
+    UIColor *color = [UIColor appTintColor];
+    if ([self.navigationController.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
+        self.navigationController.navigationBar.barTintColor = color;
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    else
+        self.navigationController.navigationBar.tintColor = color;
+    
+    self.view.backgroundColor = [color darkerColor:0.05];
+    
+    // Sets mail composer navigation bar tint color
+    [[UINavigationBar appearance] setTintColor:color];
+}
+
+- (void)updateTintColor:(NSNotification *)notification {
+    [self updateTintColor];
+    for (UIView *view in self.view.subviews) {
+        if ([view isKindOfClass:[GBButton class]] || [view isKindOfClass:[GBSideBarView class]])
+            [((id<GBTintColorDelegate>)view) updateTintColor];
+    }
+}
+
+#pragma mark - Action Sheet
+
+- (void)changeColor:(UILongPressGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Color:" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+        
+        NSArray *tintColors = [GBColors availableTintColors];
+        for (NSDictionary *color in tintColors){
+            [actionSheet addButtonWithTitle:color[@"name"]];
+        }
+        
+        if (!IS_IPAD) {
+            [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+        }
+        
+        [actionSheet showFromRect:recognizer.view.frame inView:self.view animated:YES];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != actionSheet.cancelButtonIndex) {
+        NSArray *tintColors = [GBColors availableTintColors];
+        NSDictionary *selectedColor = tintColors[buttonIndex];
+        UIColor *color = selectedColor[@"color"];
+        [GBColors setAppTintColor:color];
+    }
 }
 
 #pragma mark - MFMailComposeViewControllerDelegate

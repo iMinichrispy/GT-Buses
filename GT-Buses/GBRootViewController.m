@@ -37,6 +37,7 @@ static NSString * const GBVehicleLocationsTask = @"GBVehicleLocationsTask";
 static NSString * const GBVehiclePredictionsTask = @"GBVehiclePredictionsTask";
 
 float const kSetRegionAnimationSpeed = 0.4f;
+int const kRefreshInterval = 5;
 
 @interface GBRootViewController () <RequestHandlerDelegate, CLLocationManagerDelegate> {
     NSTimer *refreshTimer;
@@ -55,8 +56,26 @@ float const kSetRegionAnimationSpeed = 0.4f;
 
 @implementation GBRootViewController
 
+- (void)save {
+    NSLog(@"save");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+#ifdef DEBUG
+    UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(save)];
+    UIBarButtonItem *actionItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(save)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
+        self.navigationController.toolbar.barTintColor = [UIColor appTintColor];
+        self.navigationController.toolbar.tintColor = [UIColor whiteColor];
+    } else {
+        self.navigationController.toolbar.tintColor = [UIColor appTintColor];
+    }
+    self.navigationController.toolbarHidden = NO;
+    self.toolbarItems = @[flexibleSpace, actionItem];
+#endif
     
     self.menuContainerViewController.menuWidth = IS_IPAD ? kSideWidthiPad : kSideWidth;
     self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
@@ -64,6 +83,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     
     self.title = @"GT Buses";
     
@@ -110,6 +130,22 @@ float const kSetRegionAnimationSpeed = 0.4f;
     _routes = [NSMutableArray new];
 }
 
+- (void)updateTintColor:(NSNotification *)notification {
+    UIColor *tintColor = notification.object;
+    [(GBNavigationController *)self.navigationController updateTintColor];
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor controlTintColor];
+    [_busRouteControlView updateTintColor];
+#ifdef DEBUG
+    if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
+        self.navigationController.toolbar.barTintColor = tintColor;
+        self.navigationController.toolbar.tintColor = [UIColor whiteColor];
+    } else {
+        self.navigationController.toolbar.tintColor = tintColor;
+    }
+#endif
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -134,7 +170,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
     [self updateVehicleLocations];
     
     if (![refreshTimer isValid])
-        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(updateVehicleLocations) userInfo:nil repeats:YES];
+        refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshInterval target:self selector:@selector(updateVehicleLocations) userInfo:nil repeats:YES];
 }
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification {
@@ -156,9 +192,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    if (status != kCLAuthorizationStatusDenied && status != kCLAuthorizationStatusNotDetermined && status != kCLAuthorizationStatusRestricted) {
-        _mapView.showsUserLocation = YES;
-    }
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) _mapView.showsUserLocation = YES;
 }
 
 #pragma mark - Request Handler Delegate
@@ -193,8 +227,7 @@ float const kSetRegionAnimationSpeed = 0.4f;
             if (newLocationUpdate != lastLocationUpdate) {
                 NSArray *vehicles = dictionary[@"body"][@"vehicle"];
                 if (vehicles) {
-                    if (![vehicles isKindOfClass:[NSArray class]])
-                        vehicles = [NSArray arrayWithObject:vehicles];
+                    if (![vehicles isKindOfClass:[NSArray class]]) vehicles = @[vehicles];
                     
                     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBusAnnotation class]];
                     NSMutableArray *busAnnotations = [[_mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
@@ -234,7 +267,6 @@ float const kSetRegionAnimationSpeed = 0.4f;
                     [_mapView removeAnnotations:busAnnotations];
                 }
             }
-            
             lastLocationUpdate = newLocationUpdate;
         } else if (handler.task == GBVehiclePredictionsTask) {
             long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
@@ -267,12 +299,22 @@ float const kSetRegionAnimationSpeed = 0.4f;
                                     NSMutableString *subtitle = [NSMutableString stringWithString:@"Next: "];
                                     NSDictionary *lastPredication = [predictions lastObject];
                                     for (NSDictionary *prediction in predictions) {
+#ifdef DEBUG
+                                        int totalSeconds = [prediction[@"seconds"] intValue];
+                                        double minutes = totalSeconds / 60.0;
+                                        double seconds = totalSeconds - (60 * floor(minutes));
+                                        NSString *time = FORMAT(@"%.f:%02.f", minutes, seconds);
+                                        [subtitle appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", time];
+#else
                                         [subtitle appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", prediction[@"minutes"]];
+#endif
                                     }
                                     busStopAnnotation.subtitle = subtitle;
                                 }
                                 else busStopAnnotation.subtitle = @"No Predictions";
                                 
+                                // It's okay to remove an element while iterating since we're breaking anyway
+                                // Using a double for loop so this alows us to iterate over fewer elements the next time
                                 [busStopAnnotations removeObject:busStopAnnotation];
                                 break;
                             }
@@ -312,7 +354,6 @@ float const kSetRegionAnimationSpeed = 0.4f;
     return index != UISegmentedControlNoSegment ? _routes[index] : nil;
 }
 
-//requestUpdates,updtelocationpredictionrouteconfi,updatedata,requestdataupdate
 - (void)updateVehicleLocations {
     GBRoute *selectedRoute = [self selectedRoute];
     if (selectedRoute) {
@@ -339,12 +380,13 @@ float const kSetRegionAnimationSpeed = 0.4f;
 
 - (void)didChangeBusRoute {
     if ([refreshTimer isValid]) [refreshTimer invalidate];
-    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(updateVehicleLocations) userInfo:nil repeats:YES];
+    refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshInterval target:self selector:@selector(updateVehicleLocations) userInfo:nil repeats:YES];
     
     NSInteger index = _busRouteControlView.busRouteControl.selectedSegmentIndex;
-    if (index != UISegmentedControlNoSegment)
+    if (index != UISegmentedControlNoSegment) {
         [[NSUserDefaults standardUserDefaults] setInteger:index forKey:GBUserDefaultsKeySelectedRoute];
         [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     [_mapView removeAnnotations:_mapView.annotations];
     [_mapView removeOverlays:_mapView.overlays];

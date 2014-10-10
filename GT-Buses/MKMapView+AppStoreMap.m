@@ -1,5 +1,5 @@
 //
-//  MKMapView+AppStoreImages.m
+//  MKMapView+AppStoreMap.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 8/23/14.

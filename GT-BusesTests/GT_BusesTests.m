@@ -34,7 +34,7 @@
 //    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
 }
 
-- (void)testPerformance {
+- (void)testRouteConfigPerformance {
     NSMutableArray *routes = [NSMutableArray new];
     NSString *path = [[NSBundle mainBundle] pathForResource:@"RouteConfig" ofType:@"xml"];
     NSLog(@"%@",path);
@@ -54,6 +54,10 @@
     
     
 //    XCTAssert(!error, @"An error occured: %@", [error localizedDescription]);
+}
+
+- (void)testPredictionsPerformance {
+    
 }
 
 

@@ -19,6 +19,10 @@
     self.navigationBar.translucent = NO;
     self.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     
+    [self updateTintColor];
+}
+
+- (void)updateTintColor {
     UIColor *color = [UIColor appTintColor];
     if ([self.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
         self.navigationBar.barTintColor = color;
@@ -29,6 +33,7 @@
 }
 
 @end
+
 
 @implementation GBLabel
 
@@ -64,6 +69,10 @@
     self.backgroundColor = [[UIColor appTintColor] darkerColor:colorFactor];
 }
 
+- (void)updateTintColor {
+    [self setHighlighted:NO];
+}
+
 @end
 
 
@@ -74,22 +83,6 @@
     if (self) {
         self.segmentedControlStyle = UISegmentedControlStyleBar;
         self.apportionsSegmentWidthsByContent = NO;
-        self.tintColor = [UIColor controlTintColor];
-    }
-    return self;
-}
-
-@end
-
-
-@implementation GBActivityIndicatorView
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Aren't these both the default? Test >iOS 7
-        self.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
-        self.hidesWhenStopped = YES;
     }
     return self;
 }
@@ -107,6 +100,15 @@
         self.textAlignment = NSTextAlignmentCenter;
     }
     return self;
+}
+
+@end
+
+
+@implementation GBSideBarView
+
+- (void)updateTintColor {
+    self.backgroundColor = [[UIColor appTintColor] darkerColor:0.15];
 }
 
 @end

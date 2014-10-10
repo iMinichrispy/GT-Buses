@@ -16,25 +16,27 @@
 
 @implementation GBMapHandler
 
+// For iOS <=6
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView *line = [[MKPolylineView alloc] initWithPolyline:overlay];
         line.strokeColor = ((GBBusRouteLine *)overlay).color;
-        line.lineWidth = IS_IPAD ? 20 : 10;
-        line.alpha = .5;
+        line.lineWidth = 10;
         line.lineCap = kCGLineCapButt;
+        line.alpha = .5;
         return line;
     }
     return nil;
 }
 
+// For iOS >=7
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id <MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *line = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
         line.strokeColor = ((GBBusRouteLine *)overlay).color;
         line.lineWidth =  IS_IPAD ? 10 : 6;
-        line.alpha = .5;
         line.lineCap = kCGLineCapButt;
+        line.alpha = .5;
         return line;
     }
     return nil;
@@ -59,6 +61,7 @@
         identifierLabel.textColor = busAnnotation.color;
         identifierLabel.font = [UIFont systemFontOfSize:12];
         identifierLabel.text = busAnnotation.busIdentifier;
+        identifierLabel.backgroundColor = [UIColor clearColor];
         [annotationView addSubview:identifierLabel];
         
         NSMutableArray *constraints = [NSMutableArray new];
@@ -78,7 +81,7 @@
                                 attribute:NSLayoutAttributeTop
                                 multiplier:1.0
                                 constant:0.0]];
-        [annotationView addConstraints:constraints];
+//        [annotationView addConstraints:constraints];
 #endif
         return annotationView;
     }

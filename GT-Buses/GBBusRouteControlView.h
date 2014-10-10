@@ -6,7 +6,9 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-@interface GBBusRouteControlView : UIView
+#import "GBColors.h"
+
+@interface GBBusRouteControlView : UIView <GBTintColorDelegate>
 
 @property (nonatomic, strong) UILabel *errorLabel;
 @property (nonatomic, strong) UISegmentedControl *busRouteControl;

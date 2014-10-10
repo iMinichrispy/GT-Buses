@@ -8,7 +8,7 @@
 
 #import "GBColors.h"
 
-@interface GBNavigationController : UINavigationController
+@interface GBNavigationController : UINavigationController <GBTintColorDelegate>
 
 @end
 
@@ -16,7 +16,7 @@
 
 @end
 
-@interface GBButton : UIButton
+@interface GBButton : UIButton <GBTintColorDelegate>
 
 @end
 
@@ -24,10 +24,10 @@
 
 @end
 
-@interface GBActivityIndicatorView : UIActivityIndicatorView
+@interface GBErrorLabel : UILabel
 
 @end
 
-@interface GBErrorLabel : UILabel
+@interface GBSideBarView : UIView <GBTintColorDelegate>
 
 @end

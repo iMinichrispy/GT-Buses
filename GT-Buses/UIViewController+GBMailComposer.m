@@ -9,30 +9,39 @@
 #import "UIViewController+GBMailComposer.h"
 
 #import "GBConstants.h"
-#import "GBSupportEmail.h"
+#import "GBEmail.h"
 
 @implementation UIViewController (GBMailComposer)
 
-- (void)showMailPicker {
+- (void)showSupportEmailComposer {
+    GBEmail *email = [GBSupportEmail defaultEmail];
+    [self showEmailComposerWithEmail:email];
+}
+
+- (void)showDebugEmailComposer {
+    GBEmail *email = [GBDebugEmail defaultEmail];
+    [self showEmailComposerWithEmail:email];
+}
+
+- (void)showEmailComposerWithEmail:(GBEmail *)email {
+#warning test email works
     if ([MFMailComposeViewController canSendMail]) {
-        MFMailComposeViewController *picker = [[MFMailComposeViewController alloc] init];
-        picker.mailComposeDelegate = self;
+        MFMailComposeViewController *composeController = [[MFMailComposeViewController alloc] init];
+        composeController.mailComposeDelegate = self;
         
-        [picker setSubject:[GBSupportEmail subject]];
-        [picker setToRecipients:[NSArray arrayWithObject:[GBSupportEmail recipients]]];
-        [picker setMessageBody:[GBSupportEmail body] isHTML:NO];
+        [composeController setSubject:email.subject];
+        [composeController setToRecipients:[NSArray arrayWithObject:email.recipients]];
+        [composeController setMessageBody:email.body isHTML:NO];
         
-        [self presentViewController:picker animated:YES completion:^{
+        composeController.modalPresentationStyle = UIModalPresentationPageSheet;
+        
+        [self presentViewController:composeController animated:YES completion:^{
             if IS_IPAD [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-#warning isnt lightcontent invalid on ios 6?
         }];
     } else {
-        NSString *recipients = [NSString stringWithFormat:@"mailto:%@", [GBSupportEmail recipients]];
-        NSString *subject = [NSString stringWithFormat:@"?subject=%@", [GBSupportEmail subject]];
-        NSString *body = [NSString stringWithFormat:@"&body=%@", [GBSupportEmail body]];
-        NSString *email = [NSString stringWithFormat:@"%@%@%@", recipients, subject, body];
-        email = [email stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+        NSString *emailString = FORMAT(@"mailto:%@?subject=%@&body=%@", email.recipients, email.subject, email.body);
+        emailString = [emailString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emailString]];
     }
 }
 

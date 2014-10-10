@@ -1,15 +1,40 @@
 //
-//  Email.m
-//  AirGuitar
+//  GBEmail.m
+//  GT-Buses
 //
-//  Created by Alex Perez on 1/16/14.
+//  Created by Alex Perez on 9/15/14.
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "GBSupportEmail.h"
+#import "GBEmail.h"
 
 #import "GBConstants.h"
 #import <sys/utsname.h>
+
+@implementation GBEmail
+
++ (GBEmail *)defaultEmail {
+    GBEmail *email = [[self alloc] init];
+    email.subject = [self subject];
+    email.recipients = [self recipients];
+    email.body = [self body];
+    return email;
+}
+
++ (NSString *)subject {
+    return nil; // To be implemented by subclasses
+}
+
++ (NSString *)recipients {
+    return nil; // To be implemented by subclasses
+}
+
++ (NSString *)body {
+    return nil; // To be implemented by subclasses
+}
+
+@end
+
 
 @implementation GBSupportEmail
 
@@ -34,15 +59,40 @@
     [deviceInfo appendString:FORMAT(@"Version: %@\n", info[@"CFBundleShortVersionString"])];
     [deviceInfo appendString:FORMAT(@"Build: %@\n", info[@"CFBundleVersion"])];
     [deviceInfo appendString:FORMAT(@"Model: %@\n", [[UIDevice currentDevice] model])];
-    [deviceInfo appendString:FORMAT(@"Model Identifier: %@\n", machineName())];
+    [deviceInfo appendString:FORMAT(@"Model Identifier: %@\n", [self machineName])];
     [deviceInfo appendString:FORMAT(@"System: %@ %@\n", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion])];
     return deviceInfo;
 }
 
-NSString *machineName() {
++ (NSString *)machineName {
     struct utsname systemInfo;
     uname(&systemInfo);
     return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 }
+
+@end
+
+@implementation GBDebugEmail
+
++ (GBEmail *)defaultEmail {
+    GBEmail *email = [[self alloc] init];
+    email.subject = [self subject];
+    email.recipients = [self recipients];
+    email.body = [self body];
+    return email;
+}
+
++ (NSString *)subject {
+    return @"GT Buses Debug";
+}
+
++ (NSString *)recipients {
+    return @"alex@iminichrispy.com";
+}
+
++ (NSString *)body {
+    return @"";
+}
+
 
 @end
