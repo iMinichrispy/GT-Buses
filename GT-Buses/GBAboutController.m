@@ -112,7 +112,7 @@ float const kButtonHeight = 40.0f;
 - (void)updateTintColor:(NSNotification *)notification {
     [self updateTintColor];
     for (UIView *view in self.view.subviews) {
-        if ([view isKindOfClass:[GBButton class]] || [view isKindOfClass:[GBSideBarView class]])
+        if ([view conformsToProtocol:@protocol(GBTintColorDelegate)])
             [((id<GBTintColorDelegate>)view) updateTintColor];
     }
 }

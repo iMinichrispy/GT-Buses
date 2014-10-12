@@ -18,11 +18,6 @@
     [self showEmailComposerWithEmail:email];
 }
 
-- (void)showDebugEmailComposer {
-    GBEmail *email = [GBDebugEmail defaultEmail];
-    [self showEmailComposerWithEmail:email];
-}
-
 - (void)showEmailComposerWithEmail:(GBEmail *)email {
 #warning test email works
     if ([MFMailComposeViewController canSendMail]) {
@@ -33,6 +28,7 @@
         [composeController setToRecipients:[NSArray arrayWithObject:email.recipients]];
         [composeController setMessageBody:email.body isHTML:NO];
         
+#warning include?
         composeController.modalPresentationStyle = UIModalPresentationPageSheet;
         
         [self presentViewController:composeController animated:YES completion:^{

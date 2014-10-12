@@ -52,15 +52,18 @@
 }
 
 + (NSString *)deviceInfo {
-    NSMutableString *deviceInfo = [NSMutableString stringWithString:@"<------- [Info] ------->\n"];
-    [deviceInfo appendString:@"Report Type: Support\n"];
-    [deviceInfo appendString:@"Product: GT Buses\n"];
-    NSDictionary* info = [[NSBundle mainBundle] infoDictionary];
-    [deviceInfo appendString:FORMAT(@"Version: %@\n", info[@"CFBundleShortVersionString"])];
-    [deviceInfo appendString:FORMAT(@"Build: %@\n", info[@"CFBundleVersion"])];
-    [deviceInfo appendString:FORMAT(@"Model: %@\n", [[UIDevice currentDevice] model])];
-    [deviceInfo appendString:FORMAT(@"Model Identifier: %@\n", [self machineName])];
-    [deviceInfo appendString:FORMAT(@"System: %@ %@\n", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion])];
+    static NSMutableString *deviceInfo;
+    if (!deviceInfo) {
+        deviceInfo = [NSMutableString stringWithString:@"<------- [Info] ------->\n"];
+        [deviceInfo appendString:@"Report Type: Support\n"];
+        [deviceInfo appendString:@"Product: GT Buses\n"];
+        NSDictionary* info = [[NSBundle mainBundle] infoDictionary];
+        [deviceInfo appendString:FORMAT(@"Version: %@\n", info[@"CFBundleShortVersionString"])];
+        [deviceInfo appendString:FORMAT(@"Build: %@\n", info[@"CFBundleVersion"])];
+        [deviceInfo appendString:FORMAT(@"Model: %@\n", [[UIDevice currentDevice] model])];
+        [deviceInfo appendString:FORMAT(@"Model Identifier: %@\n", [self machineName])];
+        [deviceInfo appendString:FORMAT(@"System: %@ %@\n", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion])];
+    }
     return deviceInfo;
 }
 
@@ -69,30 +72,5 @@
     uname(&systemInfo);
     return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 }
-
-@end
-
-@implementation GBDebugEmail
-
-+ (GBEmail *)defaultEmail {
-    GBEmail *email = [[self alloc] init];
-    email.subject = [self subject];
-    email.recipients = [self recipients];
-    email.body = [self body];
-    return email;
-}
-
-+ (NSString *)subject {
-    return @"GT Buses Debug";
-}
-
-+ (NSString *)recipients {
-    return @"alex@iminichrispy.com";
-}
-
-+ (NSString *)body {
-    return @"";
-}
-
 
 @end

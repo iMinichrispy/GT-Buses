@@ -24,8 +24,6 @@
 #import "XMLReader.h"
 #import "MFSideMenu.h"
 
-#define APP_STORE_MAP false
-
 #if APP_STORE_MAP
 #import "MKMapView+AppStoreMap.h"
 #endif
@@ -56,26 +54,8 @@ int const kRefreshInterval = 5;
 
 @implementation GBRootViewController
 
-- (void)save {
-    NSLog(@"save");
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-#ifdef DEBUG
-    UIBarButtonItem *saveItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize target:self action:@selector(save)];
-    UIBarButtonItem *actionItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(save)];
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
-        self.navigationController.toolbar.barTintColor = [UIColor appTintColor];
-        self.navigationController.toolbar.tintColor = [UIColor whiteColor];
-    } else {
-        self.navigationController.toolbar.tintColor = [UIColor appTintColor];
-    }
-    self.navigationController.toolbarHidden = NO;
-    self.toolbarItems = @[flexibleSpace, actionItem];
-#endif
     
     self.menuContainerViewController.menuWidth = IS_IPAD ? kSideWidthiPad : kSideWidth;
     self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
@@ -128,6 +108,14 @@ int const kRefreshInterval = 5;
     [self.view addConstraints:constraints];
     
     _routes = [NSMutableArray new];
+    
+#if DEFAULT_IMAGE
+    self.title = @"";
+    self.navigationItem.leftBarButtonItem = nil;
+    UIView *view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    view.backgroundColor = RGBColor(240, 235, 212);
+    [_mapView addSubview:view];
+#endif
 }
 
 - (void)updateTintColor:(NSNotification *)notification {
@@ -136,7 +124,7 @@ int const kRefreshInterval = 5;
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor controlTintColor];
     [_busRouteControlView updateTintColor];
-#ifdef DEBUG
+#if DEBUG
     if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
         self.navigationController.toolbar.barTintColor = tintColor;
         self.navigationController.toolbar.tintColor = [UIColor whiteColor];
@@ -209,19 +197,22 @@ int const kRefreshInterval = 5;
         
         if (handler.task == GBRouteConfigTask) {
             NSArray *newRoutes = dictionary[@"body"][@"route"];
-            
-            for (NSDictionary *dictionary in newRoutes) {
-                GBRoute *route = [dictionary toRoute];
-                [_routes addObject:route];
-                NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
-                [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
+            GBRoute *selectedRoute = [self selectedRoute];
+            // Prevents duplicate routes from being added to route segmented control in case connection is slow and route config is requested multiple times
+            if (!selectedRoute) {
+                for (NSDictionary *dictionary in newRoutes) {
+                    GBRoute *route = [dictionary toRoute];
+                    [_routes addObject:route];
+                    NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
+                    [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
+                }
+                
+                NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeySelectedRoute];
+                if (_busRouteControlView.busRouteControl.numberOfSegments)
+                    _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
+                
+                [self didChangeBusRoute];
             }
-            
-            NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeySelectedRoute];
-            if (_busRouteControlView.busRouteControl.numberOfSegments)
-                _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
-            
-            [self didChangeBusRoute];
         } else if (handler.task == GBVehicleLocationsTask) {
             long long newLocationUpdate = [dictionary[@"body"][@"lastTime"][@"time"] longLongValue];
             if (newLocationUpdate != lastLocationUpdate) {
@@ -299,7 +290,7 @@ int const kRefreshInterval = 5;
                                     NSMutableString *subtitle = [NSMutableString stringWithString:@"Next: "];
                                     NSDictionary *lastPredication = [predictions lastObject];
                                     for (NSDictionary *prediction in predictions) {
-#ifdef DEBUG
+#if DEBUG
                                         int totalSeconds = [prediction[@"seconds"] intValue];
                                         double minutes = totalSeconds / 60.0;
                                         double seconds = totalSeconds - (60 * floor(minutes));
@@ -369,12 +360,14 @@ int const kRefreshInterval = 5;
 #endif
     }
     else {
+#if !DEFAULT_IMAGE
         [_busRouteControlView.activityIndicator startAnimating];
         _busRouteControlView.errorLabel.hidden = YES;
 #warning different behavior occurs whether busroutecontrol is loaded or not - in terms of refreshing when no internet connection
         
         GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRouteConfigTask delegate:self];
         [requestHandler routeConfig];
+#endif
     }
 }
 

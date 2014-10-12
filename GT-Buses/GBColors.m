@@ -79,7 +79,7 @@
 + (UIColor *)blueColor {
     static UIColor *color;
     if (!color) {
-        color = RGBColor(24, 124, 199);
+        color = RGBColor(24, 124, 200);
     }
     return color;
 }
@@ -87,7 +87,7 @@
 + (UIColor *)redColor {
     static UIColor *color;
     if (!color) {
-        color = RGBColor(198, 42, 46);
+        color = RGBColor(217, 30, 24);
     }
     return color;
 }

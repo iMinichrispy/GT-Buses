@@ -27,15 +27,7 @@
     self.window.rootViewController = container;
     [self.window makeKeyAndVisible];
     
-    [self registerDefaults];
-    
     return YES;
-}
-
-- (void)registerDefaults {
-    NSString *defaultPath = [[NSBundle mainBundle] pathForResource:GBUserDefaultsFilePath ofType:@"plist"];
-    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultPath];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 }
 
 @end

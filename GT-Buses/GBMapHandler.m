@@ -55,33 +55,35 @@
         annotationView.frame = busAnnotation.arrowImageView.frame;
         annotationView.canShowCallout = NO;
         
-#ifdef DEBUG
-        UILabel *identifierLabel = [[UILabel alloc] init];
-        identifierLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        identifierLabel.textColor = busAnnotation.color;
-        identifierLabel.font = [UIFont systemFontOfSize:12];
-        identifierLabel.text = busAnnotation.busIdentifier;
-        identifierLabel.backgroundColor = [UIColor clearColor];
-        [annotationView addSubview:identifierLabel];
-        
-        NSMutableArray *constraints = [NSMutableArray new];
-        [constraints addObject:[NSLayoutConstraint
-                                constraintWithItem:identifierLabel
-                                attribute:NSLayoutAttributeCenterX
-                                relatedBy:NSLayoutRelationEqual
-                                toItem:busAnnotation.arrowImageView
-                                attribute:NSLayoutAttributeCenterX
-                                multiplier:1.0
-                                constant:0.0]];
-        [constraints addObject:[NSLayoutConstraint
-                                constraintWithItem:identifierLabel
-                                attribute:NSLayoutAttributeCenterY
-                                relatedBy:NSLayoutRelationEqual
-                                toItem:busAnnotation.arrowImageView
-                                attribute:NSLayoutAttributeTop
-                                multiplier:1.0
-                                constant:0.0]];
-//        [annotationView addConstraints:constraints];
+#if DEBUG
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            UILabel *identifierLabel = [[UILabel alloc] init];
+            identifierLabel.translatesAutoresizingMaskIntoConstraints = NO;
+            identifierLabel.textColor = busAnnotation.color;
+            identifierLabel.font = [UIFont systemFontOfSize:12];
+            identifierLabel.text = busAnnotation.busIdentifier;
+            identifierLabel.backgroundColor = [UIColor clearColor];
+            [annotationView addSubview:identifierLabel];
+            
+            NSMutableArray *constraints = [NSMutableArray new];
+            [constraints addObject:[NSLayoutConstraint
+                                    constraintWithItem:identifierLabel
+                                    attribute:NSLayoutAttributeCenterX
+                                    relatedBy:NSLayoutRelationEqual
+                                    toItem:busAnnotation.arrowImageView
+                                    attribute:NSLayoutAttributeCenterX
+                                    multiplier:1.0
+                                    constant:0.0]];
+            [constraints addObject:[NSLayoutConstraint
+                                    constraintWithItem:identifierLabel
+                                    attribute:NSLayoutAttributeCenterY
+                                    relatedBy:NSLayoutRelationEqual
+                                    toItem:busAnnotation.arrowImageView
+                                    attribute:NSLayoutAttributeTop
+                                    multiplier:1.0
+                                    constant:0.0]];
+            [annotationView addConstraints:constraints];
+        }
 #endif
         return annotationView;
     }

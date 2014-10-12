@@ -21,7 +21,3 @@
 @interface GBSupportEmail : GBEmail
 
 @end
-
-@interface GBDebugEmail : GBEmail
-
-@end

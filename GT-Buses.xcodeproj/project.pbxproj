@@ -37,7 +37,6 @@
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
 		FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
-		FADE7D0D196750E600F318D5 /* GBDefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = FADE7D0C196750E600F318D5 /* GBDefaultPreferences.plist */; };
 		FADE7D101967555800F318D5 /* GBBusRouteControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */; };
 		FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D151967605B00F318D5 /* GBRequestHandler.m */; };
 /* End PBXBuildFile section */
@@ -122,7 +121,6 @@
 		FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GBMailComposer.m"; sourceTree = "<group>"; };
 		FADE7D091967504600F318D5 /* GBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConstants.h; sourceTree = "<group>"; };
 		FADE7D0A1967504600F318D5 /* GBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConstants.m; sourceTree = "<group>"; };
-		FADE7D0C196750E600F318D5 /* GBDefaultPreferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GBDefaultPreferences.plist; sourceTree = "<group>"; };
 		FADE7D0E1967555800F318D5 /* GBBusRouteControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBusRouteControlView.h; sourceTree = "<group>"; };
 		FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBusRouteControlView.m; sourceTree = "<group>"; };
 		FADE7D141967605B00F318D5 /* GBRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBRequestHandler.h; sourceTree = "<group>"; };
@@ -172,15 +170,12 @@
 		FA1FE92F18A1D8A300757643 /* GT-Buses */ = {
 			isa = PBXGroup;
 			children = (
-				FADE7D0C196750E600F318D5 /* GBDefaultPreferences.plist */,
 				FADE7D091967504600F318D5 /* GBConstants.h */,
 				FADE7D0A1967504600F318D5 /* GBConstants.m */,
 				FA1FE93818A1D8A300757643 /* GBAppDelegate.h */,
 				FA1FE93918A1D8A300757643 /* GBAppDelegate.m */,
 				FA8C118919D30758008F5927 /* GBRootViewController.h */,
 				FA8C118A19D30758008F5927 /* GBRootViewController.m */,
-				FADE7D0E1967555800F318D5 /* GBBusRouteControlView.h */,
-				FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */,
 				FADE7D141967605B00F318D5 /* GBRequestHandler.h */,
 				FADE7D151967605B00F318D5 /* GBRequestHandler.m */,
 				FAA1234318A523170049A5FA /* GBAboutController.h */,
@@ -287,6 +282,8 @@
 				FA1FE97918A1D9C600757643 /* GBColors.m */,
 				FAA1234B18A5793C0049A5FA /* GBUserInterface.h */,
 				FAA1234C18A5793C0049A5FA /* GBUserInterface.m */,
+				FADE7D0E1967555800F318D5 /* GBBusRouteControlView.h */,
+				FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -398,7 +395,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FADE7D0D196750E600F318D5 /* GBDefaultPreferences.plist in Resources */,
 				FAA1431618A4A41300213E1C /* Dot.png in Resources */,
 				FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */,
 				FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */,
@@ -585,8 +581,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"DEFAULT_IMAGE=0",
+					"APP_STORE_MAP=0",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
