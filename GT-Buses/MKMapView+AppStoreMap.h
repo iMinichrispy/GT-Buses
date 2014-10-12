@@ -13,5 +13,6 @@
 
 - (void)showBusesWithRoute:(GBRoute *)route;
 + (NSString *)predictionsStringForRoute:(GBRoute *)route;
++ (NSString *)selectedStopTagForRoute:(GBRoute *)route;
 
 @end

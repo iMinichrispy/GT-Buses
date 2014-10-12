@@ -103,7 +103,7 @@ int const kRefreshInterval = 5;
     [constraints addObjectsFromArray:[NSLayoutConstraint
                                       constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][_mapView]|"
                                       options:0
-                                      metrics:@{@"controlViewHeight":@40}
+                                      metrics:@{@"controlViewHeight":@43}
                                       views:NSDictionaryOfVariableBindings(_busRouteControlView, _mapView)]];
     [self.view addConstraints:constraints];
     
@@ -406,16 +406,18 @@ int const kRefreshInterval = 5;
     for (NSDictionary *stop in selectedRoute.stops) {
         GBBusStopAnnotation *stopPin = [[GBBusStopAnnotation alloc] init];
         stopPin.title = stop[@"title"];
-#if APP_STORE_MAP
-        stopPin.subtitle = [MKMapView predictionsStringForRoute:selectedRoute];
-#else
         stopPin.subtitle = @"No Predictions";
-#endif
         stopPin.tag = selectedRoute.tag;
         stopPin.stopTag = stop[@"tag"];
         stopPin.color = selectedRoute.color;
         [stopPin setCoordinate:CLLocationCoordinate2DMake([stop[@"lat"] doubleValue], [stop[@"lon"] doubleValue])];
         [_mapView addAnnotation:stopPin];
+#if APP_STORE_MAP
+        stopPin.subtitle = [MKMapView predictionsStringForRoute:selectedRoute];
+        NSString *selectedStopTag = [MKMapView selectedStopTagForRoute:selectedRoute];
+        if ([stopPin.stopTag isEqualToString:selectedStopTag])
+            [_mapView selectAnnotation:stopPin animated:YES];
+#endif
     }
 }
 

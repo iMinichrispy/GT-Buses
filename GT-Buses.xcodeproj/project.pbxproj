@@ -21,7 +21,6 @@
 		FA1FE97C18A1D9C600757643 /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
 		FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
 		FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
-		FA1FE98B18A1DD3600757643 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE98618A1DD3600757643 /* Arrow.png */; };
 		FA8A287719C7485900B02EDA /* Predictions.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287519C7485900B02EDA /* Predictions.xml */; };
 		FA8A287B19C7487500B02EDA /* Locations.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287919C7487500B02EDA /* Locations.xml */; };
 		FA8C118B19D30758008F5927 /* GBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8C118A19D30758008F5927 /* GBRootViewController.m */; };
@@ -33,7 +32,6 @@
 		FAA1234218A520710049A5FA /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233F18A520710049A5FA /* UIViewController+MFSideMenuAdditions.m */; };
 		FAA1234518A523170049A5FA /* GBAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234418A523170049A5FA /* GBAboutController.m */; };
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
-		FAA1431618A4A41300213E1C /* Dot.png in Resources */ = {isa = PBXBuildFile; fileRef = FAA1431518A4A41300213E1C /* Dot.png */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
 		FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
@@ -93,7 +91,6 @@
 		FA1FE98018A1D9DD00757643 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		FA1FE98218A1D9F800757643 /* RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHandler.h; sourceTree = "<group>"; };
 		FA1FE98318A1D9F800757643 /* RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHandler.m; sourceTree = "<group>"; };
-		FA1FE98618A1DD3600757643 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
 		FA3C921719AA8AD300CEC529 /* RouteConfig.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RouteConfig.xml; sourceTree = "<group>"; };
 		FA5678F118A2C9BF00386A71 /* To-Do.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "To-Do.txt"; path = "../To-Do.txt"; sourceTree = "<group>"; };
 		FA8A287519C7485900B02EDA /* Predictions.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Predictions.xml; sourceTree = "<group>"; };
@@ -113,7 +110,6 @@
 		FAA1234418A523170049A5FA /* GBAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAboutController.m; sourceTree = "<group>"; };
 		FAA1234B18A5793C0049A5FA /* GBUserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBUserInterface.h; sourceTree = "<group>"; };
 		FAA1234C18A5793C0049A5FA /* GBUserInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBUserInterface.m; sourceTree = "<group>"; };
-		FAA1431518A4A41300213E1C /* Dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Dot.png; sourceTree = "<group>"; };
 		FAA201A519BE703900FA1E7D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
@@ -149,7 +145,6 @@
 			isa = PBXGroup;
 			children = (
 				FA5678F118A2C9BF00386A71 /* To-Do.txt */,
-				FA1FE98518A1DD3600757643 /* Images */,
 				FA1FE92F18A1D8A300757643 /* GT-Buses */,
 				FA1FE94118A1D8A300757643 /* Images.xcassets */,
 				FA1FE94E18A1D8A300757643 /* GT-BusesTests */,
@@ -249,16 +244,6 @@
 				FA1FE98018A1D9DD00757643 /* XMLReader.m */,
 			);
 			path = XMLReader;
-			sourceTree = "<group>";
-		};
-		FA1FE98518A1DD3600757643 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				FA1FE98618A1DD3600757643 /* Arrow.png */,
-				FAA1431518A4A41300213E1C /* Dot.png */,
-			);
-			name = Images;
-			path = "GT-Buses/Images";
 			sourceTree = "<group>";
 		};
 		FAA1233818A520710049A5FA /* MFSideMenu */ = {
@@ -395,10 +380,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAA1431618A4A41300213E1C /* Dot.png in Resources */,
 				FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */,
 				FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */,
-				FA1FE98B18A1DD3600757643 /* Arrow.png in Resources */,
 				FA8F828A19AC0200008FE578 /* RouteConfig.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -583,7 +566,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"DEFAULT_IMAGE=0",
-					"APP_STORE_MAP=0",
+					"APP_STORE_MAP=1",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";

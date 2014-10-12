@@ -43,4 +43,10 @@
     return @"No Predictions";
 }
 
++ (NSString *)selectedStopTagForRoute:(GBRoute *)route {
+    if ([route.tag isEqualToString:@"red"]) return @"centrstud";
+    else if ([route.tag isEqualToString:@"blue"]) return @"cherfers";
+    return nil;
+}
+
 @end

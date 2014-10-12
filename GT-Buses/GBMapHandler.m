@@ -34,7 +34,12 @@
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *line = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
         line.strokeColor = ((GBBusRouteLine *)overlay).color;
-        line.lineWidth =  IS_IPAD ? 10 : 6;
+        
+        float lineWidth;
+        if (IS_IPAD) lineWidth = 9;
+        else lineWidth = ([[UIScreen mainScreen] bounds].size.height >= 735) ? 4 : 6;
+        
+        line.lineWidth =  lineWidth;
         line.lineCap = kCGLineCapButt;
         line.alpha = .5;
         return line;
@@ -46,9 +51,10 @@
     if ([annotation isKindOfClass:[GBBusAnnotation class]]) {
         GBBusAnnotation *busAnnotation = (GBBusAnnotation *)annotation;
         MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
-        UIImage *arrowImage = [UIImage imageNamed:@"Arrow.png"];
+        UIImage *arrowImage = [UIImage imageNamed:@"Arrow"];
         UIImage *colorArrowImage = [arrowImage imageWithColor:busAnnotation.color];
-        busAnnotation.arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 35, 32)];
+        CGSize arrowSize = IS_IPAD ? CGSizeMake(48, 44) : CGSizeMake(35, 32);
+        busAnnotation.arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, arrowSize.width, arrowSize.height)];
         busAnnotation.arrowImageView.image = colorArrowImage;
         [busAnnotation updateArrowImageRotation];
         [annotationView addSubview:busAnnotation.arrowImageView];
@@ -94,7 +100,7 @@
         annotationView.canShowCallout = YES;
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
-        UIImage *dotImage = [UIImage imageNamed:@"Dot.png"];
+        UIImage *dotImage = [UIImage imageNamed:@"Dot"];
         imageView.image = [dotImage imageWithColor:[((GBBusStopAnnotation *)annotation).color darkerColor:0.2]];
         imageView.alpha = .7;
         [annotationView addSubview:imageView];
