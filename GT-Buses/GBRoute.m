@@ -22,7 +22,7 @@ float const kMapRegionPadding = 0.0005f;
 
 - (GBRoute *)toRoute {
     NSString *tag = self[@"tag"];
-    NSString *title = [NSString stringWithFormat:@"%@", [tag capitalizedString]];
+    NSString *title = [tag capitalizedString];
     
     GBRoute *route = [[GBRoute alloc] initWithTitle:title tag:tag];
     route.paths = self[@"path"];

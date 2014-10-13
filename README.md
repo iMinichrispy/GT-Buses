@@ -24,7 +24,7 @@ In possible update:
 - Properly center uisegmentedcontrol (Off by 2 pixels on iOS 7)  
 - (BUG) When bus annotation center coordinate is being animated and map view window is changed (pan, pinch), bus animation gets thrown off  
 - [mapview removeAllAnnotations] removes all annotations, including user location annotation (Not noticeable)  
-- Add list view for viewing buses as a listv
+- Add list view for viewing buses as a list
 - (BUG) Sometimes, some buses flash visible after switching to different route  
 - (BUG) Regions not how they should be on iOS 6 and below  
 - (BUG) Closing mail composer changes status bar style on iOS 6 and below

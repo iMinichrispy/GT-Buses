@@ -9,24 +9,18 @@
 #import "UIViewController+GBMailComposer.h"
 
 #import "GBConstants.h"
-#import "GBEmail.h"
+#import "GBSupportEmail.h"
 
 @implementation UIViewController (GBMailComposer)
 
-- (void)showSupportEmailComposer {
-    GBEmail *email = [GBSupportEmail defaultEmail];
-    [self showEmailComposerWithEmail:email];
-}
-
-- (void)showEmailComposerWithEmail:(GBEmail *)email {
-#warning test email works
+- (void)showComposerWithSupportEmail {
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *composeController = [[MFMailComposeViewController alloc] init];
         composeController.mailComposeDelegate = self;
         
-        [composeController setSubject:email.subject];
-        [composeController setToRecipients:[NSArray arrayWithObject:email.recipients]];
-        [composeController setMessageBody:email.body isHTML:NO];
+        [composeController setSubject:[GBSupportEmail subject]];
+        [composeController setToRecipients:[NSArray arrayWithObject:[GBSupportEmail recipients]]];
+        [composeController setMessageBody:[GBSupportEmail body] isHTML:NO];
         
 #warning include?
         composeController.modalPresentationStyle = UIModalPresentationPageSheet;
@@ -35,7 +29,7 @@
             if IS_IPAD [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         }];
     } else {
-        NSString *emailString = FORMAT(@"mailto:%@?subject=%@&body=%@", email.recipients, email.subject, email.body);
+        NSString *emailString = FORMAT(@"mailto:%@?subject=%@&body=%@", [GBSupportEmail recipients], [GBSupportEmail subject], [GBSupportEmail body]);
         emailString = [emailString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:emailString]];
     }

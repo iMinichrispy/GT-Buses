@@ -40,7 +40,7 @@ float const kButtonHeight = 40.0f;
     float yValue = [self frameHeight] - 50 + [self origin];
     GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, kButtonHeight)];
     [supportButton setTitle:@"Support" forState:UIControlStateNormal];
-    [supportButton addTarget:self action:@selector(showSupportEmailComposer) forControlEvents:UIControlEventTouchUpInside];
+    [supportButton addTarget:self action:@selector(showComposerWithSupportEmail) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:supportButton];
     
     GBButton *appReviewButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - 50, width, kButtonHeight)];
@@ -124,7 +124,7 @@ float const kButtonHeight = 40.0f;
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Color:" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
         
         NSArray *tintColors = [GBColors availableTintColors];
-        for (NSDictionary *color in tintColors){
+        for (NSDictionary *color in tintColors) {
             [actionSheet addButtonWithTitle:color[@"name"]];
         }
         

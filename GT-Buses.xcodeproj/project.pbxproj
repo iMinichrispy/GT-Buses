@@ -24,7 +24,7 @@
 		FA8A287719C7485900B02EDA /* Predictions.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287519C7485900B02EDA /* Predictions.xml */; };
 		FA8A287B19C7487500B02EDA /* Locations.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287919C7487500B02EDA /* Locations.xml */; };
 		FA8C118B19D30758008F5927 /* GBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8C118A19D30758008F5927 /* GBRootViewController.m */; };
-		FA8D789119C7AACE000A657C /* GBEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8D789019C7AACE000A657C /* GBEmail.m */; };
+		FA8D789119C7AACE000A657C /* GBSupportEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8D789019C7AACE000A657C /* GBSupportEmail.m */; };
 		FA8F828919AC0131008FE578 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
 		FA8F828A19AC0200008FE578 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
 		FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233B18A520710049A5FA /* MFSideMenuContainerViewController.m */; };
@@ -92,13 +92,13 @@
 		FA1FE98218A1D9F800757643 /* RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHandler.h; sourceTree = "<group>"; };
 		FA1FE98318A1D9F800757643 /* RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHandler.m; sourceTree = "<group>"; };
 		FA3C921719AA8AD300CEC529 /* RouteConfig.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RouteConfig.xml; sourceTree = "<group>"; };
-		FA5678F118A2C9BF00386A71 /* To-Do.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = "To-Do.txt"; path = "../To-Do.txt"; sourceTree = "<group>"; };
 		FA8A287519C7485900B02EDA /* Predictions.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Predictions.xml; sourceTree = "<group>"; };
 		FA8A287919C7487500B02EDA /* Locations.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Locations.xml; sourceTree = "<group>"; };
 		FA8C118919D30758008F5927 /* GBRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBRootViewController.h; sourceTree = "<group>"; };
 		FA8C118A19D30758008F5927 /* GBRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBRootViewController.m; sourceTree = "<group>"; };
-		FA8D788F19C7AACE000A657C /* GBEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBEmail.h; sourceTree = "<group>"; };
-		FA8D789019C7AACE000A657C /* GBEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBEmail.m; sourceTree = "<group>"; };
+		FA8D788F19C7AACE000A657C /* GBSupportEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSupportEmail.h; sourceTree = "<group>"; };
+		FA8D789019C7AACE000A657C /* GBSupportEmail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSupportEmail.m; sourceTree = "<group>"; };
+		FA94503B19EC55620022DF7C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FAA1233918A520710049A5FA /* MFSideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenu.h; sourceTree = "<group>"; };
 		FAA1233A18A520710049A5FA /* MFSideMenuContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFSideMenuContainerViewController.h; sourceTree = "<group>"; };
 		FAA1233B18A520710049A5FA /* MFSideMenuContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFSideMenuContainerViewController.m; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 		FA1FE91D18A1D8A300757643 = {
 			isa = PBXGroup;
 			children = (
-				FA5678F118A2C9BF00386A71 /* To-Do.txt */,
+				FA94503B19EC55620022DF7C /* README.md */,
 				FA1FE92F18A1D8A300757643 /* GT-Buses */,
 				FA1FE94118A1D8A300757643 /* Images.xcassets */,
 				FA1FE94E18A1D8A300757643 /* GT-BusesTests */,
@@ -276,8 +276,8 @@
 		FAA1235518A57E150049A5FA /* Mail */ = {
 			isa = PBXGroup;
 			children = (
-				FA8D788F19C7AACE000A657C /* GBEmail.h */,
-				FA8D789019C7AACE000A657C /* GBEmail.m */,
+				FA8D788F19C7AACE000A657C /* GBSupportEmail.h */,
+				FA8D789019C7AACE000A657C /* GBSupportEmail.m */,
 				FAB682D0199D436600C0BF89 /* UIViewController+GBMailComposer.h */,
 				FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */,
 			);
@@ -439,7 +439,7 @@
 				FA1FE97718A1D9B000757643 /* GBBusStopAnnotation.m in Sources */,
 				FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */,
 				FA1FE93618A1D8A300757643 /* main.m in Sources */,
-				FA8D789119C7AACE000A657C /* GBEmail.m in Sources */,
+				FA8D789119C7AACE000A657C /* GBSupportEmail.m in Sources */,
 				FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */,
 				FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */,
 			);
@@ -566,7 +566,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"DEFAULT_IMAGE=0",
-					"APP_STORE_MAP=1",
+					"APP_STORE_MAP=0",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
