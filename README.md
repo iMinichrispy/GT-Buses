@@ -7,6 +7,7 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 ## To-Do
 
 - Updated iOS 6 Default.png images
+- Make sure its a release build
 
 
 iOS 8:

@@ -38,6 +38,7 @@ float const kButtonHeight = 40.0f;
     
     float width = IS_IPAD ? kSideWidthiPad : kSideWidth;
     float yValue = [self frameHeight] - 50 + [self origin];
+    NSLog(@"yvalue: %f",yValue);
     GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, kButtonHeight)];
     [supportButton setTitle:@"Support" forState:UIControlStateNormal];
     [supportButton addTarget:self action:@selector(showComposerWithSupportEmail) forControlEvents:UIControlEventTouchUpInside];
@@ -79,8 +80,12 @@ float const kButtonHeight = 40.0f;
 }
 
 - (float)frameHeight {
-    if (IS_IPAD && UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
-        return [[UIScreen mainScreen] bounds].size.width;
+#warning this cant be right?
+//    if (IS_IPAD && UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+//        NSLog(@"1: %f",[[UIScreen mainScreen] bounds].size.width);
+//        return [[UIScreen mainScreen] bounds].size.width;
+//    }
+//    NSLog(@"2: %f",[[UIScreen mainScreen] bounds].size.height);
     return [[UIScreen mainScreen] bounds].size.height;
 }
 

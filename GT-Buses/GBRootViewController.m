@@ -89,33 +89,36 @@ int const kRefreshInterval = 5;
     _locationManager.delegate = self;
     [self showUserLocation];
     
+#if DEFAULT_IMAGE
+    self.title = @"";
+    self.navigationItem.leftBarButtonItem = nil;
+    UIView *contentView = [[UIView alloc] init];
+    contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    contentView.backgroundColor = RGBColor(240, 235, 212);
+    [self.view addSubview:contentView];
+#else
+    UIView *contentView = _mapView;
+#endif
+    
     NSMutableArray *constraints = [NSMutableArray new];
     [constraints addObjectsFromArray:[NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"H:|[_mapView]|"
+                                      constraintsWithVisualFormat:@"H:|[contentView]|"
                                       options:0
                                       metrics:nil
-                                      views:NSDictionaryOfVariableBindings(_mapView)]];
+                                      views:NSDictionaryOfVariableBindings(contentView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint
                                       constraintsWithVisualFormat:@"H:|[_busRouteControlView]|"
                                       options:0
                                       metrics:nil
                                       views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][_mapView]|"
+                                      constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][contentView]|"
                                       options:0
                                       metrics:@{@"controlViewHeight":@43}
-                                      views:NSDictionaryOfVariableBindings(_busRouteControlView, _mapView)]];
+                                      views:NSDictionaryOfVariableBindings(_busRouteControlView, contentView)]];
     [self.view addConstraints:constraints];
     
     _routes = [NSMutableArray new];
-    
-#if DEFAULT_IMAGE
-    self.title = @"";
-    self.navigationItem.leftBarButtonItem = nil;
-    UIView *view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    view.backgroundColor = RGBColor(240, 235, 212);
-    [_mapView addSubview:view];
-#endif
 }
 
 - (void)updateTintColor:(NSNotification *)notification {
@@ -363,7 +366,6 @@ int const kRefreshInterval = 5;
 #if !DEFAULT_IMAGE
         [_busRouteControlView.activityIndicator startAnimating];
         _busRouteControlView.errorLabel.hidden = YES;
-#warning different behavior occurs whether busroutecontrol is loaded or not - in terms of refreshing when no internet connection
         
         GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRouteConfigTask delegate:self];
         [requestHandler routeConfig];

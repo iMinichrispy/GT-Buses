@@ -39,10 +39,10 @@
 + (NSString *)deviceInfo {
     static NSMutableString *deviceInfo;
     if (!deviceInfo) {
-        deviceInfo = [NSMutableString stringWithString:@"<------- [Info] ------->\n"];
+        deviceInfo = [NSMutableString stringWithString:@"<-------- Info -------->\n"];
         [deviceInfo appendString:@"Report Type: Support\n"];
         [deviceInfo appendString:@"Product: GT Buses\n"];
-        NSDictionary* info = [[NSBundle mainBundle] infoDictionary];
+        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         [deviceInfo appendFormat:@"Version: %@\n", info[@"CFBundleShortVersionString"]];
         [deviceInfo appendFormat:@"Build: %@\n", info[@"CFBundleVersion"]];
         [deviceInfo appendFormat:@"Model: %@\n", [[UIDevice currentDevice] model]];
