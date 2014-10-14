@@ -1,5 +1,5 @@
 //
-//  UIViewController+MailComposer.h
+//  UIViewController+GBMailComposer.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 8/14/14.

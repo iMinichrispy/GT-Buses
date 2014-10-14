@@ -1,5 +1,5 @@
 //
-//  Route.m
+//  GBRoute.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 1/29/14.

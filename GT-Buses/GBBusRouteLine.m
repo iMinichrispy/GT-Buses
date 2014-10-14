@@ -1,5 +1,5 @@
 //
-//  BusRouteLine.m
+//  GBBusRouteLine.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 2/1/14.

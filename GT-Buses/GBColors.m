@@ -1,5 +1,5 @@
 //
-//  Colors.m
+//  GBColors.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 1/30/14.

@@ -1,5 +1,5 @@
 //
-//  BusRouteControlView.h
+//  GBBusRouteControlView.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 7/4/14.

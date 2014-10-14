@@ -1,5 +1,5 @@
 //
-//  BusRouteLine.h
+//  GBBusRouteLine.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 2/1/14.

@@ -1,5 +1,5 @@
 //
-//  BusAnnotation.h
+//  GBBusAnnotation.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 1/31/14.

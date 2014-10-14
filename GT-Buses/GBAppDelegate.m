@@ -1,5 +1,5 @@
 //
-//  AppDelegate.m
+//  GBAppDelegate.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 2/4/14.

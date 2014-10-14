@@ -1,5 +1,5 @@
 //
-//  MapHandler.h
+//  GBMapHandler.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 2/1/14.

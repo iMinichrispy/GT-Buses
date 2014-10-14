@@ -1,5 +1,5 @@
 //
-//  Colors.h
+//  GBColors.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 1/30/14.
