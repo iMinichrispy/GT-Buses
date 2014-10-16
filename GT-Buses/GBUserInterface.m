@@ -40,7 +40,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor]; // Default background color is white on >=iOS6
+        self.backgroundColor = [UIColor clearColor]; // Default background color is white on <=iOS6
         self.textColor = [UIColor whiteColor];
     }
     return self;

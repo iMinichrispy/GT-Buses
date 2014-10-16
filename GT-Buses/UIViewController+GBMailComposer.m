@@ -22,9 +22,6 @@
         [composeController setToRecipients:[NSArray arrayWithObject:[GBSupportEmail recipients]]];
         [composeController setMessageBody:[GBSupportEmail body] isHTML:NO];
         
-#warning include?
-        composeController.modalPresentationStyle = UIModalPresentationPageSheet;
-        
         [self presentViewController:composeController animated:YES completion:^{
             if IS_IPAD [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         }];

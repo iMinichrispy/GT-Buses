@@ -13,6 +13,9 @@
 #import "GBConstants.h"
 #import "UIViewController+GBMailComposer.h"
 
+#define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
+
 float const kSideBarItemsInitY = 36.0f;
 float const kSideBarItemLabelHeight = 20.0f;
 float const kSideBarItemViewHeight = 40.0f;
@@ -38,7 +41,7 @@ float const kButtonSpacing = 10.0f;
     [self addSidebarItems:sideBaritems];
     
     float width = IS_IPAD ? kSideWidthiPad : kSideWidth;
-    float yValue = [self frameHeight] - 50 + [self origin];
+    float yValue = [[self class] screenSize].height - 50 + [self origin];
     
     GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, kButtonHeight)];
     [supportButton setTitle:@"Support" forState:UIControlStateNormal];
@@ -80,12 +83,13 @@ float const kButtonSpacing = 10.0f;
     }
 }
 
-- (float)frameHeight {
-#warning this cant be right?
-    if (IS_IPAD && UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        return [[UIScreen mainScreen] bounds].size.width;
++ (CGSize)screenSize {
+    // Because on >=iOS 8, [UIScreen bounds] is orientation-dependent
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return CGSizeMake(screenSize.height, screenSize.width);
     }
-    return [[UIScreen mainScreen] bounds].size.height;
+    return screenSize;
 }
 
 - (float)origin {
@@ -128,13 +132,9 @@ float const kButtonSpacing = 10.0f;
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Color:" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
         
         NSArray *tintColors = [GBColors availableTintColors];
-        for (NSDictionary *color in tintColors) {
-            [actionSheet addButtonWithTitle:color[@"name"]];
-        }
+        for (NSDictionary *color in tintColors) [actionSheet addButtonWithTitle:color[@"name"]];
         
-        if (!IS_IPAD) {
-            [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
-        }
+        if (!IS_IPAD) [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
         
         [actionSheet showFromRect:recognizer.view.frame inView:self.view animated:YES];
     }

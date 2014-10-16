@@ -24,6 +24,4 @@
     self.arrowImageView.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(self.heading));
 }
 
-
-
 @end
