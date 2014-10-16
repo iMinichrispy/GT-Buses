@@ -30,9 +30,13 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+#if APP_STORE_MAP
+        _currentTintColor = [GBColors blueColor];
+#else
         NSArray *tintColors = [GBColors tintColors];
         NSInteger colorIndex = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeySelectedColor];
         _currentTintColor = tintColors[colorIndex][@"color"];
+#endif
     }
     return self;
 }

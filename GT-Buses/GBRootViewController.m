@@ -122,12 +122,12 @@ int const kRefreshInterval = 5;
 }
 
 - (void)updateTintColor:(NSNotification *)notification {
-    UIColor *tintColor = notification.object;
     [(GBNavigationController *)self.navigationController updateTintColor];
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor controlTintColor];
     [_busRouteControlView updateTintColor];
 #if DEBUG
+    UIColor *tintColor = notification.object;
     if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
         self.navigationController.toolbar.barTintColor = tintColor;
         self.navigationController.toolbar.tintColor = [UIColor whiteColor];
@@ -362,15 +362,15 @@ int const kRefreshInterval = 5;
         [predictionHandler predictionsForRoute:selectedRoute.tag];
 #endif
     }
-    else {
 #if !DEFAULT_IMAGE
+    else {
         [_busRouteControlView.activityIndicator startAnimating];
         _busRouteControlView.errorLabel.hidden = YES;
         
         GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRouteConfigTask delegate:self];
         [requestHandler routeConfig];
-#endif
     }
+#endif
 }
 
 - (void)didChangeBusRoute {

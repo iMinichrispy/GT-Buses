@@ -19,6 +19,7 @@ float const kSideBarItemViewHeight = 40.0f;
 float const kSideBarItemSpacing = kSideBarItemViewHeight + (kSideBarItemLabelHeight * 2) - 1;
 
 float const kButtonHeight = 40.0f;
+float const kButtonSpacing = 10.0f;
 
 @interface GBAboutController () <UIActionSheetDelegate, GBTintColorDelegate>
 
@@ -38,13 +39,13 @@ float const kButtonHeight = 40.0f;
     
     float width = IS_IPAD ? kSideWidthiPad : kSideWidth;
     float yValue = [self frameHeight] - 50 + [self origin];
-    NSLog(@"yvalue: %f",yValue);
+    
     GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, kButtonHeight)];
     [supportButton setTitle:@"Support" forState:UIControlStateNormal];
     [supportButton addTarget:self action:@selector(showComposerWithSupportEmail) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:supportButton];
     
-    GBButton *appReviewButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - 50, width, kButtonHeight)];
+    GBButton *appReviewButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - (kButtonSpacing + kButtonHeight), width, kButtonHeight)];
     [appReviewButton setTitle:@"Review App" forState:UIControlStateNormal];
     [appReviewButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:appReviewButton];
@@ -81,11 +82,9 @@ float const kButtonHeight = 40.0f;
 
 - (float)frameHeight {
 #warning this cant be right?
-//    if (IS_IPAD && UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-//        NSLog(@"1: %f",[[UIScreen mainScreen] bounds].size.width);
-//        return [[UIScreen mainScreen] bounds].size.width;
-//    }
-//    NSLog(@"2: %f",[[UIScreen mainScreen] bounds].size.height);
+    if (IS_IPAD && UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return [[UIScreen mainScreen] bounds].size.width;
+    }
     return [[UIScreen mainScreen] bounds].size.height;
 }
 

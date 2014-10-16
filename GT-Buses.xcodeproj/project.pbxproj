@@ -49,19 +49,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		FAB90417193F9F5200079007 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		FA1FE92618A1D8A300757643 /* GT-Buses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GT-Buses.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1FE93118A1D8A300757643 /* GT-Buses-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GT-Buses-Info.plist"; sourceTree = "<group>"; };
@@ -312,7 +299,6 @@
 				FA1FE92318A1D8A300757643 /* Frameworks */,
 				FA1FE92418A1D8A300757643 /* Resources */,
 				FA9D6C9918A3E93400DAE1D7 /* ShellScript */,
-				FAB90417193F9F5200079007 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
