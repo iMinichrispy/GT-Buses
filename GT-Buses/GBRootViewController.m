@@ -290,12 +290,13 @@ int const kRefreshInterval = 5;
                             if ([busStopAnnotation.stopTag isEqualToString:stopTag]) {
                                 if ([predictions count]) {
                                     NSMutableString *subtitle = [NSMutableString stringWithString:@"Next: "];
+                                    
                                     NSDictionary *lastPredication = [predictions lastObject];
                                     for (NSDictionary *prediction in predictions) {
 #if DEBUG
                                         int totalSeconds = [prediction[@"seconds"] intValue];
-                                        double minutes = totalSeconds / 60.0;
-                                        double seconds = totalSeconds - (60 * floor(minutes));
+                                        double minutes = totalSeconds / 60;
+                                        double seconds = totalSeconds % 60;
                                         NSString *time = FORMAT(@"%.f:%02.f", minutes, seconds);
                                         [subtitle appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", time];
 #else
@@ -406,7 +407,11 @@ int const kRefreshInterval = 5;
     
     for (NSDictionary *stop in selectedRoute.stops) {
         GBBusStopAnnotation *stopPin = [[GBBusStopAnnotation alloc] init];
+#if DEBUG
+        stopPin.title = FORMAT(@"%@ (%@)", stop[@"title"], stop[@"tag"]);
+#else
         stopPin.title = stop[@"title"];
+#endif
         stopPin.subtitle = @"No Predictions";
         stopPin.tag = selectedRoute.tag;
         stopPin.stopTag = stop[@"tag"];

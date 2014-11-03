@@ -6,8 +6,7 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 
 ## To-Do
 
-- Updated iOS 6 Default.png images
-- Make sure its a release build
+- Add CPU graph to debug mode
 
 
 iOS 8:
@@ -90,6 +89,7 @@ v1.1.1
 - Top segmented control bar now properly centered (padding 6 instead of 5)
 - Top segmented control bar now slightly bigger (more tappable)
 - iOS 8 location request
+- [Debug] Label buses with bus identifier
 - Make sure rotating on iPad works (Starting in landscape, etc)
 - [CLLocationManager requestWhenInUseAuthorization], also in Info.plist: Privacy - Location Usage Description
 - Custom tint colors
@@ -97,3 +97,14 @@ v1.1.1
 - Switched to image assets & added more image sizes
 - Bigger bus arrows on iPad
 - 3x images
+
+v1.x
+- [Debug] Show stop ids on stop annotation
+- [Debug] Display predictions in minutes & seconds
+
+
+## Debug Target Differences
+
+- Bus stops display stop id's
+- Predictions displayed in minutes & seconds
+- Buses labeled with bus identifier

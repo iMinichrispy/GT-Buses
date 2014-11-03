@@ -26,7 +26,6 @@
 		FA8C118B19D30758008F5927 /* GBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8C118A19D30758008F5927 /* GBRootViewController.m */; };
 		FA8D789119C7AACE000A657C /* GBSupportEmail.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8D789019C7AACE000A657C /* GBSupportEmail.m */; };
 		FA8F828919AC0131008FE578 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
-		FA8F828A19AC0200008FE578 /* RouteConfig.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA3C921719AA8AD300CEC529 /* RouteConfig.xml */; };
 		FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233B18A520710049A5FA /* MFSideMenuContainerViewController.m */; };
 		FAA1234118A520710049A5FA /* MFSideMenuShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233D18A520710049A5FA /* MFSideMenuShadow.m */; };
 		FAA1234218A520710049A5FA /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233F18A520710049A5FA /* UIViewController+MFSideMenuAdditions.m */; };
@@ -368,7 +367,6 @@
 			files = (
 				FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */,
 				FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */,
-				FA8F828A19AC0200008FE578 /* RouteConfig.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
