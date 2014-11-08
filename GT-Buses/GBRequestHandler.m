@@ -9,28 +9,26 @@
 #import "GBRequestHandler.h"
 
 #import "GBConstants.h"
-
-static NSString * const GBRouteConfigURL =      @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=routeConfig";
-static NSString * const GBBusLocationsURL =     @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=vehicleLocations&r=";
-static NSString * const GBBusPredictionsURL =   @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=predictionsForMultiStops&r=";
-static NSString * const GBMessagesURL =         @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech&command=messages";
+#import "GBConfig.h"
 
 @implementation GBRequestHandler
 
 - (void)routeConfig {
-    [self getRequestWithURL:GBRouteConfigURL];
+    [self getRequestWithURL:[[GBConfig sharedInstance] routeConfigURL]];
 }
 
 - (void)locationsForRoute:(NSString *)tag {
-    [self getRequestWithURL:FORMAT(@"%@%@", GBBusLocationsURL, tag)];
+    NSString *baseURL = [[GBConfig sharedInstance] locationsBaseURL];
+    [self getRequestWithURL:FORMAT(@"%@%@", baseURL, tag)];
 }
 
 - (void)predictionsForRoute:(NSString *)tag {
-    [self getRequestWithURL:FORMAT(@"%@%@", GBBusPredictionsURL, tag)];
+    NSString *baseURL = [[GBConfig sharedInstance] predictionsBaseURL];
+    [self getRequestWithURL:FORMAT(@"%@%@", baseURL, tag)];
 }
 
 - (void)messages {
-    [self getRequestWithURL:GBMessagesURL];
+    [self getRequestWithURL:[[GBConfig sharedInstance] messagesURL]];
 }
 
 @end

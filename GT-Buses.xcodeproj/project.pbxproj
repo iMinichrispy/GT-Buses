@@ -33,6 +33,7 @@
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
+		FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */; };
 		FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
 		FADE7D101967555800F318D5 /* GBBusRouteControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */; };
 		FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D151967605B00F318D5 /* GBRequestHandler.m */; };
@@ -101,6 +102,8 @@
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
 		FAB682D0199D436600C0BF89 /* UIViewController+GBMailComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+GBMailComposer.h"; sourceTree = "<group>"; };
 		FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GBMailComposer.m"; sourceTree = "<group>"; };
+		FACFA1A01A0DAE2A00F3E2C3 /* GBConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConfig.h; sourceTree = "<group>"; };
+		FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConfig.m; sourceTree = "<group>"; };
 		FADE7D091967504600F318D5 /* GBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConstants.h; sourceTree = "<group>"; };
 		FADE7D0A1967504600F318D5 /* GBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConstants.m; sourceTree = "<group>"; };
 		FADE7D0E1967555800F318D5 /* GBBusRouteControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBusRouteControlView.h; sourceTree = "<group>"; };
@@ -161,6 +164,8 @@
 				FADE7D151967605B00F318D5 /* GBRequestHandler.m */,
 				FAA1234318A523170049A5FA /* GBAboutController.h */,
 				FAA1234418A523170049A5FA /* GBAboutController.m */,
+				FACFA1A01A0DAE2A00F3E2C3 /* GBConfig.h */,
+				FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */,
 				FAA1235518A57E150049A5FA /* Mail */,
 				FAA1235418A57E090049A5FA /* UI */,
 				FA1FE96818A1D97100757643 /* Map */,
@@ -424,6 +429,7 @@
 				FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */,
 				FA1FE93618A1D8A300757643 /* main.m in Sources */,
 				FA8D789119C7AACE000A657C /* GBSupportEmail.m in Sources */,
+				FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */,
 				FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */,
 				FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */,
 			);

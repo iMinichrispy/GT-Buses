@@ -18,6 +18,7 @@ iOS 8:
 - Don't use activateConstraints:
 
 In possible update:
+- Incorporate notifications (and displaying messages/warning included with stops from API)
 - Add ability to search for buildings  
 - Space stops that are close together farther apart  
 - Prevent angle of bus annotation from changing as view rotates (Currently rotation is prevented altogether)  
@@ -43,9 +44,11 @@ In possible update:
     - Also need to user current location to find nearest stop to you and find out which route to take - including direction
     - What if user has no location?
 - Use Nextbus API or GTJourney API
+    - http://www.nextbus.com/service/googleMapXMLFeed?command=routeConfig&a=georgia-tech&key=2742685607650
     - http://www.nextbus.com/service/googleMapXMLFeed?command=vehicleLocations&a=georgia-tech&r=blue&t=1396353521341&key=812434079211
+    - http://www.nextbus.com/service/googleMapXMLFeed?command=predictionsForMultiStops&a=georgia-tech&stops=night|cloucomm&key=2742685607650
     - Referrer: http://www.nextbus.com/googleMap/
-    - curl 'http://www.nextbus.com/api/pub/v1/agencies/georgia-tech/routes/green/stops/studcentr/predictions?coincident=true&direction=hub&key=0e522419a9ec9d16f4040a6000f1a1d5' -H 'Referer: http://www.nextbus.com/'
+    - curl 'http://www.nextbus.com/service/googleMapXMLFeed?command=vehicleLocations&a=georgia-tech&r=red&t=1415335183432&key=2742685607650' -H 'Referer: http://www.nextbus.com/googleMap/'
 - Table of current route w/ stop info (makes switchig routes and maintaining list view annoying)
 - Change update interval (test optimal)
 

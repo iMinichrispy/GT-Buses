@@ -20,6 +20,7 @@
 }
 
 - (void)getRequestWithURL:(NSString *)url {
+    NSLog(@"%@",url);
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];

@@ -12,6 +12,12 @@ extern NSString * const GBUserDefaultsFilePath;
 extern NSString * const GBUserDefaultsKeySelectedRoute;
 extern NSString * const GBUserDefaultsKeySelectedColor;
 
+extern NSString * const GBConfigBaseURL;
+extern NSString * const GBConfigRouteConfigPath;
+extern NSString * const GBConfigLocationsPath;
+extern NSString * const GBConfigPredictionsPath;
+extern NSString * const GBConfigMessagesPath;
+
 extern NSString * const GBNotificationTintColorDidChange;
 
 extern float const kSideWidth;

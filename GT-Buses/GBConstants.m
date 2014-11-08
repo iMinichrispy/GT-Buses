@@ -14,6 +14,13 @@ NSString * const GBUserDefaultsFilePath = @"GBDefaultPreferences";
 NSString * const GBUserDefaultsKeySelectedRoute = @"GBUserDefaultsKeySelectedRoute";
 NSString * const GBUserDefaultsKeySelectedColor = @"GBUserDefaultsKeySelectedColor";
 
+//NSString * const GBConfigBaseURL = @"https://gtbuses.herokuapp.com";
+NSString * const GBConfigBaseURL = @"http://localhost:5000";
+NSString * const GBConfigRouteConfigPath = @"/routeConfig";
+NSString * const GBConfigLocationsPath = @"/locations/";
+NSString * const GBConfigPredictionsPath = @"/predictions/";
+NSString * const GBConfigMessagesPath = @"/messages";
+
 NSString * const GBNotificationTintColorDidChange = @"GBNotificationTintColorDidChange";
 
 float const kSideWidth = 150.0f;
