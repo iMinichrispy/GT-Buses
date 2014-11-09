@@ -14,6 +14,7 @@
 - (NSString *)routeConfigURL;
 - (NSString *)locationsBaseURL;
 - (NSString *)predictionsBaseURL;
+- (NSString *)scheduleURL;
 - (NSString *)messagesURL;
 
 @end

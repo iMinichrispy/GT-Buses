@@ -13,6 +13,7 @@ static NSString * const GBConfigBaseURL = @"http://gtwiki.info/nextbus/nextbus.p
 static NSString * const GBConfigRouteConfigPath = @"&command=routeConfig";
 static NSString * const GBConfigLocationsPath = @"&command=vehicleLocations&r=";
 static NSString * const GBConfigPredictionsPath = @"&command=predictionsForMultiStops&r=";
+static NSString * const GBConfigSchedulePath = @"";
 static NSString * const GBConfigMessagesPath = @"&command=messages";
 #else
 
@@ -25,6 +26,7 @@ static NSString * const GBConfigBaseURL = @"http://localhost:5000";
 static NSString * const GBConfigRouteConfigPath = @"/routeConfig";
 static NSString * const GBConfigLocationsPath = @"/locations/";
 static NSString * const GBConfigPredictionsPath = @"/predictions/";
+static NSString * const GBConfigSchedulePath = @"/schedule";
 static NSString * const GBConfigMessagesPath = @"/messages";
 #endif
 
@@ -34,6 +36,7 @@ static NSString * const GBConfigMessagesPath = @"/messages";
 @property (nonatomic, strong) NSString *routeConfigPath;
 @property (nonatomic, strong) NSString *locationsPath;
 @property (nonatomic, strong) NSString *predictionsPath;
+@property (nonatomic, strong) NSString *schedulePath;
 @property (nonatomic, strong) NSString *messagesPath;
 
 @end
@@ -52,10 +55,12 @@ static NSString * const GBConfigMessagesPath = @"/messages";
 - (instancetype)init {
     self = [super init];
     if (self) {
+        // Check user defaults?
         _baseURL = GBConfigBaseURL;
         _routeConfigPath = GBConfigRouteConfigPath;
         _locationsPath = GBConfigLocationsPath;
         _predictionsPath = GBConfigPredictionsPath;
+        _schedulePath = GBConfigSchedulePath;
         _messagesPath = GBConfigMessagesPath;
     }
     return self;
@@ -71,6 +76,10 @@ static NSString * const GBConfigMessagesPath = @"/messages";
 
 - (NSString *)predictionsBaseURL {
     return [_baseURL stringByAppendingString:_predictionsPath];
+}
+
+- (NSString *)scheduleURL {
+    return [_baseURL stringByAppendingString:_schedulePath];
 }
 
 - (NSString *)messagesURL {
