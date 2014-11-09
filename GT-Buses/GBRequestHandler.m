@@ -27,6 +27,14 @@
     [self getRequestWithURL:FORMAT(@"%@%@", baseURL, tag)];
 }
 
+- (void)resetBackend {
+    [self getRequestWithURL:[[GBConfig sharedInstance] resetURL]];
+}
+
+- (void)updateStops {
+    [self getRequestWithURL:[[GBConfig sharedInstance] updateStopsURL]];
+}
+
 - (void)messages {
     [self getRequestWithURL:[[GBConfig sharedInstance] messagesURL]];
 }

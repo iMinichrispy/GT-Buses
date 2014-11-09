@@ -15,6 +15,8 @@ static NSString * const GBConfigLocationsPath = @"&command=vehicleLocations&r=";
 static NSString * const GBConfigPredictionsPath = @"&command=predictionsForMultiStops&r=";
 static NSString * const GBConfigSchedulePath = @"";
 static NSString * const GBConfigMessagesPath = @"&command=messages";
+static NSString * const GBConfigResetPath = @"";
+static NSString * const GBConfigUpdateStopsPath = @"";
 #else
 
 #if !DEBUG || !TARGET_IPHONE_SIMULATOR
@@ -28,6 +30,8 @@ static NSString * const GBConfigLocationsPath = @"/locations/";
 static NSString * const GBConfigPredictionsPath = @"/predictions/";
 static NSString * const GBConfigSchedulePath = @"/schedule";
 static NSString * const GBConfigMessagesPath = @"/messages";
+static NSString * const GBConfigResetPath = @"/reset";
+static NSString * const GBConfigUpdateStopsPath = @"/updateStops";
 #endif
 
 @interface GBConfig ()
@@ -38,6 +42,8 @@ static NSString * const GBConfigMessagesPath = @"/messages";
 @property (nonatomic, strong) NSString *predictionsPath;
 @property (nonatomic, strong) NSString *schedulePath;
 @property (nonatomic, strong) NSString *messagesPath;
+@property (nonatomic, strong) NSString *resetPath;
+@property (nonatomic, strong) NSString *updateStopsPath;
 
 @end
 
@@ -62,6 +68,8 @@ static NSString * const GBConfigMessagesPath = @"/messages";
         _predictionsPath = GBConfigPredictionsPath;
         _schedulePath = GBConfigSchedulePath;
         _messagesPath = GBConfigMessagesPath;
+        _resetPath = GBConfigResetPath;
+        _updateStopsPath = GBConfigUpdateStopsPath;
     }
     return self;
 }
@@ -84,6 +92,14 @@ static NSString * const GBConfigMessagesPath = @"/messages";
 
 - (NSString *)messagesURL {
     return [_baseURL stringByAppendingString:_messagesPath];
+}
+
+- (NSString *)resetURL {
+    return [_baseURL stringByAppendingString:_resetPath];
+}
+
+- (NSString *)updateStopsURL {
+    return [_baseURL stringByAppendingString:_updateStopsPath];
 }
 
 @end

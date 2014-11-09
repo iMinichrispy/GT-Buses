@@ -118,6 +118,22 @@ int const kRefreshInterval = 5;
                                       views:NSDictionaryOfVariableBindings(_busRouteControlView, contentView)]];
     [self.view addConstraints:constraints];
     
+#if DEBUG
+    self.navigationController.toolbarHidden = NO;
+    UIBarButtonItem *resetItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(resetBackend)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *updateStopsItem = [[UIBarButtonItem alloc] initWithTitle:@"Update Stops" style:UIBarButtonItemStylePlain target:self action:@selector(updateStops)];
+    self.toolbarItems = @[resetItem, flexibleSpace, updateStopsItem];
+    
+    UIColor *tintColor = [UIColor appTintColor];
+    if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
+        self.navigationController.toolbar.barTintColor = tintColor;
+        self.navigationController.toolbar.tintColor = [UIColor whiteColor];
+    } else {
+        self.navigationController.toolbar.tintColor = tintColor;
+    }
+#endif
+    
     _routes = [NSMutableArray new];
 }
 
@@ -437,5 +453,17 @@ int const kRefreshInterval = 5;
         [_mapView setRegion:[_mapView regionThatFits:selectedRoute.region]];
     }];
 }
+
+#if DEBUG
+- (void)resetBackend {
+    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:nil delegate:nil];
+    [requestHandler resetBackend];
+}
+
+- (void)updateStops {
+    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:nil delegate:nil];
+    [requestHandler updateStops];
+}
+#endif
 
 @end

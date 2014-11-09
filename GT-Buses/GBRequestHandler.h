@@ -13,5 +13,7 @@
 - (void)routeConfig;
 - (void)locationsForRoute:(NSString *)tag;
 - (void)predictionsForRoute:(NSString *)tag;
+- (void)resetBackend;
+- (void)updateStops;
 
 @end

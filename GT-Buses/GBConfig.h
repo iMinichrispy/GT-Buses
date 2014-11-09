@@ -16,5 +16,7 @@
 - (NSString *)predictionsBaseURL;
 - (NSString *)scheduleURL;
 - (NSString *)messagesURL;
+- (NSString *)resetURL;
+- (NSString *)updateStopsURL;
 
 @end
