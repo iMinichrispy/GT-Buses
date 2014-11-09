@@ -13,8 +13,11 @@
 - (void)routeConfig;
 - (void)locationsForRoute:(NSString *)tag;
 - (void)predictionsForRoute:(NSString *)tag;
+
+#if DEBUG
 - (void)resetBackend;
 - (void)updateStops;
 - (void)toggleParty;
+#endif
 
 @end

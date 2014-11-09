@@ -561,7 +561,6 @@
 					"$(inherited)",
 					"DEFAULT_IMAGE=0",
 					"APP_STORE_MAP=0",
-					"GTWIKI_API=0",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";

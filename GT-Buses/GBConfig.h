@@ -14,13 +14,5 @@
 
 + (GBConfig *)sharedInstance;
 - (void)handleConfig:(NSDictionary *)config;
-- (NSString *)routeConfigURL;
-- (NSString *)locationsBaseURL;
-- (NSString *)predictionsBaseURL;
-- (NSString *)scheduleURL;
-- (NSString *)messagesURL;
-- (NSString *)resetURL;
-- (NSString *)updateStopsURL;
-- (NSString *)togglePartyURL;
 
 @end
