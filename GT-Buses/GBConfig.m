@@ -8,7 +8,25 @@
 
 #import "GBConfig.h"
 
-#import "GBConstants.h"
+#if GTWIKI_API
+static NSString * const GBConfigBaseURL = @"http://gtwiki.info/nextbus/nextbus.php?a=georgia-tech";
+static NSString * const GBConfigRouteConfigPath = @"&command=routeConfig";
+static NSString * const GBConfigLocationsPath = @"&command=vehicleLocations&r=";
+static NSString * const GBConfigPredictionsPath = @"&command=predictionsForMultiStops&r=";
+static NSString * const GBConfigMessagesPath = @"&command=messages";
+#else
+
+#if !DEBUG || !TARGET_IPHONE_SIMULATOR
+static NSString * const GBConfigBaseURL = @"https://gtbuses.herokuapp.com";
+#else
+static NSString * const GBConfigBaseURL = @"http://localhost:5000";
+#endif
+
+static NSString * const GBConfigRouteConfigPath = @"/routeConfig";
+static NSString * const GBConfigLocationsPath = @"/locations/";
+static NSString * const GBConfigPredictionsPath = @"/predictions/";
+static NSString * const GBConfigMessagesPath = @"/messages";
+#endif
 
 @interface GBConfig ()
 
