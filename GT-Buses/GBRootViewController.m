@@ -23,6 +23,7 @@
 #import "GBBusRouteControlView.h"
 #import "XMLReader.h"
 #import "MFSideMenu.h"
+#import "GBConfig.h"
 
 #if APP_STORE_MAP
 #import "MKMapView+AppStoreMap.h"
@@ -64,6 +65,7 @@ int const kRefreshInterval = 5;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(togglePartyMode:) name:GBNotificationPartyModeDidChange object:nil];
     
     self.title = @"GT Buses";
     
@@ -120,10 +122,12 @@ int const kRefreshInterval = 5;
     
 #if DEBUG
     self.navigationController.toolbarHidden = NO;
-    UIBarButtonItem *resetItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(resetBackend)];
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *updateStopsItem = [[UIBarButtonItem alloc] initWithTitle:@"Update Stops" style:UIBarButtonItemStylePlain target:self action:@selector(updateStops)];
-    self.toolbarItems = @[resetItem, flexibleSpace, updateStopsItem];
+    UIBarButtonItem *resetItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(resetBackend:)];
+    UIBarButtonItem *flexibleSpace1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *partyItem = [[UIBarButtonItem alloc] initWithTitle:@"Party" style:UIBarButtonItemStylePlain target:self action:@selector(toggleParty:)];
+    UIBarButtonItem *flexibleSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *updateStopsItem = [[UIBarButtonItem alloc] initWithTitle:@"Update Stops" style:UIBarButtonItemStylePlain target:self action:@selector(updateStops:)];
+    self.toolbarItems = @[resetItem, flexibleSpace1, partyItem, flexibleSpace2, updateStopsItem];
     
     UIColor *tintColor = [UIColor appTintColor];
     if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
@@ -278,6 +282,8 @@ int const kRefreshInterval = 5;
             }
             lastLocationUpdate = newLocationUpdate;
         } else if (handler.task == GBVehiclePredictionsTask) {
+            NSDictionary *config = dictionary[@"body"][@"config"];
+            [[GBConfig sharedInstance] handleConfig:config];
             long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
             if (newPredictionUpdate != lastPredictionUpdate) {
                 NSArray *predictions = dictionary[@"body"][@"predictions"];
@@ -409,6 +415,10 @@ int const kRefreshInterval = 5;
     
     [self updateVehicleLocations];
     
+    if ([[GBConfig sharedInstance] isParty]) {
+        [GBColors setAppTintColor:selectedRoute.color];
+    }
+    
     for (NSDictionary *path in selectedRoute.paths) {
         NSArray *points = path[@"point"];
         CLLocationCoordinate2D coordinates[[points count]];
@@ -454,15 +464,31 @@ int const kRefreshInterval = 5;
     }];
 }
 
+- (void)togglePartyMode:(NSNotification *)notification {
+    BOOL party = [[GBConfig sharedInstance] isParty];
+    [self didChangeBusRoute];
+    if (party) {
+        GBRoute *selectedRoute = [self selectedRoute];
+        [GBColors setAppTintColor:selectedRoute.color];
+    } else {
+        [GBColors setAppTintColor:[GBColors defaultColor]];
+    }
+}
+
 #if DEBUG
-- (void)resetBackend {
+- (void)resetBackend:(UIBarButtonItem *)barItem {
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:nil delegate:nil];
     [requestHandler resetBackend];
 }
 
-- (void)updateStops {
+- (void)updateStops:(UIBarButtonItem *)barItem {
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:nil delegate:nil];
     [requestHandler updateStops];
+}
+
+- (void)toggleParty:(UIBarButtonItem *)barItem {
+    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:nil delegate:nil];
+    [requestHandler toggleParty];
 }
 #endif
 

@@ -19,6 +19,7 @@ static inline UIColor *RGBColor(CGFloat red, CGFloat green, CGFloat blue) {
 
 @interface GBColors : NSObject
 
++ (UIColor *)defaultColor;
 + (void)setAppTintColor:(UIColor *)color;
 + (NSArray *)availableTintColors;
 

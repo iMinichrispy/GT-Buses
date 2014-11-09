@@ -15,5 +15,6 @@
 - (void)predictionsForRoute:(NSString *)tag;
 - (void)resetBackend;
 - (void)updateStops;
+- (void)toggleParty;
 
 @end

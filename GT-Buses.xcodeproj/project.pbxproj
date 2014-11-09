@@ -31,6 +31,7 @@
 		FAA1234218A520710049A5FA /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233F18A520710049A5FA /* UIViewController+MFSideMenuAdditions.m */; };
 		FAA1234518A523170049A5FA /* GBAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234418A523170049A5FA /* GBAboutController.m */; };
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
+		FAA5267E1A10016B00082760 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = FAA5267D1A10016B00082760 /* Config.plist */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
 		FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */; };
@@ -98,6 +99,7 @@
 		FAA1234B18A5793C0049A5FA /* GBUserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBUserInterface.h; sourceTree = "<group>"; };
 		FAA1234C18A5793C0049A5FA /* GBUserInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBUserInterface.m; sourceTree = "<group>"; };
 		FAA201A519BE703900FA1E7D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		FAA5267D1A10016B00082760 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
 		FAB682D0199D436600C0BF89 /* UIViewController+GBMailComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+GBMailComposer.h"; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				FA94503B19EC55620022DF7C /* README.md */,
+				FAA5267D1A10016B00082760 /* Config.plist */,
 				FA1FE92F18A1D8A300757643 /* GT-Buses */,
 				FA1FE94118A1D8A300757643 /* Images.xcassets */,
 				FA1FE94E18A1D8A300757643 /* GT-BusesTests */,
@@ -371,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */,
+				FAA5267E1A10016B00082760 /* Config.plist in Resources */,
 				FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

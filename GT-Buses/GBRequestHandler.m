@@ -23,8 +23,15 @@
 }
 
 - (void)predictionsForRoute:(NSString *)tag {
+#warning not really
+#if GTWIKI_API
     NSString *baseURL = [[GBConfig sharedInstance] predictionsBaseURL];
     [self getRequestWithURL:FORMAT(@"%@%@", baseURL, tag)];
+#else
+    NSString *baseURL = [[GBConfig sharedInstance] predictionsBaseURL];
+    [self getRequestWithURL:FORMAT(@"%@%@%@", baseURL, tag, @"?config=true")];
+#endif
+    
 }
 
 - (void)resetBackend {
@@ -37,6 +44,10 @@
 
 - (void)messages {
     [self getRequestWithURL:[[GBConfig sharedInstance] messagesURL]];
+}
+
+- (void)toggleParty {
+    [self getRequestWithURL:[[GBConfig sharedInstance] togglePartyURL]];
 }
 
 @end

@@ -13,6 +13,7 @@
 #import "GBBusRouteLine.h"
 #import "GBColors.h"
 #import "GBConstants.h"
+#import "GBConfig.h"
 
 @implementation GBMapHandler
 
@@ -21,7 +22,7 @@
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView *line = [[MKPolylineView alloc] initWithPolyline:overlay];
         line.strokeColor = ((GBBusRouteLine *)overlay).color;
-        line.lineWidth = 10;
+        line.lineWidth = (([[GBConfig sharedInstance] isParty])) ? 20 : 10;
         line.lineCap = kCGLineCapButt;
         line.alpha = .5;
         return line;
@@ -39,6 +40,10 @@
         if (IS_IPAD) lineWidth = 9;
         else lineWidth = ([[UIScreen mainScreen] bounds].size.height >= 735) ? 4 : 6;
         
+        if ([[GBConfig sharedInstance] isParty]) {
+            lineWidth *= 2;
+        }
+        
         line.lineWidth =  lineWidth;
         line.lineCap = kCGLineCapButt;
         line.alpha = .5;
@@ -54,6 +59,9 @@
         UIImage *arrowImage = [UIImage imageNamed:@"Arrow"];
         UIImage *colorArrowImage = [arrowImage imageWithColor:busAnnotation.color];
         CGSize arrowSize = IS_IPAD ? CGSizeMake(48, 44) : CGSizeMake(35, 32);
+        if ([[GBConfig sharedInstance] isParty]) {
+            arrowSize = CGSizeMake(arrowSize.width * 4, arrowSize.height * 4);
+        }
         busAnnotation.arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, arrowSize.width, arrowSize.height)];
         busAnnotation.arrowImageView.image = colorArrowImage;
         [busAnnotation updateArrowImageRotation];
@@ -95,6 +103,9 @@
     }
     else if ([annotation isKindOfClass:[GBBusStopAnnotation class]]) {
         float size = IS_IPAD ? 17.0f : 10.0f;
+        if ([[GBConfig sharedInstance] isParty]) {
+            size = size * 2;
+        }
         MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
         annotationView.frame = CGRectMake(0, 0, size, size);
         annotationView.canShowCallout = YES;

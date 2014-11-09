@@ -41,6 +41,10 @@
     return self;
 }
 
++ (UIColor *)defaultColor {
+    return [self blueColor];
+}
+
 + (void)setAppTintColor:(UIColor *)color {
     [GBColors sharedInstance].currentTintColor = color;
     NSArray *tintColors = [GBColors tintColors];

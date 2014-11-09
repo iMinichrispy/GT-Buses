@@ -108,10 +108,14 @@
 
 - (void)checkDelegateHandleError:(NSInteger)code message:(NSString *)message {
     [self setActivityIndicatorVisible:NO];
-    if ([self.delegate respondsToSelector:@selector(handleError:code:message:)])
+    if ([self.delegate respondsToSelector:@selector(handleError:code:message:)]) {
+        NSLog(@"can handle");
         [self.delegate handleError:self code:code message:message];
-    else
+    }
+    else {
+        NSLog(@"cant handle");
         [self handleErrorCode:code message:message];
+    }
 }
 
 - (void)handleErrorCode:(NSInteger)code message:(NSString *)message {
