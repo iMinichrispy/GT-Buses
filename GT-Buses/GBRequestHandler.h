@@ -20,4 +20,6 @@
 - (void)toggleParty;
 #endif
 
++ (NSString *)errorStringForCode:(NSInteger)code;
+
 @end

@@ -20,7 +20,6 @@
 }
 
 - (void)getRequestWithURL:(NSString *)url {
-    NSLog(@"%@",url);
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
     [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
@@ -109,11 +108,9 @@
 - (void)checkDelegateHandleError:(NSInteger)code message:(NSString *)message {
     [self setActivityIndicatorVisible:NO];
     if ([self.delegate respondsToSelector:@selector(handleError:code:message:)]) {
-        NSLog(@"can handle");
         [self.delegate handleError:self code:code message:message];
     }
     else {
-        NSLog(@"cant handle");
         [self handleErrorCode:code message:message];
     }
 }

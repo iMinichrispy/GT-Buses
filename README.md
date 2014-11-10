@@ -104,6 +104,9 @@ v1.1.1
 v1.x
 - [Debug] Show stop ids on stop annotation
 - [Debug] Display predictions in minutes & seconds
+- [Debug] Added Reset, Stops, and Party button items to toolbar
+- Now using GT Buses heroku backend
+    - Routes no longer take a week to update
 
 
 ## Debug Target Differences

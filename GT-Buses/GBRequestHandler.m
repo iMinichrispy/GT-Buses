@@ -42,7 +42,7 @@ static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
 
 - (void)predictionsForRoute:(NSString *)tag {
     NSString *baseURL = [self predictionsBaseURL];
-    [self getRequestWithURL:FORMAT(@"%@%@%@", baseURL, tag, @"?config=true")];
+    [self getRequestWithURL:FORMAT(@"%@%@", baseURL, tag)];
 }
 
 - (void)schedule {
@@ -66,6 +66,20 @@ static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
     [self getRequestWithURL:[GBRequestBaseURL stringByAppendingString:GBRequestTogglePartyPath]];
 }
 #endif
+
++ (NSString *)errorStringForCode:(NSInteger)code {
+    NSString *errorString;
+    switch (code) {
+        case 400: errorString = @"Bad Request"; break;
+        case 404: errorString = @"Resource Error"; break;
+        case 500: errorString = @"Internal Server Error"; break;
+        case 503: errorString = @"Timed Out"; break;
+        case 1008: case 1009: errorString = @"No Internet Connection"; break;
+        case 2923: errorString = @"Parsing Error"; break;
+        default: errorString = @"Error Connecting"; break;
+    }
+    return FORMAT(@"%@ (-%li)", errorString, (long)code);
+}
 
 #pragma mark - URLs
 

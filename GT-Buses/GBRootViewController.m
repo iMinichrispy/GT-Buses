@@ -126,16 +126,9 @@ int const kRefreshInterval = 5;
     UIBarButtonItem *flexibleSpace1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *partyItem = [[UIBarButtonItem alloc] initWithTitle:@"Party" style:UIBarButtonItemStylePlain target:self action:@selector(toggleParty:)];
     UIBarButtonItem *flexibleSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *updateStopsItem = [[UIBarButtonItem alloc] initWithTitle:@"Update Stops" style:UIBarButtonItemStylePlain target:self action:@selector(updateStops:)];
+    UIBarButtonItem *updateStopsItem = [[UIBarButtonItem alloc] initWithTitle:@"Stops" style:UIBarButtonItemStylePlain target:self action:@selector(updateStops:)];
     self.toolbarItems = @[resetItem, flexibleSpace1, partyItem, flexibleSpace2, updateStopsItem];
-    
-    UIColor *tintColor = [UIColor appTintColor];
-    if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
-        self.navigationController.toolbar.barTintColor = tintColor;
-        self.navigationController.toolbar.tintColor = [UIColor whiteColor];
-    } else {
-        self.navigationController.toolbar.tintColor = tintColor;
-    }
+    [self updateTintColor:nil];
 #endif
     
     _routes = [NSMutableArray new];
@@ -147,7 +140,7 @@ int const kRefreshInterval = 5;
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor controlTintColor];
     [_busRouteControlView updateTintColor];
 #if DEBUG
-    UIColor *tintColor = notification.object;
+    UIColor *tintColor = [UIColor appTintColor];
     if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
         self.navigationController.toolbar.barTintColor = tintColor;
         self.navigationController.toolbar.tintColor = [UIColor whiteColor];
@@ -352,17 +345,7 @@ int const kRefreshInterval = 5;
     refreshButton.tintColor = [UIColor controlTintColor];
     self.navigationItem.rightBarButtonItem = refreshButton;
     
-    NSString *errorString;
-    switch (code) {
-        case 400: errorString = @"Bad Request"; break;
-        case 404: errorString = @"Resource Error"; break;
-        case 500: errorString = @"Internal Server Error"; break;
-        case 503: errorString = @"Timed Out"; break;
-        case 1008: case 1009: errorString = @"No Internet Connection"; break;
-        case 2923: errorString = @"Parsing Error"; break;
-        default: errorString = @"Error Connecting"; break;
-    }
-    _busRouteControlView.errorLabel.text = FORMAT(@"%@ (-%li)", errorString, (long)code);
+    _busRouteControlView.errorLabel.text = [GBRequestHandler errorStringForCode:code];
 }
 
 - (GBRoute *)selectedRoute {
@@ -465,12 +448,13 @@ int const kRefreshInterval = 5;
 }
 
 - (void)togglePartyMode:(NSNotification *)notification {
+    // Refreshes route config
+    [_busRouteControlView.busRouteControl removeAllSegments];
+    if ([refreshTimer isValid]) [refreshTimer invalidate];
+    [self updateVehicleLocations];
+    
     BOOL party = [[GBConfig sharedInstance] isParty];
-    [self didChangeBusRoute];
-    if (party) {
-        GBRoute *selectedRoute = [self selectedRoute];
-        [GBColors setAppTintColor:selectedRoute.color];
-    } else {
+    if (!party) {
         [GBColors setAppTintColor:[GBColors defaultColor]];
     }
 }
