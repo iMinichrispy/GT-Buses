@@ -333,7 +333,7 @@ int const kRefreshInterval = 5;
             }
             lastPredictionUpdate = newPredictionUpdate;
         }
-    } else [self handleError:handler code:2923 message:@"Parsing Error"];
+    } else [self handleError:handler code:PARSE_ERROR_CODE message:@"Parsing Error"];
 }
 
 - (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message {

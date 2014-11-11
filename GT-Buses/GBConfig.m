@@ -33,30 +33,45 @@
         // Check user defaults?
         _version = 1;
         _party = NO;
+        _message = @"";
         // update to new version?
     }
     return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Config version: %li>", (long)_version];
+    return [NSString stringWithFormat:@"<Config version: %li, message: %@>", (long)_version, _message];
 }
 
 - (void)handleConfig:(NSDictionary *)config {
-//    NSLog(@"%@",config);
+    NSLog(@"%@",config);
     if (config) {
-        NSInteger newVersion = [config[@"version"] integerValue];
+        NSInteger version = [config[@"version"] integerValue];
+        NSString *message = config[@"message"];
         BOOL party = [config[@"party"] boolValue];
         
-        if (_party != party) {
-            _party = party;
-            // toggle party
-            [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationPartyModeDidChange object:nil];
-        }
-        
-        if (_version != newVersion) {
-//            _baseURL = config[@"baseURL"];
-        }
+        [self setMessage:message];
+        [self setParty:party];
+        [self setVersion:version];
+    }
+}
+- (void)setMessage:(NSString *)message {
+    if (_message != message) {
+        _message = message;
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationMessageDidChange object:nil];
+    }
+}
+
+- (void)setParty:(BOOL)party {
+    if (_party != party) {
+        _party = party;
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationPartyModeDidChange object:nil];
+    }
+}
+
+- (void)setVersion:(NSInteger)version {
+    if (_version != version) {
+        _version = version;
     }
 }
 

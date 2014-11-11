@@ -11,6 +11,7 @@
 @interface GBConfig : NSObject
 
 @property (nonatomic, getter=isParty) BOOL party;
+@property (nonatomic, strong) NSString *message;
 
 + (GBConfig *)sharedInstance;
 - (void)handleConfig:(NSDictionary *)config;

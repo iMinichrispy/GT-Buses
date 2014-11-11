@@ -12,8 +12,10 @@
 #import "GBConfig.h"
 
 #if !DEBUG || !TARGET_IPHONE_SIMULATOR
+#define MASTER_PASSWORD @"verax"
 static NSString * const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
 #else
+#define MASTER_PASSWORD @"temp"
 static NSString * const GBRequestBaseURL = @"http://localhost:5000";
 #endif
 
@@ -63,7 +65,8 @@ static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
 }
 
 - (void)toggleParty {
-    [self getRequestWithURL:[GBRequestBaseURL stringByAppendingString:GBRequestTogglePartyPath]];
+    NSString *query = FORMAT(@"%@?password=%@", GBRequestTogglePartyPath, MASTER_PASSWORD);
+    [self getRequestWithURL:[GBRequestBaseURL stringByAppendingString:query]];
 }
 #endif
 
@@ -75,7 +78,7 @@ static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
         case 500: errorString = @"Internal Server Error"; break;
         case 503: errorString = @"Timed Out"; break;
         case 1008: case 1009: errorString = @"No Internet Connection"; break;
-        case 2923: errorString = @"Parsing Error"; break;
+        case PARSE_ERROR_CODE: errorString = @"Parsing Error"; break;
         default: errorString = @"Error Connecting"; break;
     }
     return FORMAT(@"%@ (-%li)", errorString, (long)code);

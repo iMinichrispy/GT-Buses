@@ -11,6 +11,7 @@
 #import "GBUserInterface.h"
 #import "GBColors.h"
 #import "GBConstants.h"
+#import "GBConfig.h"
 #import "UIViewController+GBMailComposer.h"
 
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
@@ -40,8 +41,8 @@ float const kButtonSpacing = 10.0f;
     NSArray *sideBaritems = @[@{@"title":@"Version", @"value":version}, @{@"title":@"Developer", @"value":@"Alex Perez"}, @{@"title":@"Design", @"value":@"Felipe Salazar"}];
     [self addSidebarItems:sideBaritems];
     
-    float width = IS_IPAD ? kSideWidthiPad : kSideWidth;
-    float yValue = [[self class] screenSize].height - 50 + [self origin];
+    float width = [self width];
+    float yValue = [GBUserInterface screenSize].height - 50 + [GBUserInterface originY];
     
     GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, kButtonHeight)];
     [supportButton setTitle:@"Support" forState:UIControlStateNormal];
@@ -58,10 +59,11 @@ float const kButtonSpacing = 10.0f;
     [appReviewButton addGestureRecognizer:longPress];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessage:) name:GBNotificationMessageDidChange object:nil];
 }
 
 - (void)addSidebarItems:(NSArray *)sideBaritems {
-    float y = [self origin] + kSideBarItemsInitY;
+    float y = [GBUserInterface originY] + kSideBarItemsInitY;
     for (NSDictionary *sideBarItem in sideBaritems) {
         GBSideBarView *view = [[GBSideBarView alloc] initWithFrame:CGRectMake(0, y + 25, kSideWidthiPad, kSideBarItemViewHeight)];
         [view updateTintColor];
@@ -83,17 +85,8 @@ float const kButtonSpacing = 10.0f;
     }
 }
 
-+ (CGSize)screenSize {
-    // Because on >=iOS 8, [UIScreen bounds] is orientation-dependent
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        return CGSizeMake(screenSize.height, screenSize.width);
-    }
-    return screenSize;
-}
-
-- (float)origin {
-    return SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? 0 : -20;
+- (float)width {
+    return IS_IPAD ? kSideWidthiPad : kSideWidth;
 }
 
 - (void)reviewApp {
@@ -157,6 +150,17 @@ float const kButtonSpacing = 10.0f;
         [alert show];
     }
     [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - Message
+
+- (void)updateMessage:(NSNotification *)notification {
+    NSString *message = [[GBConfig sharedInstance] message];
+    if ([message length]) {
+        // add label
+    } else {
+        // teardowm
+    }
 }
 
 @end

@@ -11,6 +11,23 @@
 #import "GBColors.h"
 #import "GBConstants.h"
 
+@implementation GBUserInterface
+
++ (CGSize)screenSize {
+    // Because on >=iOS 8, [UIScreen bounds] is orientation-dependent
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        return CGSizeMake(screenSize.height, screenSize.width);
+    }
+    return screenSize;
+}
+
++ (float)originY {
+    return SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? 0 : -20;
+}
+
+@end
+
 @implementation GBNavigationController
 
 - (void)viewDidLoad {
