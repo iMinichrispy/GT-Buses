@@ -12,20 +12,19 @@
 #import "GBColors.h"
 #import "GBConstants.h"
 #import "GBConfig.h"
+#import "GBSideBarItem.h"
 #import "UIViewController+GBMailComposer.h"
 
 #define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
 #define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
 
-float const kSideBarItemsInitY = 36.0f;
-float const kSideBarItemLabelHeight = 20.0f;
-float const kSideBarItemViewHeight = 40.0f;
-float const kSideBarItemSpacing = kSideBarItemViewHeight + (kSideBarItemLabelHeight * 2) - 1;
-
 float const kButtonHeight = 40.0f;
 float const kButtonSpacing = 10.0f;
 
 @interface GBAboutController () <UIActionSheetDelegate, GBTintColorDelegate>
+
+@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UIButton *appReviewButton;
 
 @end
 
@@ -36,53 +35,39 @@ float const kButtonSpacing = 10.0f;
     
     [self updateTintColor];
     
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *version = [NSString stringWithFormat:@"%@ (%@)", info[@"CFBundleShortVersionString"], info[@"CFBundleVersion"]];
-    NSArray *sideBaritems = @[@{@"title":@"Version", @"value":version}, @{@"title":@"Developer", @"value":@"Alex Perez"}, @{@"title":@"Design", @"value":@"Felipe Salazar"}];
-    [self addSidebarItems:sideBaritems];
+    UIView *aboutView = [[GBAboutView alloc] init];
+    [self.view addSubview:aboutView];
     
-    float width = [self width];
-    float yValue = [GBUserInterface screenSize].height - 50 + [GBUserInterface originY];
+    _messageLabel = [[GBLabel alloc] init];
+    _messageLabel.textAlignment = NSTextAlignmentCenter;
+    _messageLabel.numberOfLines = 0;
+    [aboutView addSubview:_messageLabel];
     
-    GBButton *supportButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue, width, kButtonHeight)];
+    _appReviewButton = [[GBButton alloc] init];
+    [_appReviewButton setTitle:@"Review App" forState:UIControlStateNormal];
+    [_appReviewButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
+    [aboutView addSubview:_appReviewButton];
+    
+    UIButton *supportButton = [[GBButton alloc] init];
     [supportButton setTitle:@"Support" forState:UIControlStateNormal];
-    [supportButton addTarget:self action:@selector(showComposerWithSupportEmail) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:supportButton];
+    [supportButton addTarget:self action:@selector(showSupportMailComposer) forControlEvents:UIControlEventTouchUpInside];
+    [aboutView addSubview:supportButton];
     
-    GBButton *appReviewButton = [[GBButton alloc] initWithFrame:CGRectMake(0, yValue - (kButtonSpacing + kButtonHeight), width, kButtonHeight)];
-    [appReviewButton setTitle:@"Review App" forState:UIControlStateNormal];
-    [appReviewButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:appReviewButton];
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[aboutView(width)]" options:0 metrics:@{@"width":@([self width])} views:NSDictionaryOfVariableBindings(aboutView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[aboutView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(aboutView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-5-[_messageLabel]-5-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_messageLabel)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[supportButton]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(supportButton)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_appReviewButton]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_appReviewButton)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_messageLabel(40)]-5-[_appReviewButton(buttonHeight)]-buttonSpacing-[supportButton(buttonHeight)]-buttonSpacing-|" options:0 metrics:@{@"buttonSpacing":@(kButtonSpacing), @"buttonHeight":@(kButtonHeight)} views:NSDictionaryOfVariableBindings(_messageLabel, _appReviewButton, supportButton)]];
+    [self.view addConstraints:constraints];
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeColor:)];
     [longPress setMinimumPressDuration:2];
-    [appReviewButton addGestureRecognizer:longPress];
+    [_appReviewButton addGestureRecognizer:longPress];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessage:) name:GBNotificationMessageDidChange object:nil];
-}
-
-- (void)addSidebarItems:(NSArray *)sideBaritems {
-    float y = [GBUserInterface originY] + kSideBarItemsInitY;
-    for (NSDictionary *sideBarItem in sideBaritems) {
-        GBSideBarView *view = [[GBSideBarView alloc] initWithFrame:CGRectMake(0, y + 25, kSideWidthiPad, kSideBarItemViewHeight)];
-        [view updateTintColor];
-        [self.view addSubview:view];
-        
-        GBLabel *titleLabel = [[GBLabel alloc] init];
-        titleLabel.frame = CGRectMake(8, y, kSideWidth, kSideBarItemLabelHeight);
-        titleLabel.font = [UIFont fontWithName:GBFontDefault size:14];
-        titleLabel.text = sideBarItem[@"title"];
-        [self.view addSubview:titleLabel];
-        
-        GBLabel *valueLabel = [[GBLabel alloc] init];
-        valueLabel.frame = CGRectMake(10, y + 35, kSideWidth, kSideBarItemLabelHeight);
-        valueLabel.font = [UIFont fontWithName:GBFontDefault size:16];
-        valueLabel.text = sideBarItem[@"value"];
-        [self.view addSubview:valueLabel];
-        
-        y += kSideBarItemSpacing;
-    }
 }
 
 - (float)width {
@@ -156,11 +141,12 @@ float const kButtonSpacing = 10.0f;
 
 - (void)updateMessage:(NSNotification *)notification {
     NSString *message = [[GBConfig sharedInstance] message];
-    if ([message length]) {
-        // add label
-    } else {
-        // teardowm
-    }
+    _messageLabel.text = message;
+}
+
+- (void)iosVersion {
+    // If ios version > current ios version
+    [_appReviewButton setTitle:@"Update Now" forState:UIControlStateNormal];
 }
 
 @end

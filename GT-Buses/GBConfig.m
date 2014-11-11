@@ -13,6 +13,7 @@
 @interface GBConfig ()
 
 @property (nonatomic) NSInteger version;
+@property (nonatomic, strong) NSString *iosVersion;
 
 @end
 
@@ -31,6 +32,8 @@
     self = [super init];
     if (self) {
         // Check user defaults?
+        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+        _iosVersion = info[@"CFBundleShortVersionString"];
         _version = 1;
         _party = NO;
         _message = @"";
@@ -44,15 +47,16 @@
 }
 
 - (void)handleConfig:(NSDictionary *)config {
-    NSLog(@"%@",config);
+//    NSLog(@"%@",config);
     if (config) {
         NSInteger version = [config[@"version"] integerValue];
+        NSString *iosVersion = config[@"iosVersion"];
         NSString *message = config[@"message"];
         BOOL party = [config[@"party"] boolValue];
         
+        [self setVersion:version];
         [self setMessage:message];
         [self setParty:party];
-        [self setVersion:version];
     }
 }
 - (void)setMessage:(NSString *)message {
@@ -72,6 +76,15 @@
 - (void)setVersion:(NSInteger)version {
     if (_version != version) {
         _version = version;
+    }
+}
+
+- (void)setIosVersion:(NSString *)iosVersion {
+    if (_iosVersion != iosVersion) {
+        _iosVersion = iosVersion;
+        
+        // iOS Version did change
+        // If ios version > current ios version
     }
 }
 

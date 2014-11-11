@@ -35,6 +35,17 @@
 
 @end
 
+@interface GBAboutView : UIView <GBTintColorDelegate>
+
+@end
+
 @interface GBSideBarView : UIView <GBTintColorDelegate>
+
+@end
+
+@class GBSideBarItem;
+@interface GBSideBarItemView : UIView <GBTintColorDelegate>
+
+- (instancetype)initWithSiderBarItem:(GBSideBarItem *)sideBarItem;
 
 @end

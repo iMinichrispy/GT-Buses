@@ -35,7 +35,7 @@ static NSString * const GBRouteConfigTask = @"GBRouteConfigTask";
 static NSString * const GBVehicleLocationsTask = @"GBVehicleLocationsTask";
 static NSString * const GBVehiclePredictionsTask = @"GBVehiclePredictionsTask";
 
-float const kSetRegionAnimationSpeed = 0.4f;
+float const kSetRegionAnimationSpeed = 0.15f;
 int const kRefreshInterval = 5;
 
 @interface GBRootViewController () <RequestHandlerDelegate, CLLocationManagerDelegate> {

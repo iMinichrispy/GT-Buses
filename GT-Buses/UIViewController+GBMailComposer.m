@@ -13,7 +13,7 @@
 
 @implementation UIViewController (GBMailComposer)
 
-- (void)showComposerWithSupportEmail {
+- (void)showSupportMailComposer {
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *composeController = [[MFMailComposeViewController alloc] init];
         composeController.mailComposeDelegate = self;

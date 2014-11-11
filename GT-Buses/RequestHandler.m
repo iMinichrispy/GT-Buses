@@ -129,7 +129,7 @@
     else if (code == 1008 || code == 1009)
         [self alertWithTitle:@"Connection Error" message:[NSString stringWithFormat:@"Error Connecting: %@", message] code:code];
     else
-        [self alertWithTitle:@"Error" message:[NSString stringWithFormat:@"Error (%li) occurred: %@", (long)code, message] code:9001];
+        [self alertWithTitle:@"Error" message:message code:code];
 }
 
 - (void)alertWithTitle:(NSString *)title message:(NSString *)message code:(NSInteger)code {

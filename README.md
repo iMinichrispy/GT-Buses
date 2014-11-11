@@ -107,6 +107,9 @@ v1.x
 - [Debug] Added Reset, Stops, and Party button items to toolbar
 - Now using GT Buses heroku backend
     - Routes no longer take a week to update
+- About Controller now uses auto layout
+- Review App button changes to Update Now in About controller when new version is available
+- Sped up animation time when switching routes
 
 
 ## Debug Target Differences
