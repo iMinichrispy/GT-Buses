@@ -13,7 +13,7 @@
 @interface GBConfig ()
 
 @property (nonatomic) NSInteger version;
-@property (nonatomic, strong) NSString *iosVersion;
+@property (nonatomic, strong) NSString *iOSVersion;
 
 @end
 
@@ -33,7 +33,7 @@
     if (self) {
         // Check user defaults?
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-        _iosVersion = info[@"CFBundleShortVersionString"];
+        _iOSVersion = info[@"CFBundleShortVersionString"];
         _version = 1;
         _party = NO;
         _message = @"";
@@ -47,22 +47,33 @@
 }
 
 - (void)handleConfig:(NSDictionary *)config {
-//    NSLog(@"%@",config);
+    NSLog(@"%@",config);
     if (config) {
         NSInteger version = [config[@"version"] integerValue];
-        NSString *iosVersion = config[@"iosVersion"];
+        NSString *iOSVersion = config[@"iOSVersion"];
         NSString *message = config[@"message"];
         BOOL party = [config[@"party"] boolValue];
         
         [self setVersion:version];
-        [self setMessage:message];
+        
+        if (![_message isEqualToString:message]) {
+            [self setMessage:message];
+        }
+        if (![_iOSVersion isEqualToString:iOSVersion]) {
+            [self setIOSVersion:iOSVersion];
+        }
+        
         [self setParty:party];
     }
 }
 - (void)setMessage:(NSString *)message {
     if (_message != message) {
         _message = message;
-        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationMessageDidChange object:nil];
+        
+        if ([_message isEqualToString:message]) {
+            
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationMessageDidChange object:message];
     }
 }
 
@@ -76,15 +87,19 @@
 - (void)setVersion:(NSInteger)version {
     if (_version != version) {
         _version = version;
+#warning could be 0
+        
     }
 }
 
-- (void)setIosVersion:(NSString *)iosVersion {
-    if (_iosVersion != iosVersion) {
-        _iosVersion = iosVersion;
+- (void)setIOSVersion:(NSString *)iOSVersion {
+    if (_iOSVersion != iOSVersion) {
+        _iOSVersion = iOSVersion;
         
         // iOS Version did change
         // If ios version > current ios version
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationiOSVersionDidChange object:iOSVersion];
     }
 }
 

@@ -16,6 +16,7 @@ NSString * const GBUserDefaultsKeySelectedColor = @"GBUserDefaultsKeySelectedCol
 NSString * const GBNotificationTintColorDidChange = @"GBNotificationTintColorDidChange";
 NSString * const GBNotificationPartyModeDidChange = @"GBNotificationPartyModeDidChange";
 NSString * const GBNotificationMessageDidChange = @"GBNotificationMessageDidChange";
+NSString * const GBNotificationiOSVersionDidChange = @"GBNotificationiOSVersionDidChange";
 
 float const kSideWidth = 150.0f;
 float const kSideWidthiPad = 200.0f;

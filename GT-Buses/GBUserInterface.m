@@ -24,6 +24,7 @@
 }
 
 + (float)originY {
+    // Don't count status bar on <=iOS6
     return SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? 0 : -20;
 }
 
@@ -78,7 +79,6 @@
         self.backgroundColor = [[UIColor appTintColor] darkerColor:0.2];
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.font = [UIFont fontWithName:GBFontDefault size:16];
-//        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
     return self;
 }

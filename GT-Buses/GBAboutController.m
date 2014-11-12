@@ -68,6 +68,7 @@ float const kButtonSpacing = 10.0f;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessage:) name:GBNotificationMessageDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateiOSVersion:) name:GBNotificationiOSVersionDidChange object:nil];
 }
 
 - (float)width {
@@ -144,9 +145,18 @@ float const kButtonSpacing = 10.0f;
     _messageLabel.text = message;
 }
 
-- (void)iosVersion {
-    // If ios version > current ios version
-    [_appReviewButton setTitle:@"Update Now" forState:UIControlStateNormal];
+- (void)updateiOSVersion:(NSNotification *)notification {
+    NSString *iOSVersion = notification.object;
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *currentVersion = info[@"CFBundleShortVersionString"];
+    
+    if ([iOSVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending) {
+        _messageLabel.text = @"Update available!";
+        [_appReviewButton setTitle:@"Update Now" forState:UIControlStateNormal];
+    } else {
+        [_appReviewButton setTitle:@"Rate App" forState:UIControlStateNormal];
+        [self updateMessage:nil];
+    }
 }
 
 @end

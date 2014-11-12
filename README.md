@@ -2,6 +2,7 @@
 
 An iOS app for tracking the Georgia Tech buses.  
 More Info: [gtbuses.iminichrispy.com](http://gtbuses.iminichrispy.com)  
+Backend: [gtbuses.herokuapp.com](http://gtbuses.herokuapp.com)  
 Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id815448630?ls=1&mt=8)
 
 ## To-Do
@@ -19,14 +20,12 @@ In possible update:
 - Incorporate notifications (and displaying messages/warning included with stops from API)
 - Add ability to search for buildings  
 - Space stops that are close together farther apart  
-- Prevent angle of bus annotation from changing as view rotates (Currently rotation is prevented altogether)  
-- Properly center uisegmentedcontrol (Off by 2 pixels on iOS 7)  
 - (BUG) When bus annotation center coordinate is being animated and map view window is changed (pan, pinch), bus animation gets thrown off  
 - [mapview removeAllAnnotations] removes all annotations, including user location annotation (Not noticeable)  
-- Add list view for viewing buses as a list
+- Add list view for viewing buses as a list  
 - (BUG) Sometimes, some buses flash visible after switching to different route  
 - (BUG) Regions not how they should be on iOS 6 and below  
-- (BUG) Closing mail composer changes status bar style on iOS 6 and below
+- (BUG) Closing mail composer changes status bar style on iOS 6 and below  
 - Ability to tun off/on certain routes  
 - Add a Call Stingerette button: 404-385-7433  
 - Add ability to set a timer to be notified when a bus arrives  
@@ -37,18 +36,14 @@ In possible update:
     3. User sets what time they want to leave by and I use a push server that updates time data and sends a push notification to accurately notify them when the bus is there  
         - Requires Internet to send timer  
         - A lot of work to implement  
-- Type in where/what building you need to go to: http://gtjourney.gatech.edu/gt-devhub/apis#campusmapapi
+- Type in where/what building you need to go to: http://gtjourney.gatech.edu/gt-devhub/apis#campusmapapi  
+    - http://m.gatech.edu/widget/gtplaces/content/api/buildings
     - Once you find nearest stop, you can get bus routes that stop there
     - Also need to user current location to find nearest stop to you and find out which route to take - including direction
     - What if user has no location?
-- Use Nextbus API or GTJourney API
-    - http://www.nextbus.com/service/googleMapXMLFeed?command=routeConfig&a=georgia-tech&key=2742685607650
-    - http://www.nextbus.com/service/googleMapXMLFeed?command=vehicleLocations&a=georgia-tech&r=blue&t=1396353521341&key=812434079211
-    - http://www.nextbus.com/service/googleMapXMLFeed?command=predictionsForMultiStops&a=georgia-tech&stops=night|cloucomm&key=2742685607650
-    - Referrer: http://www.nextbus.com/googleMap/
-    - curl 'http://www.nextbus.com/service/googleMapXMLFeed?command=vehicleLocations&a=georgia-tech&r=red&t=1415335183432&key=2742685607650' -H 'Referer: http://www.nextbus.com/googleMap/'
 - Table of current route w/ stop info (makes switchig routes and maintaining list view annoying)
 - Change update interval (test optimal)
+- Schedule
 
 ## Done
 
@@ -99,7 +94,7 @@ v1.1.1
 - Bigger bus arrows on iPad
 - 3x images
 
-v1.x
+v1.1.2
 - [Debug] Show stop ids on stop annotation
 - [Debug] Display predictions in minutes & seconds
 - [Debug] Added Reset, Stops, and Party button items to toolbar
@@ -116,3 +111,5 @@ v1.x
 - Bus stops display stop id's
 - Predictions displayed in minutes & seconds
 - Buses labeled with bus identifier
+- Toolbar for reset, party, and updating stops
+- CPU graph

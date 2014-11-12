@@ -129,10 +129,6 @@ int const kRefreshInterval = 5;
     UIBarButtonItem *updateStopsItem = [[UIBarButtonItem alloc] initWithTitle:@"Stops" style:UIBarButtonItemStylePlain target:self action:@selector(updateStops:)];
     self.toolbarItems = @[resetItem, flexibleSpace1, partyItem, flexibleSpace2, updateStopsItem];
     [self updateTintColor:nil];
-    
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
-//    view.backgroundColor = [UIColor redColor];
-//    [[UIApplication sharedApplication].windows.firstObject addSubview:view];
 #endif
     
     _routes = [NSMutableArray new];

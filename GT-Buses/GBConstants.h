@@ -14,6 +14,7 @@ extern NSString * const GBUserDefaultsKeySelectedColor;
 extern NSString * const GBNotificationTintColorDidChange;
 extern NSString * const GBNotificationPartyModeDidChange;
 extern NSString * const GBNotificationMessageDidChange;
+extern NSString * const GBNotificationiOSVersionDidChange;
 
 extern float const kSideWidth;
 extern float const kSideWidthiPad;
