@@ -35,6 +35,7 @@
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
 		FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */; };
+		FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD597C01A12C66E0079B36C /* GBWindow.m */; };
 		FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
 		FADE7D101967555800F318D5 /* GBBusRouteControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */; };
 		FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D151967605B00F318D5 /* GBRequestHandler.m */; };
@@ -107,6 +108,8 @@
 		FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GBMailComposer.m"; sourceTree = "<group>"; };
 		FACFA1A01A0DAE2A00F3E2C3 /* GBConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConfig.h; sourceTree = "<group>"; };
 		FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConfig.m; sourceTree = "<group>"; };
+		FAD597BF1A12C66E0079B36C /* GBWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBWindow.h; sourceTree = "<group>"; };
+		FAD597C01A12C66E0079B36C /* GBWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBWindow.m; sourceTree = "<group>"; };
 		FADE7D091967504600F318D5 /* GBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConstants.h; sourceTree = "<group>"; };
 		FADE7D0A1967504600F318D5 /* GBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConstants.m; sourceTree = "<group>"; };
 		FADE7D0E1967555800F318D5 /* GBBusRouteControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBusRouteControlView.h; sourceTree = "<group>"; };
@@ -273,6 +276,8 @@
 				FAA1234C18A5793C0049A5FA /* GBUserInterface.m */,
 				FADE7D0E1967555800F318D5 /* GBBusRouteControlView.h */,
 				FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */,
+				FAD597BF1A12C66E0079B36C /* GBWindow.h */,
+				FAD597C01A12C66E0079B36C /* GBWindow.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -432,6 +437,7 @@
 				FA1FE96D18A1D9A400757643 /* GBMapHandler.m in Sources */,
 				FA1FE97C18A1D9C600757643 /* GBColors.m in Sources */,
 				FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */,
+				FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */,
 				FAA1234118A520710049A5FA /* MFSideMenuShadow.m in Sources */,
 				FA8C118B19D30758008F5927 /* GBRootViewController.m in Sources */,
 				FA0B9C0C1A11BABD005197CC /* GBSideBarItem.m in Sources */,

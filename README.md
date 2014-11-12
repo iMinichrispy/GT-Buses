@@ -6,8 +6,6 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 
 ## To-Do
 
-- Add CPU graph to debug mode
-
 
 iOS 8:
 - Add extension
@@ -105,6 +103,7 @@ v1.x
 - [Debug] Show stop ids on stop annotation
 - [Debug] Display predictions in minutes & seconds
 - [Debug] Added Reset, Stops, and Party button items to toolbar
+- [Debug] Added CPU graph
 - Now using GT Buses heroku backend
     - Routes no longer take a week to update
 - About Controller now uses auto layout
