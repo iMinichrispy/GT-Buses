@@ -15,7 +15,6 @@
 @interface GBFavoriteButton ()
 
 @property (nonatomic, strong) GBStop *stop;
-@property (nonatomic, getter=isFavorite) BOOL favorite;
 
 @end
 
@@ -24,11 +23,11 @@
 - (instancetype)initWithBusStopAnnotation:(GBBusStopAnnotation *)annotation {
     self = [super initWithFrame:CGRectMake(0, 0, 30, 30)];
     if (self) {
-        _favorite = NO;
         _stop = annotation.stop;
         
+        [self setFavorite:_stop.isFavorite];
+        
         self.backgroundColor = [UIColor redColor];
-        [self setTitle:@"0" forState:UIControlStateNormal];
         [self addTarget:self action:@selector(toggleFavorite:) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
@@ -37,24 +36,27 @@
 - (void)toggleFavorite:(id)sender {
     // update image
     // update user defaults
-    _favorite = !_favorite;
+    _stop.favorite = !_stop.favorite;
+    [self setFavorite:_stop.favorite];
     
-    [self setTitle:(_favorite) ? @"1" : @"0" forState:UIControlStateNormal];
-    
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBUserDefaultsExtensionSuiteName];
-    NSMutableArray *stops = [[shared objectForKey:@"stops"] mutableCopy];
+    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    NSMutableArray *stops = [[shared objectForKey:GBSharedDefaultsFavoriteStopsKey] mutableCopy];
     if (!stops) {
         stops = [NSMutableArray new];
     }
     
     NSDictionary *dictionary = [_stop toDictionary];
-    if (_favorite) {
+    if (_stop.isFavorite) {
         [stops addObject:dictionary];
     } else {
         [stops removeObject:dictionary];
     }
-    [shared setObject:stops forKey:@"stops"];
+    [shared setObject:stops forKey:GBSharedDefaultsFavoriteStopsKey];
     [shared synchronize];
+}
+
+- (void)setFavorite:(BOOL)favorite {
+    [self setTitle:(favorite) ? @"1" : @"0" forState:UIControlStateNormal];
 }
 
 @end

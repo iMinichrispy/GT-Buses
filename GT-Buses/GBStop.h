@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSString *tag;
 @property (nonatomic) double lat;
 @property (nonatomic) double lon;
+@property (nonatomic, getter=isFavorite) BOOL favorite;
 
 // For use with extension, so we don't have to save entire route object to defaults
 @property (nonatomic, strong) NSString *routeTag;

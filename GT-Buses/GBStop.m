@@ -31,14 +31,16 @@
         _route = route;
         _title = title;
         _tag = tag;
+        _favorite = NO;
         
+        _routeTag = route.tag;
         _hexColor = route.hexColor;
     }
     return self;
 }
 
 - (NSDictionary *)toDictionary {
-    NSDictionary *dictionary = @{@"title":_title, @"stopTag":_tag,  @"routeTag":_route.tag, @"hexColor":_hexColor};
+    NSDictionary *dictionary = @{@"title":_title, @"stopTag":_tag,  @"routeTag":_routeTag, @"hexColor":_hexColor};
     return dictionary;
 }
 

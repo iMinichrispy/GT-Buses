@@ -83,8 +83,8 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
     
     self.preferredContentSize = CGSizeMake(0, 0);
     
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBUserDefaultsExtensionSuiteName];
-    _stops = [shared objectForKey:@"stops"];
+    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    _stops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
     
     [self updateLayout];
     
@@ -108,7 +108,7 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 }
 
 - (void)userDefaultsDidChange:(NSNotification *)notification {
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBUserDefaultsExtensionSuiteName];
+    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
     _stops = [shared objectForKey:@"stops"];
     [self updateLayout];
 }

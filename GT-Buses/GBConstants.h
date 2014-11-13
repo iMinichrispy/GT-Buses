@@ -11,7 +11,10 @@ extern NSString * const GBFontDefault;
 
 extern NSString * const GBUserDefaultsKeySelectedRoute;
 extern NSString * const GBUserDefaultsKeySelectedColor;
-extern NSString * const GBUserDefaultsExtensionSuiteName;
+
+extern NSString * const GBSharedDefaultsExtensionSuiteName;
+extern NSString * const GBSharedDefaultsFavoriteStopsKey;
+extern NSString * const GBSharedDefaultsStopsKey;
 
 extern NSString * const GBNotificationTintColorDidChange;
 extern NSString * const GBNotificationPartyModeDidChange;

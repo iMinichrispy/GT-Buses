@@ -93,10 +93,6 @@ int const kRefreshInterval = 5;
     _locationManager.delegate = self;
     [self showUserLocation];
     
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBUserDefaultsExtensionSuiteName];
-    NSArray *stops = [shared objectForKey:@"stops"];
-    NSLog(@"TStops: %@", stops);
-    
 #if DEFAULT_IMAGE
     self.title = @"";
     self.navigationItem.leftBarButtonItem = nil;
@@ -424,7 +420,19 @@ int const kRefreshInterval = 5;
         [_mapView addOverlay:polygon];
     }
     
+    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    NSMutableArray *favoriteStops = [[shared objectForKey:GBSharedDefaultsFavoriteStopsKey] mutableCopy];
+    
     for (GBStop *stop in selectedRoute.stops) {
+        for (int x = 0; x < [favoriteStops count]; x++) {
+            NSDictionary *dictionary = favoriteStops[x];
+            if ([dictionary[@"stopTag"] isEqualToString:stop.tag]) {
+                stop.favorite = YES;
+                [favoriteStops removeObject:dictionary];
+                break;
+            }
+        }
+        
         GBBusStopAnnotation *stopAnnotation = [[GBBusStopAnnotation alloc] initWithStop:stop];
 #if DEBUG
         stopAnnotation.title = FORMAT(@"%@ (%@)", stop.title, stop.tag);
