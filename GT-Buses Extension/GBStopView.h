@@ -13,6 +13,7 @@
 
 extern float const GBStopViewHeight;
 
+@property (nonatomic, strong) GBStop *stop;
 @property (nonatomic, strong) UIImageView *routeImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *predictionsLabel;

@@ -235,6 +235,7 @@ int const kRefreshInterval = 5;
                 [self didChangeBusRoute];
             }
         } else if (handler.task == GBVehicleLocationsTask) {
+            [self checkForMessages:dictionary];
             NSDictionary *config = dictionary[@"body"][@"config"];
             [[GBConfig sharedInstance] handleConfig:config];
             long long newLocationUpdate = [dictionary[@"body"][@"lastTime"][@"time"] longLongValue];
@@ -285,7 +286,6 @@ int const kRefreshInterval = 5;
         } else if (handler.task == GBVehiclePredictionsTask) {
             long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
             if (newPredictionUpdate != lastPredictionUpdate) {
-                [self checkForMessages:dictionary];
                 NSArray *predictions = dictionary[@"body"][@"predictions"];
                 if (predictions) {
                     if (![predictions isKindOfClass:[NSArray class]])

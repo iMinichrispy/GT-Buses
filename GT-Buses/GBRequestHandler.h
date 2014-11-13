@@ -13,6 +13,7 @@
 - (void)routeConfig;
 - (void)locationsForRoute:(NSString *)tag;
 - (void)predictionsForRoute:(NSString *)tag;
+- (void)multiPredictionsForStops:(NSString *)parameterList;
 - (void)messages;
 
 #if DEBUG

@@ -22,6 +22,7 @@ static NSString * const GBRequestBaseURL = @"http://localhost:5000";
 static NSString * const GBRequestRouteConfigPath = @"/routeConfig";
 static NSString * const GBRequestLocationsPath = @"/locations/";
 static NSString * const GBRequestPredictionsPath = @"/predictions/";
+static NSString * const GBRequestMultiPredictionsPath = @"/multiPredictions";
 static NSString * const GBRequestSchedulePath = @"/schedule";
 static NSString * const GBRequestMessagesPath = @"/messages";
 
@@ -45,6 +46,10 @@ static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
 - (void)predictionsForRoute:(NSString *)tag {
     NSString *baseURL = [self predictionsBaseURL];
     [self getRequestWithURL:FORMAT(@"%@%@", baseURL, tag)];
+}
+
+- (void)multiPredictionsForStops:(NSString *)parameterList {
+    [self getRequestWithURL:FORMAT(@"%@%@", [self multiPredictionsBaseURL], parameterList)];
 }
 
 - (void)schedule {
@@ -106,6 +111,14 @@ static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
     static NSString *url;
     if (!url) {
         url = [GBRequestBaseURL stringByAppendingString:GBRequestPredictionsPath];
+    }
+    return url;
+}
+
+- (NSString *)multiPredictionsBaseURL {
+    static NSString *url;
+    if (!url) {
+        url = [GBRequestBaseURL stringByAppendingString:GBRequestMultiPredictionsPath];
     }
     return url;
 }

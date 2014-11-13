@@ -15,7 +15,7 @@
 - (GBStop *)toStop {
     GBStop *stop = [[GBStop alloc] init];
     stop.title = self[@"title"];
-    stop.tag = self[@"tag"];
+    stop.tag = self[@"stopTag"];
     stop.routeTag = self[@"routeTag"];
     stop.hexColor = self[@"hexColor"];
     return stop;

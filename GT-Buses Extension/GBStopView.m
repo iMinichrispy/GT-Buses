@@ -43,6 +43,7 @@ float const kStopCircleSize = 25.0f;
     self = [super init];
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
+        _stop = stop;
         
         UIColor *color = [UIColor colorWithHexString:stop.hexColor];
         UIImage *coloredCircle = [[self class] circleWithColor:color];
