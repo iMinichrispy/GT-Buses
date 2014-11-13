@@ -437,7 +437,7 @@ int const kRefreshInterval = 5;
 #if DEBUG
         stopAnnotation.title = FORMAT(@"%@ (%@)", stop.title, stop.tag);
 #else
-        stopAnnotation.title = stop[@"title"];
+        stopAnnotation.title = stop.title;
 #endif
         stopAnnotation.subtitle = @"No Predictions";
         [stopAnnotation setCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon)];

@@ -18,7 +18,7 @@
 
 @interface TodayViewController () <NCWidgetProviding, RequestHandlerDelegate>
 
-@property (nonatomic, strong) NSArray *stops;
+@property (nonatomic, strong) NSArray *favoriteStops;
 @property (nonatomic, strong) NSMutableArray *stopViews;
 @property (nonatomic, strong) NSString *parameterString;
 
@@ -30,18 +30,47 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
         _parameterString = @"?";
+        
+        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+        _favoriteStops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
     }
     return self;
+}
+
+//- (void)loadView {
+//    UIView *view = [[UIView alloc] init];
+//    view.translatesAutoresizingMaskIntoConstraints = NO;
+//    self.view = view;
+//}
+
+- (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)margins
+{
+    margins.bottom = 10.0;
+    return margins;
 }
 
 - (void)updateLayout {
     NSMutableArray *constraints = [NSMutableArray new];
     
-    if ([_stops count]) {
+    
+//    self.preferredContentSize = CGSizeMake(0, 0);
+//    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+    if ([_favoriteStops count]) {
         _stopViews = [NSMutableArray new];
-        for (NSDictionary *dictionary in _stops) {
+        
+        UIVisualEffectView *favoritesLabelEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
+        favoritesLabelEffectView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:favoritesLabelEffectView];
+        
+        UILabel *favoritesLabel = [[UILabel alloc] init];
+        favoritesLabel.text = @"Favorites:";
+        favoritesLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [[favoritesLabelEffectView contentView] addSubview:favoritesLabel];
+        
+        for (NSDictionary *dictionary in _favoriteStops) {
             GBStop *stop = [dictionary toStop];
             
             GBStopView *stopView = [[GBStopView alloc] initWithStop:stop];
@@ -65,8 +94,14 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
         
         GBStopView *first = [_stopViews firstObject];
         GBStopView *last = [_stopViews lastObject];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[favoritesLabelEffectView][first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first, favoritesLabelEffectView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
+        
+        
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[favoritesLabelEffectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(favoritesLabelEffectView)]];
+        
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[favoritesLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(favoritesLabel)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[favoritesLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(favoritesLabel)]];
     } else {
         NSLog(@"error");
         _parameterString = nil;
@@ -81,11 +116,7 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.preferredContentSize = CGSizeMake(0, 0);
-    
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-    _stops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
-    
+//    self.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self updateLayout];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
@@ -109,7 +140,7 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 
 - (void)userDefaultsDidChange:(NSNotification *)notification {
     NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-    _stops = [shared objectForKey:@"stops"];
+    _favoriteStops = [shared objectForKey:@"stops"];
     [self updateLayout];
 }
 
@@ -117,7 +148,7 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 
 - (void)updatePredictions {
     NSLog(@"update: %@",_parameterString);
-    if ([_stops count]) {
+    if ([_stopViews count]) {
         GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBMultiPredictionsTask delegate:self];
         [predictionHandler multiPredictionsForStops:_parameterString];
     }
@@ -128,7 +159,7 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
     
     if (!error && dictionary) {
-        NSLog(@"%@",dictionary);
+//        NSLog(@"%@",dictionary);
         NSArray *predictions = dictionary[@"body"][@"predictions"];
         if (predictions) {
             if (![predictions isKindOfClass:[NSArray class]])
@@ -216,7 +247,6 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 }
 
 - (void)tapGesture:(UITapGestureRecognizer *)gesture {
-    NSLog(@"Tap Gesture");
     [self updatePredictions];
 }
 

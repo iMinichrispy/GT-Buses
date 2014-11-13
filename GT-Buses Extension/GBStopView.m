@@ -76,7 +76,7 @@ float const kStopCircleSize = 25.0f;
         
         NSMutableArray *constraints = [NSMutableArray new];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_routeImageView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_nameLabel(height)][predictionsEffectView(height)]|" options:0 metrics:@{@"height":@(GBStopViewHeight / 2)} views:NSDictionaryOfVariableBindings(_nameLabel, predictionsEffectView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_nameLabel][predictionsEffectView(==_nameLabel)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_nameLabel, predictionsEffectView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView(width)][_nameLabel]|" options:0 metrics:@{@"width":@(GBStopViewHeight)} views:NSDictionaryOfVariableBindings(_routeImageView, _nameLabel)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView(width)][predictionsEffectView]|" options:0 metrics:@{@"width":@(GBStopViewHeight)} views:NSDictionaryOfVariableBindings(_routeImageView, predictionsEffectView)]];
         

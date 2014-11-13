@@ -378,10 +378,10 @@
 				FAB249621A13FCCB00147FEF /* GT-Buses Extension.entitlements */,
 				FAB249571A13FCC800147FEF /* TodayViewController.h */,
 				FAB249581A13FCC800147FEF /* TodayViewController.m */,
-				FAB2495A1A13FCC800147FEF /* MainInterface.storyboard */,
-				FAB249551A13FCC800147FEF /* Supporting Files */,
 				FA2B6FBF1A14020F00C60449 /* GBStopView.h */,
 				FA2B6FC01A14020F00C60449 /* GBStopView.m */,
+				FAB2495A1A13FCC800147FEF /* MainInterface.storyboard */,
+				FAB249551A13FCC800147FEF /* Supporting Files */,
 			);
 			path = "GT-Buses Extension";
 			sourceTree = "<group>";
