@@ -9,6 +9,7 @@
 #import "GBRoute.h"
 
 #import "GBColors.h"
+#import "GBStop.h"
 
 float const kMapRegionPadding = 0.0005f;
 
@@ -27,8 +28,17 @@ float const kMapRegionPadding = 0.0005f;
     GBRoute *route = [[GBRoute alloc] initWithTitle:title tag:tag];
     route.paths = self[@"path"];
     route.region = [GBRoute regionForPaths:route.paths];
-    route.stops = self[@"stop"];
-    route.color = [UIColor colorWithHexString:self[@"color"]];
+    route.hexColor = self[@"color"];
+    route.color = [UIColor colorWithHexString:route.hexColor];
+    
+    NSMutableArray *stops = [NSMutableArray new];
+    for (NSDictionary *busStop in self[@"stop"]) {
+        GBStop *stop = [[GBStop alloc] initWithRoute:route title:busStop[@"title"] tag:busStop[@"tag"]];
+        stop.lat = [busStop[@"lat"] doubleValue];
+        stop.lon = [busStop[@"lon"] doubleValue];
+        [stops addObject:stop];
+    }
+    route.stops = stops;
     
     return route;
 }

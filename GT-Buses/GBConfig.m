@@ -47,7 +47,7 @@
 }
 
 - (void)handleConfig:(NSDictionary *)config {
-    NSLog(@"%@",config);
+//    NSLog(@"%@",config);
     if (config) {
         NSInteger version = [config[@"version"] integerValue];
         NSString *iOSVersion = config[@"iOSVersion"];

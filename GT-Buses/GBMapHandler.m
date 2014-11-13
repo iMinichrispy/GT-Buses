@@ -14,6 +14,9 @@
 #import "GBColors.h"
 #import "GBConstants.h"
 #import "GBConfig.h"
+#import "GBFavoriteButton.h"
+#import "GBStop.h"
+#import "GBRoute.h"
 
 @implementation GBMapHandler
 
@@ -110,9 +113,14 @@
         annotationView.frame = CGRectMake(0, 0, size, size);
         annotationView.canShowCallout = YES;
         
+        GBBusStopAnnotation *stopAnnotation = (GBBusStopAnnotation *)annotation;
+        UIButton *favoriteButton = [[GBFavoriteButton alloc] initWithBusStopAnnotation:stopAnnotation];
+        annotationView.rightCalloutAccessoryView = favoriteButton;
+        
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, size, size)];
         UIImage *dotImage = [UIImage imageNamed:@"Dot"];
-        imageView.image = [dotImage imageWithColor:[((GBBusStopAnnotation *)annotation).color darkerColor:0.2]];
+        
+        imageView.image = [dotImage imageWithColor:[((GBBusStopAnnotation *)annotation).stop.route.color darkerColor:0.2]];
         imageView.alpha = .7;
         [annotationView addSubview:imageView];
         return annotationView;

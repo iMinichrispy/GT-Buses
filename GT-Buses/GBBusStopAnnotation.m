@@ -8,6 +8,16 @@
 
 #import "GBBusStopAnnotation.h"
 
+#import "GBStop.h"
+
 @implementation GBBusStopAnnotation
+
+- (instancetype)initWithStop:(GBStop *)stop {
+    self = [super init];
+    if (self) {
+        _stop = stop;
+    }
+    return self;
+}
 
 @end

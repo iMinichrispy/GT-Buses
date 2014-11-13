@@ -8,10 +8,11 @@
 
 @import MapKit;
 
+@class GBStop;
 @interface GBBusStopAnnotation : MKPointAnnotation
 
-@property (nonatomic, strong) NSString *tag;
-@property (nonatomic, strong) NSString *stopTag;
-@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong) GBStop *stop;
+
+- (instancetype)initWithStop:(GBStop *)stop;
 
 @end

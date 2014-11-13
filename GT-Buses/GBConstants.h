@@ -6,10 +6,12 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
+@class NSString;
 extern NSString * const GBFontDefault;
 
 extern NSString * const GBUserDefaultsKeySelectedRoute;
 extern NSString * const GBUserDefaultsKeySelectedColor;
+extern NSString * const GBUserDefaultsExtensionSuiteName;
 
 extern NSString * const GBNotificationTintColorDidChange;
 extern NSString * const GBNotificationPartyModeDidChange;

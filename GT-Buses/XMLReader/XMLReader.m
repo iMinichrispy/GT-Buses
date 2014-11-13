@@ -12,7 +12,7 @@
 #error "XMLReader requires ARC support."
 #endif
 
-NSString *const kXMLReaderTextNodeKey		= @"text";
+NSString *const kXMLReaderTextNodeKey		= @"extra";
 NSString *const kXMLReaderAttributePrefix	= @"@";
 
 @interface XMLReader ()
@@ -59,7 +59,7 @@ NSString *const kXMLReaderAttributePrefix	= @"@";
 
 - (id)initWithError:(NSError **)error
 {
-	self = [super init];
+    self = [super init];
     if (self)
     {
         self.errorPointer = *error;
@@ -85,7 +85,7 @@ NSString *const kXMLReaderAttributePrefix	= @"@";
     
     parser.delegate = self;
     BOOL success = [parser parse];
-	
+    
     // Return the stack's root dictionary on success
     if (success)
     {
@@ -100,10 +100,10 @@ NSString *const kXMLReaderAttributePrefix	= @"@";
 #pragma mark -  NSXMLParserDelegate methods
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
-{   
+{
     // Get the dictionary for the current level in the stack
     NSMutableDictionary *parentDict = [self.dictionaryStack lastObject];
-
+    
     // Create the child dictionary for the new element, and initilaize it with the attributes
     NSMutableDictionary *childDict = [NSMutableDictionary dictionary];
     [childDict addEntriesFromDictionary:attributeDict];
@@ -123,7 +123,7 @@ NSString *const kXMLReaderAttributePrefix	= @"@";
             // Create an array if it doesn't exist
             array = [NSMutableArray array];
             [array addObject:existingValue];
-
+            
             // Replace the child dictionary with an array of children dictionaries
             [parentDict setObject:array forKey:elementName];
         }
@@ -152,7 +152,7 @@ NSString *const kXMLReaderAttributePrefix	= @"@";
         // trim after concatenating
         NSString *trimmedString = [self.textInProgress stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         [dictInProgress setObject:[trimmedString mutableCopy] forKey:kXMLReaderTextNodeKey];
-
+        
         // Reset the text
         self.textInProgress = [[NSMutableString alloc] init];
     }

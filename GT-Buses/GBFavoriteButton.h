@@ -6,8 +6,11 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
+@class GBBusStopAnnotation;
 @interface GBFavoriteButton : UIButton
+
+- (instancetype)initWithBusStopAnnotation:(GBBusStopAnnotation *)annotation;
 
 @end

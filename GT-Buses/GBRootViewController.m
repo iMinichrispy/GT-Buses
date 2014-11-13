@@ -24,6 +24,7 @@
 #import "XMLReader.h"
 #import "MFSideMenu.h"
 #import "GBConfig.h"
+#import "GBStop.h"
 
 #if APP_STORE_MAP
 #import "MKMapView+AppStoreMap.h"
@@ -34,6 +35,7 @@
 static NSString * const GBRouteConfigTask = @"GBRouteConfigTask";
 static NSString * const GBVehicleLocationsTask = @"GBVehicleLocationsTask";
 static NSString * const GBVehiclePredictionsTask = @"GBVehiclePredictionsTask";
+static NSString * const GBMessagesTask = @"GBMessagesTask";
 
 float const kSetRegionAnimationSpeed = 0.15f;
 int const kRefreshInterval = 5;
@@ -90,6 +92,10 @@ int const kRefreshInterval = 5;
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     [self showUserLocation];
+    
+    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBUserDefaultsExtensionSuiteName];
+    NSArray *stops = [shared objectForKey:@"stops"];
+    NSLog(@"TStops: %@", stops);
     
 #if DEFAULT_IMAGE
     self.title = @"";
@@ -229,6 +235,8 @@ int const kRefreshInterval = 5;
                 [self didChangeBusRoute];
             }
         } else if (handler.task == GBVehicleLocationsTask) {
+            NSDictionary *config = dictionary[@"body"][@"config"];
+            [[GBConfig sharedInstance] handleConfig:config];
             long long newLocationUpdate = [dictionary[@"body"][@"lastTime"][@"time"] longLongValue];
             if (newLocationUpdate != lastLocationUpdate) {
                 NSArray *vehicles = dictionary[@"body"][@"vehicle"];
@@ -275,10 +283,9 @@ int const kRefreshInterval = 5;
             }
             lastLocationUpdate = newLocationUpdate;
         } else if (handler.task == GBVehiclePredictionsTask) {
-            NSDictionary *config = dictionary[@"body"][@"config"];
-            [[GBConfig sharedInstance] handleConfig:config];
             long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
             if (newPredictionUpdate != lastPredictionUpdate) {
+                [self checkForMessages:dictionary];
                 NSArray *predictions = dictionary[@"body"][@"predictions"];
                 if (predictions) {
                     if (![predictions isKindOfClass:[NSArray class]])
@@ -302,7 +309,7 @@ int const kRefreshInterval = 5;
                         NSString *stopTag = busStop[@"stopTag"];
                         for (int x = 0; x < [busStopAnnotations count]; x++) {
                             GBBusStopAnnotation *busStopAnnotation = busStopAnnotations[x];
-                            if ([busStopAnnotation.stopTag isEqualToString:stopTag]) {
+                            if ([busStopAnnotation.stop.tag isEqualToString:stopTag]) {
                                 if ([predictions count]) {
                                     NSMutableString *subtitle = [NSMutableString stringWithString:@"Next: "];
                                     
@@ -332,6 +339,9 @@ int const kRefreshInterval = 5;
                 }
             }
             lastPredictionUpdate = newPredictionUpdate;
+        } else if (handler.task == GBMessagesTask) {
+            
+            // check message id
         }
     } else [self handleError:handler code:PARSE_ERROR_CODE message:@"Parsing Error"];
 }
@@ -414,24 +424,21 @@ int const kRefreshInterval = 5;
         [_mapView addOverlay:polygon];
     }
     
-    for (NSDictionary *stop in selectedRoute.stops) {
-        GBBusStopAnnotation *stopPin = [[GBBusStopAnnotation alloc] init];
+    for (GBStop *stop in selectedRoute.stops) {
+        GBBusStopAnnotation *stopAnnotation = [[GBBusStopAnnotation alloc] initWithStop:stop];
 #if DEBUG
-        stopPin.title = FORMAT(@"%@ (%@)", stop[@"title"], stop[@"tag"]);
+        stopAnnotation.title = FORMAT(@"%@ (%@)", stop.title, stop.tag);
 #else
-        stopPin.title = stop[@"title"];
+        stopAnnotation.title = stop[@"title"];
 #endif
-        stopPin.subtitle = @"No Predictions";
-        stopPin.tag = selectedRoute.tag;
-        stopPin.stopTag = stop[@"tag"];
-        stopPin.color = selectedRoute.color;
-        [stopPin setCoordinate:CLLocationCoordinate2DMake([stop[@"lat"] doubleValue], [stop[@"lon"] doubleValue])];
-        [_mapView addAnnotation:stopPin];
+        stopAnnotation.subtitle = @"No Predictions";
+        [stopAnnotation setCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon)];
+        [_mapView addAnnotation:stopAnnotation];
 #if APP_STORE_MAP
-        stopPin.subtitle = [MKMapView predictionsStringForRoute:selectedRoute];
+        stopAnnotation.subtitle = [MKMapView predictionsStringForRoute:selectedRoute];
         NSString *selectedStopTag = [MKMapView selectedStopTagForRoute:selectedRoute];
-        if ([stopPin.stopTag isEqualToString:selectedStopTag])
-            [_mapView selectAnnotation:stopPin animated:YES];
+        if ([stopAnnotation.stopTag isEqualToString:selectedStopTag])
+            [_mapView selectAnnotation:stopAnnotation animated:YES];
 #endif
     }
 }
@@ -475,5 +482,19 @@ int const kRefreshInterval = 5;
     [requestHandler toggleParty];
 }
 #endif
+
+#pragma mark - Messages
+
+- (void)checkForMessages:(NSDictionary *)dictionary {
+    /*
+    NSDictionary *prediction = [dictionary[@"body"][@"predictions"] firstObject];
+    if (prediction) {
+        NSString *messageText = prediction[@"message"][@"text"];
+        if ([messageText length]) {
+            GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBMessagesTask delegate:self];
+            [requestHandler messages];
+        }
+    }*/
+}
 
 @end

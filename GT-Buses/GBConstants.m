@@ -10,6 +10,7 @@
 
 NSString * const GBFontDefault = @"Avenir-Medium";
 
+NSString * const GBUserDefaultsExtensionSuiteName = @"group.com.alexperez.gt-buses";
 NSString * const GBUserDefaultsKeySelectedRoute = @"GBUserDefaultsKeySelectedRoute";
 NSString * const GBUserDefaultsKeySelectedColor = @"GBUserDefaultsKeySelectedColor";
 

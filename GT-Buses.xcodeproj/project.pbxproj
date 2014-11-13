@@ -22,6 +22,14 @@
 		FA1FE97C18A1D9C600757643 /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
 		FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
 		FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
+		FA2B6FC11A14020F00C60449 /* GBStopView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC01A14020F00C60449 /* GBStopView.m */; };
+		FA2B6FC41A1430BA00C60449 /* GBStop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC31A1430BA00C60449 /* GBStop.m */; };
+		FA2B6FC51A143EC000C60449 /* GBStop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC31A1430BA00C60449 /* GBStop.m */; };
+		FA2B6FC61A14413E00C60449 /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
+		FA2B6FC81A14513500C60449 /* GBRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D151967605B00F318D5 /* GBRequestHandler.m */; };
+		FA2B6FC91A14521C00C60449 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
+		FA2B6FCA1A14523500C60449 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
+		FA75CFD31A13CD27000B9CD6 /* GBFavoriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75CFD21A13CD27000B9CD6 /* GBFavoriteButton.m */; };
 		FA8A287719C7485900B02EDA /* Predictions.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287519C7485900B02EDA /* Predictions.xml */; };
 		FA8A287B19C7487500B02EDA /* Locations.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287919C7487500B02EDA /* Locations.xml */; };
 		FA8C118B19D30758008F5927 /* GBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8C118A19D30758008F5927 /* GBRootViewController.m */; };
@@ -33,6 +41,11 @@
 		FAA1234518A523170049A5FA /* GBAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234418A523170049A5FA /* GBAboutController.m */; };
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
+		FAB249531A13FCC800147FEF /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA201A519BE703900FA1E7D /* NotificationCenter.framework */; };
+		FAB249591A13FCC800147FEF /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB249581A13FCC800147FEF /* TodayViewController.m */; };
+		FAB2495B1A13FCC800147FEF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAB2495A1A13FCC800147FEF /* MainInterface.storyboard */; };
+		FAB2495E1A13FCC800147FEF /* GT-Buses Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FAB249631A13FCF300147FEF /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
 		FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */; };
 		FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD597C01A12C66E0079B36C /* GBWindow.m */; };
@@ -49,7 +62,28 @@
 			remoteGlobalIDString = FA1FE92518A1D8A300757643;
 			remoteInfo = "GT-Buses";
 		};
+		FAB2495C1A13FCC800147FEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA1FE91E18A1D8A300757643 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FAB249511A13FCC800147FEF;
+			remoteInfo = "GT-Buses Extension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FA75CFE41A13CF64000B9CD6 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FAB2495E1A13FCC800147FEF /* GT-Buses Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		FA0B9C0A1A11BABD005197CC /* GBSideBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSideBarItem.h; sourceTree = "<group>"; };
@@ -82,7 +116,14 @@
 		FA1FE98018A1D9DD00757643 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		FA1FE98218A1D9F800757643 /* RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHandler.h; sourceTree = "<group>"; };
 		FA1FE98318A1D9F800757643 /* RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHandler.m; sourceTree = "<group>"; };
+		FA2B6FBF1A14020F00C60449 /* GBStopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBStopView.h; sourceTree = "<group>"; };
+		FA2B6FC01A14020F00C60449 /* GBStopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBStopView.m; sourceTree = "<group>"; };
+		FA2B6FC21A1430BA00C60449 /* GBStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBStop.h; sourceTree = "<group>"; };
+		FA2B6FC31A1430BA00C60449 /* GBStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBStop.m; sourceTree = "<group>"; };
 		FA3C921719AA8AD300CEC529 /* RouteConfig.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RouteConfig.xml; sourceTree = "<group>"; };
+		FA75CFD11A13CD27000B9CD6 /* GBFavoriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBFavoriteButton.h; sourceTree = "<group>"; };
+		FA75CFD21A13CD27000B9CD6 /* GBFavoriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBFavoriteButton.m; sourceTree = "<group>"; };
+		FA75CFEA1A13D163000B9CD6 /* GT-Buses.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "GT-Buses.entitlements"; sourceTree = "<group>"; };
 		FA8A287519C7485900B02EDA /* Predictions.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Predictions.xml; sourceTree = "<group>"; };
 		FA8A287919C7487500B02EDA /* Locations.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Locations.xml; sourceTree = "<group>"; };
 		FA8C118919D30758008F5927 /* GBRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBRootViewController.h; sourceTree = "<group>"; };
@@ -104,6 +145,12 @@
 		FAA201A519BE703900FA1E7D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
+		FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GT-Buses Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAB249561A13FCC800147FEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAB249571A13FCC800147FEF /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		FAB249581A13FCC800147FEF /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		FAB2495A1A13FCC800147FEF /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		FAB249621A13FCCB00147FEF /* GT-Buses Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "GT-Buses Extension.entitlements"; sourceTree = "<group>"; };
 		FAB682D0199D436600C0BF89 /* UIViewController+GBMailComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+GBMailComposer.h"; sourceTree = "<group>"; };
 		FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GBMailComposer.m"; sourceTree = "<group>"; };
 		FACFA1A01A0DAE2A00F3E2C3 /* GBConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConfig.h; sourceTree = "<group>"; };
@@ -133,6 +180,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FAB2494F1A13FCC800147FEF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAB249531A13FCC800147FEF /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -143,6 +198,10 @@
 				FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */,
 				FA0B9C0A1A11BABD005197CC /* GBSideBarItem.h */,
 				FA0B9C0B1A11BABD005197CC /* GBSideBarItem.m */,
+				FA1FE96B18A1D9A400757643 /* GBRoute.h */,
+				FA1FE96C18A1D9A400757643 /* GBRoute.m */,
+				FA2B6FC21A1430BA00C60449 /* GBStop.h */,
+				FA2B6FC31A1430BA00C60449 /* GBStop.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -154,6 +213,7 @@
 				FA1FE92F18A1D8A300757643 /* GT-Buses */,
 				FA1FE94118A1D8A300757643 /* Images.xcassets */,
 				FA1FE94E18A1D8A300757643 /* GT-BusesTests */,
+				FAB249541A13FCC800147FEF /* GT-Buses Extension */,
 				FAA201A419BE703900FA1E7D /* Frameworks */,
 				FA1FE92718A1D8A300757643 /* Products */,
 			);
@@ -164,6 +224,7 @@
 			children = (
 				FA1FE92618A1D8A300757643 /* GT-Buses.app */,
 				FA1FE94718A1D8A300757643 /* GT-BusesTests.xctest */,
+				FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,6 +232,7 @@
 		FA1FE92F18A1D8A300757643 /* GT-Buses */ = {
 			isa = PBXGroup;
 			children = (
+				FA75CFEA1A13D163000B9CD6 /* GT-Buses.entitlements */,
 				FADE7D091967504600F318D5 /* GBConstants.h */,
 				FADE7D0A1967504600F318D5 /* GBConstants.m */,
 				FA1FE93818A1D8A300757643 /* GBAppDelegate.h */,
@@ -230,8 +292,6 @@
 			children = (
 				FA1FE96918A1D9A400757643 /* GBMapHandler.h */,
 				FA1FE96A18A1D9A400757643 /* GBMapHandler.m */,
-				FA1FE96B18A1D9A400757643 /* GBRoute.h */,
-				FA1FE96C18A1D9A400757643 /* GBRoute.m */,
 				FA1FE96F18A1D9B000757643 /* GBBusAnnotation.h */,
 				FA1FE97018A1D9B000757643 /* GBBusAnnotation.m */,
 				FA1FE97318A1D9B000757643 /* GBBusStopAnnotation.h */,
@@ -278,6 +338,8 @@
 				FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */,
 				FAD597BF1A12C66E0079B36C /* GBWindow.h */,
 				FAD597C01A12C66E0079B36C /* GBWindow.m */,
+				FA75CFD11A13CD27000B9CD6 /* GBFavoriteButton.h */,
+				FA75CFD21A13CD27000B9CD6 /* GBFavoriteButton.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -310,6 +372,41 @@
 			name = RequestHandler;
 			sourceTree = "<group>";
 		};
+		FAB249541A13FCC800147FEF /* GT-Buses Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FAB249621A13FCCB00147FEF /* GT-Buses Extension.entitlements */,
+				FAB249571A13FCC800147FEF /* TodayViewController.h */,
+				FAB249581A13FCC800147FEF /* TodayViewController.m */,
+				FAB2495A1A13FCC800147FEF /* MainInterface.storyboard */,
+				FAB249551A13FCC800147FEF /* Supporting Files */,
+				FA2B6FBF1A14020F00C60449 /* GBStopView.h */,
+				FA2B6FC01A14020F00C60449 /* GBStopView.m */,
+			);
+			path = "GT-Buses Extension";
+			sourceTree = "<group>";
+		};
+		FAB249551A13FCC800147FEF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FAB249561A13FCC800147FEF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FAD597C21A12D08E0079B36C /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				FAD597C31A12D1040079B36C /* APGraphLayer.h */,
+				FAD597C41A12D1040079B36C /* APGraphLayer.m */,
+				FAD597C61A12D1460079B36C /* NSProcessInfo+CPU.h */,
+				FAD597C71A12D1460079B36C /* NSProcessInfo+CPU.m */,
+				FAD597C91A12DA560079B36C /* GraphView.h */,
+				FAD597CA1A12DA560079B36C /* GraphView.m */,
+			);
+			name = Graph;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -321,10 +418,12 @@
 				FA1FE92318A1D8A300757643 /* Frameworks */,
 				FA1FE92418A1D8A300757643 /* Resources */,
 				FA9D6C9918A3E93400DAE1D7 /* ShellScript */,
+				FA75CFE41A13CF64000B9CD6 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FAB2495D1A13FCC800147FEF /* PBXTargetDependency */,
 			);
 			name = "GT-Buses";
 			productName = "GT-Buses";
@@ -349,6 +448,24 @@
 			productReference = FA1FE94718A1D8A300757643 /* GT-BusesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		FAB249511A13FCC800147FEF /* GT-Buses Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAB2495F1A13FCC800147FEF /* Build configuration list for PBXNativeTarget "GT-Buses Extension" */;
+			buildPhases = (
+				FAB2494E1A13FCC800147FEF /* Sources */,
+				FAB2494F1A13FCC800147FEF /* Frameworks */,
+				FAB249501A13FCC800147FEF /* Resources */,
+				FA2B6FC71A14510E00C60449 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GT-Buses Extension";
+			productName = "GT-Buses Extension";
+			productReference = FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -359,8 +476,25 @@
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Alex Perez";
 				TargetAttributes = {
+					FA1FE92518A1D8A300757643 = {
+						DevelopmentTeam = 3M2F493L45;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					FA1FE94618A1D8A300757643 = {
 						TestTargetID = FA1FE92518A1D8A300757643;
+					};
+					FAB249511A13FCC800147FEF = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 3M2F493L45;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -379,6 +513,7 @@
 			targets = (
 				FA1FE92518A1D8A300757643 /* GT-Buses */,
 				FA1FE94618A1D8A300757643 /* GT-BusesTests */,
+				FAB249511A13FCC800147FEF /* GT-Buses Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -404,9 +539,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FAB249501A13FCC800147FEF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAB2495B1A13FCC800147FEF /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		FA2B6FC71A14510E00C60449 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
+		};
 		FA9D6C9918A3E93400DAE1D7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -446,11 +602,13 @@
 				FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */,
 				FA1FE96E18A1D9A400757643 /* GBRoute.m in Sources */,
 				FA1FE97718A1D9B000757643 /* GBBusStopAnnotation.m in Sources */,
+				FA75CFD31A13CD27000B9CD6 /* GBFavoriteButton.m in Sources */,
 				FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */,
 				FA1FE93618A1D8A300757643 /* main.m in Sources */,
 				FA8D789119C7AACE000A657C /* GBSupportEmail.m in Sources */,
 				FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */,
 				FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */,
+				FA2B6FC41A1430BA00C60449 /* GBStop.m in Sources */,
 				FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,6 +621,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FAB2494E1A13FCC800147FEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAB249631A13FCF300147FEF /* GBConstants.m in Sources */,
+				FA2B6FC81A14513500C60449 /* GBRequestHandler.m in Sources */,
+				FA2B6FCA1A14523500C60449 /* RequestHandler.m in Sources */,
+				FA2B6FC61A14413E00C60449 /* GBColors.m in Sources */,
+				FAB249591A13FCC800147FEF /* TodayViewController.m in Sources */,
+				FA2B6FC51A143EC000C60449 /* GBStop.m in Sources */,
+				FA2B6FC11A14020F00C60449 /* GBStopView.m in Sources */,
+				FA2B6FC91A14521C00C60449 /* XMLReader.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -470,6 +643,11 @@
 			isa = PBXTargetDependency;
 			target = FA1FE92518A1D8A300757643 /* GT-Buses */;
 			targetProxy = FA1FE94C18A1D8A300757643 /* PBXContainerItemProxy */;
+		};
+		FAB2495D1A13FCC800147FEF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FAB249511A13FCC800147FEF /* GT-Buses Extension */;
+			targetProxy = FAB2495C1A13FCC800147FEF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -570,7 +748,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Alex Perez (LGJY9MHR7M)";
+				CODE_SIGN_ENTITLEMENTS = "GT-Buses/GT-Buses.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -583,6 +763,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
@@ -594,7 +775,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Alex Perez (3M2F493L45)";
+				CODE_SIGN_ENTITLEMENTS = "GT-Buses/GT-Buses.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -602,6 +785,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
@@ -652,6 +836,47 @@
 			};
 			name = Release;
 		};
+		FAB249601A13FCC800147FEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "GT-Buses Extension/GT-Buses Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"EXTENSION=1",
+				);
+				INFOPLIST_FILE = "GT-Buses Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FAB249611A13FCC800147FEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "GT-Buses Extension/GT-Buses Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "EXTENSION=1";
+				INFOPLIST_FILE = "GT-Buses Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -678,6 +903,15 @@
 			buildConfigurations = (
 				FA1FE95C18A1D8A300757643 /* Debug */,
 				FA1FE95D18A1D8A300757643 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAB2495F1A13FCC800147FEF /* Build configuration list for PBXNativeTarget "GT-Buses Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAB249601A13FCC800147FEF /* Debug */,
+				FAB249611A13FCC800147FEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

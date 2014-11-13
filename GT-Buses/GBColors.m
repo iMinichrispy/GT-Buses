@@ -53,6 +53,7 @@
         if (tintColor[@"color"] == color) {
             [[NSUserDefaults standardUserDefaults] setInteger:x forKey:GBUserDefaultsKeySelectedColor];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            break;
         }
     }
     
@@ -60,12 +61,12 @@
 }
 
 + (NSArray *)tintColors {
-    NSDictionary *blueColor = @{@"name":@"Blue", @"color":[GBColors blueColor]};
-    NSDictionary *redColor = @{@"name":@"Red", @"color":[GBColors redColor]};
-    NSDictionary *greenColor = @{@"name":@"Green", @"color":[GBColors greenColor]};
-    NSDictionary *pinkColor = @{@"name":@"Pink", @"color":[GBColors pinkColor]};
-    NSDictionary *yellowColor = @{@"name":@"Yellow", @"color":[GBColors yellowColor]};
-    NSDictionary *darkColor = @{@"name":@"Dark", @"color":[GBColors darkColor]};
+    NSDictionary *blueColor = @{@"name":@"Blue", @"color":[self blueColor]};
+    NSDictionary *redColor = @{@"name":@"Red", @"color":[self redColor]};
+    NSDictionary *greenColor = @{@"name":@"Green", @"color":[self greenColor]};
+    NSDictionary *pinkColor = @{@"name":@"Pink", @"color":[self pinkColor]};
+    NSDictionary *yellowColor = @{@"name":@"Yellow", @"color":[self yellowColor]};
+    NSDictionary *darkColor = @{@"name":@"Dark", @"color":[self darkColor]};
     
     NSArray *tintColors = @[blueColor, redColor, greenColor, pinkColor, yellowColor, darkColor];
     

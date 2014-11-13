@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSString *tag;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong) NSString *hexColor;
 @property (nonatomic, strong) NSArray *paths;
 @property (nonatomic, strong) NSArray *stops;
 @property (nonatomic) MKCoordinateRegion region;
