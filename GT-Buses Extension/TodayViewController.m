@@ -23,7 +23,11 @@
 @interface TodayViewController () <NCWidgetProviding, RequestHandlerDelegate, CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSArray *favoriteStops;
-@property (nonatomic, strong) NSMutableArray *stopViews;
+@property (nonatomic, strong) NSArray *routes;
+@property (nonatomic, strong) NSMutableArray *nearestStops;
+
+@property (nonatomic, strong) NSMutableArray *favoriteStopViews;
+@property (nonatomic, strong) NSMutableArray *nearbyStopViews;
 @property (nonatomic, strong) NSString *parameterString;
 
 @property (nonatomic, strong) NSLayoutConstraint *favoritesHeightConstraint;
@@ -49,15 +53,13 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
         
         NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
         _favoriteStops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
+        _routes = [shared objectForKey:GBSharedDefaultsRoutesKey];
+        
+        _nearestStops = [NSMutableArray new];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
     }
     return self;
-}
-
-- (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)margins {
-    margins.bottom = 10.0;
-    return margins;
 }
 
 - (void)updateLayout {
@@ -65,7 +67,7 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
     
     if (_showFavorites) {
         if ([_favoriteStops count]) {
-            _stopViews = [NSMutableArray new];
+            _favoriteStopViews = [NSMutableArray new];
             
             _parameterString = @"?";
             for (NSDictionary *dictionary in _favoriteStops) {
@@ -75,7 +77,7 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
                 GBStopView *stopView = [[GBStopView alloc] initWithStop:stop];
                 [_favoritesSectionView.stopsView addSubview:stopView];
                 [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:stopView horizontal:YES]];
-                [_stopViews addObject:stopView];
+                [_favoriteStopViews addObject:stopView];
                 
                 if ([_parameterString length] > 1) {
                     NSString *parameter = FORMAT(@"&stops=%@%%7C%@", stop.routeTag, stop.tag);
@@ -86,21 +88,17 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
                 }
             }
             
-            for (int i = 1; i < [_stopViews count]; ++i) {
-                [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromTopView:_stopViews[i - 1] toBottomView:_stopViews[i]]];
+            for (int i = 1; i < [_favoriteStopViews count]; ++i) {
+                [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromTopView:_favoriteStopViews[i - 1] toBottomView:_favoriteStopViews[i]]];
             }
             
-            GBStopView *first = [_stopViews firstObject];
-            GBStopView *last = [_stopViews lastObject];
+            GBStopView *first = [_favoriteStopViews firstObject];
+            GBStopView *last = [_favoriteStopViews lastObject];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
         } else {
-//            NSLog(@"no favorites added");
             _parameterString = nil;
-            _stopViews = nil;
-            // display error that stops need to be added
-            
-            // need to remove stopviews
+            _favoriteStopViews = nil;
             
             UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
             effectView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -124,6 +122,8 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
         
     }
     
+    
+    
     [self.view addConstraints:constraints];
     [self updatePredictions];
 }
@@ -139,9 +139,74 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-//    [locations lastObject];
     CLLocation *location = [locations lastObject];
-//    NSLog(@"didUpdateLocations: (%f,%f)", location.coordinate.latitude, location.coordinate.longitude);
+    if ([_routes count]) {
+        [_nearestStops removeAllObjects];
+        for (NSDictionary *routeDic in _routes) {
+            NSString *hexColor = routeDic[@"color"];
+            for (NSDictionary *stopDic in routeDic[@"stop"]) {
+                GBStop *stop = [[GBStop alloc] initWithRoute:nil title:stopDic[@"title"] tag:stopDic[@"tag"]];
+                stop.lat = [stopDic[@"lat"] doubleValue];
+                stop.lon = [stopDic[@"lon"] doubleValue];
+                stop.hexColor = hexColor;
+                
+                CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
+                CLLocationDistance distance = [location distanceFromLocation:stopLocation]; //meters (double)
+                stop.distance = distance;
+                
+                [_nearestStops insertObject:stop atIndex:[self indexForStop:stop]];
+            }
+        }
+//        [self updateLayout];
+        
+        if ([_nearestStops count]) {
+            NSLog(@"Nearest Stops:");
+#warning combine stops with same name
+            // each prediction time gets its own color?
+            // stop name is alpha
+            _nearbyStopViews = [NSMutableArray new];
+            NSMutableArray *constraints = [NSMutableArray new];
+            for (int x = 0; x < [_nearestStops count] && x < 5; x++) {
+                GBStop *stop = _nearestStops[x];
+                
+                GBStopView *stopView = [[GBStopView alloc] initWithStop:stop];
+                [_nearbySectionView.stopsView addSubview:stopView];
+                [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:stopView horizontal:YES]];
+                [_nearbyStopViews addObject:stopView];
+                
+//                if ([_parameterString length] > 1) {
+//                    NSString *parameter = FORMAT(@"&stops=%@%%7C%@", stop.routeTag, stop.tag);
+//                    _parameterString = [_parameterString stringByAppendingString:parameter];
+//                } else {
+//                    NSString *parameter = FORMAT(@"stops=%@%%7C%@", stop.routeTag, stop.tag);
+//                    _parameterString = [_parameterString stringByAppendingString:parameter];
+//                }
+            }
+            
+            
+            for (int i = 1; i < [_nearbyStopViews count]; ++i) {
+                [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromTopView:_nearbyStopViews[i - 1] toBottomView:_nearbyStopViews[i]]];
+            }
+            
+            GBStopView *first = [_nearbyStopViews firstObject];
+            GBStopView *last = [_nearbyStopViews lastObject];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
+            [NSLayoutConstraint activateConstraints:constraints];
+        }
+    }
+}
+
+- (NSInteger)indexForStop:(GBStop *)stop {
+    int index = 0;
+    for (GBStop *aStop in _nearestStops) {
+        if (aStop.distance > stop.distance) {
+            break;
+        } else {
+            index++;
+        }
+    }
+    return index;
 }
 
 - (void)showUserLocation {
@@ -156,7 +221,6 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    NSLog(@"didChangeAuthorizationStatus: %d",status);
     if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
         
     }
@@ -167,8 +231,8 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
     
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
-    _locationManager.distanceFilter = 30.0f; // min meters required for location update
-    _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    _locationManager.distanceFilter = 40.0f; // min meters required for location update
+    _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     [_locationManager startUpdatingLocation];
     
     NSMutableArray *constraints = [NSMutableArray new];
@@ -225,8 +289,7 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
 #pragma mark - Request Handler
 
 - (void)updatePredictions {
-    NSLog(@"update: %@",_parameterString);
-    if ([_stopViews count] && _parameterString) {
+    if ([_favoriteStopViews count] && _parameterString) {
         GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBMultiPredictionsTask delegate:self];
         [predictionHandler multiPredictionsForStops:_parameterString];
     }
@@ -243,7 +306,7 @@ static NSString * const GBNearbyHeaderTitle = @"Nearby:";
             if (![predictions isKindOfClass:[NSArray class]])
                 predictions = [NSArray arrayWithObject:predictions];
             
-            NSMutableArray *stopViews = [_stopViews mutableCopy];
+            NSMutableArray *stopViews = [_favoriteStopViews mutableCopy];
             
             for (NSDictionary *busStop in predictions) {
                 NSArray *predictionData = busStop[@"direction"][@"prediction"];

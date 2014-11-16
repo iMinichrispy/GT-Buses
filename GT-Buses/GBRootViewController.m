@@ -219,7 +219,7 @@ int const kRefreshInterval = 5;
             if (!selectedRoute) {
 #warning only perform saving routes on >iOS8
                 NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-                NSMutableArray *routes = [[shared objectForKey:GBSharedDefaultsRoutesKey] mutableCopy];
+                NSMutableArray *routes = [NSMutableArray new];
                 
                 for (NSDictionary *dictionary in newRoutes) {
                     GBRoute *route = [dictionary toRoute];
