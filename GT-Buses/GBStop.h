@@ -15,7 +15,7 @@
 
 @end
 
-@class GBRoute;
+@class GBRoute, GBDirection;
 @interface GBStop : NSObject
 
 @property (nonatomic, strong) GBRoute *route;
@@ -24,6 +24,7 @@
 @property (nonatomic) double lat;
 @property (nonatomic) double lon;
 @property (nonatomic, getter=isFavorite) BOOL favorite;
+@property (nonatomic, strong) GBDirection *direction;
 
 // For use with extension, so we don't have to save entire route object to defaults
 @property (nonatomic, strong) NSString *routeTag;

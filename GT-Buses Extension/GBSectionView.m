@@ -10,6 +10,7 @@
 
 #import "GBSectionHeaderView.h"
 #import "GBConstraintHelper.h"
+#import "GBStop.h"
 
 @interface GBStopsView : UIView
 
@@ -50,7 +51,6 @@
 //        _stopsView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_stopsView];
         
-        
         NSMutableArray *constraints = [NSMutableArray new];
         [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:_headerView horizontal:YES]];
         [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:_stopsView horizontal:YES]];
@@ -84,6 +84,16 @@
         //show stops
     }
     _stopsVisibile = !_stopsVisibile;
+}
+
+- (void)addParameterForStop:(GBStop *)stop {
+    if ([_parameterString length]) {
+        NSString *parameter = [NSString stringWithFormat:@"&stops=%@%%7C%@", stop.routeTag, stop.tag];
+        _parameterString = [_parameterString stringByAppendingString:parameter];
+    } else {
+        NSString *parameter = [NSString stringWithFormat:@"?stops=%@%%7C%@", stop.routeTag, stop.tag];
+        _parameterString = parameter;
+    }
 }
 
 @end

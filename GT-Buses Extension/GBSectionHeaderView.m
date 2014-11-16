@@ -8,6 +8,8 @@
 
 #import "GBSectionHeaderView.h"
 
+#import "GBColors.h"
+
 @implementation GBSectionHeaderView
 
 float const GBSectionHeaderViewHeight = 23.0f;
@@ -21,7 +23,7 @@ float const GBSectionHeaderViewHeight = 23.0f;
         titleLabel.text = title;
         titleLabel.textAlignment = NSTextAlignmentLeft;
         titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        titleLabel.textColor = [UIColor grayColor];
+        titleLabel.textColor = RGBColor(184, 191, 195);
         [self addSubview:titleLabel];
         
         UIImageView *caretImageView = [[UIImageView alloc] init];
@@ -42,7 +44,7 @@ float const GBSectionHeaderViewHeight = 23.0f;
 //                                 attribute:0
 //                                 multiplier:1
 //                                 constant:20]];
-        [self addConstraints:constraints];
+        [NSLayoutConstraint activateConstraints:constraints];
     }
     return self;
 }

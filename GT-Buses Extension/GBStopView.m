@@ -10,6 +10,7 @@
 
 #import "GBStop.h"
 #import "GBColors.h"
+#import "GBDirection.h"
 
 @import NotificationCenter;
 
@@ -33,34 +34,39 @@ float const kStopCircleSize = 25.0f;
         _routeImageView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_routeImageView];
         
-        _nameLabel = [[UILabel alloc] init];
-        _nameLabel.text = stop.title;
-//        _nameLabel.textColor = color;
-//        _nameLabel.textColor = [UIColor grayColor];
-        _nameLabel.textColor = RGBColor(184, 191, 195);
-        _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:_nameLabel];
-        
-        
         UIVisualEffectView *predictionsEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
         predictionsEffectView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:predictionsEffectView];
-
+        
+        _nameLabel = [[UILabel alloc] init];
+        _nameLabel.text = stop.title;
+        _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [[predictionsEffectView contentView] addSubview:_nameLabel];
+        
         _predictionsLabel = [[UILabel alloc] init];
         _predictionsLabel.text = @"Loading...";
+        _predictionsLabel.textColor = RGBColor(184, 191, 195);
         _predictionsLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [[predictionsEffectView contentView] addSubview:_predictionsLabel];
+        [self addSubview:_predictionsLabel];
+        
+        _directionLabel = [[UILabel alloc] init];
+        _directionLabel.text = [NSString stringWithFormat:@"Direction: %@", stop.direction.title];
+        _directionLabel.textColor = RGBColor(184, 191, 195);
+        _directionLabel.font = [UIFont systemFontOfSize:11];
+        _directionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:_directionLabel];
         
         
         
         NSMutableArray *constraints = [NSMutableArray new];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_routeImageView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_nameLabel][predictionsEffectView(==_nameLabel)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_nameLabel, predictionsEffectView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_nameLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _nameLabel)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[predictionsEffectView(==_predictionsLabel)][_predictionsLabel][_directionLabel(==_predictionsLabel)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, predictionsEffectView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_predictionsLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _predictionsLabel)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][predictionsEffectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, predictionsEffectView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _directionLabel)]];
         
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_predictionsLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_predictionsLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_nameLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_nameLabel)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_nameLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_nameLabel)]];
         
         _imageHeightConstraint = [NSLayoutConstraint
                                   constraintWithItem:_routeImageView
@@ -72,7 +78,7 @@ float const kStopCircleSize = 25.0f;
                                   constant:GBStopViewWidth];
         _imageHeightConstraint.priority = UILayoutPriorityDefaultHigh;
         [constraints addObject:_imageHeightConstraint];
-        [self addConstraints:constraints];
+        [NSLayoutConstraint activateConstraints:constraints];
     }
     return self;
 }

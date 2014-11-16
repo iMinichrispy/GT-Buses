@@ -8,13 +8,15 @@
 
 @import UIKit;
 
-@class GBSectionHeaderView;
+@class GBSectionHeaderView, GBStop;
 @interface GBSectionView : UIView
 
 @property (nonatomic, strong) GBSectionHeaderView *headerView;
 @property (nonatomic, strong) UIView *stopsView;
+@property (nonatomic, strong) NSString *parameterString;
 
 - (instancetype)initWithTitle:(NSString *)title;
 - (void)toggleStops;
+- (void)addParameterForStop:(GBStop *)stop;
 
 @end

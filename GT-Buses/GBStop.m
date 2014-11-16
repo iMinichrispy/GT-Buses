@@ -9,6 +9,7 @@
 #import "GBStop.h"
 
 #import "GBRoute.h"
+#import "GBDirection.h"
 
 @implementation NSDictionary (GBStop)
 
@@ -18,6 +19,8 @@
     stop.tag = self[@"stopTag"];
     stop.routeTag = self[@"routeTag"];
     stop.hexColor = self[@"hexColor"];
+    NSLog(@"%@",self[@"direction"]);
+    stop.direction = [self[@"direction"] toDirection];
     return stop;
 }
 
@@ -37,8 +40,12 @@
 }
 
 - (NSDictionary *)toDictionary {
-    NSDictionary *dictionary = @{@"title":_title, @"stopTag":_tag,  @"routeTag":_route.tag, @"hexColor":_route.hexColor};
+    NSDictionary *dictionary = @{@"title":_title, @"stopTag":_tag,  @"routeTag":_route.tag, @"hexColor":_route.hexColor, @"direction":[_direction toDictionary]};
     return dictionary;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<GBStop title: %@, tag: %@, route: %@, coordinates: (%f, %f)>", _title, _tag, _route.tag, _lat, _lon];
 }
 
 @end

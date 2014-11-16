@@ -25,6 +25,7 @@
 @property (nonatomic, strong) NSString *hexColor;
 @property (nonatomic, strong) NSArray *paths;
 @property (nonatomic, strong) NSArray *stops;
+@property (nonatomic, strong) NSArray *directions;
 @property (nonatomic) MKCoordinateRegion region;
 
 @end

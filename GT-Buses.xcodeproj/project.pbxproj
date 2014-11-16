@@ -43,6 +43,8 @@
 		FAA1234218A520710049A5FA /* UIViewController+MFSideMenuAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1233F18A520710049A5FA /* UIViewController+MFSideMenuAdditions.m */; };
 		FAA1234518A523170049A5FA /* GBAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234418A523170049A5FA /* GBAboutController.m */; };
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
+		FAA7B6B81A194F1200CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
+		FAA7B6B91A19549B00CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB249531A13FCC800147FEF /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA201A519BE703900FA1E7D /* NotificationCenter.framework */; };
 		FAB249591A13FCC800147FEF /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB249581A13FCC800147FEF /* TodayViewController.m */; };
@@ -153,6 +155,8 @@
 		FAA1234B18A5793C0049A5FA /* GBUserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBUserInterface.h; sourceTree = "<group>"; };
 		FAA1234C18A5793C0049A5FA /* GBUserInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBUserInterface.m; sourceTree = "<group>"; };
 		FAA201A519BE703900FA1E7D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		FAA7B6B61A194F1200CB8FB2 /* GBDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBDirection.h; sourceTree = "<group>"; };
+		FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDirection.m; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
 		FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GT-Buses Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,6 +217,8 @@
 				FA1FE96C18A1D9A400757643 /* GBRoute.m */,
 				FA2B6FC21A1430BA00C60449 /* GBStop.h */,
 				FA2B6FC31A1430BA00C60449 /* GBStop.m */,
+				FAA7B6B61A194F1200CB8FB2 /* GBDirection.h */,
+				FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -607,6 +613,7 @@
 				FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */,
 				FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */,
 				FA1FE96E18A1D9A400757643 /* GBRoute.m in Sources */,
+				FAA7B6B81A194F1200CB8FB2 /* GBDirection.m in Sources */,
 				FA1FE97718A1D9B000757643 /* GBBusStopAnnotation.m in Sources */,
 				FA75CFD31A13CD27000B9CD6 /* GBFavoriteButton.m in Sources */,
 				FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */,
@@ -639,6 +646,7 @@
 				FA15FCD51A1856F6008FA394 /* GBSectionView.m in Sources */,
 				FA2B6FC61A14413E00C60449 /* GBColors.m in Sources */,
 				FAB249591A13FCC800147FEF /* TodayViewController.m in Sources */,
+				FAA7B6B91A19549B00CB8FB2 /* GBDirection.m in Sources */,
 				FA2B6FC51A143EC000C60449 /* GBStop.m in Sources */,
 				FA2B6FC11A14020F00C60449 /* GBStopView.m in Sources */,
 				FA2B6FC91A14521C00C60449 /* XMLReader.m in Sources */,

@@ -10,6 +10,7 @@
 
 #import "GBColors.h"
 #import "GBStop.h"
+#import "GBDirection.h"
 
 float const kMapRegionPadding = 0.0005f;
 
@@ -31,11 +32,27 @@ float const kMapRegionPadding = 0.0005f;
     route.hexColor = self[@"color"];
     route.color = [UIColor colorWithHexString:route.hexColor];
     
+    NSArray *directions = self[@"direction"];
+    if (![directions isKindOfClass:[NSArray class]]) directions = @[directions];
+    route.directions = directions;
+    
+    NSMutableDictionary *lookup = [NSMutableDictionary new];
+    for (NSDictionary *dictionary in directions) {
+        NSArray *stops = dictionary[@"stop"];
+        GBDirection *direction = [[GBDirection alloc] initWithTitle:dictionary[@"title"] tag:dictionary[@"tag"]];
+        if (![stops isKindOfClass:[NSArray class]]) stops = @[stops];
+        for (NSDictionary *stop in stops) {
+            NSString *stopTag = stop[@"tag"];
+            lookup[stopTag] = direction;
+        }
+    }
+    
     NSMutableArray *stops = [NSMutableArray new];
     for (NSDictionary *busStop in self[@"stop"]) {
         GBStop *stop = [[GBStop alloc] initWithRoute:route title:busStop[@"title"] tag:busStop[@"tag"]];
         stop.lat = [busStop[@"lat"] doubleValue];
         stop.lon = [busStop[@"lon"] doubleValue];
+        stop.direction = lookup[stop.tag];
         [stops addObject:stop];
     }
     route.stops = stops;
