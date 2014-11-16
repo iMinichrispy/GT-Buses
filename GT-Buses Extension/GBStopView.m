@@ -15,29 +15,8 @@
 
 @implementation GBStopView
 
-float const GBStopViewHeight = 40.0f;
+float const GBStopViewWidth = 40.0f;
 float const kStopCircleSize = 25.0f;
-
-+ (UIImage *)circleWithColor:(UIColor *)color {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(kStopCircleSize, kStopCircleSize), NO, 0.0f);
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(ctx);
-    
-    CGRect rect = CGRectMake(3, 3, kStopCircleSize - 6, kStopCircleSize - 6);
-    
-    CGContextSetFillColorWithColor(ctx, color.CGColor);
-    CGContextSetStrokeColorWithColor(ctx, [UIColor whiteColor].CGColor);
-    
-    CGContextSetLineWidth(ctx, 2.0);
-    CGContextFillEllipseInRect(ctx, rect);
-    CGContextStrokeEllipseInRect(ctx, rect);
-    
-    CGContextRestoreGState(ctx);
-    UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return circle;
-}
 
 - (instancetype)initWithStop:(GBStop *)stop {
     self = [super init];
@@ -77,23 +56,46 @@ float const kStopCircleSize = 25.0f;
         NSMutableArray *constraints = [NSMutableArray new];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_routeImageView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_nameLabel][predictionsEffectView(==_nameLabel)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_nameLabel, predictionsEffectView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView(width)][_nameLabel]|" options:0 metrics:@{@"width":@(GBStopViewHeight)} views:NSDictionaryOfVariableBindings(_routeImageView, _nameLabel)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView(width)][predictionsEffectView]|" options:0 metrics:@{@"width":@(GBStopViewHeight)} views:NSDictionaryOfVariableBindings(_routeImageView, predictionsEffectView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_nameLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _nameLabel)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][predictionsEffectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, predictionsEffectView)]];
         
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_predictionsLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_predictionsLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel)]];
         
-//        [constraints addObject:[NSLayoutConstraint
-//                                constraintWithItem:self
-//                                attribute:NSLayoutAttributeHeight
-//                                relatedBy:NSLayoutRelationEqual
-//                                toItem:nil
-//                                attribute:0
-//                                multiplier:0
-//                                constant:GBStopViewHeight]];
+        _imageHeightConstraint = [NSLayoutConstraint
+                                  constraintWithItem:_routeImageView
+                                  attribute:NSLayoutAttributeWidth
+                                  relatedBy:NSLayoutRelationEqual
+                                  toItem:nil
+                                  attribute:0
+                                  multiplier:0
+                                  constant:GBStopViewWidth];
+        _imageHeightConstraint.priority = UILayoutPriorityDefaultHigh;
+        [constraints addObject:_imageHeightConstraint];
         [self addConstraints:constraints];
     }
     return self;
+}
+
++ (UIImage *)circleWithColor:(UIColor *)color {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(kStopCircleSize, kStopCircleSize), NO, 0.0f);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(ctx);
+    
+    CGRect rect = CGRectMake(3, 3, kStopCircleSize - 6, kStopCircleSize - 6);
+    
+    CGContextSetFillColorWithColor(ctx, color.CGColor);
+    CGContextSetStrokeColorWithColor(ctx, [UIColor whiteColor].CGColor);
+    
+    CGContextSetLineWidth(ctx, 2.0);
+    CGContextFillEllipseInRect(ctx, rect);
+    CGContextStrokeEllipseInRect(ctx, rect);
+    
+    CGContextRestoreGState(ctx);
+    UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return circle;
 }
 
 @end

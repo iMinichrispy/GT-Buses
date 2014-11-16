@@ -34,7 +34,7 @@
         _currentTintColor = [GBColors blueColor];
 #else
         NSArray *tintColors = [GBColors tintColors];
-        NSInteger colorIndex = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeySelectedColor];
+        NSInteger colorIndex = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedColorKey];
         _currentTintColor = tintColors[colorIndex][@"color"];
 #endif
     }
@@ -51,7 +51,7 @@
     for (int x = 0; x < [tintColors count]; x++) {
         NSDictionary *tintColor = tintColors[x];
         if (tintColor[@"color"] == color) {
-            [[NSUserDefaults standardUserDefaults] setInteger:x forKey:GBUserDefaultsKeySelectedColor];
+            [[NSUserDefaults standardUserDefaults] setInteger:x forKey:GBUserDefaultsSelectedColorKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
             break;
         }

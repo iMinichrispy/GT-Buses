@@ -7,6 +7,7 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 
 ## To-Do
 
+- Nothing having to do with favoriting routes or notification center should be on deivces <ios8
 
 iOS 8:
 - Add extension
@@ -104,6 +105,7 @@ v1.1.2
 - About Controller now uses auto layout
 - Review App button changes to Update Now in About controller when new version is available
 - Sped up animation time when switching routes
+- Notification remove observer
 
 
 ## Debug Target Differences

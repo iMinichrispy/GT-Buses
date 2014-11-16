@@ -8,13 +8,6 @@
 
 #import "GBColors.h"
 
-@interface GBUserInterface : NSObject
-
-+ (CGSize)screenSize;
-+ (float)originY;
-
-@end
-
 @interface GBNavigationController : UINavigationController <GBTintColorDelegate>
 
 @end

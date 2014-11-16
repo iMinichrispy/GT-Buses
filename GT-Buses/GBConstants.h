@@ -9,12 +9,12 @@
 @class NSString;
 extern NSString * const GBFontDefault;
 
-extern NSString * const GBUserDefaultsKeySelectedRoute;
-extern NSString * const GBUserDefaultsKeySelectedColor;
+extern NSString * const GBUserDefaultsSelectedRouteKey;
+extern NSString * const GBUserDefaultsSelectedColorKey;
 
 extern NSString * const GBSharedDefaultsExtensionSuiteName;
 extern NSString * const GBSharedDefaultsFavoriteStopsKey;
-extern NSString * const GBSharedDefaultsStopsKey;
+extern NSString * const GBSharedDefaultsRoutesKey;
 
 extern NSString * const GBNotificationTintColorDidChange;
 extern NSString * const GBNotificationPartyModeDidChange;

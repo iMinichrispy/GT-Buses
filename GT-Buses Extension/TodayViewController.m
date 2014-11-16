@@ -13,24 +13,39 @@
 #import "GBStop.h"
 #import "GBRequestHandler.h"
 #import "XMLReader.h"
+#import "GBSectionHeaderView.h"
+#import "GBConstraintHelper.h"
+#import "GBSectionView.h"
 
 @import NotificationCenter;
+@import CoreLocation;
 
-@interface TodayViewController () <NCWidgetProviding, RequestHandlerDelegate>
+@interface TodayViewController () <NCWidgetProviding, RequestHandlerDelegate, CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSArray *favoriteStops;
 @property (nonatomic, strong) NSMutableArray *stopViews;
 @property (nonatomic, strong) NSString *parameterString;
+
+@property (nonatomic, strong) NSLayoutConstraint *favoritesHeightConstraint;
+
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
+@property (nonatomic, strong) GBSectionView *favoritesSectionView;
+@property (nonatomic, strong) GBSectionView *nearbySectionView;
+
+@property (nonatomic) BOOL showFavorites;
 
 @end
 
 @implementation TodayViewController
 
 static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
+static NSString * const GBFavoritesHeaderTitle = @"Favorites:";
+static NSString * const GBNearbyHeaderTitle = @"Nearby:";
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
-        _parameterString = @"?";
+        _showFavorites = YES; // load from nsuserdefaults
         
         NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
         _favoriteStops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
@@ -40,14 +55,7 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
     return self;
 }
 
-//- (void)loadView {
-//    UIView *view = [[UIView alloc] init];
-//    view.translatesAutoresizingMaskIntoConstraints = NO;
-//    self.view = view;
-//}
-
-- (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)margins
-{
+- (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)margins {
     margins.bottom = 10.0;
     return margins;
 }
@@ -55,81 +63,151 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 - (void)updateLayout {
     NSMutableArray *constraints = [NSMutableArray new];
     
-    
-//    self.preferredContentSize = CGSizeMake(0, 0);
-//    self.view.translatesAutoresizingMaskIntoConstraints = NO;
-    if ([_favoriteStops count]) {
-        _stopViews = [NSMutableArray new];
-        
-        UIVisualEffectView *favoritesLabelEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
-        favoritesLabelEffectView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addSubview:favoritesLabelEffectView];
-        
-        UILabel *favoritesLabel = [[UILabel alloc] init];
-        favoritesLabel.text = @"Favorites:";
-        favoritesLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [[favoritesLabelEffectView contentView] addSubview:favoritesLabel];
-        
-        for (NSDictionary *dictionary in _favoriteStops) {
-            GBStop *stop = [dictionary toStop];
+    if (_showFavorites) {
+        if ([_favoriteStops count]) {
+            _stopViews = [NSMutableArray new];
             
-            GBStopView *stopView = [[GBStopView alloc] initWithStop:stop];
-            [self.view addSubview:stopView];
-            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[stopView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(stopView)]];
-            [_stopViews addObject:stopView];
-            
-            if ([_parameterString length] > 1) {
-                NSString *parameter = FORMAT(@"&stops=%@%%7C%@", stop.routeTag, stop.tag);
-                _parameterString = [_parameterString stringByAppendingString:parameter];
-            } else {
-                NSString *parameter = FORMAT(@"stops=%@%%7C%@", stop.routeTag, stop.tag);
-                _parameterString = [_parameterString stringByAppendingString:parameter];
+            _parameterString = @"?";
+            for (NSDictionary *dictionary in _favoriteStops) {
+                GBStop *stop = [dictionary toStop];
+                // need to remove no favorites added view
+                
+                GBStopView *stopView = [[GBStopView alloc] initWithStop:stop];
+                [_favoritesSectionView.stopsView addSubview:stopView];
+                [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:stopView horizontal:YES]];
+                [_stopViews addObject:stopView];
+                
+                if ([_parameterString length] > 1) {
+                    NSString *parameter = FORMAT(@"&stops=%@%%7C%@", stop.routeTag, stop.tag);
+                    _parameterString = [_parameterString stringByAppendingString:parameter];
+                } else {
+                    NSString *parameter = FORMAT(@"stops=%@%%7C%@", stop.routeTag, stop.tag);
+                    _parameterString = [_parameterString stringByAppendingString:parameter];
+                }
             }
             
+            for (int i = 1; i < [_stopViews count]; ++i) {
+                [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromTopView:_stopViews[i - 1] toBottomView:_stopViews[i]]];
+            }
+            
+            GBStopView *first = [_stopViews firstObject];
+            GBStopView *last = [_stopViews lastObject];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
+        } else {
+//            NSLog(@"no favorites added");
+            _parameterString = nil;
+            _stopViews = nil;
+            // display error that stops need to be added
+            
+            // need to remove stopviews
+            
+            UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
+            effectView.translatesAutoresizingMaskIntoConstraints = NO;
+            
+            
+            UILabel *label = [[UILabel alloc] init];
+            label.text = @"No favorites added.";
+            label.textAlignment = NSTextAlignmentCenter;
+            label.translatesAutoresizingMaskIntoConstraints = NO;
+            [[effectView contentView] addSubview:label];
+            
+            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:label horizontal:NO]];
+            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:label horizontal:YES]];
+            
+            [_favoritesSectionView.stopsView addSubview:effectView];
+            
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[effectView]-3-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(effectView)]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[effectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(effectView)]];
         }
-        
-        for (int i = 1; i < [_stopViews count]; ++i) {
-            [self addSpacingFromTopView:_stopViews[i - 1] toBottomView:_stopViews[i]];
-        }
-        
-        GBStopView *first = [_stopViews firstObject];
-        GBStopView *last = [_stopViews lastObject];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[favoritesLabelEffectView][first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first, favoritesLabelEffectView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
-        
-        
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[favoritesLabelEffectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(favoritesLabelEffectView)]];
-        
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[favoritesLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(favoritesLabel)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[favoritesLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(favoritesLabel)]];
     } else {
-        NSLog(@"error");
-        _parameterString = nil;
-        _stopViews = nil;
-        // display error that stops need to be added
+        
     }
     
     [self.view addConstraints:constraints];
     [self updatePredictions];
 }
 
+- (void)toggleFavorites:(id)sender {
+    _showFavorites = !_showFavorites;
+    [self updateLayout];
+    NSLog(@"toggle favorites");
+}
+
+- (void)toggleNearby:(id)sender {
+    NSLog(@"toggleNearby");
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+//    [locations lastObject];
+    CLLocation *location = [locations lastObject];
+//    NSLog(@"didUpdateLocations: (%f,%f)", location.coordinate.latitude, location.coordinate.longitude);
+}
+
+- (void)showUserLocation {
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    if (status == kCLAuthorizationStatusNotDetermined) {
+        
+    }
+//    if (![CLLocationManager locationServicesEnabled]){
+//              if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)
+//              if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized)
+//              if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    NSLog(@"didChangeAuthorizationStatus: %d",status);
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
+        
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.delegate = self;
+    _locationManager.distanceFilter = 30.0f; // min meters required for location update
+    _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    [_locationManager startUpdatingLocation];
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    
+    _favoritesSectionView = [[GBSectionView alloc] initWithTitle:GBFavoritesHeaderTitle];
+    [_favoritesSectionView.headerView addTarget:self action:@selector(toggleFavorites:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:_favoritesSectionView];
+    [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:_favoritesSectionView horizontal:YES]];
+    
+    _nearbySectionView = [[GBSectionView alloc] initWithTitle:GBNearbyHeaderTitle];
+    [_nearbySectionView.headerView addTarget:self action:@selector(toggleNearby:) forControlEvents:UIControlEventTouchDown];
+    [self.view addSubview:_nearbySectionView];
+    [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:_nearbySectionView horizontal:YES]];
+    
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[_favoritesSectionView]-2-[_nearbySectionView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_favoritesSectionView, _nearbySectionView)]];
+    
+    [self.view addConstraints:constraints];
+    
     [self updateLayout];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tapGesture];
 }
 
-- (void)addSpacingFromTopView:(UIView *)topView toBottomView:(UIView *)bottomView {
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topView]-spacing-[bottomView]" options:0 metrics:@{@"spacing":@4} views:NSDictionaryOfVariableBindings(topView, bottomView)]];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 5;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"resuse" forIndexPath:indexPath];
+    
+    cell.textLabel.text = @"Cell yo";
+    cell.textLabel.textColor = [UIColor blueColor];
+    
+    return cell;
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
     [self updatePredictions];
-    // Perform any setup necessary in order to update the view.
     
     // If an error is encountered, use NCUpdateResultFailed
     // If there's no update required, use NCUpdateResultNoData
@@ -140,7 +218,7 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 
 - (void)userDefaultsDidChange:(NSNotification *)notification {
     NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-    _favoriteStops = [shared objectForKey:@"stops"];
+    _favoriteStops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
     [self updateLayout];
 }
 
@@ -148,7 +226,7 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 
 - (void)updatePredictions {
     NSLog(@"update: %@",_parameterString);
-    if ([_stopViews count]) {
+    if ([_stopViews count] && _parameterString) {
         GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBMultiPredictionsTask delegate:self];
         [predictionHandler multiPredictionsForStops:_parameterString];
     }
@@ -210,31 +288,6 @@ static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
                         break;
                     }
                 }
-                
-                // remove object from what were iterating over and break
-                
-//                
-//                NSString *stopTag = busStop[@"stopTag"];
-//                for (int x = 0; x < [busStopAnnotations count]; x++) {
-//                    GBBusStopAnnotation *busStopAnnotation = busStopAnnotations[x];
-//                    if ([busStopAnnotation.stop.tag isEqualToString:stopTag]) {
-//                        if ([predictions count]) {
-//                            NSMutableString *subtitle = [NSMutableString stringWithString:@"Next: "];
-//                            
-//                            NSDictionary *lastPredication = [predictions lastObject];
-//                            for (NSDictionary *prediction in predictions) {
-//                                [subtitle appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", prediction[@"minutes"]];
-//                            }
-//                            busStopAnnotation.subtitle = subtitle;
-//                        }
-//                        else busStopAnnotation.subtitle = @"No Predictions";
-//                        
-//                        // It's okay to remove an element while iterating since we're breaking anyway
-//                        // Using a double for loop so this alows us to iterate over fewer elements the next time
-//                        [busStopAnnotations removeObject:busStopAnnotation];
-//                        break;
-//                    }
-//                }
             }
         }
     } else {

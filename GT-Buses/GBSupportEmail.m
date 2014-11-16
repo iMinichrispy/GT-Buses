@@ -30,7 +30,7 @@
     [body appendFormat:@"Location Services Enabled: %d\n", [CLLocationManager locationServicesEnabled]];
     [body appendFormat:@"Location Services Status: %d\n", [CLLocationManager authorizationStatus]];
     
-    NSInteger color = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeySelectedColor];
+    NSInteger color = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedColorKey];
     if (color) [body appendFormat:@"Color: %ld\n", (long)color];
     
     return body;

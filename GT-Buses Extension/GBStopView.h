@@ -18,6 +18,8 @@ extern float const GBStopViewHeight;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *predictionsLabel;
 
+@property (nonatomic, strong) NSLayoutConstraint *imageHeightConstraint;
+
 - (instancetype)initWithStop:(GBStop *)stop;
 
 @end

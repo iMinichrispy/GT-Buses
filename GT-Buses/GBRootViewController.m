@@ -217,14 +217,22 @@ int const kRefreshInterval = 5;
             GBRoute *selectedRoute = [self selectedRoute];
             // Prevents duplicate routes from being added to route segmented control in case connection is slow and route config is requested multiple times
             if (!selectedRoute) {
+#warning only perform saving routes on >iOS8
+                NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+                NSMutableArray *routes = [[shared objectForKey:GBSharedDefaultsRoutesKey] mutableCopy];
+                
                 for (NSDictionary *dictionary in newRoutes) {
                     GBRoute *route = [dictionary toRoute];
                     [_routes addObject:route];
                     NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
                     [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
+                    
+                    [routes addObject:dictionary];
                 }
                 
-                NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsKeySelectedRoute];
+                [shared setObject:routes forKey:GBSharedDefaultsRoutesKey];
+                
+                NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
                 if (_busRouteControlView.busRouteControl.numberOfSegments)
                     _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
                 
@@ -390,7 +398,7 @@ int const kRefreshInterval = 5;
     
     NSInteger index = _busRouteControlView.busRouteControl.selectedSegmentIndex;
     if (index != UISegmentedControlNoSegment) {
-        [[NSUserDefaults standardUserDefaults] setInteger:index forKey:GBUserDefaultsKeySelectedRoute];
+        [[NSUserDefaults standardUserDefaults] setInteger:index forKey:GBUserDefaultsSelectedRouteKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     

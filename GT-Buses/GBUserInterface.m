@@ -12,24 +12,6 @@
 #import "GBConstants.h"
 #import "GBSideBarItem.h"
 
-@implementation GBUserInterface
-
-+ (CGSize)screenSize {
-    // Because on >=iOS 8, [UIScreen bounds] is orientation-dependent
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        return CGSizeMake(screenSize.height, screenSize.width);
-    }
-    return screenSize;
-}
-
-+ (float)originY {
-    // Don't count status bar on <=iOS6
-    return SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? 0 : -20;
-}
-
-@end
-
 @implementation GBNavigationController
 
 - (void)viewDidLoad {
@@ -153,7 +135,7 @@ float const kItemViewSpacing = 14.0f;
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[versionItemView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(versionItemView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[developerItemView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(developerItemView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[designItemView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(designItemView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[versionItemView]-spacing-[developerItemView]-spacing-[designItemView]" options:0 metrics:@{@"padding":@([GBUserInterface originY] + 36), @"spacing":@(kItemViewSpacing)} views:NSDictionaryOfVariableBindings(versionItemView, developerItemView, designItemView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[versionItemView]-spacing-[developerItemView]-spacing-[designItemView]" options:0 metrics:@{@"padding":@([[self class] originY] + 36), @"spacing":@(kItemViewSpacing)} views:NSDictionaryOfVariableBindings(versionItemView, developerItemView, designItemView)]];
         [self addConstraints:constraints];
     }
     return self;
@@ -165,6 +147,11 @@ float const kItemViewSpacing = 14.0f;
         if ([view conformsToProtocol:@protocol(GBTintColorDelegate)])
             [((id<GBTintColorDelegate>)view) updateTintColor];
     }
+}
+
++ (float)originY {
+    // Don't count status bar on <=iOS6
+    return SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? 0 : -20;
 }
 
 @end

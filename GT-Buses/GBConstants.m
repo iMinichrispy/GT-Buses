@@ -10,12 +10,12 @@
 
 NSString * const GBFontDefault = @"Avenir-Medium";
 
-NSString * const GBUserDefaultsKeySelectedRoute = @"GBUserDefaultsKeySelectedRoute";
-NSString * const GBUserDefaultsKeySelectedColor = @"GBUserDefaultsKeySelectedColor";
+NSString * const GBUserDefaultsSelectedRouteKey = @"GBUserDefaultsKeySelectedRoute";
+NSString * const GBUserDefaultsSelectedColorKey = @"GBUserDefaultsKeySelectedColor";
 
 NSString * const GBSharedDefaultsExtensionSuiteName = @"group.com.alexperez.gt-buses";
 NSString * const GBSharedDefaultsFavoriteStopsKey = @"GBSharedDefaultsFavoriteStopsKey";
-NSString * const GBSharedDefaultsStopsKey = @"GBSharedDefaultsStopsKey";
+NSString * const GBSharedDefaultsRoutesKey = @"GBSharedDefaultsRoutesKey";
 
 NSString * const GBNotificationTintColorDidChange = @"GBNotificationTintColorDidChange";
 NSString * const GBNotificationPartyModeDidChange = @"GBNotificationPartyModeDidChange";
