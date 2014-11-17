@@ -19,5 +19,6 @@
 - (void)toggleStops;
 - (void)addParameterForStop:(GBStop *)stop;
 - (void)addParametersForStopGroup:(GBStopGroup *)stopGroup;
+- (void)reset;
 
 @end

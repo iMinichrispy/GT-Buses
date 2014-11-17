@@ -104,4 +104,10 @@
     }
 }
 
+- (void)reset {
+    for (UIView *view in self.stopsView.subviews) {
+        [view removeFromSuperview];
+    }
+}
+
 @end

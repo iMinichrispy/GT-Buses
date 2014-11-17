@@ -19,6 +19,7 @@
 #import "GBDirection.h"
 #import "GBRoute.h"
 #import "GBStopGroup.h"
+#import "GBErrorView.h"
 
 @import NotificationCenter;
 @import CoreLocation;
@@ -74,6 +75,9 @@ int kNumberOfNearbyStopView = 5;
     NSMutableArray *constraints = [NSMutableArray new];
     
     if (_showFavorites) {
+//        if (_favoritesHeightConstraint) {
+//            [NSLayoutConstraint deactivateConstraints:@[_favoritesHeightConstraint]];
+//        }
         if ([_favoriteStops count]) {
             NSMutableArray *stopViews = [NSMutableArray new];
             for (NSDictionary *dictionary in _favoriteStops) {
@@ -97,26 +101,28 @@ int kNumberOfNearbyStopView = 5;
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
         } else {
-            UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
-            effectView.translatesAutoresizingMaskIntoConstraints = NO;
+            GBErrorView *errorView = [[GBErrorView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
+            errorView.label.text = @"No favorites added.";
             
+            [_favoritesSectionView.stopsView addSubview:errorView];
             
-            UILabel *label = [[UILabel alloc] init];
-            label.text = @"No favorites added.";
-            label.textAlignment = NSTextAlignmentCenter;
-            label.translatesAutoresizingMaskIntoConstraints = NO;
-            [[effectView contentView] addSubview:label];
-            
-            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:label horizontal:NO]];
-            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:label horizontal:YES]];
-            
-            [_favoritesSectionView.stopsView addSubview:effectView];
-            
-            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[effectView]-3-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(effectView)]];
-            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[effectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(effectView)]];
+            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:errorView horizontal:YES]];
+            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:errorView horizontal:NO]];
         }
     } else {
+        for (UIView *view in _favoritesSectionView.stopsView.subviews) {
+            [view removeFromSuperview];
+        }
         
+//        _favoritesHeightConstraint = [NSLayoutConstraint
+//                                      constraintWithItem:_favoritesSectionView.stopsView
+//                                      attribute:NSLayoutAttributeHeight
+//                                      relatedBy:NSLayoutRelationEqual
+//                                      toItem:0
+//                                      attribute:0
+//                                      multiplier:1
+//                                      constant:0];
+//        [NSLayoutConstraint activateConstraints:@[_favoritesHeightConstraint]];
     }
     
     
@@ -135,92 +141,125 @@ int kNumberOfNearbyStopView = 5;
     NSLog(@"toggleNearby");
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    CLLocation *location = [locations lastObject];
-    
-    NSMutableArray *newNearestStops = [NSMutableArray new];
-    
-    for (GBRoute *route in _savedRoutes) {
-        for (GBStop *stop in route.stops) {
-            CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
-            CLLocationDistance distance = [location distanceFromLocation:stopLocation]; //meters (double)
-            
-            GBStopGroup *newStopGroup = [[GBStopGroup alloc] initWithStop:stop];
-            NSInteger index = [newNearestStops indexOfObject:newStopGroup];
-            if (index == NSNotFound) {
-                newStopGroup.distance = distance;
-                int index = 0;
-                for (GBStopGroup *stopGroup in newNearestStops) {
-                    if (stopGroup.distance > newStopGroup.distance) {
-                        break;
+- (void)updateNearbyLayout {
+    CLLocation *location = _locationManager.location;
+    if (location) {
+        if ([_savedRoutes count]) {
+            [_nearbySectionView reset];
+            NSMutableArray *newNearestStops = [NSMutableArray new];
+            for (GBRoute *route in _savedRoutes) {
+                for (GBStop *stop in route.stops) {
+                    CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
+                    CLLocationDistance distance = [location distanceFromLocation:stopLocation]; //meters (double)
+                    
+                    GBStopGroup *newStopGroup = [[GBStopGroup alloc] initWithStop:stop];
+                    NSInteger index = [newNearestStops indexOfObject:newStopGroup];
+                    if (index == NSNotFound) {
+                        newStopGroup.distance = distance;
+                        int index = 0;
+                        for (GBStopGroup *stopGroup in newNearestStops) {
+                            if (stopGroup.distance > newStopGroup.distance) {
+                                break;
+                            }
+                            index++;
+                        }
+                        [newNearestStops insertObject:newStopGroup atIndex:index];
+                    } else {
+                        GBStopGroup *existingGroup = newNearestStops[index];
+                        [existingGroup addStop:stop];
                     }
-                    index++;
                 }
-                [newNearestStops insertObject:newStopGroup atIndex:index];
-            } else {
-                GBStopGroup *existingGroup = newNearestStops[index];
-                [existingGroup addStop:stop];
             }
+            
+            if ([newNearestStops count]) {
+                if (![newNearestStops isEqualToArray:_nearestStops]) {
+                    _nearestStops = newNearestStops;
+                    _nearbySectionView.parameterString = nil;
+                    NSMutableArray *stopViews = [NSMutableArray new];
+                    
+                    [_nearbySectionView reset];
+                    NSMutableArray *constraints = [NSMutableArray new];
+                    
+                    for (int x = 0; x < [_nearestStops count] && x < kNumberOfNearbyStopView; x++) {
+                        GBStopGroup *stopGroup = _nearestStops[x];
+                        
+                        GBStopView *stopView = [[GBStopView alloc] initWithStopGroup:stopGroup];
+                        [_nearbySectionView.stopsView addSubview:stopView];
+                        [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:stopView horizontal:YES]];
+                        [stopViews addObject:stopView];
+                        
+                        [_nearbySectionView addParametersForStopGroup:stopGroup];
+                    }
+                    
+                    
+                    for (int i = 1; i < [stopViews count]; ++i) {
+                        [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromTopView:stopViews[i - 1] toBottomView:stopViews[i]]];
+                    }
+                    
+                    GBStopView *first = [stopViews firstObject];
+                    GBStopView *last = [stopViews lastObject];
+                    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
+                    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
+                    [NSLayoutConstraint activateConstraints:constraints];
+                }
+            } else {
+                [_nearbySectionView reset];
+                [self displayError:@"No nearby stops." onView:_nearbySectionView.stopsView];
+            }
+        } else {
+            [_nearbySectionView reset];
+            // request route config
+            [self displayError:@"No route config." onView:_nearbySectionView.stopsView];
         }
+    } else {
+        [_nearbySectionView reset];
+        [self displayError:@"No location data." onView:_nearbySectionView.stopsView];
     }
-        
-    NSMutableArray *constraints = [NSMutableArray new];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    [self updateNearbyLayout];
+}
+
+- (void)setupForUserLocation {
+    if ([CLLocationManager locationServicesEnabled]) {
+        CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+        if (status == kCLAuthorizationStatusNotDetermined) {
+            [_nearbySectionView reset];
+            [self displayError:@"Location services disabled." onView:_nearbySectionView.stopsView];
+            [_locationManager requestWhenInUseAuthorization];
+        } else if (status == kCLAuthorizationStatusDenied) {
+            // minimize nearby section?
+            [_nearbySectionView reset];
+            [self displayError:@"Location services disabled." onView:_nearbySectionView.stopsView];
+        } else if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
+            [_locationManager startUpdatingLocation];
+            [self updateNearbyLayout];
+        }
+    } else {
+        [_nearbySectionView reset];
+        [self displayError:@"Location services disabled." onView:_nearbySectionView.stopsView];
+    }
+}
+
+- (void)displayError:(NSString *)error onView:(UIView *)view {
+    GBErrorView *errorView = [[GBErrorView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
+    errorView.label.text = error;
     
-    if ([newNearestStops count] && ![newNearestStops isEqualToArray:_nearestStops]) {
-        _nearestStops = newNearestStops;
-        _nearbySectionView.parameterString = nil;
-        NSMutableArray *stopViews = [NSMutableArray new];
-        
-        for (int x = 0; x < [_nearestStops count] && x < kNumberOfNearbyStopView; x++) {
-            GBStopGroup *stopGroup = _nearestStops[x];
-            
-            GBStopView *stopView = [[GBStopView alloc] initWithStopGroup:stopGroup];
-            [_nearbySectionView.stopsView addSubview:stopView];
-            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:stopView horizontal:YES]];
-            [stopViews addObject:stopView];
-            
-            [_nearbySectionView addParametersForStopGroup:stopGroup];
-        }
-        
-        
-        for (int i = 1; i < [stopViews count]; ++i) {
-            [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromTopView:stopViews[i - 1] toBottomView:stopViews[i]]];
-        }
-        
-        GBStopView *first = [stopViews firstObject];
-        GBStopView *last = [stopViews lastObject];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
-        
-    }
+    [view addSubview:errorView];
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:errorView horizontal:YES]];
+    [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:errorView horizontal:NO]];
     [NSLayoutConstraint activateConstraints:constraints];
 }
 
-- (void)showUserLocation {
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    if (status == kCLAuthorizationStatusNotDetermined) {
-        
-    }
-//    if (![CLLocationManager locationServicesEnabled]){
-//              if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)
-//              if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized)
-//              if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)
-}
-
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
-        
-    }
+    [self setupForUserLocation];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _locationManager = [[CLLocationManager alloc] init];
-    _locationManager.delegate = self;
-    _locationManager.distanceFilter = 40.0f; // min meters required for location update
-    _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-    [_locationManager startUpdatingLocation];
     
     NSMutableArray *constraints = [NSMutableArray new];
     
@@ -234,7 +273,13 @@ int kNumberOfNearbyStopView = 5;
     [self.view addSubview:_nearbySectionView];
     [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:_nearbySectionView horizontal:YES]];
     
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[_favoritesSectionView]-2-[_nearbySectionView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_favoritesSectionView, _nearbySectionView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-5-[_favoritesSectionView]-10-[_nearbySectionView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_favoritesSectionView, _nearbySectionView)]];
+    
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.delegate = self;
+    _locationManager.distanceFilter = 40.0f; // min meters required for location update
+    _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    [self setupForUserLocation];
     
     [NSLayoutConstraint activateConstraints:constraints];
     
