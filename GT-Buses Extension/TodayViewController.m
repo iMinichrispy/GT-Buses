@@ -145,7 +145,6 @@ int kNumberOfNearbyStopView = 5;
     CLLocation *location = _locationManager.location;
     if (location) {
         if ([_savedRoutes count]) {
-            [_nearbySectionView reset];
             NSMutableArray *newNearestStops = [NSMutableArray new];
             for (GBRoute *route in _savedRoutes) {
                 for (GBStop *stop in route.stops) {
@@ -177,8 +176,8 @@ int kNumberOfNearbyStopView = 5;
                     _nearbySectionView.parameterString = nil;
                     NSMutableArray *stopViews = [NSMutableArray new];
                     
-                    [_nearbySectionView reset];
                     NSMutableArray *constraints = [NSMutableArray new];
+                    [_nearbySectionView reset];
                     
                     for (int x = 0; x < [_nearestStops count] && x < kNumberOfNearbyStopView; x++) {
                         GBStopGroup *stopGroup = _nearestStops[x];
