@@ -45,6 +45,8 @@
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
 		FAA7B6B81A194F1200CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
 		FAA7B6B91A19549B00CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
+		FAA7B6BA1A1962BD00CB8FB2 /* GBRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96C18A1D9A400757643 /* GBRoute.m */; };
+		FAA7B6BE1A197A4D00CB8FB2 /* GBStopGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6BC1A19784E00CB8FB2 /* GBStopGroup.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB249531A13FCC800147FEF /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA201A519BE703900FA1E7D /* NotificationCenter.framework */; };
 		FAB249591A13FCC800147FEF /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB249581A13FCC800147FEF /* TodayViewController.m */; };
@@ -157,6 +159,8 @@
 		FAA201A519BE703900FA1E7D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		FAA7B6B61A194F1200CB8FB2 /* GBDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBDirection.h; sourceTree = "<group>"; };
 		FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDirection.m; sourceTree = "<group>"; };
+		FAA7B6BB1A19784E00CB8FB2 /* GBStopGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBStopGroup.h; path = "../GT-Buses/GBStopGroup.h"; sourceTree = "<group>"; };
+		FAA7B6BC1A19784E00CB8FB2 /* GBStopGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GBStopGroup.m; path = "../GT-Buses/GBStopGroup.m"; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
 		FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GT-Buses Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -397,6 +401,8 @@
 				FAB249581A13FCC800147FEF /* TodayViewController.m */,
 				FA15FCD31A1856F6008FA394 /* GBSectionView.h */,
 				FA15FCD41A1856F6008FA394 /* GBSectionView.m */,
+				FAA7B6BB1A19784E00CB8FB2 /* GBStopGroup.h */,
+				FAA7B6BC1A19784E00CB8FB2 /* GBStopGroup.m */,
 				FA2B6FBF1A14020F00C60449 /* GBStopView.h */,
 				FA2B6FC01A14020F00C60449 /* GBStopView.m */,
 				FA7254B71A158E70000EECE4 /* GBSectionHeaderView.h */,
@@ -641,10 +647,12 @@
 				FA7254B91A158E70000EECE4 /* GBSectionHeaderView.m in Sources */,
 				FA2DAB8D1A1847B400284DDE /* GBConstraintHelper.m in Sources */,
 				FAB249631A13FCF300147FEF /* GBConstants.m in Sources */,
+				FAA7B6BE1A197A4D00CB8FB2 /* GBStopGroup.m in Sources */,
 				FA2B6FC81A14513500C60449 /* GBRequestHandler.m in Sources */,
 				FA2B6FCA1A14523500C60449 /* RequestHandler.m in Sources */,
 				FA15FCD51A1856F6008FA394 /* GBSectionView.m in Sources */,
 				FA2B6FC61A14413E00C60449 /* GBColors.m in Sources */,
+				FAA7B6BA1A1962BD00CB8FB2 /* GBRoute.m in Sources */,
 				FAB249591A13FCC800147FEF /* TodayViewController.m in Sources */,
 				FAA7B6B91A19549B00CB8FB2 /* GBDirection.m in Sources */,
 				FA2B6FC51A143EC000C60449 /* GBStop.m in Sources */,

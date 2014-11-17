@@ -11,6 +11,8 @@
 #import "GBSectionHeaderView.h"
 #import "GBConstraintHelper.h"
 #import "GBStop.h"
+#import "GBRoute.h"
+#import "GBStopGroup.h"
 
 @interface GBStopsView : UIView
 
@@ -88,11 +90,17 @@
 
 - (void)addParameterForStop:(GBStop *)stop {
     if ([_parameterString length]) {
-        NSString *parameter = [NSString stringWithFormat:@"&stops=%@%%7C%@", stop.routeTag, stop.tag];
+        NSString *parameter = [NSString stringWithFormat:@"&stops=%@%%7C%@", stop.route.tag, stop.tag];
         _parameterString = [_parameterString stringByAppendingString:parameter];
     } else {
-        NSString *parameter = [NSString stringWithFormat:@"?stops=%@%%7C%@", stop.routeTag, stop.tag];
+        NSString *parameter = [NSString stringWithFormat:@"?stops=%@%%7C%@", stop.route.tag, stop.tag];
         _parameterString = parameter;
+    }
+}
+
+- (void)addParametersForStopGroup:(GBStopGroup *)stopGroup {
+    for (GBStop *stop in stopGroup.stops) {
+        [self addParameterForStop:stop];
     }
 }
 

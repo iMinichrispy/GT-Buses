@@ -11,22 +11,30 @@
 #import "GBStop.h"
 #import "GBColors.h"
 #import "GBDirection.h"
+#import "GBRoute.h"
+#import "GBStopGroup.h"
 
 @import NotificationCenter;
 
 @implementation GBStopView
 
-float const GBStopViewWidth = 40.0f;
+float const GBStopViewImageViewHeight = 40.0f;
+float const GBStopViewImageViewWidth = 35.0f;
 float const kStopCircleSize = 25.0f;
 
 - (instancetype)initWithStop:(GBStop *)stop {
+    GBStopGroup *stopGroup = [[GBStopGroup alloc] initWithStop:stop];
+    self = [self initWithStopGroup:stopGroup];
+    return self;
+}
+
+- (instancetype)initWithStopGroup:(GBStopGroup *)stopGroup {
     self = [super init];
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        _stop = stop;
+        _stopGroup = stopGroup;
         
-        UIColor *color = [UIColor colorWithHexString:stop.hexColor];
-        UIImage *coloredCircle = [[self class] circleWithColor:color];
+        UIImage *coloredCircle = [[self class] circlesWithStopGroup:_stopGroup];
         
         _routeImageView = [[UIImageView alloc] init];
         _routeImageView.image = coloredCircle;
@@ -39,28 +47,28 @@ float const kStopCircleSize = 25.0f;
         [self addSubview:predictionsEffectView];
         
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.text = stop.title;
+        _nameLabel.text = [_stopGroup firstStop].title;
         _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [[predictionsEffectView contentView] addSubview:_nameLabel];
         
         _predictionsLabel = [[UILabel alloc] init];
+        _predictionsLabel.numberOfLines = 0;
         _predictionsLabel.text = @"Loading...";
         _predictionsLabel.textColor = RGBColor(184, 191, 195);
         _predictionsLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_predictionsLabel];
         
         _directionLabel = [[UILabel alloc] init];
-        _directionLabel.text = [NSString stringWithFormat:@"Direction: %@", stop.direction.title];
+        _directionLabel.text = [NSString stringWithFormat:@"To %@", [_stopGroup firstStop].direction.title];
         _directionLabel.textColor = RGBColor(184, 191, 195);
         _directionLabel.font = [UIFont systemFontOfSize:11];
         _directionLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_directionLabel];
         
         
-        
         NSMutableArray *constraints = [NSMutableArray new];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_routeImageView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[predictionsEffectView(==_predictionsLabel)][_predictionsLabel][_directionLabel(==_predictionsLabel)]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, predictionsEffectView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[predictionsEffectView][_predictionsLabel]-2-[_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, predictionsEffectView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_predictionsLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _predictionsLabel)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][predictionsEffectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, predictionsEffectView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _directionLabel)]];
@@ -75,7 +83,7 @@ float const kStopCircleSize = 25.0f;
                                   toItem:nil
                                   attribute:0
                                   multiplier:0
-                                  constant:GBStopViewWidth];
+                                  constant:GBStopViewImageViewWidth];
         _imageHeightConstraint.priority = UILayoutPriorityDefaultHigh;
         [constraints addObject:_imageHeightConstraint];
         [NSLayoutConstraint activateConstraints:constraints];
@@ -83,25 +91,57 @@ float const kStopCircleSize = 25.0f;
     return self;
 }
 
-+ (UIImage *)circleWithColor:(UIColor *)color {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(kStopCircleSize, kStopCircleSize), NO, 0.0f);
++ (UIImage *)circlesWithStopGroup:(GBStopGroup *)stopGroup {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(GBStopViewImageViewWidth, GBStopViewImageViewHeight), NO, 0.0f);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSaveGState(ctx);
     
-    CGRect rect = CGRectMake(3, 3, kStopCircleSize - 6, kStopCircleSize - 6);
-    
-    CGContextSetFillColorWithColor(ctx, color.CGColor);
+    CGContextSetLineWidth(ctx, 2.0);
     CGContextSetStrokeColorWithColor(ctx, [UIColor whiteColor].CGColor);
     
-    CGContextSetLineWidth(ctx, 2.0);
-    CGContextFillEllipseInRect(ctx, rect);
-    CGContextStrokeEllipseInRect(ctx, rect);
+    float y = 2;
+    for (GBStop *stop in stopGroup.stops) {
+        CGRect rect = CGRectMake(3, y, kStopCircleSize - 6, kStopCircleSize - 6);
+        
+        CGContextSetFillColorWithColor(ctx, stop.route.color.CGColor);
+        
+        CGContextFillEllipseInRect(ctx, rect);
+        CGContextStrokeEllipseInRect(ctx, rect);
+        y += 12;
+    }
     
     CGContextRestoreGState(ctx);
     UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
     return circle;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<GBStopView StopGroup: %@>", _stopGroup];
+}
+
+- (void)setPredictions:(NSString *)predictions forStop:(GBStop *)stop {
+    stop.predictions = predictions;
+    [self updatePredictionsLabelText];
+}
+
+- (void)updatePredictionsLabelText {
+    NSString *predictionsLabelText = @"";
+    
+    if ([_stopGroup.stops count] == 1) {
+        GBStop *stop = [_stopGroup.stops firstObject];
+        NSString *stopPredictions = (stop.predictions) ? stop.predictions : @"";
+        predictionsLabelText = [predictionsLabelText stringByAppendingFormat:@"%@", stopPredictions];
+    } else {
+        GBStop *lastStop = [_stopGroup.stops lastObject];
+        for (GBStop *stop in _stopGroup.stops) {
+            NSString *stopPredictions = (stop.predictions) ? stop.predictions : @"";
+            predictionsLabelText = [predictionsLabelText stringByAppendingFormat:(stop == lastStop) ? @"%@: %@" : @"%@: %@, ", stop.route.title, stopPredictions];
+        }
+    }
+    
+    _predictionsLabel.text = predictionsLabelText;
 }
 
 @end

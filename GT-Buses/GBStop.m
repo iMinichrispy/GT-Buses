@@ -14,12 +14,8 @@
 @implementation NSDictionary (GBStop)
 
 - (GBStop *)toStop {
-    GBStop *stop = [[GBStop alloc] init];
-    stop.title = self[@"title"];
-    stop.tag = self[@"stopTag"];
-    stop.routeTag = self[@"routeTag"];
-    stop.hexColor = self[@"hexColor"];
-    NSLog(@"%@",self[@"direction"]);
+    GBRoute *route = [self[@"route"] toRoute];
+    GBStop *stop = [[GBStop alloc] initWithRoute:route title:self[@"title"] tag:self[@"tag"]];
     stop.direction = [self[@"direction"] toDirection];
     return stop;
 }
@@ -40,12 +36,34 @@
 }
 
 - (NSDictionary *)toDictionary {
-    NSDictionary *dictionary = @{@"title":_title, @"stopTag":_tag,  @"routeTag":_route.tag, @"hexColor":_route.hexColor, @"direction":[_direction toDictionary]};
+    NSDictionary *dictionary = @{@"title":_title, @"tag":_tag, @"route":[_route toDictionary], @"direction":[_direction toDictionary]};
     return dictionary;
 }
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<GBStop title: %@, tag: %@, route: %@, coordinates: (%f, %f)>", _title, _tag, _route.tag, _lat, _lon];
+}
+
++ (NSString *)predictionsStringForPredictions:(NSArray *)predictions {
+    if ([predictions count]) {
+        NSMutableString *predictionsString = [NSMutableString stringWithString:@"Next: "];
+        NSDictionary *lastPredication = [predictions lastObject];
+        for (NSDictionary *prediction in predictions) {
+#if DEBUG
+//            int totalSeconds = [prediction[@"seconds"] intValue];
+//            double minutes = totalSeconds / 60;
+//            double seconds = totalSeconds % 60;
+//            NSString *time = [NSString stringWithFormat:@"%.f:%02.f", minutes, seconds];
+//            [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", time];
+            [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", prediction[@"minutes"]];
+#else
+            [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", prediction[@"minutes"]];
+#endif
+        }
+        return predictionsString;
+    }
+    
+    return @"No Predictions";
 }
 
 @end

@@ -12,12 +12,14 @@
 @interface NSDictionary (Route)
 
 - (GBRoute *)toRoute;
+- (GBRoute *)xmlToRoute;
 
 @end
 
 @interface GBRoute : NSObject
 
 - (instancetype)initWithTitle:(NSString *)title tag:(NSString *)tag;
+- (NSDictionary *)toDictionary;
 
 @property (nonatomic, strong) NSString *tag;
 @property (nonatomic, strong) NSString *title;

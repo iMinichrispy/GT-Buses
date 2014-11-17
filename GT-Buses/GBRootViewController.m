@@ -222,7 +222,7 @@ int const kRefreshInterval = 5;
                 NSMutableArray *routes = [NSMutableArray new];
                 
                 for (NSDictionary *dictionary in newRoutes) {
-                    GBRoute *route = [dictionary toRoute];
+                    GBRoute *route = [dictionary xmlToRoute];
                     [_routes addObject:route];
                     NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
                     [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
@@ -314,24 +314,7 @@ int const kRefreshInterval = 5;
                         for (int x = 0; x < [busStopAnnotations count]; x++) {
                             GBBusStopAnnotation *busStopAnnotation = busStopAnnotations[x];
                             if ([busStopAnnotation.stop.tag isEqualToString:stopTag]) {
-                                if ([predictions count]) {
-                                    NSMutableString *subtitle = [NSMutableString stringWithString:@"Next: "];
-                                    
-                                    NSDictionary *lastPredication = [predictions lastObject];
-                                    for (NSDictionary *prediction in predictions) {
-#if DEBUG
-                                        int totalSeconds = [prediction[@"seconds"] intValue];
-                                        double minutes = totalSeconds / 60;
-                                        double seconds = totalSeconds % 60;
-                                        NSString *time = FORMAT(@"%.f:%02.f", minutes, seconds);
-                                        [subtitle appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", time];
-#else
-                                        [subtitle appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", prediction[@"minutes"]];
-#endif
-                                    }
-                                    busStopAnnotation.subtitle = subtitle;
-                                }
-                                else busStopAnnotation.subtitle = @"No Predictions";
+                                busStopAnnotation.subtitle = [GBStop predictionsStringForPredictions:predictions];
                                 
                                 // It's okay to remove an element while iterating since we're breaking anyway
                                 // Using a double for loop so this alows us to iterate over fewer elements the next time

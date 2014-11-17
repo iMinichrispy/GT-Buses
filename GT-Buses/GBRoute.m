@@ -22,7 +22,7 @@ float const kMapRegionPadding = 0.0005f;
 
 @implementation NSDictionary (Route)
 
-- (GBRoute *)toRoute {
+- (GBRoute *)xmlToRoute {
     NSString *tag = self[@"tag"];
     NSString *title = [tag capitalizedString];
     
@@ -60,6 +60,13 @@ float const kMapRegionPadding = 0.0005f;
     return route;
 }
 
+- (GBRoute *)toRoute {
+    GBRoute *route = [[GBRoute alloc] initWithTitle:self[@"title"] tag:self[@"tag"]];
+    route.hexColor = self[@"hexColor"];
+    route.color = [UIColor colorWithHexString:route.hexColor];
+    return route;
+}
+
 @end
 
 @implementation GBRoute
@@ -71,6 +78,11 @@ float const kMapRegionPadding = 0.0005f;
         self.tag = tag;
     }
     return self;
+}
+
+- (NSDictionary *)toDictionary {
+    NSDictionary *dictionary = @{@"tag":_tag, @"title":_title, @"hexColor":_hexColor};
+    return dictionary;
 }
 
 + (MKCoordinateRegion)regionForPaths:(NSArray *)paths {

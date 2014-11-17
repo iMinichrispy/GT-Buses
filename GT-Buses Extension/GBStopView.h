@@ -8,12 +8,12 @@
 
 @import UIKit;
 
-@class GBStop;
+@class GBStop, GBStopGroup;
 @interface GBStopView : UIView
 
 extern float const GBStopViewHeight;
 
-@property (nonatomic, strong) GBStop *stop;
+@property (nonatomic, strong) GBStopGroup *stopGroup;
 @property (nonatomic, strong) UIImageView *routeImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *predictionsLabel;
@@ -22,5 +22,7 @@ extern float const GBStopViewHeight;
 @property (nonatomic, strong) NSLayoutConstraint *imageHeightConstraint;
 
 - (instancetype)initWithStop:(GBStop *)stop;
+- (instancetype)initWithStopGroup:(GBStopGroup *)stopGroup;
+- (void)setPredictions:(NSString *)predictions forStop:(GBStop *)stop;
 
 @end
