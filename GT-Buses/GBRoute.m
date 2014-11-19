@@ -40,6 +40,7 @@ float const kMapRegionPadding = 0.0005f;
     for (NSDictionary *dictionary in directions) {
         NSArray *stops = dictionary[@"stop"];
         GBDirection *direction = [[GBDirection alloc] initWithTitle:dictionary[@"title"] tag:dictionary[@"tag"]];
+        direction.oneDirection = [directions count] == 1;
         if (![stops isKindOfClass:[NSArray class]]) stops = @[stops];
         for (NSDictionary *stop in stops) {
             NSString *stopTag = stop[@"tag"];

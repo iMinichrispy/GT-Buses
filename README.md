@@ -106,6 +106,7 @@ v1.1.2
 - Review App button changes to Update Now in About controller when new version is available
 - Sped up animation time when switching routes
 - Notification remove observer
+- Bus arrow image and stop dot image now rendered on device (not png)
 
 
 ## Debug Target Differences

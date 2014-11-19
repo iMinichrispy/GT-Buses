@@ -9,7 +9,6 @@
 #import "GBFavoriteButton.h"
 
 #import "GBBusStopAnnotation.h"
-#import "GBConstants.h"
 #import "GBStop.h"
 
 @interface GBFavoriteButton ()
@@ -38,21 +37,6 @@
     // update user defaults
     _stop.favorite = !_stop.favorite;
     [self setFavorite:_stop.favorite];
-    
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-    NSMutableArray *stops = [[shared objectForKey:GBSharedDefaultsFavoriteStopsKey] mutableCopy];
-    if (!stops) {
-        stops = [NSMutableArray new];
-    }
-    
-    NSDictionary *dictionary = [_stop toDictionary];
-    if (_stop.isFavorite) {
-        [stops addObject:dictionary];
-    } else {
-        [stops removeObject:dictionary];
-    }
-    [shared setObject:stops forKey:GBSharedDefaultsFavoriteStopsKey];
-    [shared synchronize];
 }
 
 - (void)setFavorite:(BOOL)favorite {

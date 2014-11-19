@@ -57,6 +57,8 @@
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
 		FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */; };
 		FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD597C01A12C66E0079B36C /* GBWindow.m */; };
+		FAD7D5821A1AECE0007CF5D4 /* Messages.xml in Resources */ = {isa = PBXBuildFile; fileRef = FAD7D5811A1AECE0007CF5D4 /* Messages.xml */; };
+		FAD7D5841A1AED17007CF5D4 /* Predictions w: Message.txt in Resources */ = {isa = PBXBuildFile; fileRef = FAD7D5831A1AED17007CF5D4 /* Predictions w: Message.txt */; };
 		FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
 		FADE7D101967555800F318D5 /* GBBusRouteControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0F1967555800F318D5 /* GBBusRouteControlView.m */; };
 		FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D151967605B00F318D5 /* GBRequestHandler.m */; };
@@ -178,6 +180,8 @@
 		FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConfig.m; sourceTree = "<group>"; };
 		FAD597BF1A12C66E0079B36C /* GBWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBWindow.h; sourceTree = "<group>"; };
 		FAD597C01A12C66E0079B36C /* GBWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBWindow.m; sourceTree = "<group>"; };
+        FAD7D5811A1AECE0007CF5D4 /* Messages.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Messages.xml; sourceTree = "<group>"; };
+		FAD7D5831A1AED17007CF5D4 /* Predictions w: Message.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Predictions w: Message.txt"; sourceTree = "<group>"; };
 		FADE7D091967504600F318D5 /* GBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConstants.h; sourceTree = "<group>"; };
 		FADE7D0A1967504600F318D5 /* GBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConstants.m; sourceTree = "<group>"; };
 		FADE7D0E1967555800F318D5 /* GBBusRouteControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBusRouteControlView.h; sourceTree = "<group>"; };
@@ -303,10 +307,12 @@
 			isa = PBXGroup;
 			children = (
 				FA1FE95018A1D8A300757643 /* GT-BusesTests-Info.plist */,
+				FAD7D5811A1AECE0007CF5D4 /* Messages.xml */,
 				FA1FE95118A1D8A300757643 /* InfoPlist.strings */,
 				FA3C921719AA8AD300CEC529 /* RouteConfig.xml */,
 				FA8A287919C7487500B02EDA /* Locations.xml */,
 				FA8A287519C7485900B02EDA /* Predictions.xml */,
+				FAD7D5831A1AED17007CF5D4 /* Predictions w: Message.txt */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -554,8 +560,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAD7D5841A1AED17007CF5D4 /* Predictions w: Message.txt in Resources */,
 				FA8A287B19C7487500B02EDA /* Locations.xml in Resources */,
 				FA1FE95318A1D8A300757643 /* InfoPlist.strings in Resources */,
+				FAD7D5821A1AECE0007CF5D4 /* Messages.xml in Resources */,
 				FA8A287719C7485900B02EDA /* Predictions.xml in Resources */,
 				FA8F828919AC0131008FE578 /* RouteConfig.xml in Resources */,
 			);

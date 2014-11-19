@@ -38,12 +38,12 @@
 @property (nonatomic, strong) GBSectionView *nearbySectionView;
 
 @property (nonatomic) BOOL showFavorites;
+@property (nonatomic, getter=isUpdating) BOOL updating;
 
 @end
 
 @implementation TodayViewController
 
-static NSString * const GBMultiPredictionsTask = @"GBMultiPredictionsTask";
 static NSString * const GBFavoritesHeaderTitle = @"Favorites:";
 static NSString * const GBNearbyHeaderTitle = @"Nearby:";
 
@@ -52,6 +52,7 @@ int kNumberOfNearbyStopView = 5;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
         _showFavorites = YES; // load from nsuserdefaults
+        _updating = NO;
         
         NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
         _favoriteStops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
@@ -91,7 +92,7 @@ int kNumberOfNearbyStopView = 5;
                 
                 [_favoritesSectionView addParameterForStop:stop];
             }
-            
+            //i++??
             for (int i = 1; i < [stopViews count]; ++i) {
                 [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromTopView:stopViews[i - 1] toBottomView:stopViews[i]]];
             }
@@ -101,13 +102,7 @@ int kNumberOfNearbyStopView = 5;
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
         } else {
-            GBErrorView *errorView = [[GBErrorView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
-            errorView.label.text = @"No favorites added.";
-            
-            [_favoritesSectionView.stopsView addSubview:errorView];
-            
-            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:errorView horizontal:YES]];
-            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:errorView horizontal:NO]];
+            [self displayError:@"No favorites added." onView:_favoritesSectionView.stopsView];
         }
     } else {
         for (UIView *view in _favoritesSectionView.stopsView.subviews) {
@@ -141,6 +136,18 @@ int kNumberOfNearbyStopView = 5;
     NSLog(@"toggleNearby");
 }
 
+- (void)insertStopGroup:(GBStopGroup *)newStopGroup inNearestStops:(NSMutableArray *)nearestStops withDistance:(CLLocationDistance)distance {
+    newStopGroup.distance = distance;
+    int index = 0;
+    for (GBStopGroup *stopGroup in nearestStops) {
+        if (stopGroup.distance > newStopGroup.distance) {
+            break;
+        }
+        index++;
+    }
+    [nearestStops insertObject:newStopGroup atIndex:index];
+}
+
 - (void)updateNearbyLayout {
     CLLocation *location = _locationManager.location;
     if (location) {
@@ -153,19 +160,18 @@ int kNumberOfNearbyStopView = 5;
                     
                     GBStopGroup *newStopGroup = [[GBStopGroup alloc] initWithStop:stop];
                     NSInteger index = [newNearestStops indexOfObject:newStopGroup];
+                    
                     if (index == NSNotFound) {
-                        newStopGroup.distance = distance;
-                        int index = 0;
-                        for (GBStopGroup *stopGroup in newNearestStops) {
-                            if (stopGroup.distance > newStopGroup.distance) {
-                                break;
-                            }
-                            index++;
-                        }
-                        [newNearestStops insertObject:newStopGroup atIndex:index];
+                        [self insertStopGroup:newStopGroup inNearestStops:newNearestStops withDistance:distance];
                     } else {
-                        GBStopGroup *existingGroup = newNearestStops[index];
-                        [existingGroup addStop:stop];
+#warning untested if actually works
+                        if (newStopGroup.firstStop.direction.isOneDirection) {
+                            // create new stop group
+                            [self insertStopGroup:newStopGroup inNearestStops:newNearestStops withDistance:distance];
+                        } else {
+                            GBStopGroup *existingGroup = newNearestStops[index];
+                            [existingGroup addStop:stop];
+                        }
                     }
                 }
             }
@@ -214,6 +220,7 @@ int kNumberOfNearbyStopView = 5;
         [_nearbySectionView reset];
         [self displayError:@"No location data." onView:_nearbySectionView.stopsView];
     }
+    [self updatePredictions];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -310,16 +317,17 @@ int kNumberOfNearbyStopView = 5;
     NSString *parameters = [favoritesParameters stringByAppendingString:fixedNearbyParameters];
 //    NSLog(@"%@",parameters);
 #warning there can be duplicates in parameter string
-    if ([parameters length]) {
-        GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBMultiPredictionsTask delegate:self];
+    if ([parameters length]) { // && !isUpdating
+        GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBRequestMultiPredictionsTask delegate:self];
         [predictionHandler multiPredictionsForStops:parameters];
+        _updating = YES;
     }
 }
 
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
-    
+    _updating = NO; // make sure its the predictions task
     if (!error && dictionary) {
         NSArray *predictions = dictionary[@"body"][@"predictions"];
         if (predictions) {

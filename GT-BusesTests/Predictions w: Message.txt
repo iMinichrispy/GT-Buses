@@ -1,0 +1,1252 @@
+{
+    body =     {
+        copyright = "All data copyright Georgia Tech Campus 2014.";
+        keyForNextTime =         {
+            text1 = "";
+            value = 1748993022333;
+        };
+        predictions =         (
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415806654137;
+                            isDeparture = false;
+                            minutes = 10;
+                            seconds = 600;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415807494137;
+                            isDeparture = false;
+                            minutes = 24;
+                            seconds = 1440;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415808334137;
+                            isDeparture = false;
+                            minutes = 38;
+                            seconds = 2280;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415809174137;
+                            isDeparture = false;
+                            minutes = 52;
+                            seconds = 3120;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415810014137;
+                            isDeparture = false;
+                            minutes = 66;
+                            seconds = 3960;
+                            text1 = "";
+                            vehicle = 434;
+                        }
+                    );
+                    text1 = "";
+                    title = "North Ave Apts";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = mcmil8th;
+                stopTitle = "McMillian St & 8th St";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415806707337;
+                            isDeparture = false;
+                            minutes = 10;
+                            seconds = 654;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415807547337;
+                            isDeparture = false;
+                            minutes = 24;
+                            seconds = 1494;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415808387337;
+                            isDeparture = false;
+                            minutes = 38;
+                            seconds = 2334;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415809227337;
+                            isDeparture = false;
+                            minutes = 52;
+                            seconds = 3174;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415810067337;
+                            isDeparture = false;
+                            minutes = 66;
+                            seconds = 4014;
+                            text1 = "";
+                            vehicle = 434;
+                        }
+                    );
+                    text1 = "";
+                    title = "North Ave Apts";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = 8thhemp;
+                stopTitle = "8th St & Hemphill Ave";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415806752320;
+                            isDeparture = false;
+                            minutes = 11;
+                            seconds = 699;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415807592320;
+                            isDeparture = false;
+                            minutes = 25;
+                            seconds = 1539;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415808432320;
+                            isDeparture = false;
+                            minutes = 39;
+                            seconds = 2379;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415809272320;
+                            isDeparture = false;
+                            minutes = 53;
+                            seconds = 3219;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415810112320;
+                            isDeparture = false;
+                            minutes = 67;
+                            seconds = 4059;
+                            text1 = "";
+                            vehicle = 434;
+                        }
+                    );
+                    text1 = "";
+                    title = "North Ave Apts";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = "fershemp_ob";
+                stopTitle = "Ferst Dr & Hemphill Ave";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415806834820;
+                            isDeparture = false;
+                            minutes = 13;
+                            seconds = 781;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415807674820;
+                            isDeparture = false;
+                            minutes = 27;
+                            seconds = 1621;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415808514820;
+                            isDeparture = false;
+                            minutes = 41;
+                            seconds = 2461;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415809354820;
+                            isDeparture = false;
+                            minutes = 55;
+                            seconds = 3301;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415810194820;
+                            isDeparture = false;
+                            minutes = 69;
+                            seconds = 4141;
+                            text1 = "";
+                            vehicle = 434;
+                        }
+                    );
+                    text1 = "";
+                    title = "North Ave Apts";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = reccent;
+                stopTitle = "Recreation Center";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415806084394;
+                            isDeparture = false;
+                            minutes = 0;
+                            seconds = 31;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415806921801;
+                            isDeparture = false;
+                            minutes = 14;
+                            seconds = 868;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415807761801;
+                            isDeparture = false;
+                            minutes = 28;
+                            seconds = 1708;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415808601801;
+                            isDeparture = false;
+                            minutes = 42;
+                            seconds = 2548;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415809441801;
+                            isDeparture = false;
+                            minutes = 56;
+                            seconds = 3388;
+                            text1 = "";
+                            vehicle = 439;
+                        }
+                    );
+                    text1 = "";
+                    title = "North Ave Apts";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = studcentr;
+                stopTitle = "Student Center";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415806115365;
+                            isDeparture = false;
+                            minutes = 1;
+                            seconds = 62;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415806952772;
+                            isDeparture = false;
+                            minutes = 14;
+                            seconds = 899;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415807792772;
+                            isDeparture = false;
+                            minutes = 28;
+                            seconds = 1739;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415808632772;
+                            isDeparture = false;
+                            minutes = 42;
+                            seconds = 2579;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415809472772;
+                            isDeparture = false;
+                            minutes = 56;
+                            seconds = 3419;
+                            text1 = "";
+                            vehicle = 439;
+                        }
+                    );
+                    text1 = "";
+                    title = "North Ave Apts";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = fershub;
+                stopTitle = "HUB/Ferst Dr";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415806162293;
+                            isDeparture = false;
+                            minutes = 1;
+                            seconds = 109;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415806999700;
+                            isDeparture = false;
+                            minutes = 15;
+                            seconds = 946;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415807839700;
+                            isDeparture = false;
+                            minutes = 29;
+                            seconds = 1786;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415808679700;
+                            isDeparture = false;
+                            minutes = 43;
+                            seconds = 2626;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415809519700;
+                            isDeparture = false;
+                            minutes = 57;
+                            seconds = 3466;
+                            text1 = "";
+                            vehicle = 439;
+                        }
+                    );
+                    text1 = "";
+                    title = "North Ave Apts";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = cherfers;
+                stopTitle = "Tech Tower";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415806347478;
+                            isDeparture = false;
+                            minutes = 4;
+                            seconds = 294;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415807184885;
+                            isDeparture = false;
+                            minutes = 18;
+                            seconds = 1131;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415808024885;
+                            isDeparture = false;
+                            minutes = 32;
+                            seconds = 1971;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = naveapts;
+                            epochTime = 1415808864885;
+                            isDeparture = false;
+                            minutes = 46;
+                            seconds = 2811;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = naveapts;
+                            epochTime = 1415809704885;
+                            isDeparture = false;
+                            minutes = 60;
+                            seconds = 3651;
+                            text1 = "";
+                            vehicle = 439;
+                        }
+                    );
+                    text1 = "";
+                    title = "North Ave Apts";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = "naveapts_a";
+                stopTitle = "North Avenue Apartments - Arrival";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415806419785;
+                            isDeparture = false;
+                            minutes = 6;
+                            seconds = 366;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415807257192;
+                            isDeparture = false;
+                            minutes = 20;
+                            seconds = 1203;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415808097192;
+                            isDeparture = false;
+                            minutes = 34;
+                            seconds = 2043;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415808937192;
+                            isDeparture = false;
+                            minutes = 48;
+                            seconds = 2883;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415809777192;
+                            isDeparture = false;
+                            minutes = 62;
+                            seconds = 3723;
+                            text1 = "";
+                            vehicle = 439;
+                        }
+                    );
+                    text1 = "";
+                    title = "Fitten Hall";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = technorth;
+                stopTitle = "Techwood Dr & North Ave";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415806479947;
+                            isDeparture = false;
+                            minutes = 7;
+                            seconds = 426;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415807317354;
+                            isDeparture = false;
+                            minutes = 21;
+                            seconds = 1264;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415808157354;
+                            isDeparture = false;
+                            minutes = 35;
+                            seconds = 2104;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415808997354;
+                            isDeparture = false;
+                            minutes = 49;
+                            seconds = 2944;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415809837354;
+                            isDeparture = false;
+                            minutes = 63;
+                            seconds = 3784;
+                            text1 = "";
+                            vehicle = 439;
+                        }
+                    );
+                    text1 = "";
+                    title = "Fitten Hall";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = 3rdtech;
+                stopTitle = "Techwood Dr & 3rd Street";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415806518177;
+                            isDeparture = false;
+                            minutes = 7;
+                            seconds = 464;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415807355584;
+                            isDeparture = false;
+                            minutes = 21;
+                            seconds = 1302;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415808195584;
+                            isDeparture = false;
+                            minutes = 35;
+                            seconds = 2142;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415809035584;
+                            isDeparture = false;
+                            minutes = 49;
+                            seconds = 2982;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415809875584;
+                            isDeparture = false;
+                            minutes = 63;
+                            seconds = 3822;
+                            text1 = "";
+                            vehicle = 439;
+                        }
+                    );
+                    text1 = "";
+                    title = "Fitten Hall";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = 4thtech;
+                stopTitle = "Techwood Dr & 4th Street";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415806575323;
+                            isDeparture = false;
+                            minutes = 8;
+                            seconds = 522;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415807412730;
+                            isDeparture = false;
+                            minutes = 22;
+                            seconds = 1359;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415808252730;
+                            isDeparture = false;
+                            minutes = 36;
+                            seconds = 2199;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415809092730;
+                            isDeparture = false;
+                            minutes = 50;
+                            seconds = 3039;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415809932730;
+                            isDeparture = false;
+                            minutes = 64;
+                            seconds = 3879;
+                            text1 = "";
+                            vehicle = 439;
+                        }
+                    );
+                    text1 = "";
+                    title = "Fitten Hall";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = 5thtech;
+                stopTitle = "Techwood Dr & 5th Street";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415806108009;
+                            isDeparture = false;
+                            minutes = 0;
+                            seconds = 54;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415806636859;
+                            isDeparture = false;
+                            minutes = 9;
+                            seconds = 583;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415807474266;
+                            isDeparture = false;
+                            minutes = 23;
+                            seconds = 1421;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415808314266;
+                            isDeparture = false;
+                            minutes = 37;
+                            seconds = 2261;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415809154266;
+                            isDeparture = false;
+                            minutes = 51;
+                            seconds = 3101;
+                            text1 = "";
+                            vehicle = 434;
+                        }
+                    );
+                    text1 = "";
+                    title = "Fitten Hall";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = fersfowl;
+                stopTitle = "Ferst Dr & Fowler St";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415806139300;
+                            isDeparture = false;
+                            minutes = 1;
+                            seconds = 86;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415806668150;
+                            isDeparture = false;
+                            minutes = 10;
+                            seconds = 614;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415807505557;
+                            isDeparture = false;
+                            minutes = 24;
+                            seconds = 1452;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415808345557;
+                            isDeparture = false;
+                            minutes = 38;
+                            seconds = 2292;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415809185557;
+                            isDeparture = false;
+                            minutes = 52;
+                            seconds = 3132;
+                            text1 = "";
+                            vehicle = 434;
+                        }
+                    );
+                    text1 = "";
+                    title = "Fitten Hall";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = fersklau;
+                stopTitle = "Klaus Building";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415806200479;
+                            isDeparture = false;
+                            minutes = 2;
+                            seconds = 147;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415806729329;
+                            isDeparture = false;
+                            minutes = 11;
+                            seconds = 676;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415807566736;
+                            isDeparture = false;
+                            minutes = 25;
+                            seconds = 1513;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415808406736;
+                            isDeparture = false;
+                            minutes = 39;
+                            seconds = 2353;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415809246736;
+                            isDeparture = false;
+                            minutes = 53;
+                            seconds = 3193;
+                            text1 = "";
+                            vehicle = 434;
+                        }
+                    );
+                    text1 = "";
+                    title = "Fitten Hall";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = fersatla;
+                stopTitle = "Ferst Dr & Atlantic Dr";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415806261446;
+                            isDeparture = false;
+                            minutes = 3;
+                            seconds = 208;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415806790296;
+                            isDeparture = false;
+                            minutes = 12;
+                            seconds = 737;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415807627703;
+                            isDeparture = false;
+                            minutes = 26;
+                            seconds = 1574;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415808467703;
+                            isDeparture = false;
+                            minutes = 40;
+                            seconds = 2414;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415809307703;
+                            isDeparture = false;
+                            minutes = 54;
+                            seconds = 3254;
+                            text1 = "";
+                            vehicle = 434;
+                        }
+                    );
+                    text1 = "";
+                    title = "Fitten Hall";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = fersstat;
+                stopTitle = "Ferst Dr & State St";
+                text1 = "";
+            },
+                        {
+                agencyTitle = "Georgia Tech Campus";
+                direction =                 {
+                    prediction =                     (
+                                                {
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415806390938;
+                            isDeparture = false;
+                            minutes = 5;
+                            seconds = 337;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415806919788;
+                            isDeparture = false;
+                            minutes = 14;
+                            seconds = 866;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415807757195;
+                            isDeparture = false;
+                            minutes = 28;
+                            seconds = 1703;
+                            text1 = "";
+                            vehicle = 434;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 302;
+                            dirTag = fitthall;
+                            epochTime = 1415808597195;
+                            isDeparture = false;
+                            minutes = 42;
+                            seconds = 2543;
+                            text1 = "";
+                            vehicle = 439;
+                        },
+                                                {
+                            affectedByLayover = true;
+                            block = 304;
+                            dirTag = fitthall;
+                            epochTime = 1415809437195;
+                            isDeparture = false;
+                            minutes = 56;
+                            seconds = 3383;
+                            text1 = "";
+                            vehicle = 434;
+                        }
+                    );
+                    text1 = "";
+                    title = "Fitten Hall";
+                };
+                message =                 {
+                    priority = Normal;
+                    text = "Apologies, technical difficulties... multiple Trolleys & Stingers are operating, but not all are showing up in NextBus.";
+                    text1 = "";
+                };
+                routeTag = blue;
+                routeTitle = Blue;
+                stopTag = "fitthall_a";
+                stopTitle = "Fitten Hall - Arrival";
+                text1 = "";
+            }
+        );
+        text1 = "";
+    };
+}

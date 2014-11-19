@@ -19,6 +19,10 @@ static NSString * const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
 static NSString * const GBRequestBaseURL = @"http://localhost:5000";
 #endif
 
+// public xml feed:
+// http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
+// http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=mit
+
 static NSString * const GBRequestRouteConfigPath = @"/routeConfig";
 static NSString * const GBRequestLocationsPath = @"/locations/";
 static NSString * const GBRequestPredictionsPath = @"/predictions/";

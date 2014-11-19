@@ -10,6 +10,7 @@
 
 #import "GBRoute.h"
 #import "GBDirection.h"
+#import "GBConstants.h"
 
 @implementation NSDictionary (GBStop)
 
@@ -46,7 +47,7 @@
 
 + (NSString *)predictionsStringForPredictions:(NSArray *)predictions {
     if ([predictions count]) {
-        NSMutableString *predictionsString = [NSMutableString stringWithString:@"Next: "];
+        NSMutableString *predictionsString = [NSMutableString stringWithString:@"In "];
         NSDictionary *lastPredication = [predictions lastObject];
         for (NSDictionary *prediction in predictions) {
 #if DEBUG
@@ -64,6 +65,27 @@
     }
     
     return @"No Predictions";
+}
+
+- (void)setFavorite:(BOOL)favorite {
+    if (_favorite != favorite) {
+        _favorite = favorite;
+        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+        NSMutableSet *stops = [[shared objectForKey:GBSharedDefaultsFavoriteStopsKey] mutableCopy];
+        
+        if (!stops) {
+            stops = [NSMutableSet new];
+        }
+        
+        NSDictionary *dictionary = [self toDictionary];
+        if (self.isFavorite) {
+            [stops addObject:dictionary];
+        } else {
+            [stops removeObject:dictionary];
+        }
+        [shared setObject:stops.allObjects forKey:GBSharedDefaultsFavoriteStopsKey];
+        [shared synchronize];
+    }
 }
 
 @end

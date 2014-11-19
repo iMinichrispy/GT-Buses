@@ -10,6 +10,7 @@
 
 NSString * const GBFontDefault = @"Avenir-Medium";
 
+NSString * const GBUserDefaultsAgencyKey = @"GBUserDefaultsAgencyKey";
 NSString * const GBUserDefaultsSelectedRouteKey = @"GBUserDefaultsKeySelectedRoute";
 NSString * const GBUserDefaultsSelectedColorKey = @"GBUserDefaultsKeySelectedColor";
 
@@ -21,6 +22,12 @@ NSString * const GBNotificationTintColorDidChange = @"GBNotificationTintColorDid
 NSString * const GBNotificationPartyModeDidChange = @"GBNotificationPartyModeDidChange";
 NSString * const GBNotificationMessageDidChange = @"GBNotificationMessageDidChange";
 NSString * const GBNotificationiOSVersionDidChange = @"GBNotificationiOSVersionDidChange";
+
+NSString * const GBRequestRouteConfigTask = @"GBRequestRouteConfigTask";
+NSString * const GBRequestVehicleLocationsTask = @"GBRequestVehicleLocationsTask";
+NSString * const GBRequestVehiclePredictionsTask = @"GBRequestVehiclePredictionsTask";
+NSString * const GBRequestMultiPredictionsTask = @"GBRequestMultiPredictionsTask";
+NSString * const GBRequestMessagesTask = @"GBRequestMessagesTask";
 
 float const kSideWidth = 150.0f;
 float const kSideWidthiPad = 200.0f;

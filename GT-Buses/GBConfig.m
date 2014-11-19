@@ -32,6 +32,7 @@
     self = [super init];
     if (self) {
         // Check user defaults?
+        // agency
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         _iOSVersion = info[@"CFBundleShortVersionString"];
         _version = 1;

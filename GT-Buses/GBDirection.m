@@ -12,6 +12,7 @@
 
 - (GBDirection *)toDirection {
     GBDirection *direction = [[GBDirection alloc] initWithTitle:self[@"title"] tag:self[@"tag"]];
+    direction.oneDirection = [self[@"oneDirection"] boolValue];
     return direction;
 }
 
@@ -29,7 +30,7 @@
 }
 
 - (NSDictionary *)toDictionary {
-    NSDictionary *dictionary = @{@"title":_title, @"tag":_tag};
+    NSDictionary *dictionary = @{@"title":_title, @"tag":_tag, @"oneDirection":@(_oneDirection)};
     return dictionary;
 }
 

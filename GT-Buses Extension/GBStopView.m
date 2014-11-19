@@ -58,6 +58,13 @@ float const kStopCircleSize = 25.0f;
         _predictionsLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_predictionsLabel];
         
+        _distanceLabel = [[UILabel alloc] init];
+        _distanceLabel.font = [UIFont systemFontOfSize:13];
+        _distanceLabel.text = (stopGroup.distance) ? [[self class] stringWithDistance:_stopGroup.distance] : @"";
+        _distanceLabel.textColor = RGBColor(184, 191, 195);
+        _distanceLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self addSubview:_distanceLabel];
+        
         _directionLabel = [[UILabel alloc] init];
         _directionLabel.text = [NSString stringWithFormat:@"To %@", [_stopGroup firstStop].direction.title];
         _directionLabel.textColor = RGBColor(184, 191, 195);
@@ -69,7 +76,10 @@ float const kStopCircleSize = 25.0f;
         NSMutableArray *constraints = [NSMutableArray new];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_routeImageView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[predictionsEffectView][_predictionsLabel]-2-[_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, predictionsEffectView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_predictionsLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _predictionsLabel)]];
+        
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[predictionsEffectView][_distanceLabel]-2-[_directionLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, predictionsEffectView, _distanceLabel)]];
+        
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_predictionsLabel][_distanceLabel(>=35)]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _predictionsLabel, _distanceLabel)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][predictionsEffectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, predictionsEffectView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _directionLabel)]];
         
@@ -142,6 +152,15 @@ float const kStopCircleSize = 25.0f;
     }
     
     _predictionsLabel.text = predictionsLabelText;
+}
+
++ (NSString *)stringWithDistance:(double)distance {
+    static MKDistanceFormatter *distanceFormatter;
+    if (!distanceFormatter) {
+        distanceFormatter = [[MKDistanceFormatter alloc]init];
+        distanceFormatter.unitStyle = MKDistanceFormatterUnitStyleAbbreviated;
+    }
+    return [distanceFormatter stringFromDistance:distance];
 }
 
 @end

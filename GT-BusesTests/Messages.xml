@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<body copyright="All data copyright Georgia Tech Campus 2014.">
+  <route tag="all">
+  </route>
+  <route tag="trolley">
+    <message id="385" startBoundary="1415736000000" startBoundaryStr="Tue, Nov 11 15:00:00 EST 2014" endBoundary="1415998800000" endBoundaryStr="Fri, Nov 14 16:00:00 EST 2014" sendToBuses="false" priority="Normal">
+      <routeConfiguredForMessage tag="trolley"></routeConfiguredForMessage>
+      <routeConfiguredForMessage tag="red"></routeConfiguredForMessage>
+      <routeConfiguredForMessage tag="blue"></routeConfiguredForMessage>
+      <interval startDay="2" startTime="21600" endDay="2" endTime="75600" />
+      <interval startDay="3" startTime="21600" endDay="3" endTime="75600" />
+      <interval startDay="4" startTime="21600" endDay="4" endTime="75600" />
+      <interval startDay="5" startTime="21600" endDay="5" endTime="75600" />
+      <text>Apologies, technical difficulties... multiple Trolleys &amp; Stingers are operating, but not all are showing up in NextBus.</text>
+    </message>
+  </route>
+  <route tag="red">
+    <message id="385" startBoundary="1415736000000" startBoundaryStr="Tue, Nov 11 15:00:00 EST 2014" endBoundary="1415998800000" endBoundaryStr="Fri, Nov 14 16:00:00 EST 2014" sendToBuses="false" priority="Normal">
+      <routeConfiguredForMessage tag="trolley"></routeConfiguredForMessage>
+      <routeConfiguredForMessage tag="red"></routeConfiguredForMessage>
+      <routeConfiguredForMessage tag="blue"></routeConfiguredForMessage>
+      <interval startDay="2" startTime="21600" endDay="2" endTime="75600" />
+      <interval startDay="3" startTime="21600" endDay="3" endTime="75600" />
+      <interval startDay="4" startTime="21600" endDay="4" endTime="75600" />
+      <interval startDay="5" startTime="21600" endDay="5" endTime="75600" />
+      <text>Apologies, technical difficulties... multiple Trolleys &amp; Stingers are operating, but not all are showing up in NextBus.</text>
+    </message>
+  </route>
+  <route tag="blue">
+    <message id="385" startBoundary="1415736000000" startBoundaryStr="Tue, Nov 11 15:00:00 EST 2014" endBoundary="1415998800000" endBoundaryStr="Fri, Nov 14 16:00:00 EST 2014" sendToBuses="false" priority="Normal">
+      <routeConfiguredForMessage tag="trolley"></routeConfiguredForMessage>
+      <routeConfiguredForMessage tag="red"></routeConfiguredForMessage>
+      <routeConfiguredForMessage tag="blue"></routeConfiguredForMessage>
+      <interval startDay="2" startTime="21600" endDay="2" endTime="75600" />
+      <interval startDay="3" startTime="21600" endDay="3" endTime="75600" />
+      <interval startDay="4" startTime="21600" endDay="4" endTime="75600" />
+      <interval startDay="5" startTime="21600" endDay="5" endTime="75600" />
+      <text>Apologies, technical difficulties... multiple Trolleys &amp; Stingers are operating, but not all are showing up in NextBus.</text>
+    </message>
+  </route>
+<keyForNextTime value="288138686360" />
+</body>

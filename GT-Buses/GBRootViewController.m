@@ -32,11 +32,6 @@
 
 #define DEFAULT_REGION MKCoordinateRegionMake(CLLocationCoordinate2DMake(33.775978, -84.399269), MKCoordinateSpanMake(0.025059, 0.023190))
 
-static NSString * const GBRouteConfigTask = @"GBRouteConfigTask";
-static NSString * const GBVehicleLocationsTask = @"GBVehicleLocationsTask";
-static NSString * const GBVehiclePredictionsTask = @"GBVehiclePredictionsTask";
-static NSString * const GBMessagesTask = @"GBMessagesTask";
-
 float const kSetRegionAnimationSpeed = 0.15f;
 int const kRefreshInterval = 5;
 
@@ -212,25 +207,22 @@ int const kRefreshInterval = 5;
         _busRouteControlView.errorLabel.hidden = YES;
         _busRouteControlView.busRouteControl.hidden = NO;
         
-        if (handler.task == GBRouteConfigTask) {
-            NSArray *newRoutes = dictionary[@"body"][@"route"];
+        if (handler.task == GBRequestRouteConfigTask) {
             GBRoute *selectedRoute = [self selectedRoute];
             // Prevents duplicate routes from being added to route segmented control in case connection is slow and route config is requested multiple times
             if (!selectedRoute) {
-#warning only perform saving routes on >iOS8
-                NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-                NSMutableArray *routes = [NSMutableArray new];
-                
-                for (NSDictionary *dictionary in newRoutes) {
+                NSArray *routes = dictionary[@"body"][@"route"];
+                for (NSDictionary *dictionary in routes) {
                     GBRoute *route = [dictionary xmlToRoute];
                     [_routes addObject:route];
                     NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
                     [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
-                    
-                    [routes addObject:dictionary];
                 }
                 
-                [shared setObject:routes forKey:GBSharedDefaultsRoutesKey];
+                if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+                    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+                    [shared setObject:routes forKey:GBSharedDefaultsRoutesKey];
+                }
                 
                 NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
                 if (_busRouteControlView.busRouteControl.numberOfSegments)
@@ -238,7 +230,7 @@ int const kRefreshInterval = 5;
                 
                 [self didChangeBusRoute];
             }
-        } else if (handler.task == GBVehicleLocationsTask) {
+        } else if (handler.task == GBRequestVehicleLocationsTask) {
             [self checkForMessages:dictionary];
             NSDictionary *config = dictionary[@"body"][@"config"];
             [[GBConfig sharedInstance] handleConfig:config];
@@ -287,7 +279,7 @@ int const kRefreshInterval = 5;
                 }
             }
             lastLocationUpdate = newLocationUpdate;
-        } else if (handler.task == GBVehiclePredictionsTask) {
+        } else if (handler.task == GBRequestVehiclePredictionsTask) {
             long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
             if (newPredictionUpdate != lastPredictionUpdate) {
                 NSArray *predictions = dictionary[@"body"][@"predictions"];
@@ -326,7 +318,7 @@ int const kRefreshInterval = 5;
                 }
             }
             lastPredictionUpdate = newPredictionUpdate;
-        } else if (handler.task == GBMessagesTask) {
+        } else if (handler.task == GBRequestMessagesTask) {
             
             // check message id
         }
@@ -357,10 +349,10 @@ int const kRefreshInterval = 5;
         [_mapView showBusesWithRoute:selectedRoute];
         if ([refreshTimer isValid]) [refreshTimer invalidate];
 #else
-        GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithTask:GBVehicleLocationsTask delegate:self];
+        GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithTask:GBRequestVehicleLocationsTask delegate:self];
         [locationHandler locationsForRoute:selectedRoute.tag];
         
-        GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBVehiclePredictionsTask delegate:self];
+        GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBRequestVehiclePredictionsTask delegate:self];
         [predictionHandler predictionsForRoute:selectedRoute.tag];
 #endif
     }
@@ -369,7 +361,7 @@ int const kRefreshInterval = 5;
         [_busRouteControlView.activityIndicator startAnimating];
         _busRouteControlView.errorLabel.hidden = YES;
         
-        GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRouteConfigTask delegate:self];
+        GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestRouteConfigTask delegate:self];
         [requestHandler routeConfig];
     }
 #endif
@@ -436,7 +428,7 @@ int const kRefreshInterval = 5;
 #if APP_STORE_MAP
         stopAnnotation.subtitle = [MKMapView predictionsStringForRoute:selectedRoute];
         NSString *selectedStopTag = [MKMapView selectedStopTagForRoute:selectedRoute];
-        if ([stopAnnotation.stopTag isEqualToString:selectedStopTag])
+        if ([stopAnnotation.stop.tag isEqualToString:selectedStopTag])
             [_mapView selectAnnotation:stopAnnotation animated:YES];
 #endif
     }

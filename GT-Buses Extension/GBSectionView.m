@@ -50,7 +50,6 @@
         [self addSubview:_headerView];
         
         _stopsView = [[GBStopsView alloc] init];
-//        _stopsView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_stopsView];
         
         NSMutableArray *constraints = [NSMutableArray new];

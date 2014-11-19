@@ -9,6 +9,7 @@
 @class NSString;
 extern NSString * const GBFontDefault;
 
+extern NSString * const GBUserDefaultsAgencyKey;
 extern NSString * const GBUserDefaultsSelectedRouteKey;
 extern NSString * const GBUserDefaultsSelectedColorKey;
 
@@ -20,6 +21,12 @@ extern NSString * const GBNotificationTintColorDidChange;
 extern NSString * const GBNotificationPartyModeDidChange;
 extern NSString * const GBNotificationMessageDidChange;
 extern NSString * const GBNotificationiOSVersionDidChange;
+
+extern NSString * const GBRequestRouteConfigTask;
+extern NSString * const GBRequestVehicleLocationsTask;
+extern NSString * const GBRequestVehiclePredictionsTask;
+extern NSString * const GBRequestMultiPredictionsTask;
+extern NSString * const GBRequestMessagesTask;
 
 extern float const kSideWidth;
 extern float const kSideWidthiPad;

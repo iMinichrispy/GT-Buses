@@ -19,12 +19,12 @@
 @interface GBStop : NSObject
 
 @property (nonatomic, strong) GBRoute *route;
+@property (nonatomic, strong) GBDirection *direction;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *tag;
 @property (nonatomic) double lat;
 @property (nonatomic) double lon;
 @property (nonatomic, getter=isFavorite) BOOL favorite;
-@property (nonatomic, strong) GBDirection *direction;
 @property (nonatomic, strong) NSString *predictions;
 
 - (instancetype)initWithRoute:(GBRoute *)route title:(NSString *)title tag:(NSString *)tag;

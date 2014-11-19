@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong) NSString *tag;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, getter=isOneDirection) BOOL oneDirection;
 
 - (instancetype)initWithTitle:(NSString *)title tag:(NSString *)tag;
 - (NSDictionary *)toDictionary;

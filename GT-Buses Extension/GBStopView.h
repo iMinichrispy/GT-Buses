@@ -17,6 +17,7 @@ extern float const GBStopViewHeight;
 @property (nonatomic, strong) UIImageView *routeImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *predictionsLabel;
+@property (nonatomic, strong) UILabel *distanceLabel;
 @property (nonatomic, strong) UILabel *directionLabel;
 
 @property (nonatomic, strong) NSLayoutConstraint *imageHeightConstraint;
