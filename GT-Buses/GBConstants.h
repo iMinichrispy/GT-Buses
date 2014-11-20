@@ -27,6 +27,7 @@ extern NSString * const GBRequestVehicleLocationsTask;
 extern NSString * const GBRequestVehiclePredictionsTask;
 extern NSString * const GBRequestMultiPredictionsTask;
 extern NSString * const GBRequestMessagesTask;
+extern NSString * const GBRequestBuildingsTask;
 
 extern float const kSideWidth;
 extern float const kSideWidthiPad;

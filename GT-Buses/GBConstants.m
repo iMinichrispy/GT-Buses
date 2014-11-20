@@ -28,6 +28,7 @@ NSString * const GBRequestVehicleLocationsTask = @"GBRequestVehicleLocationsTask
 NSString * const GBRequestVehiclePredictionsTask = @"GBRequestVehiclePredictionsTask";
 NSString * const GBRequestMultiPredictionsTask = @"GBRequestMultiPredictionsTask";
 NSString * const GBRequestMessagesTask = @"GBRequestMessagesTask";
+NSString * const GBRequestBuildingsTask = @"GBRequestBuildingsTask";
 
 float const kSideWidth = 150.0f;
 float const kSideWidthiPad = 200.0f;

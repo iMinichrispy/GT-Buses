@@ -1,5 +1,5 @@
 //
-//  GBMapViewController.h
+//  GBBuildingsViewController.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 11/19/14.
@@ -8,6 +8,6 @@
 
 @import UIKit;
 
-@interface GBMapViewController : UIViewController
+@interface GBBuildingsViewController : UITableViewController
 
 @end

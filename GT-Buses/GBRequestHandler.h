@@ -15,6 +15,7 @@
 - (void)predictionsForRoute:(NSString *)tag;
 - (void)multiPredictionsForStops:(NSString *)parameterList;
 - (void)messages;
+- (void)buildings;
 
 #if DEBUG
 - (void)resetBackend;

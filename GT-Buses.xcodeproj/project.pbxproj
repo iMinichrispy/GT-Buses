@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		FA0B9C0C1A11BABD005197CC /* GBSideBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0B9C0B1A11BABD005197CC /* GBSideBarItem.m */; };
-		FA15FC8C1A1D8DFF00C175AB /* GBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC8B1A1D8DFF00C175AB /* GBMapViewController.m */; };
+		FA15FC8C1A1D8DFF00C175AB /* GBMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC8B1A1D8DFF00C175AB /* GBMapView.m */; };
+		FA15FC921A1DA1A800C175AB /* GBBuildingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC911A1DA1A800C175AB /* GBBuildingsViewController.m */; };
+		FA15FC951A1DB14A00C175AB /* GBBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC941A1DB14A00C175AB /* GBBuilding.m */; };
 		FA15FCD51A1856F6008FA394 /* GBSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FCD41A1856F6008FA394 /* GBSectionView.m */; };
 		FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE93218A1D8A300757643 /* InfoPlist.strings */; };
 		FA1FE93618A1D8A300757643 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE93518A1D8A300757643 /* main.m */; };
@@ -102,8 +104,13 @@
 /* Begin PBXFileReference section */
 		FA0B9C0A1A11BABD005197CC /* GBSideBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSideBarItem.h; sourceTree = "<group>"; };
 		FA0B9C0B1A11BABD005197CC /* GBSideBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSideBarItem.m; sourceTree = "<group>"; };
-		FA15FC8A1A1D8DFF00C175AB /* GBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBMapViewController.h; sourceTree = "<group>"; };
-		FA15FC8B1A1D8DFF00C175AB /* GBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBMapViewController.m; sourceTree = "<group>"; };
+		FA15FC8A1A1D8DFF00C175AB /* GBMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBMapView.h; sourceTree = "<group>"; };
+		FA15FC8B1A1D8DFF00C175AB /* GBMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBMapView.m; sourceTree = "<group>"; };
+		FA15FC8D1A1D95B700C175AB /* GBMapView+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GBMapView+Private.h"; sourceTree = "<group>"; };
+		FA15FC901A1DA1A800C175AB /* GBBuildingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBuildingsViewController.h; sourceTree = "<group>"; };
+		FA15FC911A1DA1A800C175AB /* GBBuildingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBuildingsViewController.m; sourceTree = "<group>"; };
+		FA15FC931A1DB14A00C175AB /* GBBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBuilding.h; sourceTree = "<group>"; };
+		FA15FC941A1DB14A00C175AB /* GBBuilding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBuilding.m; sourceTree = "<group>"; };
 		FA15FCD31A1856F6008FA394 /* GBSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSectionView.h; sourceTree = "<group>"; };
 		FA15FCD41A1856F6008FA394 /* GBSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSectionView.m; sourceTree = "<group>"; };
 		FA1FE92618A1D8A300757643 /* GT-Buses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GT-Buses.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,6 +251,8 @@
 				FA2B6FC31A1430BA00C60449 /* GBStop.m */,
 				FAA7B6B61A194F1200CB8FB2 /* GBDirection.h */,
 				FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */,
+				FA15FC931A1DB14A00C175AB /* GBBuilding.h */,
+				FA15FC941A1DB14A00C175AB /* GBBuilding.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -282,8 +291,11 @@
 				FA1FE93918A1D8A300757643 /* GBAppDelegate.m */,
 				FA8C118919D30758008F5927 /* GBRootViewController.h */,
 				FA8C118A19D30758008F5927 /* GBRootViewController.m */,
-				FA15FC8A1A1D8DFF00C175AB /* GBMapViewController.h */,
-				FA15FC8B1A1D8DFF00C175AB /* GBMapViewController.m */,
+				FA15FC901A1DA1A800C175AB /* GBBuildingsViewController.h */,
+				FA15FC911A1DA1A800C175AB /* GBBuildingsViewController.m */,
+				FA15FC8A1A1D8DFF00C175AB /* GBMapView.h */,
+				FA15FC8B1A1D8DFF00C175AB /* GBMapView.m */,
+				FA15FC8D1A1D95B700C175AB /* GBMapView+Private.h */,
 				FADE7D141967605B00F318D5 /* GBRequestHandler.h */,
 				FADE7D151967605B00F318D5 /* GBRequestHandler.m */,
 				FAA1234318A523170049A5FA /* GBAboutController.h */,
@@ -666,8 +678,10 @@
 				FA1FE97C18A1D9C600757643 /* GBColors.m in Sources */,
 				FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */,
 				FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */,
+				FA15FC921A1DA1A800C175AB /* GBBuildingsViewController.m in Sources */,
 				FAA1234118A520710049A5FA /* MFSideMenuShadow.m in Sources */,
 				FA8C118B19D30758008F5927 /* GBRootViewController.m in Sources */,
+				FA15FC951A1DB14A00C175AB /* GBBuilding.m in Sources */,
 				FAD6A3401A1CE4F500D98955 /* GBImage.m in Sources */,
 				FA0B9C0C1A11BABD005197CC /* GBSideBarItem.m in Sources */,
 				FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */,
@@ -683,7 +697,7 @@
 				FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */,
 				FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */,
 				FA2B6FC41A1430BA00C60449 /* GBStop.m in Sources */,
-				FA15FC8C1A1D8DFF00C175AB /* GBMapViewController.m in Sources */,
+				FA15FC8C1A1D8DFF00C175AB /* GBMapView.m in Sources */,
 				FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
