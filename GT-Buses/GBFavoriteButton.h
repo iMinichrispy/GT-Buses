@@ -8,9 +8,9 @@
 
 @import UIKit;
 
-@class GBBusStopAnnotation;
+@class GBStopAnnotation;
 @interface GBFavoriteButton : UIButton
 
-- (instancetype)initWithBusStopAnnotation:(GBBusStopAnnotation *)annotation;
+- (instancetype)initWithBusStopAnnotation:(GBStopAnnotation *)annotation;
 
 @end

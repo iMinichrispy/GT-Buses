@@ -12,6 +12,7 @@
 @interface NSDictionary (GBStop)
 
 - (GBStop *)toStop;
+- (GBStop *)xmlToStop;
 
 @end
 

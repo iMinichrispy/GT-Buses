@@ -11,6 +11,7 @@
 @interface GBConfig : NSObject
 
 @property (nonatomic, getter=isParty) BOOL party;
+@property (nonatomic) BOOL showBusIdentifiers;
 @property (nonatomic, strong) NSString *message;
 
 + (GBConfig *)sharedInstance;

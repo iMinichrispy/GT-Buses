@@ -88,6 +88,7 @@ static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
         case 503: errorString = @"Timed Out"; break;
         case 1008: case 1009: errorString = @"No Internet Connection"; break;
         case PARSE_ERROR_CODE: errorString = @"Parsing Error"; break;
+        case NEXBUS_ERROR_CODE: errorString = @"Nextbus Error"; break;
         default: errorString = @"Error Connecting"; break;
     }
     return FORMAT(@"%@ (-%li)", errorString, (long)code);

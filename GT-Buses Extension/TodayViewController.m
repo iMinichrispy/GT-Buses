@@ -79,6 +79,9 @@ int kNumberOfNearbyStopView = 5;
 //        if (_favoritesHeightConstraint) {
 //            [NSLayoutConstraint deactivateConstraints:@[_favoritesHeightConstraint]];
 //        }
+        for (UIView *view in _favoritesSectionView.stopsView.subviews) {
+            [view removeFromSuperview];
+        }
         if ([_favoriteStops count]) {
             NSMutableArray *stopViews = [NSMutableArray new];
             for (NSDictionary *dictionary in _favoriteStops) {
@@ -284,7 +287,7 @@ int kNumberOfNearbyStopView = 5;
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
     _locationManager.distanceFilter = 40.0f; // min meters required for location update
-    _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     [self setupForUserLocation];
     
     [NSLayoutConstraint activateConstraints:constraints];
@@ -359,6 +362,8 @@ int kNumberOfNearbyStopView = 5;
                     }
                 }
             }
+        } else {
+            
         }
     } else {
         //error handling

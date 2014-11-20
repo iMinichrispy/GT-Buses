@@ -32,6 +32,7 @@ extern float const kSideWidth;
 extern float const kSideWidthiPad;
 
 #define PARSE_ERROR_CODE    2923
+#define NEXBUS_ERROR_CODE   2943
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)

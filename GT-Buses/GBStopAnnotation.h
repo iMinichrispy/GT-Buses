@@ -9,7 +9,7 @@
 @import MapKit;
 
 @class GBStop;
-@interface GBBusStopAnnotation : MKPointAnnotation
+@interface GBStopAnnotation : MKPointAnnotation
 
 @property (nonatomic, strong) GBStop *stop;
 

@@ -13,6 +13,7 @@
 #import "GBDirection.h"
 #import "GBRoute.h"
 #import "GBStopGroup.h"
+#import "GBImage.h"
 
 @import NotificationCenter;
 
@@ -101,32 +102,6 @@ float const kStopCircleSize = 25.0f;
     return self;
 }
 
-+ (UIImage *)circlesWithStopGroup:(GBStopGroup *)stopGroup {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(GBStopViewImageViewWidth, GBStopViewImageViewHeight), NO, 0.0f);
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(ctx);
-    
-    CGContextSetLineWidth(ctx, 2.0);
-    CGContextSetStrokeColorWithColor(ctx, [UIColor whiteColor].CGColor);
-    
-    float y = 2;
-    for (GBStop *stop in stopGroup.stops) {
-        CGRect rect = CGRectMake(3, y, kStopCircleSize - 6, kStopCircleSize - 6);
-        
-        CGContextSetFillColorWithColor(ctx, stop.route.color.CGColor);
-        
-        CGContextFillEllipseInRect(ctx, rect);
-        CGContextStrokeEllipseInRect(ctx, rect);
-        y += 12;
-    }
-    
-    CGContextRestoreGState(ctx);
-    UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return circle;
-}
-
 - (NSString *)description {
     return [NSString stringWithFormat:@"<GBStopView StopGroup: %@>", _stopGroup];
 }
@@ -161,6 +136,32 @@ float const kStopCircleSize = 25.0f;
         distanceFormatter.unitStyle = MKDistanceFormatterUnitStyleAbbreviated;
     }
     return [distanceFormatter stringFromDistance:distance];
+}
+
++ (UIImage *)circlesWithStopGroup:(GBStopGroup *)stopGroup {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(GBStopViewImageViewWidth, GBStopViewImageViewHeight), NO, 0.0f);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(ctx);
+    
+    CGContextSetLineWidth(ctx, 2.0);
+    CGContextSetStrokeColorWithColor(ctx, [UIColor whiteColor].CGColor);
+    
+    float y = 2;
+    for (GBStop *stop in stopGroup.stops) {
+        CGRect rect = CGRectMake(3, y, kStopCircleSize - 6, kStopCircleSize - 6);
+        
+        CGContextSetFillColorWithColor(ctx, stop.route.color.CGColor);
+        
+        CGContextFillEllipseInRect(ctx, rect);
+        CGContextStrokeEllipseInRect(ctx, rect);
+        y += 12;
+    }
+    
+    CGContextRestoreGState(ctx);
+    UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return circle;
 }
 
 @end

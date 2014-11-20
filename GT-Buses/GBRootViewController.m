@@ -14,7 +14,7 @@
 #import "GBRequestHandler.h"
 #import "GBRoute.h"
 #import "GBBusAnnotation.h"
-#import "GBBusStopAnnotation.h"
+#import "GBStopAnnotation.h"
 #import "GBBusRouteLine.h"
 #import "GBColors.h"
 #import "GBMapHandler.h"
@@ -208,27 +208,33 @@ int const kRefreshInterval = 5;
         _busRouteControlView.busRouteControl.hidden = NO;
         
         if (handler.task == GBRequestRouteConfigTask) {
-            GBRoute *selectedRoute = [self selectedRoute];
-            // Prevents duplicate routes from being added to route segmented control in case connection is slow and route config is requested multiple times
-            if (!selectedRoute) {
-                NSArray *routes = dictionary[@"body"][@"route"];
-                for (NSDictionary *dictionary in routes) {
-                    GBRoute *route = [dictionary xmlToRoute];
-                    [_routes addObject:route];
-                    NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
-                    [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
+            // Not as big of an issue if predictions or locations fail due to nextbus
+            if (![self isNextBusError:dictionary]) {
+                GBRoute *selectedRoute = [self selectedRoute];
+                // Prevents duplicate routes from being added to route segmented control in case connection is slow and route config is requested multiple times
+                if (!selectedRoute) {
+                    NSArray *routes = dictionary[@"body"][@"route"];
+                    for (NSDictionary *dictionary in routes) {
+                        GBRoute *route = [dictionary xmlToRoute];
+                        [_routes addObject:route];
+                        NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
+                        [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
+                    }
+                    
+                    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+                        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+                        [shared setObject:routes forKey:GBSharedDefaultsRoutesKey];
+                    }
+                    
+                    NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
+                    if (_busRouteControlView.busRouteControl.numberOfSegments)
+                        _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
+                    
+                    [self didChangeBusRoute];
                 }
-                
-                if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-                    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-                    [shared setObject:routes forKey:GBSharedDefaultsRoutesKey];
-                }
-                
-                NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
-                if (_busRouteControlView.busRouteControl.numberOfSegments)
-                    _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
-                
-                [self didChangeBusRoute];
+            } else {
+                if ([refreshTimer isValid]) [refreshTimer invalidate];
+                [self handleError:nil code:NEXBUS_ERROR_CODE message:@"Nextbus Error"];
             }
         } else if (handler.task == GBRequestVehicleLocationsTask) {
             [self checkForMessages:dictionary];
@@ -287,7 +293,7 @@ int const kRefreshInterval = 5;
                     if (![predictions isKindOfClass:[NSArray class]])
                         predictions = [NSArray arrayWithObject:predictions];
                     
-                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBusStopAnnotation class]];
+                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBStopAnnotation class]];
                     NSMutableArray *busStopAnnotations = [[_mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
                     
                     for (NSDictionary *busStop in predictions) {
@@ -304,7 +310,7 @@ int const kRefreshInterval = 5;
                         
                         NSString *stopTag = busStop[@"stopTag"];
                         for (int x = 0; x < [busStopAnnotations count]; x++) {
-                            GBBusStopAnnotation *busStopAnnotation = busStopAnnotations[x];
+                            GBStopAnnotation *busStopAnnotation = busStopAnnotations[x];
                             if ([busStopAnnotation.stop.tag isEqualToString:stopTag]) {
                                 busStopAnnotation.subtitle = [GBStop predictionsStringForPredictions:predictions];
                                 
@@ -325,6 +331,14 @@ int const kRefreshInterval = 5;
     } else [self handleError:handler code:PARSE_ERROR_CODE message:@"Parsing Error"];
 }
 
+- (BOOL)isNextBusError:(NSDictionary *)dictionary {
+    NSDictionary *nextBusError = dictionary[@"body"][@"Error"];
+    if (nextBusError) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message {
     [_busRouteControlView.activityIndicator stopAnimating];
     _busRouteControlView.errorLabel.hidden = NO;
@@ -342,6 +356,7 @@ int const kRefreshInterval = 5;
     return index != UISegmentedControlNoSegment ? _routes[index] : nil;
 }
 
+#warning improperly named
 - (void)updateVehicleLocations {
     GBRoute *selectedRoute = [self selectedRoute];
     if (selectedRoute) {
@@ -385,8 +400,6 @@ int const kRefreshInterval = 5;
         [_mapView setRegion:[_mapView regionThatFits:selectedRoute.region]];
     }];
     
-    [self updateVehicleLocations];
-    
     if ([[GBConfig sharedInstance] isParty]) {
         [GBColors setAppTintColor:selectedRoute.color];
     }
@@ -403,20 +416,8 @@ int const kRefreshInterval = 5;
         [_mapView addOverlay:polygon];
     }
     
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-    NSMutableArray *favoriteStops = [[shared objectForKey:GBSharedDefaultsFavoriteStopsKey] mutableCopy];
-    
     for (GBStop *stop in selectedRoute.stops) {
-        for (int x = 0; x < [favoriteStops count]; x++) {
-            NSDictionary *dictionary = favoriteStops[x];
-            if ([dictionary[@"stopTag"] isEqualToString:stop.tag]) {
-                stop.favorite = YES;
-                [favoriteStops removeObject:dictionary];
-                break;
-            }
-        }
-        
-        GBBusStopAnnotation *stopAnnotation = [[GBBusStopAnnotation alloc] initWithStop:stop];
+        GBStopAnnotation *stopAnnotation = [[GBStopAnnotation alloc] initWithStop:stop];
 #if DEBUG
         stopAnnotation.title = FORMAT(@"%@ (%@)", stop.title, stop.tag);
 #else
@@ -432,6 +433,8 @@ int const kRefreshInterval = 5;
             [_mapView selectAnnotation:stopAnnotation animated:YES];
 #endif
     }
+    
+    [self updateVehicleLocations];
 }
 
 - (void)orientationChanged:(NSNotification *)notification {

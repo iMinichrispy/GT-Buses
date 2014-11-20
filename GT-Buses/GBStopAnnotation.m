@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "GBBusStopAnnotation.h"
+#import "GBStopAnnotation.h"
 
 #import "GBStop.h"
 
-@implementation GBBusStopAnnotation
+@implementation GBStopAnnotation
 
 - (instancetype)initWithStop:(GBStop *)stop {
     self = [super init];

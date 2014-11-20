@@ -85,35 +85,50 @@
     return availableColors;
 }
 
+#define cachedDeviceColorMethod(m, r, g, b, a) \
++ (UIColor *)m { \
+static UIColor *c##m = nil; \
+static dispatch_once_t onceToken##m; \
+dispatch_once(&onceToken##m, ^{ \
+c##m = [[UICachedDeviceRGBColor alloc] initWithRed:r green:g blue:b alpha:a]; \
+[c##m _setSystemColorName:[NSString stringWithUTF8String:#m]]; \
+}); \
+return c##m; \
+}
+
 + (UIColor *)blueColor {
     static UIColor *color;
-    if (!color) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         color = RGBColor(24, 124, 200);
-    }
+    });
     return color;
 }
 
 + (UIColor *)redColor {
     static UIColor *color;
-    if (!color) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         color = RGBColor(217, 30, 24);
-    }
+    });
     return color;
 }
 
 + (UIColor *)greenColor {
     static UIColor *color;
-    if (!color) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         color = RGBColor(38, 166, 91);
-    }
+    });
     return color;
 }
 
 + (UIColor *)pinkColor {
     static UIColor *color;
-    if (!color) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         color = RGBColor(210, 82, 127);
-    }
+    });
     return color;
 }
 
@@ -127,9 +142,10 @@
 
 + (UIColor *)darkColor {
     static UIColor *color;
-    if (!color) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         color = RGBColor(50, 50, 50);
-    }
+    });
     return color;
 }
 

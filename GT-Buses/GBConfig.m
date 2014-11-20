@@ -39,6 +39,12 @@
         _party = NO;
         _message = @"";
         // update to new version?
+        
+#if DEBUG
+        _showBusIdentifiers = YES;
+#else
+        _showBusIdentifiers = NO; // check settigns defaults, also requires ios 7!!!
+#endif
     }
     return self;
 }

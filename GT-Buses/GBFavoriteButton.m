@@ -8,8 +8,9 @@
 
 #import "GBFavoriteButton.h"
 
-#import "GBBusStopAnnotation.h"
+#import "GBStopAnnotation.h"
 #import "GBStop.h"
+#import "GBConstants.h"
 
 @interface GBFavoriteButton ()
 
@@ -19,7 +20,7 @@
 
 @implementation GBFavoriteButton
 
-- (instancetype)initWithBusStopAnnotation:(GBBusStopAnnotation *)annotation {
+- (instancetype)initWithBusStopAnnotation:(GBStopAnnotation *)annotation {
     self = [super initWithFrame:CGRectMake(0, 0, 30, 30)];
     if (self) {
         _stop = annotation.stop;
@@ -33,9 +34,24 @@
 }
 
 - (void)toggleFavorite:(id)sender {
-    // update image
-    // update user defaults
     _stop.favorite = !_stop.favorite;
+    
+    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    NSArray *stops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
+    NSMutableSet *stopsSet = [NSMutableSet setWithArray:stops];
+    if (!stops) {
+        stopsSet = [NSMutableSet new];
+    }
+    
+    NSDictionary *dictionary = [_stop toDictionary];
+    if (_stop.favorite) {
+        [stopsSet addObject:dictionary];
+    } else {
+        [stopsSet removeObject:dictionary];
+    }
+    [shared setObject:stopsSet.allObjects forKey:GBSharedDefaultsFavoriteStopsKey];
+    [shared synchronize];
+    
     [self setFavorite:_stop.favorite];
 }
 

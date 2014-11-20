@@ -10,7 +10,6 @@
 
 #import "GBRoute.h"
 #import "GBDirection.h"
-#import "GBConstants.h"
 
 @implementation NSDictionary (GBStop)
 
@@ -18,6 +17,13 @@
     GBRoute *route = [self[@"route"] toRoute];
     GBStop *stop = [[GBStop alloc] initWithRoute:route title:self[@"title"] tag:self[@"tag"]];
     stop.direction = [self[@"direction"] toDirection];
+    return stop;
+}
+
+- (GBStop *)xmlToStop {
+    GBStop *stop = [[GBStop alloc] initWithRoute:nil title:self[@"title"] tag:self[@"tag"]];
+    stop.lat = [self[@"lat"] doubleValue];
+    stop.lon = [self[@"lon"] doubleValue];
     return stop;
 }
 
@@ -65,27 +71,6 @@
     }
     
     return @"No Predictions";
-}
-
-- (void)setFavorite:(BOOL)favorite {
-    if (_favorite != favorite) {
-        _favorite = favorite;
-        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-        NSMutableSet *stops = [[shared objectForKey:GBSharedDefaultsFavoriteStopsKey] mutableCopy];
-        
-        if (!stops) {
-            stops = [NSMutableSet new];
-        }
-        
-        NSDictionary *dictionary = [self toDictionary];
-        if (self.isFavorite) {
-            [stops addObject:dictionary];
-        } else {
-            [stops removeObject:dictionary];
-        }
-        [shared setObject:stops.allObjects forKey:GBSharedDefaultsFavoriteStopsKey];
-        [shared synchronize];
-    }
 }
 
 @end

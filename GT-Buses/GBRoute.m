@@ -11,6 +11,7 @@
 #import "GBColors.h"
 #import "GBStop.h"
 #import "GBDirection.h"
+#import "GBConstants.h"
 
 float const kMapRegionPadding = 0.0005f;
 
@@ -36,7 +37,7 @@ float const kMapRegionPadding = 0.0005f;
     if (![directions isKindOfClass:[NSArray class]]) directions = @[directions];
     route.directions = directions;
     
-    NSMutableDictionary *lookup = [NSMutableDictionary new];
+    NSMutableDictionary *directionLookup = [NSMutableDictionary new];
     for (NSDictionary *dictionary in directions) {
         NSArray *stops = dictionary[@"stop"];
         GBDirection *direction = [[GBDirection alloc] initWithTitle:dictionary[@"title"] tag:dictionary[@"tag"]];
@@ -44,16 +45,25 @@ float const kMapRegionPadding = 0.0005f;
         if (![stops isKindOfClass:[NSArray class]]) stops = @[stops];
         for (NSDictionary *stop in stops) {
             NSString *stopTag = stop[@"tag"];
-            lookup[stopTag] = direction;
+            directionLookup[stopTag] = direction;
         }
     }
     
+    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    NSArray *favoriteStops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
+    
     NSMutableArray *stops = [NSMutableArray new];
     for (NSDictionary *busStop in self[@"stop"]) {
-        GBStop *stop = [[GBStop alloc] initWithRoute:route title:busStop[@"title"] tag:busStop[@"tag"]];
-        stop.lat = [busStop[@"lat"] doubleValue];
-        stop.lon = [busStop[@"lon"] doubleValue];
-        stop.direction = lookup[stop.tag];
+        GBStop *stop = [busStop xmlToStop];
+        stop.route = route;
+        stop.direction = directionLookup[stop.tag];
+        
+        for (NSDictionary *favoriteStop in favoriteStops) {
+            if ([favoriteStop[@"tag"] isEqualToString:stop.tag] && [favoriteStop[@"route"][@"tag"] isEqualToString:stop.route.tag]) {
+                stop.favorite = YES;
+                break;
+            }
+        }
         [stops addObject:stop];
     }
     route.stops = stops;
