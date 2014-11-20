@@ -10,6 +10,8 @@
 
 @import MapKit;
 
+#import "GBMapViewController.h"
+
 #import "GBAboutController.h"
 #import "GBRequestHandler.h"
 #import "GBRoute.h"
@@ -161,8 +163,13 @@ int const kRefreshInterval = 5;
 }
 
 - (void)aboutPressed {
-    MFSideMenuState state = self.menuContainerViewController.menuState == MFSideMenuStateClosed ? MFSideMenuStateLeftMenuOpen : MFSideMenuStateClosed;
-    [self.menuContainerViewController setMenuState:state completion:NULL];
+    GBMapViewController *mapViewController = [[GBMapViewController alloc] init];
+    [self presentViewController:mapViewController animated:YES completion:NULL];
+//    self.navigationItem.prompt = @"GT Buses";
+//    self.navigationItem.titleView = [[UISearchBar alloc] init];
+//    self.navigationItem.leftBarButtonItem = nil;
+//    MFSideMenuState state = self.menuContainerViewController.menuState == MFSideMenuStateClosed ? MFSideMenuStateLeftMenuOpen : MFSideMenuStateClosed;
+//    [self.menuContainerViewController setMenuState:state completion:NULL];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
