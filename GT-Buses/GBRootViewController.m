@@ -44,16 +44,8 @@
     
     NSMutableArray *constraints = [NSMutableArray new];
     UIView *mapViewControllerView = _mapViewController.view;
-    [constraints addObjectsFromArray:[NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"H:|[mapViewControllerView]|"
-                                      options:0
-                                      metrics:nil
-                                      views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"V:|[mapViewControllerView]|"
-                                      options:0
-                                      metrics:nil
-                                      views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
     [self.view addConstraints:constraints];
     
     _buildingsController = [[GBBuildingsViewController alloc] init];
@@ -70,7 +62,6 @@
     
     self.navigationItem.leftBarButtonItem = [self aboutButton];
     self.navigationItem.rightBarButtonItem = [self searchButton];
-    
     
 #if DEFAULT_IMAGE
     self.title = @"";
@@ -163,9 +154,6 @@
 
 - (void)hideSearchBar {
     [_buildingsController.view removeFromSuperview];
-    _searchBar.text = @"";
-    _currentQuery = @"";
-    [_buildingsController setupForQuery:@""];
     
     self.navigationItem.prompt = nil;
     self.navigationItem.titleView = nil;
@@ -176,6 +164,10 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
     NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];
     [_mapViewController.mapView removeAnnotations:buildingAnnotations];
+    
+    _searchBar.text = @"";
+    _currentQuery = @"";
+    [_buildingsController setupForQuery:@""];
 }
 
 - (void)didSelectBuilding:(GBBuilding *)building {

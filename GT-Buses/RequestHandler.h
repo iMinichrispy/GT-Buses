@@ -23,6 +23,7 @@
 
 @property (nonatomic, weak) NSString *task;
 @property (nonatomic, weak) id <RequestHandlerDelegate> delegate;
+@property (nonatomic) NSURLRequestCachePolicy cachePolicy;
 
 - (instancetype)initWithTask:(NSString *)task delegate:(id<RequestHandlerDelegate>)delegate;
 - (void)getRequestWithURL:(NSString *)url;

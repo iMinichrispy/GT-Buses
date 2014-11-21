@@ -26,5 +26,6 @@
 @property (nonatomic) double lon;
 
 - (instancetype)initWithName:(NSString *)name buildingID:(NSString *)buildingID;
+- (NSDictionary *)toDictionary;
 
 @end

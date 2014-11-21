@@ -33,6 +33,11 @@
     return self;
 }
 
+- (NSDictionary *)toDictionary {
+    NSDictionary *dictionary = @{@"name":_name, @"buildingID":_buildingID, @"address":_address, @"imageURL":_imageURL, @"phone":_phone, @"lat":@(_lat), @"lon":@(_lon)};
+    return dictionary;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<GBBuilding Name: %@, ID: %@>", _name, _buildingID];
 }

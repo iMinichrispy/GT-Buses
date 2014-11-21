@@ -53,6 +53,7 @@ int const kRefreshInterval = 5;
         
         _busRouteControlView = [[GBBusRouteControlView alloc] init];
         [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
+        [_busRouteControlView.refreshButton addTarget:self action:@selector(requestUpdate) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_busRouteControlView];
         
         _routes = [NSMutableArray new];
@@ -157,10 +158,9 @@ int const kRefreshInterval = 5;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
     
     if (!error && dictionary) {
-#warning killed refresh button pt 2
-//        self.navigationItem.rightBarButtonItem = nil;
         _busRouteControlView.errorLabel.hidden = YES;
         _busRouteControlView.busRouteControl.hidden = NO;
+        _busRouteControlView.refreshButton.hidden = YES;
         
         if (handler.task == GBRequestRouteConfigTask) {
             // Not as big of an issue if predictions or locations fail due to nextbus
@@ -306,11 +306,7 @@ int const kRefreshInterval = 5;
     [_busRouteControlView.activityIndicator stopAnimating];
     _busRouteControlView.errorLabel.hidden = NO;
     _busRouteControlView.busRouteControl.hidden = YES;
-
-#warning killed refresh button
-//    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(requestUpdate)];
-//    refreshButton.tintColor = [UIColor controlTintColor];
-//    self.navigationItem.rightBarButtonItem = refreshButton;
+    _busRouteControlView.refreshButton.hidden = NO;
     
     _busRouteControlView.errorLabel.text = [GBRequestHandler errorStringForCode:code];
 }
@@ -338,6 +334,7 @@ int const kRefreshInterval = 5;
     else {
         [_busRouteControlView.activityIndicator startAnimating];
         _busRouteControlView.errorLabel.hidden = YES;
+        _busRouteControlView.refreshButton.hidden = YES;
         
         GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestRouteConfigTask delegate:self];
         [requestHandler routeConfig];

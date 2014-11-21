@@ -13,8 +13,9 @@
 - (instancetype)initWithTask:(NSString *)task delegate:(id<RequestHandlerDelegate>)delegate {
     self = [super init];
     if (self) {
-        self.task = task;
-        self.delegate = delegate;
+        _task = task;
+        _delegate = delegate;
+        _cachePolicy = NSURLRequestReloadIgnoringCacheData;
     }
     return self;
 }
@@ -22,7 +23,7 @@
 - (void)getRequestWithURL:(NSString *)url {
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];
-    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+    [request setCachePolicy:_cachePolicy];
     [request setValue:[RequestHandler userAgent] forHTTPHeaderField:@"User-Agent"];
     if ([NSURLConnection canHandleRequest:request]) {
         [self requestWithRequest:request];
@@ -35,7 +36,7 @@
     NSString *urlString = [NSString stringWithFormat:@"%@", url];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"POST"];
-    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+    [request setCachePolicy:_cachePolicy];
     [request setValue:[RequestHandler userAgent] forHTTPHeaderField:@"User-Agent"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     [request setHTTPBody:postData];

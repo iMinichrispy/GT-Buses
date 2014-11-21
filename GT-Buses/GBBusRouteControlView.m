@@ -28,11 +28,21 @@
         _errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _errorLabel.hidden = YES;
         
+        _refreshButton = [[UIButton alloc] init];
+        _refreshButton.translatesAutoresizingMaskIntoConstraints = NO;
+        UIImage *refreshImage = [UIImage imageNamed:@"Refresh"];
+        refreshImage = [refreshImage imageWithColor:[UIColor whiteColor]];
+        [_refreshButton setImage:refreshImage forState:UIControlStateNormal];
+        refreshImage = [refreshImage imageWithColor:[UIColor colorWithWhite:1 alpha:.3]];
+        [_refreshButton setImage:refreshImage forState:UIControlStateHighlighted];
+        _refreshButton.hidden = YES;
+        
         [self updateTintColor];
         
         [self addSubview:_busRouteControl];
         [self addSubview:_activityIndicator];
         [self addSubview:_errorLabel];
+        [self addSubview:_refreshButton];
         
         float segmentedControlSidePadding = IS_IPAD ? 15 : 6;
         
@@ -57,6 +67,16 @@
                                           options:0
                                           metrics:@{@"padding":@10}
                                           views:NSDictionaryOfVariableBindings(_errorLabel)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint
+                                          constraintsWithVisualFormat:@"V:|[_refreshButton]|"
+                                          options:0
+                                          metrics:nil
+                                          views:NSDictionaryOfVariableBindings(_refreshButton)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint
+                                          constraintsWithVisualFormat:@"H:[_refreshButton]-10-|"
+                                          options:0
+                                          metrics:nil
+                                          views:NSDictionaryOfVariableBindings(_refreshButton)]];
         [constraints addObject:[NSLayoutConstraint
                                 constraintWithItem:_activityIndicator
                                 attribute:NSLayoutAttributeCenterX

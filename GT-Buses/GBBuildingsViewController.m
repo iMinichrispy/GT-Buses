@@ -17,6 +17,7 @@
     NSArray             *_partitionedBuildings;
     NSArray             *_sectionIndexTitles;
     NSMutableIndexSet   *_populatedIndexSet;
+    UILabel             *_errorLabel;
 }
 
 @property (nonatomic, strong) NSArray *buildings;
@@ -24,6 +25,10 @@
 @end
 
 @implementation GBBuildingsViewController
+
+
+const float UITableDefaultRowHeight = 44.0;
+
 
 static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 
@@ -45,9 +50,17 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     if ([self.tableView respondsToSelector:@selector(setKeyboardDismissMode:)]) {
         self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
-    [requestHandler buildings];
+    if (!_allBuildings) {
+        GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
+#warning restore cache policy
+//        requestHandler.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
+        [requestHandler buildings];
+    }
 }
 
 #pragma mark - Table view data source
@@ -125,6 +138,7 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     NSError *error;
     NSArray *buildings = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
     if (buildings && !error) {
+        [self showErrorLabel:NO error:nil];
         NSMutableArray *newBuildings = [NSMutableArray new];
         for (NSDictionary *dictinary in buildings) {
             GBBuilding *building = [dictinary toBuilding];
@@ -134,11 +148,13 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
         _buildings = _allBuildings;
         
         [self showAllBuildings];
+    } else {
+        [self handleError:handler code:PARSE_ERROR_CODE message:@"Parsing Error"];
     }
 }
 
 - (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message {
-    NSLog(@"error: %@",message);
+    [self showErrorLabel:YES error:[GBRequestHandler errorStringForCode:code]];
 }
 
 - (void)showAllBuildings {
@@ -154,7 +170,7 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     }
     
     // Place each building into the correct section
-    for (id object in _buildings) {
+    for (id object in _allBuildings) {
         NSInteger index = [collation sectionForObject:object collationStringSelector:@selector(name)];
         [[unsortedSections objectAtIndex:index] addObject:object];
     }
@@ -197,7 +213,33 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     
     // Show the No Results Found label if the user has entered text but didn't find anything.
     // keyboard for right-aligned languages will send a "\n" text change notification when they become active, or after all text is deleted from an input started in left layout. Don't take this as user text input.
-//    [self _showNoResultsFound:( [text length] > 0 && [_cities count] == 0 && ![text isEqualToString:@"\n"] )];
+    [self showErrorLabel:( [query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"] ) error:@"No Results Found"];
+}
+
+- (void)showErrorLabel:(BOOL)show error:(NSString *)error {
+#warning !_errorLabel is potentially problematic
+    if(show && !_errorLabel) {
+        // Show the Error label
+        CGRect errorLabelFrame = [self.tableView frame];
+        errorLabelFrame.origin.y += (IS_IPAD) ? UITableDefaultRowHeight * 3 : UITableDefaultRowHeight;
+        errorLabelFrame.size.height = UITableDefaultRowHeight; // Height should be one row
+        
+        _errorLabel = [[UILabel alloc] initWithFrame:errorLabelFrame];
+        
+        [_errorLabel setOpaque:NO];
+        [_errorLabel setBackgroundColor:nil];
+        [_errorLabel setTextAlignment:NSTextAlignmentCenter];
+        
+        [_errorLabel setText:error];
+        [_errorLabel setTextColor:[UIColor blackColor]];
+        [_errorLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
+        
+        [self.view addSubview:_errorLabel];
+    } else if (!show && _errorLabel) {
+        // Hide the Error Found label
+        [_errorLabel removeFromSuperview];
+        _errorLabel = nil;
+    }
 }
 
 @end

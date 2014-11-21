@@ -11,6 +11,7 @@
 @interface GBBusRouteControlView : UIView <GBTintColorDelegate>
 
 @property (nonatomic, strong) UILabel *errorLabel;
+@property (nonatomic, strong) UIButton *refreshButton;
 @property (nonatomic, strong) UISegmentedControl *busRouteControl;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
