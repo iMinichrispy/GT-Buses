@@ -181,10 +181,6 @@
 		FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDirection.m; sourceTree = "<group>"; };
 		FAA7B6BB1A19784E00CB8FB2 /* GBStopGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBStopGroup.h; path = "../GT-Buses/GBStopGroup.h"; sourceTree = "<group>"; };
 		FAA7B6BC1A19784E00CB8FB2 /* GBStopGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GBStopGroup.m; path = "../GT-Buses/GBStopGroup.m"; sourceTree = "<group>"; };
-		FAAA5B761A1C6E25001B6082 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FAAA5B771A1C6E25001B6082 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
-		FAAA5B781A1C6E25001B6082 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
-		FAAA5B7A1A1C6E25001B6082 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
 		FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GT-Buses Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,7 +265,6 @@
 				FA1FE94118A1D8A300757643 /* Images.xcassets */,
 				FA1FE94E18A1D8A300757643 /* GT-BusesTests */,
 				FAB249541A13FCC800147FEF /* GT-Buses Extension */,
-				FAAA5B741A1C6E25001B6082 /* GT-Buses-Nearby */,
 				FAA201A419BE703900FA1E7D /* Frameworks */,
 				FA1FE92718A1D8A300757643 /* Products */,
 			);
@@ -440,25 +435,6 @@
 				FA1FE98318A1D9F800757643 /* RequestHandler.m */,
 			);
 			name = RequestHandler;
-			sourceTree = "<group>";
-		};
-		FAAA5B741A1C6E25001B6082 /* GT-Buses-Nearby */ = {
-			isa = PBXGroup;
-			children = (
-				FAAA5B771A1C6E25001B6082 /* TodayViewController.h */,
-				FAAA5B781A1C6E25001B6082 /* TodayViewController.m */,
-				FAAA5B7A1A1C6E25001B6082 /* MainInterface.storyboard */,
-				FAAA5B751A1C6E25001B6082 /* Supporting Files */,
-			);
-			path = "GT-Buses-Nearby";
-			sourceTree = "<group>";
-		};
-		FAAA5B751A1C6E25001B6082 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FAAA5B761A1C6E25001B6082 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		FAB249541A13FCC800147FEF /* GT-Buses Extension */ = {

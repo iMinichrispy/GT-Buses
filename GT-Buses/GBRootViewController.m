@@ -23,7 +23,9 @@
 #import "GBMapViewController+Private.h"
 #endif
 
-@interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate>
+@interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate> {
+    NSString *_currentQuery;
+}
 
 @property (nonatomic, strong) GBMapViewController *mapViewController;
 @property (nonatomic, strong) GBBuildingsViewController *buildingsController;
@@ -123,22 +125,6 @@
     [_searchBar becomeFirstResponder];
 }
 
-- (void)hideSearchBar {
-    self.navigationItem.prompt = nil;
-    self.navigationItem.titleView = nil;
-    
-    [self.navigationItem setLeftBarButtonItem:[self aboutButton] animated:YES];
-    [self.navigationItem setRightBarButtonItem:[self searchButton] animated:YES];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
-    NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];
-    [_mapViewController.mapView removeAnnotations:buildingAnnotations];
-    
-    _searchBar.text = @"";
-    
-    [self hideSearchResults];
-}
-
 - (UIBarButtonItem *)aboutButton {
     UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(aboutPressed)];
     aboutButton.tintColor = [UIColor controlTintColor];
@@ -160,6 +146,7 @@
 #pragma mark - Search
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    _searchBar.text = (_currentQuery) ? _currentQuery : @"";
     [_mapViewController.view addSubview:_buildingsController.view];
     
     UIView *buildingsView = _buildingsController.view;
@@ -171,15 +158,30 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText; {
     [_buildingsController setupForQuery:searchText];
+    _currentQuery = searchText;
 }
 
-- (void)hideSearchResults {
+- (void)hideSearchBar {
     [_buildingsController.view removeFromSuperview];
+    _searchBar.text = @"";
+    _currentQuery = @"";
+    [_buildingsController setupForQuery:@""];
+    
+    self.navigationItem.prompt = nil;
+    self.navigationItem.titleView = nil;
+    
+    [self.navigationItem setLeftBarButtonItem:[self aboutButton] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[self searchButton] animated:YES];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
+    NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];
+    [_mapViewController.mapView removeAnnotations:buildingAnnotations];
 }
 
 - (void)didSelectBuilding:(GBBuilding *)building {
     [_buildingsController.view removeFromSuperview];
     [_searchBar resignFirstResponder];
+    _searchBar.text = building.name;
     
     GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
     [_mapViewController.mapView addAnnotation:annotation];
