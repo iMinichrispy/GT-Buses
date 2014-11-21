@@ -160,6 +160,8 @@
     NSArray *buildingAnnotations = [_mapView.mapView.annotations filteredArrayUsingPredicate:predicate];
     [_mapView.mapView removeAnnotations:buildingAnnotations];
     
+    _searchBar.text = @"";
+    
     [self hideSearchResults];
 }
 

@@ -20,6 +20,7 @@
 #import "GBBusAnnotation.h"
 #import "GBStopAnnotation.h"
 #import "GBBusRouteLine.h"
+#import "GBBuildingAnnotation.h"
 
 #if APP_STORE_MAP
 #import "MKMapView+AppStoreMap.h"
@@ -334,7 +335,11 @@ int const kRefreshInterval = 5;
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
-    [_mapView removeAnnotations:_mapView.annotations];
+    // Don't remove the building annotations
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"not class == %@", [GBBuildingAnnotation class]];
+    NSArray *annotations = [_mapView.annotations filteredArrayUsingPredicate:predicate];
+    
+    [_mapView removeAnnotations:annotations];
     [_mapView removeOverlays:_mapView.overlays];
     
     GBRoute *selectedRoute = [self selectedRoute];

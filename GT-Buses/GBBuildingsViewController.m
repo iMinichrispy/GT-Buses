@@ -31,7 +31,6 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     self = [super init];
     if (self) {
         _buildings = [NSMutableArray new];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardFrameDidChange:) name:UIKeyboardDidChangeFrameNotification object:nil];
     }
     return self;
 }
@@ -199,24 +198,6 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     // Show the No Results Found label if the user has entered text but didn't find anything.
     // keyboard for right-aligned languages will send a "\n" text change notification when they become active, or after all text is deleted from an input started in left layout. Don't take this as user text input.
 //    [self _showNoResultsFound:( [text length] > 0 && [_cities count] == 0 && ![text isEqualToString:@"\n"] )];
-}
-
-#pragma mark - Keyboard
-
-- (void)keyboardFrameDidChange:(NSNotification *)notification {
-//    NSDictionary *info = [notification userInfo];
-//    
-//    CGRect keyboardFrame = [info[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-//    CGFloat newAdjustment = MAX(0, CGRectGetMaxY([[UIScreen mainScreen] bounds]) - CGRectGetMinY(keyboardFrame));
-//    
-//    UIEdgeInsets contentInset = self.tableView.contentInset;
-//    UIEdgeInsets scrollIndicatorInsets = self.tableView.scrollIndicatorInsets;
-//    
-//    contentInset.bottom = newAdjustment;
-//    scrollIndicatorInsets.bottom = newAdjustment;
-//    
-//    self.tableView.contentInset = contentInset;
-//    self.tableView.scrollIndicatorInsets = scrollIndicatorInsets;
 }
 
 @end
