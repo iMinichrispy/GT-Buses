@@ -101,6 +101,16 @@ float const kMapRegionPadding = 0.0005f;
     float minLon = -FLT_MAX;
     float maxLat = 0;
     float maxLon = 0;
+
+#warning test this out
+//    MKMapRect zoomRect = MKMapRectNull;
+//    for (id <MKAnnotation> annotation in mapView.annotations)
+//    {
+//        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+//        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
+//        zoomRect = MKMapRectUnion(zoomRect, pointRect);
+//    }
+//    [mapView setVisibleMapRect:zoomRect animated:YES];
     
     // Loop through all paths and find the min lat/lon and max lat/lon
     for (NSDictionary *path in paths) {

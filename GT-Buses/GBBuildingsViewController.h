@@ -8,6 +8,17 @@
 
 @import UIKit;
 
+@class GBBuilding;
+@protocol GBBuidlingsDelegate <NSObject>
+
+- (void)didSelectBuilding:(GBBuilding *)building;
+
+@end
+
 @interface GBBuildingsViewController : UITableViewController
+
+@property (nonatomic, weak) id<GBBuidlingsDelegate> delegate;
+
+- (void)setupForQuery:(NSString *)query;
 
 @end

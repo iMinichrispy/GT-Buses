@@ -10,15 +10,17 @@
 
 #import "GBColors.h"
 
-@class GBMapView;
+@class GBMapView, MKMapView;
 @protocol GBMapViewDelegate <NSObject>
 
 - (void)handleError:(GBMapView *)mapView code:(NSInteger)code message:(NSString *)message;
 
 @end
 
+#warning TODO: change name
 @interface GBMapView : UIView
 
+@property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) id<GBMapViewDelegate> delegate;
 
 #warning improperly names

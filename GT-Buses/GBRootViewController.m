@@ -16,12 +16,13 @@
 #import "GBColors.h"
 #import "GBUserInterface.h"
 #import "GBBuildingsViewController.h"
+#import "GBBuilding.h"
+#import "GBBuildingAnnotation.h"
 
-#if DEBUG
+#warning posibly add in debug, do something w/ update tint color
 #import "GBMapView+Private.h"
-#endif
 
-@interface GBRootViewController () <UISearchBarDelegate>
+@interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate>
 
 @property (nonatomic, strong) GBMapView *mapView;
 @property (nonatomic, strong) GBBuildingsViewController *buildingsController;
@@ -34,6 +35,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _mapView = [[GBMapView alloc] init];
+    _mapView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:_mapView];
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObjectsFromArray:[NSLayoutConstraint
+                                      constraintsWithVisualFormat:@"H:|[_mapView]|"
+                                      options:0
+                                      metrics:nil
+                                      views:NSDictionaryOfVariableBindings(_mapView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint
+                                      constraintsWithVisualFormat:@"V:|[_mapView]|"
+                                      options:0
+                                      metrics:nil
+                                      views:NSDictionaryOfVariableBindings(_mapView)]];
+    [self.view addConstraints:constraints];
+    
+    _buildingsController = [[GBBuildingsViewController alloc] init];
+    _buildingsController.delegate = self;
     
     _searchBar = [[UISearchBar alloc] init];
     _searchBar.placeholder = @"Search";
@@ -67,11 +88,6 @@
     self.toolbarItems = @[resetItem, flexibleSpace1, partyItem, flexibleSpace2, updateStopsItem];
     [self updateTintColor:nil];
 #endif
-}
-
-- (void)loadView {
-    _mapView = [[GBMapView alloc] init];
-    self.view = _mapView;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -139,6 +155,12 @@
     
     [self.navigationItem setLeftBarButtonItem:[self aboutButton] animated:YES];
     [self.navigationItem setRightBarButtonItem:[self searchButton] animated:YES];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
+    NSArray *buildingAnnotations = [_mapView.mapView.annotations filteredArrayUsingPredicate:predicate];
+    [_mapView.mapView removeAnnotations:buildingAnnotations];
+    
+    [self hideSearchResults];
 }
 
 - (UIBarButtonItem *)aboutButton {
@@ -161,60 +183,31 @@
 
 #pragma mark - Search
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText; {
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [_mapView addSubview:_buildingsController.view];
     
-    
-    
-    if ([searchText length]) {
-        
-        if (!_overlayButton) {
-            _overlayButton = [[UIButton alloc] init];
-            _overlayButton.translatesAutoresizingMaskIntoConstraints = NO;
-            [_overlayButton addTarget:self action:@selector(hideSearchBar) forControlEvents:UIControlEventTouchDown];
-            _overlayButton.backgroundColor = [UIColor blackColor];
-            _overlayButton.alpha = .6;
-            [_mapView addSubview:_overlayButton];
-            
-            if (!_buildingsController) {
-                _buildingsController = [[GBBuildingsViewController alloc] init];
-            }
-            [_overlayButton addSubview:_buildingsController.view];
-            
-            UIView *buildingsView = _buildingsController.view;
-            
-            NSMutableArray *constraints = [NSMutableArray new];
-            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_overlayButton]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_overlayButton)]];
-            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_overlayButton]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_overlayButton)]];
-            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[buildingsView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(buildingsView)]];
-            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[buildingsView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(buildingsView)]];
-            
-            
-            
-            
-            
-            [self.view addConstraints:constraints];
-        }
-        
-        
-        
-        
-//
-//        
-//        
-        
+    UIView *buildingsView = _buildingsController.view;
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[buildingsView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(buildingsView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[buildingsView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(buildingsView)]];
+    [self.view addConstraints:constraints];
+}
 
-//        UIView *view = _buildingsController.view;
-        
-    } else {
-        [self hideSearchResults];
-    }
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText; {
+    [_buildingsController setupForQuery:searchText];
 }
 
 - (void)hideSearchResults {
     [_buildingsController.view removeFromSuperview];
+}
+
+- (void)didSelectBuilding:(GBBuilding *)building {
+    [_buildingsController.view removeFromSuperview];
+    [_searchBar resignFirstResponder];
     
-//    [_overlayButton removeFromSuperview];
-//    _overlayButton = nil;
+    GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
+    [_mapView.mapView addAnnotation:annotation];
+    [_mapView.mapView selectAnnotation:annotation animated:YES];
 }
 
 @end

@@ -8,8 +8,6 @@
 
 #import "GBMapView.h"
 
-@import MapKit;
-
 #import "GBBusRouteControlView.h"
 #import "GBMapHandler.h"
 #import "GBRequestHandler.h"
@@ -37,7 +35,6 @@ int const kRefreshInterval = 5;
     long long lastPredictionUpdate;
 }
 
-@property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) GBBusRouteControlView *busRouteControlView;
 @property (nonatomic, strong) GBMapHandler *mapHandler;
 @property (nonatomic, strong) NSMutableArray *routes;
@@ -51,16 +48,20 @@ int const kRefreshInterval = 5;
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _busRouteControlView = [[GBBusRouteControlView alloc] init];
-        [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
-        
         _mapView = [[MKMapView alloc] init];
         _mapView.translatesAutoresizingMaskIntoConstraints = NO;
         if ([_mapView respondsToSelector:@selector(setRotateEnabled:)]) _mapView.rotateEnabled = NO;
+        [self addSubview:_mapView];
+        
+        _busRouteControlView = [[GBBusRouteControlView alloc] init];
+        [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
+        [self addSubview:_busRouteControlView];
+        
+        _routes = [NSMutableArray new];
+        
+        [self setupConstraints];
         
         _mapView.region = DEFAULT_REGION;
-        [self addSubview:_mapView];
-        [self addSubview:_busRouteControlView];
         
         _mapHandler = [[GBMapHandler alloc] init];
         _mapView.delegate = _mapHandler;
@@ -69,43 +70,42 @@ int const kRefreshInterval = 5;
         _locationManager.delegate = self;
         [self showUserLocation];
         
-        
-        _routes = [NSMutableArray new];
-        
-#if DEFAULT_IMAGE
-        self.title = @"";
-        self.navigationItem.leftBarButtonItem = nil;
-        UIView *contentView = [[UIView alloc] init];
-        contentView.translatesAutoresizingMaskIntoConstraints = NO;
-        contentView.backgroundColor = RGBColor(240, 235, 212);
-        [self.view addSubview:contentView];
-#else
-        UIView *contentView = _mapView;
-#endif
-        
-        NSMutableArray *constraints = [NSMutableArray new];
-        [constraints addObjectsFromArray:[NSLayoutConstraint
-                                          constraintsWithVisualFormat:@"H:|[contentView]|"
-                                          options:0
-                                          metrics:nil
-                                          views:NSDictionaryOfVariableBindings(contentView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint
-                                          constraintsWithVisualFormat:@"H:|[_busRouteControlView]|"
-                                          options:0
-                                          metrics:nil
-                                          views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint
-                                          constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][contentView]|"
-                                          options:0
-                                          metrics:@{@"controlViewHeight":@43}
-                                          views:NSDictionaryOfVariableBindings(_busRouteControlView, contentView)]];
-        [self addConstraints:constraints];
-        
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(togglePartyMode:) name:GBNotificationPartyModeDidChange object:nil];
     }
     return self;
 }
 
+- (void)setupConstraints {
+#if DEFAULT_IMAGE
+    self.title = @"";
+    self.navigationItem.leftBarButtonItem = nil;
+    UIView *contentView = [[UIView alloc] init];
+    contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    contentView.backgroundColor = RGBColor(240, 235, 212);
+    [self.view addSubview:contentView];
+#else
+    UIView *contentView = _mapView;
+#endif
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObjectsFromArray:[NSLayoutConstraint
+                                      constraintsWithVisualFormat:@"H:|[contentView]|"
+                                      options:0
+                                      metrics:nil
+                                      views:NSDictionaryOfVariableBindings(contentView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint
+                                      constraintsWithVisualFormat:@"H:|[_busRouteControlView]|"
+                                      options:0
+                                      metrics:nil
+                                      views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint
+                                      constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][contentView]|"
+                                      options:0
+                                      metrics:@{@"controlViewHeight":@43}
+                                      views:NSDictionaryOfVariableBindings(_busRouteControlView, contentView)]];
+    [self addConstraints:constraints];
+}
 
 - (void)updateTintColor {
     [_busRouteControlView updateTintColor];
