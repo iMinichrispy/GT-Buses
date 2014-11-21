@@ -8,7 +8,7 @@
 
 @import Foundation;
 
-@interface GBMapView (Private) <GBTintColorDelegate>
+@interface GBMapViewController (Private)
 
 - (void)resetBackend;
 - (void)toggleParty;

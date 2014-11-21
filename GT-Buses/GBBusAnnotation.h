@@ -8,13 +8,11 @@
 
 @import MapKit;
 
+@class GBBus;
 @interface GBBusAnnotation : MKPointAnnotation
 
-@property (nonatomic, strong) NSString *busIdentifier;
-@property (nonatomic, strong) UIColor *color;
-@property (nonatomic, strong) UIImageView *arrowImageView;
-@property (nonatomic) NSInteger heading;
+@property (nonatomic, strong) GBBus *bus;
 
-- (void)updateArrowImageRotation;
+- (instancetype)initWithBus:(GBBus *)bus;
 
 @end

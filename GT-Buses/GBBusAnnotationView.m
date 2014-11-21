@@ -10,8 +10,11 @@
 
 #import "GBBusAnnotation.h"
 #import "GBImage.h"
-#import "GBConstants.h"
 #import "GBConfig.h"
+#import "GBConstants.h"
+#import "GBBus.h"
+
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 @implementation GBBusAnnotationView
 
@@ -23,6 +26,7 @@
         }
         
         GBBusAnnotation *busAnnotation = (GBBusAnnotation *)annotation;
+        GBBus *bus = busAnnotation.bus;
         
         GBConfig *sharedConfig = [GBConfig sharedInstance];
         
@@ -30,12 +34,14 @@
         if ([sharedConfig isParty]) {
             arrowSize = CGSizeMake(arrowSize.width * 4, arrowSize.height * 4);
         }
-        UIImage *colorArrowImage = [UIImage arrowImageWithColor:busAnnotation.color size:arrowSize];
-        busAnnotation.arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, arrowSize.width, arrowSize.height)];
-        busAnnotation.arrowImageView.image = colorArrowImage;
-        [busAnnotation updateArrowImageRotation];
-        [self addSubview:busAnnotation.arrowImageView];
-        self.frame = busAnnotation.arrowImageView.bounds;
+        UIImage *colorArrowImage = [UIImage arrowImageWithColor:bus.color size:arrowSize];
+        
+        _arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, arrowSize.width, arrowSize.height)];
+        _arrowImageView.image = colorArrowImage;
+        [self updateArrowImageRotation];
+        [self addSubview:_arrowImageView];
+        
+        self.frame = _arrowImageView.bounds;
         self.canShowCallout = NO;
         
         if ([sharedConfig showBusIdentifiers]) {
@@ -43,9 +49,9 @@
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
                 UILabel *identifierLabel = [[UILabel alloc] init];
                 identifierLabel.translatesAutoresizingMaskIntoConstraints = NO;
-                identifierLabel.textColor = busAnnotation.color;
+                identifierLabel.textColor = bus.color;
                 identifierLabel.font = [UIFont systemFontOfSize:12];
-                identifierLabel.text = busAnnotation.busIdentifier;
+                identifierLabel.text = bus.identifier;
                 identifierLabel.backgroundColor = [UIColor clearColor];
                 [self addSubview:identifierLabel];
                 
@@ -54,7 +60,7 @@
                                         constraintWithItem:identifierLabel
                                         attribute:NSLayoutAttributeCenterX
                                         relatedBy:NSLayoutRelationEqual
-                                        toItem:busAnnotation.arrowImageView
+                                        toItem:_arrowImageView
                                         attribute:NSLayoutAttributeCenterX
                                         multiplier:1.0
                                         constant:0.0]];
@@ -62,7 +68,7 @@
                                         constraintWithItem:identifierLabel
                                         attribute:NSLayoutAttributeCenterY
                                         relatedBy:NSLayoutRelationEqual
-                                        toItem:busAnnotation.arrowImageView
+                                        toItem:_arrowImageView
                                         attribute:NSLayoutAttributeTop
                                         multiplier:1.0
                                         constant:-10.0]];
@@ -71,6 +77,11 @@
         }
     }
     return self;
+}
+
+- (void)updateArrowImageRotation {
+    GBBus *bus = ((GBBusAnnotation *)self.annotation).bus;
+    _arrowImageView.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(bus.heading));
 }
 
 @end

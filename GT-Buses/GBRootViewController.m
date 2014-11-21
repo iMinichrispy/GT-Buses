@@ -10,7 +10,7 @@
 
 @import MapKit;
 
-#import "GBMapView.h"
+#import "GBMapViewController.h"
 #import "MFSideMenu.h"
 #import "GBConstants.h"
 #import "GBColors.h"
@@ -19,15 +19,15 @@
 #import "GBBuilding.h"
 #import "GBBuildingAnnotation.h"
 
-#warning posibly add in debug, do something w/ update tint color
-#import "GBMapView+Private.h"
+#if DEBUG
+#import "GBMapViewController+Private.h"
+#endif
 
 @interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate>
 
-@property (nonatomic, strong) GBMapView *mapView;
+@property (nonatomic, strong) GBMapViewController *mapViewController;
 @property (nonatomic, strong) GBBuildingsViewController *buildingsController;
 @property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UIButton *overlayButton;
 
 @end
 
@@ -36,21 +36,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _mapView = [[GBMapView alloc] init];
-    _mapView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.view addSubview:_mapView];
+    _mapViewController = [[GBMapViewController alloc] init];
+    _mapViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.view addSubview:_mapViewController.view];
     
     NSMutableArray *constraints = [NSMutableArray new];
+    UIView *mapViewControllerView = _mapViewController.view;
     [constraints addObjectsFromArray:[NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"H:|[_mapView]|"
+                                      constraintsWithVisualFormat:@"H:|[mapViewControllerView]|"
                                       options:0
                                       metrics:nil
-                                      views:NSDictionaryOfVariableBindings(_mapView)]];
+                                      views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"V:|[_mapView]|"
+                                      constraintsWithVisualFormat:@"V:|[mapViewControllerView]|"
                                       options:0
                                       metrics:nil
-                                      views:NSDictionaryOfVariableBindings(_mapView)]];
+                                      views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
     [self.view addConstraints:constraints];
     
     _buildingsController = [[GBBuildingsViewController alloc] init];
@@ -65,9 +66,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuStateEventOccurred:) name:MFSideMenuStateNotificationEvent object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
     self.navigationItem.leftBarButtonItem = [self aboutButton];
     self.navigationItem.rightBarButtonItem = [self searchButton];
     
@@ -80,44 +78,20 @@
     
 #if DEBUG
     self.navigationController.toolbarHidden = NO;
-    UIBarButtonItem *resetItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:_mapView action:@selector(resetBackend)];
+    UIBarButtonItem *resetItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:_mapViewController action:@selector(resetBackend)];
     UIBarButtonItem *flexibleSpace1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *partyItem = [[UIBarButtonItem alloc] initWithTitle:@"Party" style:UIBarButtonItemStylePlain target:_mapView action:@selector(toggleParty)];
+    UIBarButtonItem *partyItem = [[UIBarButtonItem alloc] initWithTitle:@"Party" style:UIBarButtonItemStylePlain target:_mapViewController action:@selector(toggleParty)];
     UIBarButtonItem *flexibleSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *updateStopsItem = [[UIBarButtonItem alloc] initWithTitle:@"Stops" style:UIBarButtonItemStylePlain target:_mapView action:@selector(updateStops)];
+    UIBarButtonItem *updateStopsItem = [[UIBarButtonItem alloc] initWithTitle:@"Stops" style:UIBarButtonItemStylePlain target:_mapViewController action:@selector(updateStops)];
     self.toolbarItems = @[resetItem, flexibleSpace1, partyItem, flexibleSpace2, updateStopsItem];
     [self updateTintColor:nil];
 #endif
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (IS_IPAD) {
-        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
-    }
-}
-
-- (void)orientationChanged:(NSNotification *)notification {
-    [_mapView performSelector:@selector(fixRegion) withObject:nil afterDelay:1];
-}
-
-- (void)applicationDidBecomeActive:(NSNotification *)notification {
-    [_mapView showUserLocation];
-    [_mapView requestUpdate];
-    [_mapView resetRefreshTimer];
-}
-
-- (void)applicationDidEnterBackground:(NSNotification *)notification {
-    [_mapView invalidateRefreshTimer];
-    [_mapView hideUserLocation];
 }
 
 - (void)updateTintColor:(NSNotification *)notification {
     [(GBNavigationController *)self.navigationController updateTintColor];
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor controlTintColor];
-    [_mapView updateTintColor];
 #if DEBUG
     UIColor *tintColor = [UIColor appTintColor];
     if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
@@ -157,8 +131,8 @@
     [self.navigationItem setRightBarButtonItem:[self searchButton] animated:YES];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
-    NSArray *buildingAnnotations = [_mapView.mapView.annotations filteredArrayUsingPredicate:predicate];
-    [_mapView.mapView removeAnnotations:buildingAnnotations];
+    NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];
+    [_mapViewController.mapView removeAnnotations:buildingAnnotations];
     
     _searchBar.text = @"";
     
@@ -186,7 +160,7 @@
 #pragma mark - Search
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    [_mapView addSubview:_buildingsController.view];
+    [_mapViewController.view addSubview:_buildingsController.view];
     
     UIView *buildingsView = _buildingsController.view;
     NSMutableArray *constraints = [NSMutableArray new];
@@ -208,8 +182,8 @@
     [_searchBar resignFirstResponder];
     
     GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
-    [_mapView.mapView addAnnotation:annotation];
-    [_mapView.mapView selectAnnotation:annotation animated:YES];
+    [_mapViewController.mapView addAnnotation:annotation];
+    [_mapViewController.mapView selectAnnotation:annotation animated:YES];
 }
 
 @end

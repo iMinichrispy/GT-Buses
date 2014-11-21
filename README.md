@@ -18,8 +18,8 @@ iOS 8:
 - Don't use activateConstraints:
 
 In possible update:
+- Add ability to search for stops
 - Incorporate notifications (and displaying messages/warning included with stops from API)
-- Add ability to search for buildings  
 - Space stops that are close together farther apart  
 - (BUG) When bus annotation center coordinate is being animated and map view window is changed (pan, pinch), bus animation gets thrown off  
 - [mapview removeAllAnnotations] removes all annotations, including user location annotation (Not noticeable)  
@@ -107,7 +107,7 @@ v1.1.2
 - Sped up animation time when switching routes
 - Notification remove observer
 - Bus arrow image and stop dot image now rendered on device (not png)
-
+- Added search buildings ability
 
 ## Debug Target Differences
 

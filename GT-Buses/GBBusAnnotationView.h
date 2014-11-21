@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) UIImageView *arrowImageView;
 
+- (void)updateArrowImageRotation;
+
 @end

@@ -11,6 +11,7 @@
 #import "GBRoute.h"
 #import "GBBusAnnotation.h"
 #import "GBColors.h"
+#import "GBBus.h"
 
 @implementation MKMapView (AppStoreMap)
 
@@ -28,11 +29,13 @@
                   @{@"lat":@33.776,   @"lon":@(-84.4025), @"heading":@180}];
     }
     
-    for (NSDictionary *bus in buses) {
-        GBBusAnnotation *busAnnotation = [[GBBusAnnotation alloc] init];
-        busAnnotation.color = [route.color darkerColor:0.5];
-        busAnnotation.heading = [bus[@"heading"] intValue];
-        [busAnnotation setCoordinate:CLLocationCoordinate2DMake([bus[@"lat"] floatValue], [bus[@"lon"] floatValue])];
+    for (NSDictionary *dictionary in buses) {
+        GBBus *bus = [[GBBus alloc] init];
+        bus.color = [route.color darkerColor:0.5];
+        bus.heading = [dictionary[@"heading"] intValue];
+        
+        GBBusAnnotation *busAnnotation = [[GBBusAnnotation alloc] initWithBus:bus];
+        [busAnnotation setCoordinate:CLLocationCoordinate2DMake([dictionary[@"lat"] floatValue], [dictionary[@"lon"] floatValue])];
         [self addAnnotation:busAnnotation];
     }
 }
