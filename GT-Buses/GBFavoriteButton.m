@@ -37,19 +37,18 @@
     _stop.favorite = !_stop.favorite;
     
     NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-    NSArray *stops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
-    NSMutableSet *stopsSet = [NSMutableSet setWithArray:stops];
+    NSMutableArray *stops = [[shared objectForKey:GBSharedDefaultsFavoriteStopsKey] mutableCopy];
     if (!stops) {
-        stopsSet = [NSMutableSet new];
+        stops = [NSMutableArray new];
     }
     
     NSDictionary *dictionary = [_stop toDictionary];
     if (_stop.favorite) {
-        [stopsSet addObject:dictionary];
+        [stops addObject:dictionary];
     } else {
-        [stopsSet removeObject:dictionary];
+        [stops removeObject:dictionary];
     }
-    [shared setObject:stopsSet.allObjects forKey:GBSharedDefaultsFavoriteStopsKey];
+    [shared setObject:stops forKey:GBSharedDefaultsFavoriteStopsKey];
     [shared synchronize];
     
     [self setFavorite:_stop.favorite];
