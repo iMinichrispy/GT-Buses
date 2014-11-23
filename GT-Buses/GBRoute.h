@@ -28,6 +28,6 @@
 @property (nonatomic, strong) NSArray *paths;
 @property (nonatomic, strong) NSArray *stops;
 @property (nonatomic, strong) NSArray *directions;
-@property (nonatomic) MKCoordinateRegion region;
+@property (nonatomic) MKMapRect mapRect;
 
 @end

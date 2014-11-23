@@ -79,7 +79,7 @@
         _updating = YES;
     }
 }
-
+#warning account for UIAccessibilityIsReduceTransparencyEnabled
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];

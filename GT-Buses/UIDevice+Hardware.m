@@ -14,7 +14,7 @@
 @implementation UIDevice (Hardware)
 
 - (BOOL)supportsVisualEffects {
-#if !TARGET_IPHONE_SIMULATOR
+#if TARGET_IPHONE_SIMULATOR
     return YES;
 #else
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {

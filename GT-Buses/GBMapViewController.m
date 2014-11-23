@@ -54,7 +54,7 @@ int const kRefreshInterval = 5;
         _busRouteControlView = [[GBBusRouteControlView alloc] init];
         [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
         [_busRouteControlView.refreshButton addTarget:self action:@selector(requestUpdate) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_busRouteControlView];
+        [_mapView addSubview:_busRouteControlView];
         
         _routes = [NSMutableArray new];
         
@@ -85,11 +85,14 @@ int const kRefreshInterval = 5;
     NSMutableArray *constraints = [NSMutableArray new];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_busRouteControlView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][contentView]|"
-                                      options:0
-                                      metrics:@{@"controlViewHeight":@43}
-                                      views:NSDictionaryOfVariableBindings(_busRouteControlView, contentView)]];
+//    [constraints addObjectsFromArray:[NSLayoutConstraint
+//                                      constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][contentView]|"
+//                                      options:0
+//                                      metrics:@{@"controlViewHeight":@43}
+//                                      views:NSDictionaryOfVariableBindings(_busRouteControlView, contentView)]];
+    
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)]" options:0 metrics:@{@"controlViewHeight":@43} views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView)]];
     [self.view addConstraints:constraints];
 }
 
@@ -106,7 +109,7 @@ int const kRefreshInterval = 5;
 }
 
 - (void)orientationChanged:(NSNotification *)notification {
-    [self performSelector:@selector(fixRegion) withObject:nil afterDelay:1];
+    [self performSelector:@selector(updateRegion) withObject:nil afterDelay:1];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
@@ -343,9 +346,8 @@ int const kRefreshInterval = 5;
     [_mapView removeOverlays:_mapView.overlays];
     
     GBRoute *selectedRoute = [self selectedRoute];
-    [UIView animateWithDuration:kSetRegionAnimationSpeed animations:^{
-        [_mapView setRegion:[_mapView regionThatFits:selectedRoute.region]];
-    }];
+    
+    [self updateRegion];
     
     if ([[GBConfig sharedInstance] isParty]) {
         [GBColors setAppTintColor:selectedRoute.color];
@@ -384,10 +386,12 @@ int const kRefreshInterval = 5;
     [self resetRefreshTimer];
 }
 
-- (void)fixRegion {
+- (void)updateRegion {
     GBRoute *selectedRoute = [self selectedRoute];
+    UIEdgeInsets padding = UIEdgeInsetsMake(50, 7, 10, 7);
+    MKMapRect visibleRect = [self.mapView mapRectThatFits:selectedRoute.mapRect edgePadding:padding];
     [UIView animateWithDuration:kSetRegionAnimationSpeed animations:^{
-        [_mapView setRegion:[_mapView regionThatFits:selectedRoute.region]];
+        [_mapView setVisibleMapRect:visibleRect];
     }];
 }
 
@@ -437,9 +441,10 @@ int const kRefreshInterval = 5;
 #pragma mark - Timer
 
 - (void)resetRefreshTimer {
-    if (![_refreshTimer isValid])
+    if (![_refreshTimer isValid]) {
         _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshInterval target:self selector:@selector(requestUpdate) userInfo:nil repeats:YES];
-    _refreshTimer.tolerance = 1; // Improves power efficiency
+        _refreshTimer.tolerance = 1; // Improves power efficiency
+    }
     [self requestUpdate];
 }
 

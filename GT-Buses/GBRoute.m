@@ -17,7 +17,7 @@ float const kMapRegionPadding = 0.0005f;
 
 @interface GBRoute ()
 
-+ (MKCoordinateRegion)regionForPaths:(NSArray *)paths;
++ (MKMapRect)rectForPaths:(NSArray *)paths;
 
 @end
 
@@ -29,7 +29,7 @@ float const kMapRegionPadding = 0.0005f;
     
     GBRoute *route = [[GBRoute alloc] initWithTitle:title tag:tag];
     route.paths = self[@"path"];
-    route.region = [GBRoute regionForPaths:route.paths];
+    route.mapRect = [GBRoute rectForPaths:route.paths];
     route.hexColor = self[@"color"];
     route.color = [UIColor colorWithHexString:route.hexColor];
     
@@ -96,50 +96,22 @@ float const kMapRegionPadding = 0.0005f;
     return dictionary;
 }
 
-+ (MKCoordinateRegion)regionForPaths:(NSArray *)paths {
-    float minLat = FLT_MAX;
-    float minLon = -FLT_MAX;
-    float maxLat = 0;
-    float maxLon = 0;
-
-#warning test this out
-//    MKMapRect zoomRect = MKMapRectNull;
-//    for (id <MKAnnotation> annotation in mapView.annotations)
-//    {
-//        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
-//        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
-//        zoomRect = MKMapRectUnion(zoomRect, pointRect);
-//    }
-//    [mapView setVisibleMapRect:zoomRect animated:YES];
-    
-    // Loop through all paths and find the min lat/lon and max lat/lon
++ (MKMapRect)rectForPaths:(NSArray *)paths {
+    MKMapRect zoomRect = MKMapRectNull;
     for (NSDictionary *path in paths) {
         NSArray *points = path[@"point"];
         for (NSDictionary *point in points) {
             float lat = [point[@"lat"] floatValue];
             float lon = [point[@"lon"] floatValue];
             
-            minLat = fminf(minLat, lat);
-            minLon = fmaxf(minLon, lon);
-            
-            maxLat = fmaxf(maxLat, lat);
-            maxLon = fminf(maxLon, lon);
+            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
+            MKMapPoint mapPoint = MKMapPointForCoordinate(coordinate);
+            MKMapRect pointRect = MKMapRectMake(mapPoint.x, mapPoint.y, 0, 0);
+            zoomRect = MKMapRectUnion(zoomRect, pointRect);
         }
     }
     
-    CLLocationCoordinate2D coordinateMin = CLLocationCoordinate2DMake(minLat, minLon);
-    CLLocationCoordinate2D coordinateMax = CLLocationCoordinate2DMake(maxLat, maxLon);
-    
-    MKMapPoint lowerLeft = MKMapPointForCoordinate(coordinateMin);
-    MKMapPoint upperRight = MKMapPointForCoordinate(coordinateMax);
-    
-    MKMapRect mapRect = MKMapRectMake(lowerLeft.x, lowerLeft.y, upperRight.x - lowerLeft.x, upperRight.y - lowerLeft.y);
-    
-    MKCoordinateRegion region = MKCoordinateRegionForMapRect(mapRect);
-    region.span.latitudeDelta = maxLat - minLat + kMapRegionPadding;
-    region.span.longitudeDelta = minLon - maxLon + kMapRegionPadding;
-    
-    return region;
+    return zoomRect;
 }
 
 - (NSString *)description {

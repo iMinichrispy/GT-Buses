@@ -131,6 +131,8 @@
     return cancelButton;
 }
 
+#warning UIAccessibilityReduceTransparencyStatusDidChangeNotification
+
 #pragma mark - Search
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {

@@ -16,7 +16,7 @@
 
 static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 
-@interface GBBuildingCell : UITableViewCell
+@interface GBBuildingCell : UITableViewCell <GBTintColorDelegate>
 
 @end
 
@@ -28,9 +28,6 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
         if ([[UIDevice currentDevice] supportsVisualEffects])
             self.backgroundColor = [UIColor clearColor];
         
-        self.textLabel.textColor = [UIColor appTintColor];
-//        self.detailTextLabel.textColor = [UIColor appTintColor];
-        
         UIView *selectedView = [[UIView alloc] init];
         selectedView.backgroundColor = [[UIColor appTintColor] colorWithAlphaComponent:.5];
         self.selectedBackgroundView = selectedView;
@@ -39,9 +36,13 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 }
 
 - (BOOL)canBecomeFirstResponder {
+    // Allows for UIMenuController to become visible over a cell
     return YES;
 }
 
+- (void)updateTintColor {
+    self.textLabel.textColor = [UIColor appTintColor];
+}
 
 @end
 
@@ -125,6 +126,11 @@ const float UITableDefaultRowHeight = 44.0;
 
 - (void)updateTintColor:(NSNotification *)notification {
     self.tableView.sectionIndexColor = [UIColor appTintColor];
+    for (UITableViewCell *cell in self.tableView.visibleCells) {
+        if ([cell conformsToProtocol:@protocol(GBTintColorDelegate)]) {
+            [((id<GBTintColorDelegate>)cell) updateTintColor];
+        }
+    }
 }
 
 #pragma mark - Table view data source
@@ -184,7 +190,9 @@ const float UITableDefaultRowHeight = 44.0;
     GBBuilding *building = [self buildingForIndexPath:indexPath];
     
     cell.textLabel.text = building.name;
+    cell.textLabel.textColor = [UIColor appTintColor];
     cell.detailTextLabel.text = building.address;
+    
     
     UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [cell addGestureRecognizer:recognizer];
@@ -307,7 +315,7 @@ const float UITableDefaultRowHeight = 44.0;
         
         [self.view addSubview:_errorLabel];
     } else if (!show && _errorLabel) {
-        // Hide the Error Found label
+        // Hide the Error label
         [_errorLabel removeFromSuperview];
         _errorLabel = nil;
     }
@@ -316,6 +324,7 @@ const float UITableDefaultRowHeight = 44.0;
 #pragma mark - Menu controller
 
 - (BOOL)canBecomeFirstResponder {
+    // Allows for UIMenuController to become visible over a cell
     return YES;
 }
 
@@ -326,7 +335,13 @@ const float UITableDefaultRowHeight = 44.0;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         _selectedBuilding = [self buildingForIndexPath:indexPath];
         
-        UIMenuItem *call = [[UIMenuItem alloc] initWithTitle:_selectedBuilding.phone action:@selector(call:)];
+        NSString *title;
+        if ([_selectedBuilding hasPhoneNumer])
+            title = _selectedBuilding.phone;
+        else
+            title = NSLocalizedString(@"NO_PHONE_NUMBER", @"Building has no phone number");
+        
+        UIMenuItem *call = [[UIMenuItem alloc] initWithTitle:title action:@selector(call:)];
         UIMenuController *menu = [UIMenuController sharedMenuController];
         [menu setMenuItems:@[call]];
         [menu setTargetRect:cell.frame inView:cell.superview];

@@ -18,6 +18,8 @@
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
+        self.alpha = .9;
+        
         _busRouteControl = [[GBSegmentedControl alloc] init];
         _busRouteControl.translatesAutoresizingMaskIntoConstraints = NO;
         
