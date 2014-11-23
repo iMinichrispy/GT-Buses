@@ -56,6 +56,7 @@
     self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuStateEventOccurred:) name:MFSideMenuStateNotificationEvent object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reduceTransparencyDidChange:) name:UIAccessibilityReduceTransparencyStatusDidChangeNotification object:nil];
     
     self.navigationItem.leftBarButtonItem = [self aboutButton];
     self.navigationItem.rightBarButtonItem = [self searchButton];
@@ -130,8 +131,6 @@
     cancelButton.tintColor = [UIColor controlTintColor];
     return cancelButton;
 }
-
-#warning UIAccessibilityReduceTransparencyStatusDidChangeNotification
 
 #pragma mark - Search
 
@@ -256,6 +255,12 @@
     GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
     [_mapViewController.mapView addAnnotation:annotation];
     [_mapViewController.mapView selectAnnotation:annotation animated:YES];
+}
+
+- (void)reduceTransparencyDidChange:(NSNotification *)notification {
+    // Since buildings controller uses a blur effect, set it to nil so that it is re-initialized the next time the search button is pressed. (The buildings controller initializer accounts for the reduce transparency accessibility setting).
+    [self hideSearchBar];
+    _buildingsController = nil;
 }
 
 @end

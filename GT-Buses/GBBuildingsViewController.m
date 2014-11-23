@@ -27,10 +27,6 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     if (self) {
         if ([[UIDevice currentDevice] supportsVisualEffects])
             self.backgroundColor = [UIColor clearColor];
-        
-        UIView *selectedView = [[UIView alloc] init];
-        selectedView.backgroundColor = [[UIColor appTintColor] colorWithAlphaComponent:.5];
-        self.selectedBackgroundView = selectedView;
     }
     return self;
 }
@@ -42,6 +38,10 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 
 - (void)updateTintColor {
     self.textLabel.textColor = [UIColor appTintColor];
+    
+    UIView *selectedView = [[UIView alloc] init];
+    selectedView.backgroundColor = [[UIColor appTintColor] colorWithAlphaComponent:.5];
+    self.selectedBackgroundView = selectedView;
 }
 
 @end
@@ -107,10 +107,6 @@ const float UITableDefaultRowHeight = 44.0;
     if ([self.tableView respondsToSelector:@selector(setKeyboardDismissMode:)]) {
         self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
-    
-    UIMenuItem *favorite = [[UIMenuItem alloc] initWithTitle:@"Cool bruh" action:@selector(call:)];
-    UIMenuController *menu = [UIMenuController sharedMenuController];
-    [menu setMenuItems:@[favorite]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -126,11 +122,7 @@ const float UITableDefaultRowHeight = 44.0;
 
 - (void)updateTintColor:(NSNotification *)notification {
     self.tableView.sectionIndexColor = [UIColor appTintColor];
-    for (UITableViewCell *cell in self.tableView.visibleCells) {
-        if ([cell conformsToProtocol:@protocol(GBTintColorDelegate)]) {
-            [((id<GBTintColorDelegate>)cell) updateTintColor];
-        }
-    }
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -190,9 +182,9 @@ const float UITableDefaultRowHeight = 44.0;
     GBBuilding *building = [self buildingForIndexPath:indexPath];
     
     cell.textLabel.text = building.name;
-    cell.textLabel.textColor = [UIColor appTintColor];
     cell.detailTextLabel.text = building.address;
     
+    [(GBBuildingCell *)cell updateTintColor];
     
     UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [cell addGestureRecognizer:recognizer];
@@ -208,6 +200,12 @@ const float UITableDefaultRowHeight = 44.0;
         [_delegate didSelectBuilding:building];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    view.tintColor = [UIColor appTintColor];
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor whiteColor]];
 }
 
 #pragma mark - Request Handler

@@ -11,6 +11,7 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 - Notification remove observer
 - Ordering for favorites is not maintained
     - Fixed wen switched from Set to array - see if duplicates are affected
+- Support accessibility text
 
 iOS 8:
 - Add extension
@@ -117,6 +118,7 @@ v2.0
 - Restructured requesthandler errors
 - Added visualeffectview to search table
 - Tap and hold building cell to call
+- Changed way map region is calculated for rout - also allowed for enabling alpha on bus route control
 
 ## Debug Target Differences
 

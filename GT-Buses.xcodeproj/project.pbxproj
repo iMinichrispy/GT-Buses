@@ -357,6 +357,7 @@
 				FA8C118A19D30758008F5927 /* GBRootViewController.m */,
 				FA15FC8A1A1D8DFF00C175AB /* GBMapViewController.h */,
 				FA15FC8B1A1D8DFF00C175AB /* GBMapViewController.m */,
+				FA15FC8D1A1D95B700C175AB /* GBMapViewController+Private.h */,
 				FA15FC901A1DA1A800C175AB /* GBBuildingsViewController.h */,
 				FA15FC911A1DA1A800C175AB /* GBBuildingsViewController.m */,
 				FADE7D141967605B00F318D5 /* GBRequestHandler.h */,
