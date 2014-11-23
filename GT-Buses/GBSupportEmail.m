@@ -9,10 +9,9 @@
 #import "GBSupportEmail.h"
 
 #import "GBConstants.h"
-#import <sys/utsname.h>
+#import "UIDevice+Hardware.h"
 
 @import CoreLocation;
-
 
 @implementation GBSupportEmail
 
@@ -46,17 +45,11 @@
         [deviceInfo appendFormat:@"Version: %@\n", info[@"CFBundleShortVersionString"]];
         [deviceInfo appendFormat:@"Build: %@\n", info[@"CFBundleVersion"]];
         [deviceInfo appendFormat:@"Model: %@\n", [[UIDevice currentDevice] model]];
-        [deviceInfo appendFormat:@"Model Identifier: %@\n", [self machineName]];
+        [deviceInfo appendFormat:@"Model Identifier: %@\n", [[UIDevice currentDevice] machineName]];
         [deviceInfo appendFormat:@"System: %@ %@\n", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
         [deviceInfo appendFormat:@"Language: %@\n", [[NSLocale currentLocale] localeIdentifier]];
     }
     return deviceInfo;
-}
-
-+ (NSString *)machineName {
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 }
 
 @end

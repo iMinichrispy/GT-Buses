@@ -50,11 +50,8 @@
 }
 
 - (void)updateLayout {
-    // To be overriden?
-}
-
-- (void)toggleVisible {
-    
+    // To be overriden by sublasses
+    // Subclasses should organize and display stops here
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
@@ -92,7 +89,7 @@
         if (predictions) {
             if (![predictions isKindOfClass:[NSArray class]])
                 predictions = [NSArray arrayWithObject:predictions];
-            
+#warning some predictions labels could still have Loading... b/c text isn't set for all
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBStopView class]];
             NSArray *stopViews = [_sectionView.stopsView.subviews filteredArrayUsingPredicate:predicate];
             

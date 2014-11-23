@@ -24,5 +24,13 @@
 #endif
 
 + (NSString *)errorStringForCode:(NSInteger)code;
++ (BOOL)isNextBusError:(NSDictionary *)dictionary;
+
+extern NSString * const GBRequestErrorDomain;
+
+enum {
+    GBRequestParseError = 2923,
+    GBRequestNextbusError = 2943,
+};
 
 @end

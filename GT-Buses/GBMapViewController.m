@@ -62,7 +62,6 @@ int const kRefreshInterval = 5;
         
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
-        [self showUserLocation];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(togglePartyMode:) name:GBNotificationPartyModeDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
@@ -83,18 +82,9 @@ int const kRefreshInterval = 5;
 #else
     UIView *contentView = _mapView;
 #endif
-    
     NSMutableArray *constraints = [NSMutableArray new];
-    [constraints addObjectsFromArray:[NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"H:|[contentView]|"
-                                      options:0
-                                      metrics:nil
-                                      views:NSDictionaryOfVariableBindings(contentView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"H:|[_busRouteControlView]|"
-                                      options:0
-                                      metrics:nil
-                                      views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_busRouteControlView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint
                                       constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][contentView]|"
                                       options:0
@@ -109,7 +99,7 @@ int const kRefreshInterval = 5;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (IS_IPAD) {
+    if (ROTATION_ENABLED) {
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
@@ -156,7 +146,6 @@ int const kRefreshInterval = 5;
     [_busRouteControlView.activityIndicator stopAnimating];
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
-    
     if (!error && dictionary) {
         _busRouteControlView.errorLabel.hidden = YES;
         _busRouteControlView.busRouteControl.hidden = NO;
@@ -164,7 +153,7 @@ int const kRefreshInterval = 5;
         
         if (handler.task == GBRequestRouteConfigTask) {
             // Not as big of an issue if predictions or locations fail due to nextbus
-            if (![self isNextBusError:dictionary]) {
+            if (![GBRequestHandler isNextBusError:dictionary]) {
                 GBRoute *selectedRoute = [self selectedRoute];
                 // Prevents duplicate routes from being added to route segmented control in case connection is slow and route config is requested multiple times
                 if (!selectedRoute) {
@@ -188,8 +177,9 @@ int const kRefreshInterval = 5;
                     [self didChangeBusRoute];
                 }
             } else {
-                if ([_refreshTimer isValid]) [_refreshTimer invalidate];
-                [self handleError:nil code:NEXBUS_ERROR_CODE message:@"Nextbus Error"];
+                [self invalidateRefreshTimer];
+                NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestNextbusError userInfo:nil];
+                [self handleError:handler error:error];
             }
         } else if (handler.task == GBRequestVehicleLocationsTask) {
             [self checkForMessages:dictionary];
@@ -291,24 +281,18 @@ int const kRefreshInterval = 5;
             
             // check message id
         }
-    } else [self handleError:handler code:PARSE_ERROR_CODE message:@"Parsing Error"];
-}
-
-- (BOOL)isNextBusError:(NSDictionary *)dictionary {
-    NSDictionary *nextBusError = dictionary[@"body"][@"Error"];
-    if (nextBusError) {
-        return YES;
+    } else  {
+        NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
+        [self handleError:handler error:error];
     }
-    return NO;
 }
 
-- (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message {
+- (void)handleError:(RequestHandler *)handler error:(NSError *)error {
     [_busRouteControlView.activityIndicator stopAnimating];
     _busRouteControlView.errorLabel.hidden = NO;
     _busRouteControlView.busRouteControl.hidden = YES;
     _busRouteControlView.refreshButton.hidden = NO;
-    
-    _busRouteControlView.errorLabel.text = [GBRequestHandler errorStringForCode:code];
+    _busRouteControlView.errorLabel.text = [GBRequestHandler errorStringForCode:[error code]];
 }
 
 - (GBRoute *)selectedRoute {
@@ -321,7 +305,7 @@ int const kRefreshInterval = 5;
     if (selectedRoute) {
 #if APP_STORE_MAP
         [_mapView showBusesWithRoute:selectedRoute];
-        if ([refreshTimer isValid]) [refreshTimer invalidate];
+        [self invalidateRefreshTimer];
 #else
         GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithTask:GBRequestVehicleLocationsTask delegate:self];
         [locationHandler locationsForRoute:selectedRoute.tag];
@@ -386,7 +370,7 @@ int const kRefreshInterval = 5;
 #else
         stopAnnotation.title = stop.title;
 #endif
-        stopAnnotation.subtitle = @"No Predictions";
+        stopAnnotation.subtitle = NSLocalizedString(@"NO_PREDICTIONS", @"No predictions for stop");
         [stopAnnotation setCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon)];
         [_mapView addAnnotation:stopAnnotation];
 #if APP_STORE_MAP
@@ -455,6 +439,7 @@ int const kRefreshInterval = 5;
 - (void)resetRefreshTimer {
     if (![_refreshTimer isValid])
         _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshInterval target:self selector:@selector(requestUpdate) userInfo:nil repeats:YES];
+    _refreshTimer.tolerance = 1; // Improves power efficiency
     [self requestUpdate];
 }
 

@@ -12,6 +12,7 @@
 #import "GBBusAnnotation.h"
 #import "GBColors.h"
 #import "GBBus.h"
+#import "GBStop.h"
 
 @implementation MKMapView (AppStoreMap)
 
@@ -41,9 +42,12 @@
 }
 
 + (NSString *)predictionsStringForRoute:(GBRoute *)route {
-    if ([route.tag isEqualToString:@"red"]) return @"Next: 1, 5, 9";
-    else if ([route.tag isEqualToString:@"blue"]) return @"Next: 1, 7, 10";
-    return @"No Predictions";
+    NSArray *predictions;
+    if ([route.tag isEqualToString:@"red"])
+        predictions = @[@{@"minutes":@1}, @{@"minutes":@5}, @{@"minutes":@9}];
+    else if ([route.tag isEqualToString:@"blue"])
+        predictions = @[@{@"minutes":@1}, @{@"minutes":@7}, @{@"minutes":@10}];
+    return [GBStop predictionsStringForPredictions:predictions];
 }
 
 + (NSString *)selectedStopTagForRoute:(GBRoute *)route {

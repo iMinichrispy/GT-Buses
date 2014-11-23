@@ -1,4 +1,4 @@
-//
+///
 //  TodayViewController.h
 //  GT-Buses Favorites
 //
@@ -6,8 +6,10 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
-@interface TodayViewController : UIViewController
+#import "GBExtensionViewController.h"
+
+@interface TodayViewController : GBExtensionViewController
 
 @end

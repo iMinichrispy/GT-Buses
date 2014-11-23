@@ -15,7 +15,7 @@
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data;
 
 @optional
-- (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message;
+- (void)handleError:(RequestHandler *)handler error:(NSError *)error;
 
 @end
 
@@ -28,6 +28,6 @@
 - (instancetype)initWithTask:(NSString *)task delegate:(id<RequestHandlerDelegate>)delegate;
 - (void)getRequestWithURL:(NSString *)url;
 - (void)postRequestWithURL:(NSString *)url postData:(NSData *)postData;
-- (void)handleErrorCode:(NSInteger)code message:(NSString *)message;
+- (void)handleError:(NSError *)error;
 
 @end

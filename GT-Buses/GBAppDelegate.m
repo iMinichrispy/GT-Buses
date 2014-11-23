@@ -30,4 +30,11 @@
     return YES;
 }
 
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    if (ROTATION_ENABLED)
+        return UIInterfaceOrientationMaskAll;
+    
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 @end

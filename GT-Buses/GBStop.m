@@ -53,7 +53,7 @@
 
 + (NSString *)predictionsStringForPredictions:(NSArray *)predictions {
     if ([predictions count]) {
-        NSMutableString *predictionsString = [NSMutableString stringWithString:@"In "];
+        NSMutableString *predictionsString = [NSMutableString stringWithString:NSLocalizedString(@"PREDICTIONS_IN", @"In x, y, ...")];
         NSDictionary *lastPredication = [predictions lastObject];
         for (NSDictionary *prediction in predictions) {
 #if DEBUG
@@ -70,7 +70,7 @@
         return predictionsString;
     }
     
-    return @"No Predictions";
+    return NSLocalizedString(@"NO_PREDICTIONS", @"No predictions for stop");
 }
 
 @end

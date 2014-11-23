@@ -26,6 +26,8 @@
 @property (nonatomic) double lon;
 
 - (instancetype)initWithName:(NSString *)name buildingID:(NSString *)buildingID;
+- (BOOL)hasPhoneNumer;
+- (NSString *)dialablePhoneNumber;
 - (NSDictionary *)toDictionary;
 
 @end

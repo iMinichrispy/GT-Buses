@@ -10,7 +10,7 @@
 		FA0B9C0C1A11BABD005197CC /* GBSideBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0B9C0B1A11BABD005197CC /* GBSideBarItem.m */; };
 		FA15FC8C1A1D8DFF00C175AB /* GBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC8B1A1D8DFF00C175AB /* GBMapViewController.m */; };
 		FA15FC921A1DA1A800C175AB /* GBBuildingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC911A1DA1A800C175AB /* GBBuildingsViewController.m */; };
-		FA15FCD51A1856F6008FA394 /* GBSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FCD41A1856F6008FA394 /* GBSectionView.m */; };
+        FA15FC951A1DB14A00C175AB /* GBBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC941A1DB14A00C175AB /* GBBuilding.m */; };
 		FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA1FE93218A1D8A300757643 /* InfoPlist.strings */; };
 		FA1FE93618A1D8A300757643 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE93518A1D8A300757643 /* main.m */; };
 		FA1FE93A18A1D8A300757643 /* GBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE93918A1D8A300757643 /* GBAppDelegate.m */; };
@@ -25,18 +25,11 @@
 		FA1FE97C18A1D9C600757643 /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
 		FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
 		FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
-		FA2B6FC11A14020F00C60449 /* GBStopView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC01A14020F00C60449 /* GBStopView.m */; };
 		FA2B6FC41A1430BA00C60449 /* GBStop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC31A1430BA00C60449 /* GBStop.m */; };
-		FA2B6FC51A143EC000C60449 /* GBStop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC31A1430BA00C60449 /* GBStop.m */; };
-		FA2B6FC61A14413E00C60449 /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
-		FA2B6FC81A14513500C60449 /* GBRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D151967605B00F318D5 /* GBRequestHandler.m */; };
-		FA2B6FC91A14521C00C60449 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
-		FA2B6FCA1A14523500C60449 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
-		FA2DAB8D1A1847B400284DDE /* GBConstraintHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2DAB8C1A1847B400284DDE /* GBConstraintHelper.m */; };
-		FA40846B1A19A7EB00F9B742 /* GBErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA40846A1A19A7EB00F9B742 /* GBErrorView.m */; };
-        FA70055A1A1F012D00694D10 /* GBMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7005591A1F012D00694D10 /* GBMapView.m */; };
+		FA5531491A20E75300BAFB90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA5531451A20E75300BAFB90 /* InfoPlist.strings */; };
+		FA55314A1A20E75300BAFB90 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA5531471A20E75300BAFB90 /* Localizable.strings */; };
+		FA70055A1A1F012D00694D10 /* GBMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7005591A1F012D00694D10 /* GBMapView.m */; };
 		FA7005601A1F0AD300694D10 /* GBBus.m in Sources */ = {isa = PBXBuildFile; fileRef = FA70055F1A1F0AD300694D10 /* GBBus.m */; };
-		FA7254B91A158E70000EECE4 /* GBSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7254B81A158E70000EECE4 /* GBSectionHeaderView.m */; };
 		FA75CFD31A13CD27000B9CD6 /* GBFavoriteButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75CFD21A13CD27000B9CD6 /* GBFavoriteButton.m */; };
 		FA8A287719C7485900B02EDA /* Predictions.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287519C7485900B02EDA /* Predictions.xml */; };
 		FA8A287B19C7487500B02EDA /* Locations.xml in Resources */ = {isa = PBXBuildFile; fileRef = FA8A287919C7487500B02EDA /* Locations.xml */; };
@@ -49,17 +42,49 @@
 		FAA1234518A523170049A5FA /* GBAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234418A523170049A5FA /* GBAboutController.m */; };
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
 		FAA7B6B81A194F1200CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
-		FAA7B6B91A19549B00CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
-		FAA7B6BA1A1962BD00CB8FB2 /* GBRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96C18A1D9A400757643 /* GBRoute.m */; };
-		FAA7B6BE1A197A4D00CB8FB2 /* GBStopGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6BC1A19784E00CB8FB2 /* GBStopGroup.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
-		FAB249531A13FCC800147FEF /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA201A519BE703900FA1E7D /* NotificationCenter.framework */; };
-		FAB249591A13FCC800147FEF /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB249581A13FCC800147FEF /* TodayViewController.m */; };
-		FAB2495B1A13FCC800147FEF /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAB2495A1A13FCC800147FEF /* MainInterface.storyboard */; };
-		FAB2495E1A13FCC800147FEF /* GT-Buses Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		FAB249631A13FCF300147FEF /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */; };
 		FAC396CF1A1EE16E00B79004 /* GBBuildingAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC396CE1A1EE16E00B79004 /* GBBuildingAnnotation.m */; };
+		FAC480161A2004D20000DC6B /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA201A519BE703900FA1E7D /* NotificationCenter.framework */; };
+		FAC4801C1A2004D20000DC6B /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4801B1A2004D20000DC6B /* TodayViewController.m */; };
+		FAC4801E1A2004D20000DC6B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAC4801D1A2004D20000DC6B /* MainInterface.storyboard */; };
+		FAC480211A2004D20000DC6B /* GT-Buses Favorites.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FAC480151A2004D20000DC6B /* GT-Buses Favorites.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FAC480321A2008DE0000DC6B /* GBRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D151967605B00F318D5 /* GBRequestHandler.m */; };
+		FAC480331A2008EA0000DC6B /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
+		FAC480341A2009550000DC6B /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
+		FAC480371A200F3E0000DC6B /* GBRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96C18A1D9A400757643 /* GBRoute.m */; };
+		FAC480381A200F400000DC6B /* GBStop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC31A1430BA00C60449 /* GBStop.m */; };
+		FAC480391A200F550000DC6B /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
+		FAC4803A1A200F770000DC6B /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
+		FAC4803B1A20105F0000DC6B /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
+		FAC480411A2013790000DC6B /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA201A519BE703900FA1E7D /* NotificationCenter.framework */; };
+		FAC480471A2013790000DC6B /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480461A2013790000DC6B /* TodayViewController.m */; };
+		FAC480491A2013790000DC6B /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAC480481A2013790000DC6B /* MainInterface.storyboard */; };
+		FAC4804C1A2013790000DC6B /* GT-Buses Nearby.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FAC480401A2013790000DC6B /* GT-Buses Nearby.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FAC480531A2017880000DC6B /* GBRoute.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE96C18A1D9A400757643 /* GBRoute.m */; };
+		FAC480541A20178A0000DC6B /* GBStop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC31A1430BA00C60449 /* GBStop.m */; };
+		FAC480551A20178C0000DC6B /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
+		FAC480561A20179C0000DC6B /* GBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D0A1967504600F318D5 /* GBConstants.m */; };
+		FAC480581A2017A60000DC6B /* GBRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D151967605B00F318D5 /* GBRequestHandler.m */; };
+		FAC480591A2017AB0000DC6B /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
+		FAC4805A1A2017AF0000DC6B /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
+		FAC4805B1A2017B90000DC6B /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
+		FAC480831A201B330000DC6B /* Extension.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAC480741A201B330000DC6B /* Extension.xcassets */; };
+		FAC480841A201B330000DC6B /* Extension.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAC480741A201B330000DC6B /* Extension.xcassets */; };
+		FAC480851A201B330000DC6B /* GBConstraintHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480761A201B330000DC6B /* GBConstraintHelper.m */; };
+		FAC480861A201B330000DC6B /* GBConstraintHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480761A201B330000DC6B /* GBConstraintHelper.m */; };
+		FAC480871A201B330000DC6B /* GBErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480781A201B330000DC6B /* GBErrorView.m */; };
+		FAC480881A201B330000DC6B /* GBErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480781A201B330000DC6B /* GBErrorView.m */; };
+		FAC480891A201B330000DC6B /* GBExtensionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807A1A201B330000DC6B /* GBExtensionViewController.m */; };
+		FAC4808A1A201B330000DC6B /* GBExtensionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807A1A201B330000DC6B /* GBExtensionViewController.m */; };
+		FAC4808B1A201B330000DC6B /* GBSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807C1A201B330000DC6B /* GBSectionHeaderView.m */; };
+		FAC4808C1A201B330000DC6B /* GBSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807C1A201B330000DC6B /* GBSectionHeaderView.m */; };
+		FAC4808D1A201B330000DC6B /* GBSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807E1A201B330000DC6B /* GBSectionView.m */; };
+		FAC4808E1A201B330000DC6B /* GBSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807E1A201B330000DC6B /* GBSectionView.m */; };
+		FAC4808F1A201B330000DC6B /* GBStopGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480801A201B330000DC6B /* GBStopGroup.m */; };
+		FAC480901A201B330000DC6B /* GBStopGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480801A201B330000DC6B /* GBStopGroup.m */; };
+		FAC480911A201B330000DC6B /* GBStopView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480821A201B330000DC6B /* GBStopView.m */; };
+		FAC480921A201B330000DC6B /* GBStopView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480821A201B330000DC6B /* GBStopView.m */; };
 		FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */; };
 		FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD597C01A12C66E0079B36C /* GBWindow.m */; };
 		FAD6A3401A1CE4F500D98955 /* GBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6A33F1A1CE4F500D98955 /* GBImage.m */; };
@@ -70,6 +95,9 @@
 		FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FADE7D151967605B00F318D5 /* GBRequestHandler.m */; };
 		FAE505801A186B7800427C16 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAE5057F1A186B7800427C16 /* Media.xcassets */; };
 		FAEA8A1D1A2D67C600995A75 /* GBBusAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEA8A1C1A2D67C600995A75 /* GBBusAnnotationView.m */; };
+		FAE6B6F01A21540D00A49E68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA5531471A20E75300BAFB90 /* Localizable.strings */; };
+		FAE6B6F11A21540E00A49E68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA5531471A20E75300BAFB90 /* Localizable.strings */; };
+		FAF453B91A2141E7005A16A9 /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF453B81A2141E7005A16A9 /* UIDevice+Hardware.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,12 +108,19 @@
 			remoteGlobalIDString = FA1FE92518A1D8A300757643;
 			remoteInfo = "GT-Buses";
 		};
-		FAB2495C1A13FCC800147FEF /* PBXContainerItemProxy */ = {
+		FAC4801F1A2004D20000DC6B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FA1FE91E18A1D8A300757643 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = FAB249511A13FCC800147FEF;
-			remoteInfo = "GT-Buses Extension";
+			remoteGlobalIDString = FAC480141A2004D20000DC6B;
+			remoteInfo = "GT-Buses Favorites";
+		};
+		FAC4804A1A2013790000DC6B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA1FE91E18A1D8A300757643 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FAC4803F1A2013790000DC6B;
+			remoteInfo = "GT-Buses Nearby";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -96,7 +131,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				FAB2495E1A13FCC800147FEF /* GT-Buses Extension.appex in Embed App Extensions */,
+				FAC4804C1A2013790000DC6B /* GT-Buses Nearby.appex in Embed App Extensions */,
+				FAC480211A2004D20000DC6B /* GT-Buses Favorites.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,8 +144,11 @@
 		FA0B9C0B1A11BABD005197CC /* GBSideBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSideBarItem.m; sourceTree = "<group>"; };
 		FA15FC8A1A1D8DFF00C175AB /* GBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBMapViewController.h; sourceTree = "<group>"; };
 		FA15FC8B1A1D8DFF00C175AB /* GBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBMapViewController.m; sourceTree = "<group>"; };
+        FA15FC8D1A1D95B700C175AB /* GBMapViewController+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GBMapViewController+Private.h"; sourceTree = "<group>"; };
 		FA15FC901A1DA1A800C175AB /* GBBuildingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBuildingsViewController.h; sourceTree = "<group>"; };
 		FA15FC911A1DA1A800C175AB /* GBBuildingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBuildingsViewController.m; sourceTree = "<group>"; };
+        FA15FC931A1DB14A00C175AB /* GBBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBuilding.h; sourceTree = "<group>"; };
+        FA15FC941A1DB14A00C175AB /* GBBuilding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBuilding.m; sourceTree = "<group>"; };
 		FA15FCD31A1856F6008FA394 /* GBSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSectionView.h; sourceTree = "<group>"; };
 		FA15FCD41A1856F6008FA394 /* GBSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSectionView.m; sourceTree = "<group>"; };
 		FA1FE92618A1D8A300757643 /* GT-Buses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GT-Buses.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,21 +179,15 @@
 		FA1FE98018A1D9DD00757643 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		FA1FE98218A1D9F800757643 /* RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHandler.h; sourceTree = "<group>"; };
 		FA1FE98318A1D9F800757643 /* RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHandler.m; sourceTree = "<group>"; };
-		FA2B6FBF1A14020F00C60449 /* GBStopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBStopView.h; sourceTree = "<group>"; };
-		FA2B6FC01A14020F00C60449 /* GBStopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBStopView.m; sourceTree = "<group>"; };
 		FA2B6FC21A1430BA00C60449 /* GBStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBStop.h; sourceTree = "<group>"; };
 		FA2B6FC31A1430BA00C60449 /* GBStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBStop.m; sourceTree = "<group>"; };
-		FA2DAB8B1A1847B400284DDE /* GBConstraintHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConstraintHelper.h; sourceTree = "<group>"; };
-		FA2DAB8C1A1847B400284DDE /* GBConstraintHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConstraintHelper.m; sourceTree = "<group>"; };
 		FA3C921719AA8AD300CEC529 /* RouteConfig.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RouteConfig.xml; sourceTree = "<group>"; };
-		FA4084691A19A7EB00F9B742 /* GBErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBErrorView.h; sourceTree = "<group>"; };
-		FA40846A1A19A7EB00F9B742 /* GBErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBErrorView.m; sourceTree = "<group>"; };
-        FA7005581A1F012D00694D10 /* GBMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBMapView.h; sourceTree = "<group>"; };
-        FA7005591A1F012D00694D10 /* GBMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBMapView.m; sourceTree = "<group>"; };
+		FA5531461A20E75300BAFB90 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		FA5531481A20E75300BAFB90 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		FA7005581A1F012D00694D10 /* GBMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBMapView.h; sourceTree = "<group>"; };
+		FA7005591A1F012D00694D10 /* GBMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBMapView.m; sourceTree = "<group>"; };
 		FA70055E1A1F0AD300694D10 /* GBBus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBus.h; sourceTree = "<group>"; };
 		FA70055F1A1F0AD300694D10 /* GBBus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBus.m; sourceTree = "<group>"; };
-		FA7254B71A158E70000EECE4 /* GBSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSectionHeaderView.h; sourceTree = "<group>"; };
-		FA7254B81A158E70000EECE4 /* GBSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSectionHeaderView.m; sourceTree = "<group>"; };
 		FA75CFD11A13CD27000B9CD6 /* GBFavoriteButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBFavoriteButton.h; sourceTree = "<group>"; };
 		FA75CFD21A13CD27000B9CD6 /* GBFavoriteButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBFavoriteButton.m; sourceTree = "<group>"; };
 		FA75CFEA1A13D163000B9CD6 /* GT-Buses.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "GT-Buses.entitlements"; sourceTree = "<group>"; };
@@ -179,20 +212,39 @@
 		FAA201A519BE703900FA1E7D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		FAA7B6B61A194F1200CB8FB2 /* GBDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBDirection.h; sourceTree = "<group>"; };
 		FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDirection.m; sourceTree = "<group>"; };
-		FAA7B6BB1A19784E00CB8FB2 /* GBStopGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GBStopGroup.h; path = "../GT-Buses/GBStopGroup.h"; sourceTree = "<group>"; };
-		FAA7B6BC1A19784E00CB8FB2 /* GBStopGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GBStopGroup.m; path = "../GT-Buses/GBStopGroup.m"; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
-		FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GT-Buses Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAB249561A13FCC800147FEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FAB249571A13FCC800147FEF /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
-		FAB249581A13FCC800147FEF /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
-		FAB2495A1A13FCC800147FEF /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
-		FAB249621A13FCCB00147FEF /* GT-Buses Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "GT-Buses Extension.entitlements"; sourceTree = "<group>"; };
 		FAB682D0199D436600C0BF89 /* UIViewController+GBMailComposer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+GBMailComposer.h"; sourceTree = "<group>"; };
 		FAB682D1199D436600C0BF89 /* UIViewController+GBMailComposer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+GBMailComposer.m"; sourceTree = "<group>"; };
 		FAC396CD1A1EE16E00B79004 /* GBBuildingAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBuildingAnnotation.h; sourceTree = "<group>"; };
 		FAC396CE1A1EE16E00B79004 /* GBBuildingAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBuildingAnnotation.m; sourceTree = "<group>"; };
+		FAC480151A2004D20000DC6B /* GT-Buses Favorites.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GT-Buses Favorites.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAC480191A2004D20000DC6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAC4801A1A2004D20000DC6B /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		FAC4801B1A2004D20000DC6B /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		FAC4801D1A2004D20000DC6B /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		FAC480261A2005460000DC6B /* GT-Buses Favorites.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "GT-Buses Favorites.entitlements"; sourceTree = "<group>"; };
+		FAC480401A2013790000DC6B /* GT-Buses Nearby.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "GT-Buses Nearby.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAC480441A2013790000DC6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FAC480451A2013790000DC6B /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		FAC480461A2013790000DC6B /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		FAC480481A2013790000DC6B /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
+		FAC480621A2019EC0000DC6B /* GT-Buses Nearby.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "GT-Buses Nearby.entitlements"; sourceTree = "<group>"; };
+		FAC480741A201B330000DC6B /* Extension.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Extension.xcassets; sourceTree = "<group>"; };
+		FAC480751A201B330000DC6B /* GBConstraintHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConstraintHelper.h; sourceTree = "<group>"; };
+		FAC480761A201B330000DC6B /* GBConstraintHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConstraintHelper.m; sourceTree = "<group>"; };
+		FAC480771A201B330000DC6B /* GBErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBErrorView.h; sourceTree = "<group>"; };
+		FAC480781A201B330000DC6B /* GBErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBErrorView.m; sourceTree = "<group>"; };
+		FAC480791A201B330000DC6B /* GBExtensionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBExtensionViewController.h; sourceTree = "<group>"; };
+		FAC4807A1A201B330000DC6B /* GBExtensionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBExtensionViewController.m; sourceTree = "<group>"; };
+		FAC4807B1A201B330000DC6B /* GBSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSectionHeaderView.h; sourceTree = "<group>"; };
+		FAC4807C1A201B330000DC6B /* GBSectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSectionHeaderView.m; sourceTree = "<group>"; };
+		FAC4807D1A201B330000DC6B /* GBSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSectionView.h; sourceTree = "<group>"; };
+		FAC4807E1A201B330000DC6B /* GBSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSectionView.m; sourceTree = "<group>"; };
+		FAC4807F1A201B330000DC6B /* GBStopGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBStopGroup.h; sourceTree = "<group>"; };
+		FAC480801A201B330000DC6B /* GBStopGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBStopGroup.m; sourceTree = "<group>"; };
+		FAC480811A201B330000DC6B /* GBStopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBStopView.h; sourceTree = "<group>"; };
+		FAC480821A201B330000DC6B /* GBStopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBStopView.m; sourceTree = "<group>"; };
 		FACFA1A01A0DAE2A00F3E2C3 /* GBConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConfig.h; sourceTree = "<group>"; };
 		FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConfig.m; sourceTree = "<group>"; };
 		FAD597BF1A12C66E0079B36C /* GBWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBWindow.h; sourceTree = "<group>"; };
@@ -210,6 +262,8 @@
 		FAE5057F1A186B7800427C16 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		FAEA8A1B1A2D67C600995A75 /* GBBusAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBusAnnotationView.h; sourceTree = "<group>"; };
 		FAEA8A1C1A2D67C600995A75 /* GBBusAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBusAnnotationView.m; sourceTree = "<group>"; };
+		FAF453B71A2141E7005A16A9 /* UIDevice+Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Hardware.h"; sourceTree = "<group>"; };
+		FAF453B81A2141E7005A16A9 /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,11 +281,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FAB2494F1A13FCC800147FEF /* Frameworks */ = {
+		FAC480121A2004D20000DC6B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAB249531A13FCC800147FEF /* NotificationCenter.framework in Frameworks */,
+				FAC480161A2004D20000DC6B /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAC4803D1A2013790000DC6B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC480411A2013790000DC6B /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,8 +325,10 @@
 				FA94503B19EC55620022DF7C /* README.md */,
 				FA1FE92F18A1D8A300757643 /* GT-Buses */,
 				FA1FE94118A1D8A300757643 /* Images.xcassets */,
+				FAC480731A201B330000DC6B /* Shared Extension */,
+				FAC480171A2004D20000DC6B /* GT-Buses Favorites */,
+				FAC480421A2013790000DC6B /* GT-Buses Nearby */,
 				FA1FE94E18A1D8A300757643 /* GT-BusesTests */,
-				FAB249541A13FCC800147FEF /* GT-Buses Extension */,
 				FAA201A419BE703900FA1E7D /* Frameworks */,
 				FA1FE92718A1D8A300757643 /* Products */,
 			);
@@ -275,7 +339,8 @@
 			children = (
 				FA1FE92618A1D8A300757643 /* GT-Buses.app */,
 				FA1FE94718A1D8A300757643 /* GT-BusesTests.xctest */,
-				FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */,
+				FAC480151A2004D20000DC6B /* GT-Buses Favorites.appex */,
+				FAC480401A2013790000DC6B /* GT-Buses Nearby.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -298,6 +363,8 @@
 				FADE7D151967605B00F318D5 /* GBRequestHandler.m */,
 				FAA1234318A523170049A5FA /* GBAboutController.h */,
 				FAA1234418A523170049A5FA /* GBAboutController.m */,
+				FAF453B71A2141E7005A16A9 /* UIDevice+Hardware.h */,
+				FAF453B81A2141E7005A16A9 /* UIDevice+Hardware.m */,
 				FA0B9C091A11BAAB005197CC /* Models */,
 				FAA1235518A57E150049A5FA /* Mail */,
 				FAA1235418A57E090049A5FA /* UI */,
@@ -313,6 +380,7 @@
 				FAA4EB9119A7BEB200AF68E3 /* RequestHandler */,
 				FAA1233818A520710049A5FA /* MFSideMenu */,
 				FA1FE97E18A1D9DD00757643 /* XMLReader */,
+				FA5531441A20E75300BAFB90 /* en.lproj */,
 				FA1FE93118A1D8A300757643 /* GT-Buses-Info.plist */,
 				FA1FE93218A1D8A300757643 /* InfoPlist.strings */,
 				FA1FE93518A1D8A300757643 /* main.m */,
@@ -376,6 +444,15 @@
 			path = XMLReader;
 			sourceTree = "<group>";
 		};
+		FA5531441A20E75300BAFB90 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA5531451A20E75300BAFB90 /* InfoPlist.strings */,
+				FA5531471A20E75300BAFB90 /* Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
 		FAA1233818A520710049A5FA /* MFSideMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -437,37 +514,80 @@
 			name = RequestHandler;
 			sourceTree = "<group>";
 		};
-		FAB249541A13FCC800147FEF /* GT-Buses Extension */ = {
+		FAC480171A2004D20000DC6B /* GT-Buses Favorites */ = {
 			isa = PBXGroup;
 			children = (
-				FAB249621A13FCCB00147FEF /* GT-Buses Extension.entitlements */,
-				FAB249571A13FCC800147FEF /* TodayViewController.h */,
-				FAB249581A13FCC800147FEF /* TodayViewController.m */,
-				FA4084691A19A7EB00F9B742 /* GBErrorView.h */,
-				FA40846A1A19A7EB00F9B742 /* GBErrorView.m */,
-				FA15FCD31A1856F6008FA394 /* GBSectionView.h */,
-				FA15FCD41A1856F6008FA394 /* GBSectionView.m */,
-				FAA7B6BB1A19784E00CB8FB2 /* GBStopGroup.h */,
-				FAA7B6BC1A19784E00CB8FB2 /* GBStopGroup.m */,
-				FA2B6FBF1A14020F00C60449 /* GBStopView.h */,
-				FA2B6FC01A14020F00C60449 /* GBStopView.m */,
-				FA7254B71A158E70000EECE4 /* GBSectionHeaderView.h */,
-				FA7254B81A158E70000EECE4 /* GBSectionHeaderView.m */,
-				FAB2495A1A13FCC800147FEF /* MainInterface.storyboard */,
-				FAB249551A13FCC800147FEF /* Supporting Files */,
-				FA2DAB8B1A1847B400284DDE /* GBConstraintHelper.h */,
-				FA2DAB8C1A1847B400284DDE /* GBConstraintHelper.m */,
-				FAE5057F1A186B7800427C16 /* Media.xcassets */,
+				FAC480261A2005460000DC6B /* GT-Buses Favorites.entitlements */,
+				FAC4801A1A2004D20000DC6B /* TodayViewController.h */,
+				FAC4801B1A2004D20000DC6B /* TodayViewController.m */,
+				FAC4801D1A2004D20000DC6B /* MainInterface.storyboard */,
+				FAC480181A2004D20000DC6B /* Supporting Files */,
 			);
-			path = "GT-Buses Extension";
+			path = "GT-Buses Favorites";
 			sourceTree = "<group>";
 		};
-		FAB249551A13FCC800147FEF /* Supporting Files */ = {
+		FAC480181A2004D20000DC6B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				FAB249561A13FCC800147FEF /* Info.plist */,
+				FAC480191A2004D20000DC6B /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FAC480421A2013790000DC6B /* GT-Buses Nearby */ = {
+			isa = PBXGroup;
+			children = (
+				FAC480621A2019EC0000DC6B /* GT-Buses Nearby.entitlements */,
+				FAC480451A2013790000DC6B /* TodayViewController.h */,
+				FAC480461A2013790000DC6B /* TodayViewController.m */,
+				FAC480481A2013790000DC6B /* MainInterface.storyboard */,
+				FAC480431A2013790000DC6B /* Supporting Files */,
+			);
+			path = "GT-Buses Nearby";
+			sourceTree = "<group>";
+		};
+		FAC480431A2013790000DC6B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FAC480441A2013790000DC6B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FAC480731A201B330000DC6B /* Shared Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FAC480741A201B330000DC6B /* Extension.xcassets */,
+				FAC480791A201B330000DC6B /* GBExtensionViewController.h */,
+				FAC4807A1A201B330000DC6B /* GBExtensionViewController.m */,
+				FAC480751A201B330000DC6B /* GBConstraintHelper.h */,
+				FAC480761A201B330000DC6B /* GBConstraintHelper.m */,
+				FAC480771A201B330000DC6B /* GBErrorView.h */,
+				FAC480781A201B330000DC6B /* GBErrorView.m */,
+				FAC4807B1A201B330000DC6B /* GBSectionHeaderView.h */,
+				FAC4807C1A201B330000DC6B /* GBSectionHeaderView.m */,
+				FAC4807D1A201B330000DC6B /* GBSectionView.h */,
+				FAC4807E1A201B330000DC6B /* GBSectionView.m */,
+				FAC4807F1A201B330000DC6B /* GBStopGroup.h */,
+				FAC480801A201B330000DC6B /* GBStopGroup.m */,
+				FAC480811A201B330000DC6B /* GBStopView.h */,
+				FAC480821A201B330000DC6B /* GBStopView.m */,
+			);
+			name = "Shared Extension";
+			path = "GT-Buses/Shared Extension";
+			sourceTree = "<group>";
+		};
+		FAD597C21A12D08E0079B36C /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				FAD597C31A12D1040079B36C /* APGraphLayer.h */,
+				FAD597C41A12D1040079B36C /* APGraphLayer.m */,
+				FAD597C61A12D1460079B36C /* NSProcessInfo+CPU.h */,
+				FAD597C71A12D1460079B36C /* NSProcessInfo+CPU.m */,
+				FAD597C91A12DA560079B36C /* GraphView.h */,
+				FAD597CA1A12DA560079B36C /* GraphView.m */,
+			);
+			name = Graph;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -480,13 +600,14 @@
 				FA1FE92218A1D8A300757643 /* Sources */,
 				FA1FE92318A1D8A300757643 /* Frameworks */,
 				FA1FE92418A1D8A300757643 /* Resources */,
-				FA9D6C9918A3E93400DAE1D7 /* ShellScript */,
 				FA75CFE41A13CF64000B9CD6 /* Embed App Extensions */,
+				FABE52BC1A203BB200277E4E /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				FAB2495D1A13FCC800147FEF /* PBXTargetDependency */,
+				FAC480201A2004D20000DC6B /* PBXTargetDependency */,
+				FAC4804B1A2013790000DC6B /* PBXTargetDependency */,
 			);
 			name = "GT-Buses";
 			productName = "GT-Buses";
@@ -511,22 +632,40 @@
 			productReference = FA1FE94718A1D8A300757643 /* GT-BusesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		FAB249511A13FCC800147FEF /* GT-Buses Extension */ = {
+		FAC480141A2004D20000DC6B /* GT-Buses Favorites */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FAB2495F1A13FCC800147FEF /* Build configuration list for PBXNativeTarget "GT-Buses Extension" */;
+			buildConfigurationList = FAC480241A2004D30000DC6B /* Build configuration list for PBXNativeTarget "GT-Buses Favorites" */;
 			buildPhases = (
-				FAB2494E1A13FCC800147FEF /* Sources */,
-				FAB2494F1A13FCC800147FEF /* Frameworks */,
-				FAB249501A13FCC800147FEF /* Resources */,
-				FA2B6FC71A14510E00C60449 /* ShellScript */,
+				FAC480111A2004D20000DC6B /* Sources */,
+				FAC480121A2004D20000DC6B /* Frameworks */,
+				FAC480131A2004D20000DC6B /* Resources */,
+				FABE52BE1A203CCF00277E4E /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "GT-Buses Extension";
-			productName = "GT-Buses Extension";
-			productReference = FAB249521A13FCC800147FEF /* GT-Buses Extension.appex */;
+			name = "GT-Buses Favorites";
+			productName = "GT-Buses Favorites";
+			productReference = FAC480151A2004D20000DC6B /* GT-Buses Favorites.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		FAC4803F1A2013790000DC6B /* GT-Buses Nearby */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAC4804D1A2013790000DC6B /* Build configuration list for PBXNativeTarget "GT-Buses Nearby" */;
+			buildPhases = (
+				FAC4803C1A2013790000DC6B /* Sources */,
+				FAC4803D1A2013790000DC6B /* Frameworks */,
+				FAC4803E1A2013790000DC6B /* Resources */,
+				FABE52BF1A203CD400277E4E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "GT-Buses Nearby";
+			productName = "GT-Buses Nearby";
+			productReference = FAC480401A2013790000DC6B /* GT-Buses Nearby.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -550,7 +689,16 @@
 					FA1FE94618A1D8A300757643 = {
 						TestTargetID = FA1FE92518A1D8A300757643;
 					};
-					FAB249511A13FCC800147FEF = {
+					FAC480141A2004D20000DC6B = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 3M2F493L45;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					FAC4803F1A2013790000DC6B = {
 						CreatedOnToolsVersion = 6.1;
 						DevelopmentTeam = 3M2F493L45;
 						SystemCapabilities = {
@@ -576,7 +724,8 @@
 			targets = (
 				FA1FE92518A1D8A300757643 /* GT-Buses */,
 				FA1FE94618A1D8A300757643 /* GT-BusesTests */,
-				FAB249511A13FCC800147FEF /* GT-Buses Extension */,
+				FAC480141A2004D20000DC6B /* GT-Buses Favorites */,
+				FAC4803F1A2013790000DC6B /* GT-Buses Nearby */,
 			);
 		};
 /* End PBXProject section */
@@ -587,6 +736,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA1FE94218A1D8A300757643 /* Images.xcassets in Resources */,
+				FA55314A1A20E75300BAFB90 /* Localizable.strings in Resources */,
+				FA5531491A20E75300BAFB90 /* InfoPlist.strings in Resources */,
 				FA1FE93418A1D8A300757643 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,19 +755,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FAB249501A13FCC800147FEF /* Resources */ = {
+		FAC480131A2004D20000DC6B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAE505801A186B7800427C16 /* Media.xcassets in Resources */,
-				FAB2495B1A13FCC800147FEF /* MainInterface.storyboard in Resources */,
+				FAC4801E1A2004D20000DC6B /* MainInterface.storyboard in Resources */,
+				FAE6B6F11A21540E00A49E68 /* Localizable.strings in Resources */,
+				FAC480831A201B330000DC6B /* Extension.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAC4803E1A2013790000DC6B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC480491A2013790000DC6B /* MainInterface.storyboard in Resources */,
+				FAE6B6F01A21540D00A49E68 /* Localizable.strings in Resources */,
+				FAC480841A201B330000DC6B /* Extension.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		FA2B6FC71A14510E00C60449 /* ShellScript */ = {
+		FABE52BC1A203BB200277E4E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -629,7 +791,20 @@
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
 		};
-		FA9D6C9918A3E93400DAE1D7 /* ShellScript */ = {
+		FABE52BE1A203CCF00277E4E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
+		};
+		FABE52BF1A203CD400277E4E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -682,6 +857,7 @@
 				FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */,
 				FAA1234018A520710049A5FA /* MFSideMenuContainerViewController.m in Sources */,
 				FA2B6FC41A1430BA00C60449 /* GBStop.m in Sources */,
+				FAF453B91A2141E7005A16A9 /* UIDevice+Hardware.m in Sources */,
 				FA15FC8C1A1D8DFF00C175AB /* GBMapViewController.m in Sources */,
 				FAB682D2199D436600C0BF89 /* UIViewController+GBMailComposer.m in Sources */,
 			);
@@ -695,25 +871,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FAB2494E1A13FCC800147FEF /* Sources */ = {
+		FAC480111A2004D20000DC6B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA7254B91A158E70000EECE4 /* GBSectionHeaderView.m in Sources */,
-				FA2DAB8D1A1847B400284DDE /* GBConstraintHelper.m in Sources */,
-				FAB249631A13FCF300147FEF /* GBConstants.m in Sources */,
-				FAA7B6BE1A197A4D00CB8FB2 /* GBStopGroup.m in Sources */,
-				FA2B6FC81A14513500C60449 /* GBRequestHandler.m in Sources */,
-				FA2B6FCA1A14523500C60449 /* RequestHandler.m in Sources */,
-				FA40846B1A19A7EB00F9B742 /* GBErrorView.m in Sources */,
-				FA15FCD51A1856F6008FA394 /* GBSectionView.m in Sources */,
-				FA2B6FC61A14413E00C60449 /* GBColors.m in Sources */,
-				FAA7B6BA1A1962BD00CB8FB2 /* GBRoute.m in Sources */,
-				FAB249591A13FCC800147FEF /* TodayViewController.m in Sources */,
-				FAA7B6B91A19549B00CB8FB2 /* GBDirection.m in Sources */,
-				FA2B6FC51A143EC000C60449 /* GBStop.m in Sources */,
-				FA2B6FC11A14020F00C60449 /* GBStopView.m in Sources */,
-				FA2B6FC91A14521C00C60449 /* XMLReader.m in Sources */,
+				FAC480381A200F400000DC6B /* GBStop.m in Sources */,
+				FAC480911A201B330000DC6B /* GBStopView.m in Sources */,
+				FAC480371A200F3E0000DC6B /* GBRoute.m in Sources */,
+				FAC480331A2008EA0000DC6B /* RequestHandler.m in Sources */,
+				FAC480871A201B330000DC6B /* GBErrorView.m in Sources */,
+				FAC4803A1A200F770000DC6B /* GBColors.m in Sources */,
+				FAC4808F1A201B330000DC6B /* GBStopGroup.m in Sources */,
+				FAC480341A2009550000DC6B /* GBConstants.m in Sources */,
+				FAC4803B1A20105F0000DC6B /* XMLReader.m in Sources */,
+				FAC480891A201B330000DC6B /* GBExtensionViewController.m in Sources */,
+				FAC480391A200F550000DC6B /* GBDirection.m in Sources */,
+				FAC480321A2008DE0000DC6B /* GBRequestHandler.m in Sources */,
+				FAC4801C1A2004D20000DC6B /* TodayViewController.m in Sources */,
+				FAC480851A201B330000DC6B /* GBConstraintHelper.m in Sources */,
+				FAC4808B1A201B330000DC6B /* GBSectionHeaderView.m in Sources */,
+				FAC4808D1A201B330000DC6B /* GBSectionView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAC4803C1A2013790000DC6B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC480531A2017880000DC6B /* GBRoute.m in Sources */,
+				FAC480921A201B330000DC6B /* GBStopView.m in Sources */,
+				FAC480471A2013790000DC6B /* TodayViewController.m in Sources */,
+				FAC480591A2017AB0000DC6B /* XMLReader.m in Sources */,
+				FAC480881A201B330000DC6B /* GBErrorView.m in Sources */,
+				FAC4805A1A2017AF0000DC6B /* RequestHandler.m in Sources */,
+				FAC480901A201B330000DC6B /* GBStopGroup.m in Sources */,
+				FAC480581A2017A60000DC6B /* GBRequestHandler.m in Sources */,
+				FAC480541A20178A0000DC6B /* GBStop.m in Sources */,
+				FAC4808A1A201B330000DC6B /* GBExtensionViewController.m in Sources */,
+				FAC4805B1A2017B90000DC6B /* GBColors.m in Sources */,
+				FAC480551A20178C0000DC6B /* GBDirection.m in Sources */,
+				FAC480561A20179C0000DC6B /* GBConstants.m in Sources */,
+				FAC480861A201B330000DC6B /* GBConstraintHelper.m in Sources */,
+				FAC4808C1A201B330000DC6B /* GBSectionHeaderView.m in Sources */,
+				FAC4808E1A201B330000DC6B /* GBSectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -725,10 +925,15 @@
 			target = FA1FE92518A1D8A300757643 /* GT-Buses */;
 			targetProxy = FA1FE94C18A1D8A300757643 /* PBXContainerItemProxy */;
 		};
-		FAB2495D1A13FCC800147FEF /* PBXTargetDependency */ = {
+		FAC480201A2004D20000DC6B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FAB249511A13FCC800147FEF /* GT-Buses Extension */;
-			targetProxy = FAB2495C1A13FCC800147FEF /* PBXContainerItemProxy */;
+			target = FAC480141A2004D20000DC6B /* GT-Buses Favorites */;
+			targetProxy = FAC4801F1A2004D20000DC6B /* PBXContainerItemProxy */;
+		};
+		FAC4804B1A2013790000DC6B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FAC4803F1A2013790000DC6B /* GT-Buses Nearby */;
+			targetProxy = FAC4804A1A2013790000DC6B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -747,6 +952,22 @@
 				FA1FE95218A1D8A300757643 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		FA5531451A20E75300BAFB90 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA5531461A20E75300BAFB90 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		FA5531471A20E75300BAFB90 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA5531481A20E75300BAFB90 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -832,6 +1053,7 @@
 				CODE_SIGN_ENTITLEMENTS = "GT-Buses/GT-Buses.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -847,6 +1069,7 @@
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
+				VERSIONING_SYSTEM = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -859,6 +1082,7 @@
 				CODE_SIGN_ENTITLEMENTS = "GT-Buses/GT-Buses.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -869,6 +1093,7 @@
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
+				VERSIONING_SYSTEM = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -917,19 +1142,19 @@
 			};
 			name = Release;
 		};
-		FAB249601A13FCC800147FEF /* Debug */ = {
+		FAC480221A2004D20000DC6B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = "GT-Buses Extension/GT-Buses Extension.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "GT-Buses Favorites/GT-Buses Favorites.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
 					"EXTENSION=1",
+					"$(inherited)",
 				);
-				INFOPLIST_FILE = "GT-Buses Extension/Info.plist";
+				INFOPLIST_FILE = "GT-Buses Favorites/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -940,16 +1165,59 @@
 			};
 			name = Debug;
 		};
-		FAB249611A13FCC800147FEF /* Release */ = {
+		FAC480231A2004D20000DC6B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = "GT-Buses Extension/GT-Buses Extension.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "GT-Buses Favorites/GT-Buses Favorites.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "EXTENSION=1";
-				INFOPLIST_FILE = "GT-Buses Extension/Info.plist";
+				INFOPLIST_FILE = "GT-Buses Favorites/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		FAC4804E1A2013790000DC6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "GT-Buses Nearby/GT-Buses Nearby.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"EXTENSION=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "GT-Buses Nearby/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FAC4804F1A2013790000DC6B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "GT-Buses Nearby/GT-Buses Nearby.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = "EXTENSION=1";
+				INFOPLIST_FILE = "GT-Buses Nearby/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -990,11 +1258,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FAB2495F1A13FCC800147FEF /* Build configuration list for PBXNativeTarget "GT-Buses Extension" */ = {
+		FAC480241A2004D30000DC6B /* Build configuration list for PBXNativeTarget "GT-Buses Favorites" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FAB249601A13FCC800147FEF /* Debug */,
-				FAB249611A13FCC800147FEF /* Release */,
+				FAC480221A2004D20000DC6B /* Debug */,
+				FAC480231A2004D20000DC6B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAC4804D1A2013790000DC6B /* Build configuration list for PBXNativeTarget "GT-Buses Nearby" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAC4804E1A2013790000DC6B /* Debug */,
+				FAC4804F1A2013790000DC6B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

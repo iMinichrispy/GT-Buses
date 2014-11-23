@@ -33,6 +33,14 @@
     return self;
 }
 
+- (BOOL)hasPhoneNumer {
+    return ![self.phone isEqualToString:@"No Phone number"];
+}
+
+- (NSString *)dialablePhoneNumber {
+    return [[self.phone componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+}
+
 - (NSDictionary *)toDictionary {
     NSDictionary *dictionary = @{@"name":_name, @"buildingID":_buildingID, @"address":_address, @"imageURL":_imageURL, @"phone":_phone, @"lat":@(_lat), @"lon":@(_lon)};
     return dictionary;

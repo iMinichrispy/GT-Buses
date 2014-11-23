@@ -23,6 +23,8 @@ static NSString * const GBRequestBaseURL = @"http://localhost:5000";
 // http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
 // http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=mit
 
+NSString * const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
+
 static NSString * const GBRequestRouteConfigPath = @"/routeConfig";
 static NSString * const GBRequestLocationsPath = @"/locations/";
 static NSString * const GBRequestPredictionsPath = @"/predictions/";
@@ -87,16 +89,24 @@ static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
 + (NSString *)errorStringForCode:(NSInteger)code {
     NSString *errorString;
     switch (code) {
-        case 400: errorString = @"Bad Request"; break;
-        case 404: errorString = @"Resource Error"; break;
-        case 500: errorString = @"Internal Server Error"; break;
-        case 503: errorString = @"Timed Out"; break;
-        case 1008: case 1009: errorString = @"No Internet Connection"; break;
-        case PARSE_ERROR_CODE: errorString = @"Parsing Error"; break;
-        case NEXBUS_ERROR_CODE: errorString = @"Nextbus Error"; break;
-        default: errorString = @"Error Connecting"; break;
+        case 400: errorString = NSLocalizedString(@"BAD_REQUEST_ERROR", @"400 Bad request error"); break;
+        case 404: errorString = NSLocalizedString(@"RESOURCE_ERROR", @"404 Not found"); break;
+        case 500: errorString = NSLocalizedString(@"INTERNAL_SERVER_ERROR", @"500 Internal server error"); break;
+        case 503: errorString = NSLocalizedString(@"TIMED_OUT_ERROR", @"503 Timed out"); break;
+        case 1008: case 1009: errorString = NSLocalizedString(@"NO_INTERNET_ERROR", @"1008/1009 No internet connection"); break;
+        case GBRequestParseError: errorString = NSLocalizedString(@"PARSING_ERROR", @"Error parsing response xml"); break;
+        case GBRequestNextbusError: errorString = NSLocalizedString(@"NEXTBUS_ERROR", @"Nextubs returned an error"); break;
+        default: errorString = NSLocalizedString(@"DEFAULT_ERROR", @"Default HTTP response error"); break;
     }
-    return FORMAT(@"%@ (-%li)", errorString, (long)code);
+    return FORMAT(@"%@ (-%li)", errorString, (long) ABS(code));
+}
+
++ (BOOL)isNextBusError:(NSDictionary *)dictionary {
+    NSDictionary *nextBusError = dictionary[@"body"][@"Error"];
+    if (nextBusError) {
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - URLs

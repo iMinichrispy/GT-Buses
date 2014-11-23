@@ -108,6 +108,12 @@
 @end
 
 
+@interface GBAboutView () {
+    NSLayoutConstraint *_topPaddingConstraint;
+}
+
+@end
+
 @implementation GBAboutView
 
 float const kItemViewSpacing = 14.0f;
@@ -120,9 +126,10 @@ float const kItemViewSpacing = 14.0f;
         
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         NSString *version = [NSString stringWithFormat:@"%@ (%@)", info[@"CFBundleShortVersionString"], info[@"CFBundleVersion"]];
-        GBSideBarItem *versionItem = [[GBSideBarItem alloc] initWithTitle:@"Version" value:version];
-        GBSideBarItem *developerItem = [[GBSideBarItem alloc] initWithTitle:@"Developer" value:@"Alex Perez"];
-        GBSideBarItem *designItem = [[GBSideBarItem alloc] initWithTitle:@"Design" value:@"Felipe Salazar"];
+        
+        GBSideBarItem *versionItem = [[GBSideBarItem alloc] initWithTitle:NSLocalizedString(@"VERSION", @"Version side item title") value:version];
+        GBSideBarItem *developerItem = [[GBSideBarItem alloc] initWithTitle:NSLocalizedString(@"DEVELOPER", @"Developer side item title") value:@"Alex Perez"];
+        GBSideBarItem *designItem = [[GBSideBarItem alloc] initWithTitle:NSLocalizedString(@"DESIGN", @"Design side item title") value:@"Felipe Salazar"];
         
         GBSideBarItemView *versionItemView = [[GBSideBarItemView alloc] initWithSiderBarItem:versionItem];
         [self addSubview:versionItemView];
@@ -135,7 +142,16 @@ float const kItemViewSpacing = 14.0f;
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[versionItemView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(versionItemView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[developerItemView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(developerItemView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[designItemView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(designItemView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-padding-[versionItemView]-spacing-[developerItemView]-spacing-[designItemView]" options:0 metrics:@{@"padding":@([[self class] originY] + 36), @"spacing":@(kItemViewSpacing)} views:NSDictionaryOfVariableBindings(versionItemView, developerItemView, designItemView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[versionItemView]-spacing-[developerItemView]-spacing-[designItemView]" options:0 metrics:@{@"spacing":@(kItemViewSpacing)} views:NSDictionaryOfVariableBindings(versionItemView, developerItemView, designItemView)]];
+        _topPaddingConstraint = [NSLayoutConstraint
+                                 constraintWithItem:versionItemView
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                 toItem:self
+                                 attribute:NSLayoutAttributeTop
+                                 multiplier:1
+                                 constant:[[self class] topPadding]];
+        [constraints addObject:_topPaddingConstraint];
         [self addConstraints:constraints];
     }
     return self;
@@ -149,9 +165,14 @@ float const kItemViewSpacing = 14.0f;
     }
 }
 
-+ (float)originY {
-    // Don't count status bar on <=iOS6
-    return SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0") ? 0 : -20;
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    // iPhone 6 Plus is the only device that both supports orientation changes and where status bar is hidden in landscape
+    _topPaddingConstraint.constant = [[self class] topPadding];
+}
+
++ (float)topPadding {
+    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+    return statusBarFrame.origin.y + statusBarFrame.size.height + 10;
 }
 
 @end

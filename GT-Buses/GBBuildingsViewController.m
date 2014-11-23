@@ -11,6 +11,39 @@
 #import "GBRequestHandler.h"
 #import "GBConstants.h"
 #import "GBBuilding.h"
+#import "GBColors.h"
+#import "UIDevice+Hardware.h"
+
+static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
+
+@interface GBBuildingCell : UITableViewCell
+
+@end
+
+@implementation GBBuildingCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:GBBuildingCellIdentifier];
+    if (self) {
+        if ([[UIDevice currentDevice] supportsVisualEffects])
+            self.backgroundColor = [UIColor clearColor];
+        
+        self.textLabel.textColor = [UIColor appTintColor];
+//        self.detailTextLabel.textColor = [UIColor appTintColor];
+        
+        UIView *selectedView = [[UIView alloc] init];
+        selectedView.backgroundColor = [[UIColor appTintColor] colorWithAlphaComponent:.5];
+        self.selectedBackgroundView = selectedView;
+    }
+    return self;
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+
+@end
 
 @interface GBBuildingsViewController () <RequestHandlerDelegate> {
     NSArray             *_allBuildings;
@@ -18,6 +51,7 @@
     NSArray             *_sectionIndexTitles;
     NSMutableIndexSet   *_populatedIndexSet;
     UILabel             *_errorLabel;
+    GBBuilding          *_selectedBuilding;
 }
 
 @property (nonatomic, strong) NSArray *buildings;
@@ -30,8 +64,6 @@
 const float UITableDefaultRowHeight = 44.0;
 
 
-static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
-
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -40,16 +72,44 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     return self;
 }
 
+- (BOOL)deviceSupportsVisualEffects {
+    return YES;
+}
+
+- (void)loadView {
+    UITableView *tableView = [[UITableView alloc] init];
+    tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    tableView.sectionHeaderHeight = 22;
+    
+    if ([[UIDevice currentDevice] supportsVisualEffects] && !UIAccessibilityIsReduceTransparencyEnabled()) {
+        UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        tableView.backgroundView = effectView;
+        tableView.separatorEffect = blurEffect;
+        tableView.backgroundColor = [UIColor clearColor];
+    }
+    
+    self.view = tableView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.tableView registerClass:[GBBuildingCell class] forCellReuseIdentifier:GBBuildingCellIdentifier];
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:GBBuildingCellIdentifier];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
+    [self updateTintColor:nil];
     
     if ([self.tableView respondsToSelector:@selector(setKeyboardDismissMode:)]) {
         self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
+    
+    UIMenuItem *favorite = [[UIMenuItem alloc] initWithTitle:@"Cool bruh" action:@selector(call:)];
+    UIMenuController *menu = [UIMenuController sharedMenuController];
+    [menu setMenuItems:@[favorite]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -61,6 +121,10 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 //        requestHandler.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
         [requestHandler buildings];
     }
+}
+
+- (void)updateTintColor:(NSNotification *)notification {
+    self.tableView.sectionIndexColor = [UIColor appTintColor];
 }
 
 #pragma mark - Table view data source
@@ -93,8 +157,7 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     return numberOfSections;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
     NSInteger section = NSNotFound;
     NSInteger check = [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
     
@@ -109,15 +172,22 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     return section;
 }
 
+- (GBBuilding *)buildingForIndexPath:(NSIndexPath *)indexPath {
+    if (_partitionedBuildings)
+        return _partitionedBuildings[indexPath.section][indexPath.row];
+    return _buildings[indexPath.row];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:GBBuildingCellIdentifier forIndexPath:indexPath];
     
-    GBBuilding *building = _buildings[indexPath.row];
-    if (_partitionedBuildings)
-        building = _partitionedBuildings[indexPath.section][indexPath.row];
+    GBBuilding *building = [self buildingForIndexPath:indexPath];
     
     cell.textLabel.text = building.name;
     cell.detailTextLabel.text = building.address;
+    
+    UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+    [cell addGestureRecognizer:recognizer];
     
     return cell;
 }
@@ -149,12 +219,13 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
         
         [self showAllBuildings];
     } else {
-        [self handleError:handler code:PARSE_ERROR_CODE message:@"Parsing Error"];
+        NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
+        [self handleError:handler error:error];
     }
 }
 
-- (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message {
-    [self showErrorLabel:YES error:[GBRequestHandler errorStringForCode:code]];
+- (void)handleError:(RequestHandler *)handler error:(NSError *)error {
+    [self showErrorLabel:YES error:[GBRequestHandler errorStringForCode:[error code]]];
 }
 
 - (void)showAllBuildings {
@@ -213,7 +284,7 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     
     // Show the No Results Found label if the user has entered text but didn't find anything.
     // keyboard for right-aligned languages will send a "\n" text change notification when they become active, or after all text is deleted from an input started in left layout. Don't take this as user text input.
-    [self showErrorLabel:( [query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"] ) error:@"No Results Found"];
+    [self showErrorLabel:( [query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"] ) error:NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results")];
 }
 
 - (void)showErrorLabel:(BOOL)show error:(NSString *)error {
@@ -239,6 +310,35 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
         // Hide the Error Found label
         [_errorLabel removeFromSuperview];
         _errorLabel = nil;
+    }
+}
+
+#pragma mark - Menu controller
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)longPress:(UILongPressGestureRecognizer *)recognizer {
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        [self becomeFirstResponder];
+        UITableViewCell *cell = (UITableViewCell *)recognizer.view;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        _selectedBuilding = [self buildingForIndexPath:indexPath];
+        
+        UIMenuItem *call = [[UIMenuItem alloc] initWithTitle:_selectedBuilding.phone action:@selector(call:)];
+        UIMenuController *menu = [UIMenuController sharedMenuController];
+        [menu setMenuItems:@[call]];
+        [menu setTargetRect:cell.frame inView:cell.superview];
+        [menu setMenuVisible:YES animated:YES];
+    }
+}
+
+- (void)call:(UIMenuController *)sender {
+    if ([_selectedBuilding hasPhoneNumer]) {
+        NSString *dialableNumber = [_selectedBuilding dialablePhoneNumber];
+        NSString *phoneURL = [NSString stringWithFormat:@"tel:%@", dialableNumber];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneURL]];
     }
 }
 

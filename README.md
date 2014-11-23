@@ -8,6 +8,9 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 ## To-Do
 
 - Nothing having to do with favoriting routes or notification center should be on deivces <ios8
+- Notification remove observer
+- Ordering for favorites is not maintained
+    - Fixed wen switched from Set to array - see if duplicates are affected
 
 iOS 8:
 - Add extension
@@ -95,7 +98,7 @@ v1.1.1
 - Bigger bus arrows on iPad
 - 3x images
 
-v1.1.2
+v2.0
 - [Debug] Show stop ids on stop annotation
 - [Debug] Display predictions in minutes & seconds
 - [Debug] Added Reset, Stops, and Party button items to toolbar
@@ -105,9 +108,15 @@ v1.1.2
 - About Controller now uses auto layout
 - Review App button changes to Update Now in About controller when new version is available
 - Sped up animation time when switching routes
-- Notification remove observer
 - Bus arrow image and stop dot image now rendered on device (not png)
 - Added search buildings ability
+- Moved refresh button to bus route control
+- Split up extension into 2: favorites and nearby
+- Enabled rotation on iPhone 6 Plus
+- Added NSLocalisedStrings
+- Restructured requesthandler errors
+- Added visualeffectview to search table
+- Tap and hold building cell to call
 
 ## Debug Target Differences
 

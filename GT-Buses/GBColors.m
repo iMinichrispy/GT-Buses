@@ -85,17 +85,6 @@
     return availableColors;
 }
 
-#define cachedDeviceColorMethod(m, r, g, b, a) \
-+ (UIColor *)m { \
-static UIColor *c##m = nil; \
-static dispatch_once_t onceToken##m; \
-dispatch_once(&onceToken##m, ^{ \
-c##m = [[UICachedDeviceRGBColor alloc] initWithRed:r green:g blue:b alpha:a]; \
-[c##m _setSystemColorName:[NSString stringWithUTF8String:#m]]; \
-}); \
-return c##m; \
-}
-
 + (UIColor *)blueColor {
     static UIColor *color;
     static dispatch_once_t onceToken;

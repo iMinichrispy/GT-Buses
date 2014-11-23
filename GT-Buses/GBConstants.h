@@ -6,7 +6,8 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-@class NSString;
+@import Foundation;
+
 extern NSString * const GBFontDefault;
 
 extern NSString * const GBUserDefaultsAgencyKey;
@@ -32,10 +33,9 @@ extern NSString * const GBRequestBuildingsTask;
 extern float const kSideWidth;
 extern float const kSideWidthiPad;
 
-#define PARSE_ERROR_CODE    2923
-#define NEXBUS_ERROR_CODE   2943
-
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+#define IS_IPHONE_6_PLUS ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) >= 736)
+#define ROTATION_ENABLED (IS_IPAD || IS_IPHONE_6_PLUS)
 
 #define FORMAT(format,...) [NSString stringWithFormat:(format), ##__VA_ARGS__]

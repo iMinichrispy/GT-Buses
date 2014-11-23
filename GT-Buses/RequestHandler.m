@@ -28,7 +28,8 @@
     if ([NSURLConnection canHandleRequest:request]) {
         [self requestWithRequest:request];
     } else {
-        [self mainThreadCode:504 message:@"Can't Handle Request"];
+        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorUnsupportedURL userInfo:nil];
+        [self mainThreadError:error];
     }
 }
 
@@ -55,28 +56,29 @@
     [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         if ([data length] > 0 && error == nil) {
             NSInteger code = [((NSHTTPURLResponse *)response) statusCode];
-            if (code == 400)
-                [self mainThreadCode:code message:@"Request could not be understood by server."];
-            else if (code == 404)
-                [self mainThreadCode:code message:@"Resource could not be found."];
-            else if (code == 500)
-                [self mainThreadCode:code message:@"Internal Server Error."];
-            else if (code == 503)
-                [self mainThreadCode:code message:@"Request has timed out."];
-            else if (code == 1003)
-                [self mainThreadCode:code message:@"A server with the specified hostname could not be found."];
-            else if (code == 1009)
-                [self mainThreadCode:code message:@"Connection appears to be offline."];
-            else
+            if (code == 200)
                 [self mainThreadData:data];
+            else {
+                NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:code userInfo:nil];
+                [self mainThreadError:error];
+            }
         }
-        else if (error != nil && error.code == NSURLErrorTimedOut)
-            [self mainThreadCode:503 message:@"Request has timed out."];
-        else if (error != nil)
-            [self mainThreadCode:ABS([error code]) message:[error localizedDescription]];
-        else
-            [self mainThreadCode:9002 message:@"Request failed for unknown reason."];
+        else if (error != nil) {
+            NSError *newError = [NSError errorWithDomain:NSURLErrorDomain code:[error code] userInfo:nil];
+            [self mainThreadError:newError];
+        }
+        else {
+            NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorUnknown userInfo:nil];
+            [self mainThreadError:error];
+        }
     }];
+}
+
+- (void)handleError:(NSError *)error {
+#if !EXTENSION
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    [alert show];
+#endif
 }
 
 - (void)mainThreadData:(NSData *)data {
@@ -89,12 +91,12 @@
     }
 }
 
-- (void)mainThreadCode:(NSInteger)code message:(NSString *)message {
+- (void)mainThreadError:(NSError *)error {
     if ([NSThread isMainThread])
-        [self checkDelegateHandleError:code message:message];
+        [self checkDelegateHandleError:error];
     else {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [self checkDelegateHandleError:code message:message];
+            [self checkDelegateHandleError:error];
         });
     }
 }
@@ -106,38 +108,14 @@
     }
 }
 
-- (void)checkDelegateHandleError:(NSInteger)code message:(NSString *)message {
+- (void)checkDelegateHandleError:(NSError *)error {
     [self setActivityIndicatorVisible:NO];
-    if ([self.delegate respondsToSelector:@selector(handleError:code:message:)]) {
-        [self.delegate handleError:self code:code message:message];
+    if ([self.delegate respondsToSelector:@selector(handleError:error:)]) {
+        [self.delegate handleError:self error:error];
     }
     else {
-        [self handleErrorCode:code message:message];
+        [self handleError:error];
     }
-}
-
-- (void)handleErrorCode:(NSInteger)code message:(NSString *)message {
-    if (code == 400)
-        [self alertWithTitle:@"Bad Request" message:[NSString stringWithFormat:@"Error Processing Request: %@", message] code:code];
-    else if (code == 404)
-        [self alertWithTitle:@"Resource Error" message:[NSString stringWithFormat:@"Error Loading Resource: %@", message] code:code];
-    else if (code == 500)
-        [self alertWithTitle:@"Server Error" message:[NSString stringWithFormat:@"Error Processing Request: %@", message] code:code];
-    else if (code == 503)
-        [self alertWithTitle:@"Timeout Error" message:[NSString stringWithFormat:@"Error Loading Resource: %@", message] code:code];
-    else if (code == 1003)
-        [self alertWithTitle:@"Resource Error" message:[NSString stringWithFormat:@"Error Loading Resource: %@",message] code:code];
-    else if (code == 1008 || code == 1009)
-        [self alertWithTitle:@"Connection Error" message:[NSString stringWithFormat:@"Error Connecting: %@", message] code:code];
-    else
-        [self alertWithTitle:@"Error" message:message code:code];
-}
-
-- (void)alertWithTitle:(NSString *)title message:(NSString *)message code:(NSInteger)code {
-#if !EXTENSION
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:[NSString stringWithFormat:@"%@ (-%li)", message, (long)code] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    [alert show];
-#endif
 }
 
 + (NSString *)userAgent {

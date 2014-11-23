@@ -44,12 +44,12 @@ float const kButtonSpacing = 10.0f;
     [aboutView addSubview:_messageLabel];
     
     _appReviewButton = [[GBButton alloc] init];
-    [_appReviewButton setTitle:@"Review App" forState:UIControlStateNormal];
+    [_appReviewButton setTitle:NSLocalizedString(@"REVIEW_APP", @"Review app button") forState:UIControlStateNormal];
     [_appReviewButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
     [aboutView addSubview:_appReviewButton];
     
     UIButton *supportButton = [[GBButton alloc] init];
-    [supportButton setTitle:@"Support" forState:UIControlStateNormal];
+    [supportButton setTitle:NSLocalizedString(@"SUPPORT", @"Support button") forState:UIControlStateNormal];
     [supportButton addTarget:self action:@selector(showSupportMailComposer) forControlEvents:UIControlEventTouchUpInside];
     [aboutView addSubview:supportButton];
     
@@ -108,12 +108,12 @@ float const kButtonSpacing = 10.0f;
 
 - (void)changeColor:(UILongPressGestureRecognizer *)recognizer {
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select Color:" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"SELECT_COLOR", @"Select color prompt") delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
         
         NSArray *tintColors = [GBColors availableTintColors];
         for (NSDictionary *color in tintColors) [actionSheet addButtonWithTitle:color[@"name"]];
         
-        if (!IS_IPAD) [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:@"Cancel"]];
+        if (!IS_IPAD) [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:NSLocalizedString(@"SELECT_COLOR_CANCEL", @"Select color cancel")]];
         
         [actionSheet showFromRect:recognizer.view.frame inView:self.view animated:YES];
     }
@@ -132,7 +132,7 @@ float const kButtonSpacing = 10.0f;
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
     if (result == MFMailComposeResultFailed) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Message Failed" message:@"Your message has failed to send." delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"MESSAGE_FAILED", @"Mail failed alert tile") message:NSLocalizedString(@"MESSAGE_FAILED_TO_SEND", @"Mail failed alert message") delegate:nil cancelButtonTitle:NSLocalizedString(@"MESSAGE_DISMISS", @"Mail failed alert dismiss") otherButtonTitles:nil];
         [alert show];
     }
     [self dismissViewControllerAnimated:YES completion:NULL];
@@ -151,10 +151,10 @@ float const kButtonSpacing = 10.0f;
     NSString *currentVersion = info[@"CFBundleShortVersionString"];
     
     if ([iOSVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending) {
-        _messageLabel.text = @"Update available!";
-        [_appReviewButton setTitle:@"Update Now" forState:UIControlStateNormal];
+        _messageLabel.text = NSLocalizedString(@"UPDATE_AVAILABLE", @"Update available button");
+        [_appReviewButton setTitle:NSLocalizedString(@"UPDATE_NOW", @"Update now button") forState:UIControlStateNormal];
     } else {
-        [_appReviewButton setTitle:@"Rate App" forState:UIControlStateNormal];
+        [_appReviewButton setTitle:NSLocalizedString(@"REVIEW_APP", @"Review app button") forState:UIControlStateNormal];
         [self updateMessage:nil];
     }
 }
