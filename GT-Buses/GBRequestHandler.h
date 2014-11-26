@@ -17,12 +17,6 @@
 - (void)messages;
 - (void)buildings;
 
-#if DEBUG
-- (void)resetBackend;
-- (void)updateStops;
-- (void)toggleParty;
-#endif
-
 + (NSString *)errorStringForCode:(NSInteger)code;
 + (BOOL)isNextBusError:(NSDictionary *)dictionary;
 

@@ -11,4 +11,6 @@
 
 @interface GBRootViewController : UIViewController
 
+@property (nonatomic, getter=isSearchEnabled) BOOL searchEnaled;
+
 @end

@@ -11,17 +11,13 @@
 @import MapKit;
 
 #import "GBMapViewController.h"
-#import "MFSideMenu.h"
 #import "GBConstants.h"
 #import "GBColors.h"
 #import "GBUserInterface.h"
 #import "GBBuildingsViewController.h"
 #import "GBBuilding.h"
 #import "GBBuildingAnnotation.h"
-
-#if DEBUG
-#import "GBMapViewController+Private.h"
-#endif
+#import "GBAboutViewController.h"
 
 @interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate> {
     NSString *_currentQuery;
@@ -30,14 +26,18 @@
 @property (nonatomic, strong) GBMapViewController *mapViewController;
 @property (nonatomic, strong) GBBuildingsViewController *buildingsController;
 @property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UIVisualEffectView *overlayView;
+@property (nonatomic, strong) GBAboutViewController *aboutController;
 
 @end
 
 @implementation GBRootViewController
 
+float const kAboutViewAnimationSpeed = .2;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.view.backgroundColor = [UIColor redColor];
     _mapViewController = [[GBMapViewController alloc] init];
     _mapViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_mapViewController.view];
@@ -52,56 +52,58 @@
     _searchBar.placeholder = NSLocalizedString(@"SEARCH_PLACEHOLDER", @"Placeholder text for search bar");
     _searchBar.delegate = self;
     
-    self.menuContainerViewController.menuWidth = IS_IPAD ? kSideWidthiPad : kSideWidth;
-    self.menuContainerViewController.panMode = MFSideMenuPanModeNone;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuStateEventOccurred:) name:MFSideMenuStateNotificationEvent object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reduceTransparencyDidChange:) name:UIAccessibilityReduceTransparencyStatusDidChangeNotification object:nil];
     
     self.navigationItem.leftBarButtonItem = [self aboutButton];
-    self.navigationItem.rightBarButtonItem = [self searchButton];
     
 #if DEFAULT_IMAGE
     self.title = @"";
 #else
     self.title = NSLocalizedString(@"TITLE", @"Main Title");
 #endif
-    
-#if DEBUG
-    self.navigationController.toolbarHidden = NO;
-    UIBarButtonItem *resetItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:_mapViewController action:@selector(resetBackend)];
-    UIBarButtonItem *flexibleSpace1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *partyItem = [[UIBarButtonItem alloc] initWithTitle:@"Party" style:UIBarButtonItemStylePlain target:_mapViewController action:@selector(toggleParty)];
-    UIBarButtonItem *flexibleSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    UIBarButtonItem *updateStopsItem = [[UIBarButtonItem alloc] initWithTitle:@"Stops" style:UIBarButtonItemStylePlain target:_mapViewController action:@selector(updateStops)];
-    self.toolbarItems = @[resetItem, flexibleSpace1, partyItem, flexibleSpace2, updateStopsItem];
-    [self updateTintColor:nil];
-#endif
+}
+
+- (void)setSearchEnaled:(BOOL)searchEnaled {
+    if (_searchEnaled != searchEnaled) {
+        _searchEnaled = searchEnaled;
+        self.navigationItem.rightBarButtonItem = (searchEnaled) ? [self searchButton] : nil;
+    }
 }
 
 - (void)updateTintColor:(NSNotification *)notification {
     [(GBNavigationController *)self.navigationController updateTintColor];
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor controlTintColor];
-#if DEBUG
-    UIColor *tintColor = [UIColor appTintColor];
-    if ([self.navigationController.toolbar respondsToSelector:@selector(setBarTintColor:)]) {
-        self.navigationController.toolbar.barTintColor = tintColor;
-        self.navigationController.toolbar.tintColor = [UIColor whiteColor];
-    } else {
-        self.navigationController.toolbar.tintColor = tintColor;
-    }
-#endif
-}
-
-- (void)menuStateEventOccurred:(NSNotification *)notification {
-    MFSideMenuPanMode panMode = self.menuContainerViewController.menuState == MFSideMenuStateClosed ?  MFSideMenuPanModeNone: MFSideMenuPanModeCenterViewController;
-    self.menuContainerViewController.panMode = panMode;
 }
 
 - (void)aboutPressed {
-    MFSideMenuState state = self.menuContainerViewController.menuState == MFSideMenuStateClosed ? MFSideMenuStateLeftMenuOpen : MFSideMenuStateClosed;
-    [self.menuContainerViewController setMenuState:state completion:NULL];
+    CGRect screenSize = [[UIScreen mainScreen] bounds];
+    
+    _aboutController = [[GBAboutViewController alloc] init];
+    _aboutController.view.frame = screenSize;
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(effectViewTap:)];
+    [_aboutController.view addGestureRecognizer:tapGesture];
+    
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    UIView *rootView = [window.subviews firstObject];
+    [UIView animateWithDuration:kAboutViewAnimationSpeed animations:^{
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+        rootView.transform = CGAffineTransformMakeScale(.9, .9);
+        
+        [window addSubview:_aboutController.view];
+    }];
+}
+
+- (void)effectViewTap:(UITapGestureRecognizer *)recognizer {
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    UIView *rootView = [window.subviews firstObject];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [UIView animateWithDuration:kAboutViewAnimationSpeed animations:^{
+        rootView.transform = CGAffineTransformMakeScale(1, 1);
+        [_aboutController.view removeFromSuperview];
+    }];
 }
 
 - (void)showSearchBar {

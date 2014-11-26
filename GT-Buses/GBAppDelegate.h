@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
+@import UIKit;
+
 @class GBRootViewController;
 @interface GBAppDelegate : UIResponder <UIApplicationDelegate>
 

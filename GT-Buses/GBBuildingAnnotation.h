@@ -7,6 +7,7 @@
 //
 
 @import MapKit;
+@import CoreLocation;
 
 @class GBBuilding;
 @interface GBBuildingAnnotation : MKPointAnnotation

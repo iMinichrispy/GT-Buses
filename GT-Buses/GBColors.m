@@ -61,14 +61,17 @@
 }
 
 + (NSArray *)tintColors {
-    NSDictionary *blueColor = @{@"name":@"Blue", @"color":[self blueColor]};
-    NSDictionary *redColor = @{@"name":@"Red", @"color":[self redColor]};
-    NSDictionary *greenColor = @{@"name":@"Green", @"color":[self greenColor]};
-    NSDictionary *pinkColor = @{@"name":@"Pink", @"color":[self pinkColor]};
-    NSDictionary *yellowColor = @{@"name":@"Yellow", @"color":[self yellowColor]};
-    NSDictionary *darkColor = @{@"name":@"Dark", @"color":[self darkColor]};
-    
-    NSArray *tintColors = @[blueColor, redColor, greenColor, pinkColor, yellowColor, darkColor];
+    static NSArray *tintColors;
+    if (!tintColors) {
+        NSDictionary *blueColor = @{@"name":@"Blue", @"color":[self blueColor]};
+        NSDictionary *redColor = @{@"name":@"Red", @"color":[self redColor]};
+        NSDictionary *greenColor = @{@"name":@"Green", @"color":[self greenColor]};
+        NSDictionary *pinkColor = @{@"name":@"Pink", @"color":[self pinkColor]};
+        NSDictionary *yellowColor = @{@"name":@"Yellow", @"color":[self yellowColor]};
+        NSDictionary *darkColor = @{@"name":@"Dark", @"color":[self darkColor]};
+        
+        tintColors = @[blueColor, redColor, greenColor, pinkColor, yellowColor, darkColor];
+    }
     
     return tintColors;
 }

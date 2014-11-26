@@ -12,19 +12,17 @@
 #import "GBUserInterface.h"
 #import "GBAboutController.h"
 #import "GBConstants.h"
-#import "MFSideMenu.h"
 
 @implementation GBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.viewController = [[GBRootViewController alloc] init];
+    self.viewController.searchEnaled = YES;
     
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:self.viewController];
-    GBAboutController *aboutController = [[GBAboutController alloc] init];
-    MFSideMenuContainerViewController *container = [MFSideMenuContainerViewController containerWithCenterViewController:navController leftMenuViewController:aboutController rightMenuViewController:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = container;
+    self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     
     return YES;

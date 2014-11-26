@@ -407,23 +407,6 @@ int const kRefreshInterval = 5;
     }
 }
 
-#if DEBUG
-- (void)resetBackend {
-    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:nil delegate:nil];
-    [requestHandler resetBackend];
-}
-
-- (void)updateStops {
-    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:nil delegate:nil];
-    [requestHandler updateStops];
-}
-
-- (void)toggleParty {
-    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:nil delegate:nil];
-    [requestHandler toggleParty];
-}
-#endif
-
 #pragma mark - Messages
 
 - (void)checkForMessages:(NSDictionary *)dictionary {

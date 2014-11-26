@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-@import Foundation;
+@import UIKit;
 
 @interface UIDevice (Hardware)
 

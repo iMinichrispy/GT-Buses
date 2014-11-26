@@ -34,8 +34,7 @@
 }
 
 - (void)postRequestWithURL:(NSString *)url postData:(NSData *)postData {
-    NSString *urlString = [NSString stringWithFormat:@"%@", url];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"POST"];
     [request setCachePolicy:_cachePolicy];
     [request setValue:[RequestHandler userAgent] forHTTPHeaderField:@"User-Agent"];
@@ -64,8 +63,7 @@
             }
         }
         else if (error != nil) {
-            NSError *newError = [NSError errorWithDomain:NSURLErrorDomain code:[error code] userInfo:nil];
-            [self mainThreadError:newError];
+            [self mainThreadError:error];
         }
         else {
             NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorUnknown userInfo:nil];

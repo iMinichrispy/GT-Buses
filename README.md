@@ -7,11 +7,17 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 
 ## To-Do
 
+- Redesign About view
+    - Parallax effect
 - Nothing having to do with favoriting routes or notification center should be on deivces <ios8
 - Notification remove observer
 - Ordering for favorites is not maintained
     - Fixed wen switched from Set to array - see if duplicates are affected
 - Support accessibility text
+- Stops where combining stops into stop group by stopid's would be useful:
+    - Fitten Hall (fitthall), stopId=0022
+    - Transit Hub - Arrival (tranhub_a), stopId=0086
+- Open source request handler
 
 iOS 8:
 - Add extension

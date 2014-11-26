@@ -11,13 +11,7 @@
 #import "GBConstants.h"
 #import "GBConfig.h"
 
-#if !DEBUG || !TARGET_IPHONE_SIMULATOR
-#define MASTER_PASSWORD @"verax"
 static NSString * const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
-#else
-#define MASTER_PASSWORD @"temp"
-static NSString * const GBRequestBaseURL = @"http://localhost:5000";
-#endif
 
 // public xml feed:
 // http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
@@ -70,21 +64,6 @@ static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
 - (void)buildings {
     [self getRequestWithURL:[self buildingsURL]];
 }
-
-#if DEBUG
-- (void)resetBackend {
-    [self getRequestWithURL:[GBRequestBaseURL stringByAppendingString:GBRequestResetPath]];
-}
-
-- (void)updateStops {
-    [self getRequestWithURL:[GBRequestBaseURL stringByAppendingString:GBRequestUpdateStopsPath]];
-}
-
-- (void)toggleParty {
-    NSString *query = FORMAT(@"%@?password=%@", GBRequestTogglePartyPath, MASTER_PASSWORD);
-    [self getRequestWithURL:[GBRequestBaseURL stringByAppendingString:query]];
-}
-#endif
 
 + (NSString *)errorStringForCode:(NSInteger)code {
     NSString *errorString;
