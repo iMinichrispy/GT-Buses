@@ -37,6 +37,10 @@
     return ![self.phone isEqualToString:@"No Phone number"];
 }
 
+- (BOOL)hasAddress {
+    return ![self.address isEqualToString:@"No Address Given"];
+}
+
 - (NSString *)dialablePhoneNumber {
     return [[self.phone componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
 }

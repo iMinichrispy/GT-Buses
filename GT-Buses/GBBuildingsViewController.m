@@ -15,6 +15,7 @@
 #import "UIDevice+Hardware.h"
 
 static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
+static NSString * const GBBuildingsPlistFileName = @"Buildings.plist";
 
 @interface GBBuildingCell : UITableViewCell <GBTintColorDelegate>
 
@@ -47,7 +48,6 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 @end
 
 @interface GBBuildingsViewController () <RequestHandlerDelegate> {
-    NSArray             *_allBuildings;
     NSArray             *_partitionedBuildings;
     NSArray             *_sectionIndexTitles;
     NSMutableIndexSet   *_populatedIndexSet;
@@ -56,14 +56,13 @@ static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 }
 
 @property (nonatomic, strong) NSArray *buildings;
+@property (nonatomic, strong) NSArray *allBuildings;
 
 @end
 
 @implementation GBBuildingsViewController
 
-
 const float UITableDefaultRowHeight = 44.0;
-
 
 - (instancetype)init {
     self = [super init];
@@ -101,28 +100,54 @@ const float UITableDefaultRowHeight = 44.0;
     
     [self.tableView registerClass:[GBBuildingCell class] forCellReuseIdentifier:GBBuildingCellIdentifier];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuildings:) name:GBNotificationBuildingsVersionDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [self updateTintColor:nil];
     
     if ([self.tableView respondsToSelector:@selector(setKeyboardDismissMode:)]) {
         self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
+    
+    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
+    NSArray *buildings = [[NSArray alloc] initWithContentsOfFile:path];
+    [self setupForBuildings:buildings];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    if (!_allBuildings) {
-        GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
-#warning restore cache policy
-//        requestHandler.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
-        [requestHandler buildings];
+- (void)setupForBuildings:(NSArray *)buildings {
+#warning check buildings count
+    if (buildings) {
+        NSMutableArray *newBuildings = [NSMutableArray new];
+        
+        for (NSDictionary *dictinary in buildings) {
+            GBBuilding *building = [dictinary toBuilding];
+            [newBuildings addObject:building];
+        }
+        _allBuildings = newBuildings;
+        _buildings = _allBuildings;
+        [self showAllBuildings];
+    } else {
+        [self updateBuildings:nil];
     }
 }
+
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    
+//    if (!_allBuildings) {
+//        [self updateBuildings:nil];
+//    }
+//    NSLog(@"viewdidappear");
+//}
 
 - (void)updateTintColor:(NSNotification *)notification {
     self.tableView.sectionIndexColor = [UIColor appTintColor];
     [self.tableView reloadData];
+}
+
+- (void)updateBuildings:(NSNotification *)notification {
+    NSLog(@"update buildings");
+    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
+    [requestHandler buildings];
 }
 
 #pragma mark - Table view data source
@@ -213,18 +238,19 @@ const float UITableDefaultRowHeight = 44.0;
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
     NSArray *buildings = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+#warning what if buildings array is empty?
     if (buildings && !error) {
         [self showErrorLabel:NO error:nil];
-        NSMutableArray *newBuildings = [NSMutableArray new];
-        for (NSDictionary *dictinary in buildings) {
-            GBBuilding *building = [dictinary toBuilding];
-            [newBuildings addObject:building];
+        if ([buildings count]) {
+            NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
+            [buildings writeToFile:path atomically:YES];
+            
+            [self setupForBuildings:buildings];
+        } else {
+            // show no buildings error
         }
-        _allBuildings = newBuildings;
-        _buildings = _allBuildings;
-        
-        [self showAllBuildings];
     } else {
+#warning error from parse error could already be good
         NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
         [self handleError:handler error:error];
     }
@@ -232,6 +258,12 @@ const float UITableDefaultRowHeight = 44.0;
 
 - (void)handleError:(RequestHandler *)handler error:(NSError *)error {
     [self showErrorLabel:YES error:[GBRequestHandler errorStringForCode:[error code]]];
+}
+
+- (void)setAllBuildings:(NSArray *)allBuildings {
+    if (_allBuildings != allBuildings) {
+        _allBuildings = allBuildings;
+    }
 }
 
 - (void)showAllBuildings {
@@ -333,15 +365,25 @@ const float UITableDefaultRowHeight = 44.0;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         _selectedBuilding = [self buildingForIndexPath:indexPath];
         
-        NSString *title;
-        if ([_selectedBuilding hasPhoneNumer])
-            title = _selectedBuilding.phone;
-        else
-            title = NSLocalizedString(@"NO_PHONE_NUMBER", @"Building has no phone number");
+        NSMutableArray *menuItems = [NSMutableArray new];
         
-        UIMenuItem *call = [[UIMenuItem alloc] initWithTitle:title action:@selector(call:)];
+        if ([_selectedBuilding hasPhoneNumer]) {
+            UIMenuItem *call = [[UIMenuItem alloc] initWithTitle:_selectedBuilding.phone action:@selector(call:)];
+            [menuItems addObject:call];
+        }
+        
+        if ([_selectedBuilding hasAddress]) {
+            UIMenuItem *copyAddress = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"COPY_ADDRESS", @"Copy the address") action:@selector(copyAddress:)];
+            [menuItems addObject:copyAddress];
+        }
+        
+        if (![menuItems count]) {
+            UIMenuItem *noItems = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"NO_ADDRESS_OR_PHONE", @"Building has no address or phone number") action:@selector(doNothing:)];
+            [menuItems addObject:noItems];
+        }
+        
         UIMenuController *menu = [UIMenuController sharedMenuController];
-        [menu setMenuItems:@[call]];
+        [menu setMenuItems:menuItems];
         [menu setTargetRect:cell.frame inView:cell.superview];
         [menu setMenuVisible:YES animated:YES];
     }
@@ -353,6 +395,17 @@ const float UITableDefaultRowHeight = 44.0;
         NSString *phoneURL = [NSString stringWithFormat:@"tel:%@", dialableNumber];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneURL]];
     }
+}
+
+- (void)copyAddress:(UIMenuController *)sender {
+    if ([_selectedBuilding hasAddress]) {
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        pasteboard.string = _selectedBuilding.address;
+    }
+}
+
+- (void)doNothing:(UIMenuController *)sender {
+    
 }
 
 @end

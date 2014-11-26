@@ -11,7 +11,11 @@
 #import "GBConstants.h"
 #import "GBConfig.h"
 
+#if !DEBUG || !TARGET_IPHONE_SIMULATOR
 static NSString * const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
+#else
+static NSString * const GBRequestBaseURL = @"http://localhost:5000";
+#endif
 
 // public xml feed:
 // http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
@@ -25,11 +29,48 @@ static NSString * const GBRequestPredictionsPath = @"/predictions/";
 static NSString * const GBRequestMultiPredictionsPath = @"/multiPredictions";
 static NSString * const GBRequestSchedulePath = @"/schedule";
 static NSString * const GBRequestMessagesPath = @"/messages";
+
 static NSString * const GBRequestBuildingsPath = @"/buildings";
 
 static NSString * const GBRequestResetPath = @"/reset";
 static NSString * const GBRequestUpdateStopsPath = @"/updateStops";
 static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
+/*
+@interface GBRequestConfig : NSObject
+
+@property (nonatomic, strong) NSString *baseURL;
+@property (nonatomic, strong) NSString *routeConfigURL;
+//@property (nonatomic, strong) NSString *baseURL;
+//@property (nonatomic, strong) NSString *baseURL;
+//@property (nonatomic, strong) NSString *baseURL;
+//@property (nonatomic, strong) NSString *baseURL;
+
+@end
+
+@implementation GBRequestConfig
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
++ (instancetype)gtbusesConfig {
+    GBRequestConfig *herokuConfig = [[GBRequestConfig alloc] init];
+    herokuConfig.baseURL = @"https://gtbuses.herokuapp.com";
+    herokuConfig.ro
+    return herokuConfig;
+}
+
++ (instancetype)nextbusConfig {
+    GBRequestConfig *herokuConfig = [[GBRequestConfig alloc] init];
+    
+    return herokuConfig;
+}
+
+@end*/
 
 @implementation GBRequestHandler
 

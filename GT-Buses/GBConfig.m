@@ -40,6 +40,8 @@
         _message = @"";
         // update to new version?
         
+        _buildingsVersion = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsBuildingsVersionKey];
+        
 #if DEBUG
         _showBusIdentifiers = YES;
 #else
@@ -54,14 +56,17 @@
 }
 
 - (void)handleConfig:(NSDictionary *)config {
-//    NSLog(@"%@",config);
     if (config) {
         NSInteger version = [config[@"version"] integerValue];
         NSString *iOSVersion = config[@"iOSVersion"];
         NSString *message = config[@"message"];
+        
+        NSInteger buildingVersion = [config[@"buildingsVersion"] integerValue];
+        
         BOOL party = [config[@"party"] boolValue];
         
         [self setVersion:version];
+        [self setBuildingsVersion:buildingVersion];
         
         if (![_message isEqualToString:message]) {
             [self setMessage:message];
@@ -107,6 +112,15 @@
         // If ios version > current ios version
         
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationiOSVersionDidChange object:iOSVersion];
+    }
+}
+
+- (void)setBuildingsVersion:(NSInteger)buildingsVersion {
+    if (_buildingsVersion != buildingsVersion) {
+        _buildingsVersion = buildingsVersion;
+        [[NSUserDefaults standardUserDefaults] setInteger:_buildingsVersion forKey:GBUserDefaultsBuildingsVersionKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationBuildingsVersionDidChange object:nil];
     }
 }
 

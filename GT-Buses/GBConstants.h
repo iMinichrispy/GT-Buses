@@ -13,6 +13,7 @@ extern NSString * const GBFontDefault;
 extern NSString * const GBUserDefaultsAgencyKey;
 extern NSString * const GBUserDefaultsSelectedRouteKey;
 extern NSString * const GBUserDefaultsSelectedColorKey;
+extern NSString * const GBUserDefaultsBuildingsVersionKey;
 
 extern NSString * const GBSharedDefaultsExtensionSuiteName;
 extern NSString * const GBSharedDefaultsFavoriteStopsKey;
@@ -22,6 +23,7 @@ extern NSString * const GBNotificationTintColorDidChange;
 extern NSString * const GBNotificationPartyModeDidChange;
 extern NSString * const GBNotificationMessageDidChange;
 extern NSString * const GBNotificationiOSVersionDidChange;
+extern NSString * const GBNotificationBuildingsVersionDidChange;
 
 extern NSString * const GBRequestRouteConfigTask;
 extern NSString * const GBRequestVehicleLocationsTask;

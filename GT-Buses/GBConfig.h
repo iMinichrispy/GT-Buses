@@ -13,6 +13,7 @@
 @property (nonatomic, getter=isParty) BOOL party;
 @property (nonatomic) BOOL showBusIdentifiers;
 @property (nonatomic, strong) NSString *message;
+@property (nonatomic) NSInteger buildingsVersion;
 
 + (GBConfig *)sharedInstance;
 - (void)handleConfig:(NSDictionary *)config;

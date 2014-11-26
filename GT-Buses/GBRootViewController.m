@@ -37,11 +37,11 @@ float const kAboutViewAnimationSpeed = .2;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor redColor];
     _mapViewController = [[GBMapViewController alloc] init];
     _mapViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_mapViewController.view];
-    
+    [self addChildViewController:_mapViewController];
+
     NSMutableArray *constraints = [NSMutableArray new];
     UIView *mapViewControllerView = _mapViewController.view;
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];

@@ -72,7 +72,7 @@ int const kRefreshInterval = 5;
 }
 
 - (void)setupConstraints {
-#if DEFAULT_IMAGE
+#if DEFAULT_IMAGE || HIDE_MAP
     self.title = @"";
     self.navigationItem.leftBarButtonItem = nil;
     UIView *contentView = [[UIView alloc] init];
@@ -82,15 +82,10 @@ int const kRefreshInterval = 5;
 #else
     UIView *contentView = _mapView;
 #endif
+    
     NSMutableArray *constraints = [NSMutableArray new];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_busRouteControlView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
-//    [constraints addObjectsFromArray:[NSLayoutConstraint
-//                                      constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)][contentView]|"
-//                                      options:0
-//                                      metrics:@{@"controlViewHeight":@43}
-//                                      views:NSDictionaryOfVariableBindings(_busRouteControlView, contentView)]];
-    
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)]" options:0 metrics:@{@"controlViewHeight":@43} views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView)]];
     [self.view addConstraints:constraints];

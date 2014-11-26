@@ -27,6 +27,7 @@
 
 - (instancetype)initWithName:(NSString *)name buildingID:(NSString *)buildingID;
 - (BOOL)hasPhoneNumer;
+- (BOOL)hasAddress;
 - (NSString *)dialablePhoneNumber;
 - (NSDictionary *)toDictionary;
 

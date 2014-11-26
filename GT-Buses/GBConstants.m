@@ -13,6 +13,7 @@ NSString * const GBFontDefault = @"Avenir-Medium";
 NSString * const GBUserDefaultsAgencyKey = @"GBUserDefaultsAgencyKey";
 NSString * const GBUserDefaultsSelectedRouteKey = @"GBUserDefaultsKeySelectedRoute";
 NSString * const GBUserDefaultsSelectedColorKey = @"GBUserDefaultsKeySelectedColor";
+NSString * const GBUserDefaultsBuildingsVersionKey = @"GBUserDefaultsBuildingsVersionKey";
 
 NSString * const GBSharedDefaultsExtensionSuiteName = @"group.com.alexperez.gt-buses";
 NSString * const GBSharedDefaultsFavoriteStopsKey = @"GBSharedDefaultsFavoriteStopsKey";
@@ -22,6 +23,7 @@ NSString * const GBNotificationTintColorDidChange = @"GBNotificationTintColorDid
 NSString * const GBNotificationPartyModeDidChange = @"GBNotificationPartyModeDidChange";
 NSString * const GBNotificationMessageDidChange = @"GBNotificationMessageDidChange";
 NSString * const GBNotificationiOSVersionDidChange = @"GBNotificationiOSVersionDidChange";
+NSString * const GBNotificationBuildingsVersionDidChange = @"GBNotificationBuildingsVersionDidChange";
 
 NSString * const GBRequestRouteConfigTask = @"GBRequestRouteConfigTask";
 NSString * const GBRequestVehicleLocationsTask = @"GBRequestVehicleLocationsTask";
