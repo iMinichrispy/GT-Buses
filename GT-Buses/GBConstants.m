@@ -14,16 +14,19 @@ NSString * const GBUserDefaultsAgencyKey = @"GBUserDefaultsAgencyKey";
 NSString * const GBUserDefaultsSelectedRouteKey = @"GBUserDefaultsKeySelectedRoute";
 NSString * const GBUserDefaultsSelectedColorKey = @"GBUserDefaultsKeySelectedColor";
 NSString * const GBUserDefaultsBuildingsVersionKey = @"GBUserDefaultsBuildingsVersionKey";
+NSString * const GBUserDefaultsShowsBusIdentifiers = @"GBUserDefaultsShowsBusIdentifiers";
 
 NSString * const GBSharedDefaultsExtensionSuiteName = @"group.com.alexperez.gt-buses";
 NSString * const GBSharedDefaultsFavoriteStopsKey = @"GBSharedDefaultsFavoriteStopsKey";
 NSString * const GBSharedDefaultsRoutesKey = @"GBSharedDefaultsRoutesKey";
+NSString * const GBSharedDefaultsShowsArrivalTimeKey = @"GBSharedDefaultsShowsArrivalTimeKey";
 
 NSString * const GBNotificationTintColorDidChange = @"GBNotificationTintColorDidChange";
 NSString * const GBNotificationPartyModeDidChange = @"GBNotificationPartyModeDidChange";
 NSString * const GBNotificationMessageDidChange = @"GBNotificationMessageDidChange";
 NSString * const GBNotificationiOSVersionDidChange = @"GBNotificationiOSVersionDidChange";
 NSString * const GBNotificationBuildingsVersionDidChange = @"GBNotificationBuildingsVersionDidChange";
+NSString * const GBNotificationShowsBusIdentifiersDidChange = @"GBNotificationShowsBusIdentifiersDidChange";
 
 NSString * const GBRequestRouteConfigTask = @"GBRequestRouteConfigTask";
 NSString * const GBRequestVehicleLocationsTask = @"GBRequestVehicleLocationsTask";
@@ -31,6 +34,3 @@ NSString * const GBRequestVehiclePredictionsTask = @"GBRequestVehiclePredictions
 NSString * const GBRequestMultiPredictionsTask = @"GBRequestMultiPredictionsTask";
 NSString * const GBRequestMessagesTask = @"GBRequestMessagesTask";
 NSString * const GBRequestBuildingsTask = @"GBRequestBuildingsTask";
-
-float const kSideWidth = 150.0f;
-float const kSideWidthiPad = 200.0f;

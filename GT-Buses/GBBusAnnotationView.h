@@ -10,8 +10,7 @@
 
 @interface GBBusAnnotationView : MKAnnotationView
 
-@property (nonatomic, strong) UIImageView *arrowImageView;
-
 - (void)updateArrowImageRotation;
+- (void)setIdentifierVisible:(BOOL)visible;
 
 @end

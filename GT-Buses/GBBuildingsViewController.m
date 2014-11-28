@@ -13,39 +13,10 @@
 #import "GBBuilding.h"
 #import "GBColors.h"
 #import "UIDevice+Hardware.h"
+#import "GBBuildingCell.h"
 
 static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 static NSString * const GBBuildingsPlistFileName = @"Buildings.plist";
-
-@interface GBBuildingCell : UITableViewCell <GBTintColorDelegate>
-
-@end
-
-@implementation GBBuildingCell
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:GBBuildingCellIdentifier];
-    if (self) {
-        if ([[UIDevice currentDevice] supportsVisualEffects])
-            self.backgroundColor = [UIColor clearColor];
-    }
-    return self;
-}
-
-- (BOOL)canBecomeFirstResponder {
-    // Allows for UIMenuController to become visible over a cell
-    return YES;
-}
-
-- (void)updateTintColor {
-    self.textLabel.textColor = [UIColor appTintColor];
-    
-    UIView *selectedView = [[UIView alloc] init];
-    selectedView.backgroundColor = [[UIColor appTintColor] colorWithAlphaComponent:.5];
-    self.selectedBackgroundView = selectedView;
-}
-
-@end
 
 @interface GBBuildingsViewController () <RequestHandlerDelegate> {
     NSArray             *_partitionedBuildings;
@@ -70,10 +41,6 @@ const float UITableDefaultRowHeight = 44.0;
         _buildings = [NSMutableArray new];
     }
     return self;
-}
-
-- (BOOL)deviceSupportsVisualEffects {
-    return YES;
 }
 
 - (void)loadView {
@@ -114,7 +81,6 @@ const float UITableDefaultRowHeight = 44.0;
 }
 
 - (void)setupForBuildings:(NSArray *)buildings {
-#warning check buildings count
     if (buildings) {
         NSMutableArray *newBuildings = [NSMutableArray new];
         
@@ -130,24 +96,14 @@ const float UITableDefaultRowHeight = 44.0;
     }
 }
 
-//- (void)viewDidAppear:(BOOL)animated {
-//    [super viewDidAppear:animated];
-//    
-//    if (!_allBuildings) {
-//        [self updateBuildings:nil];
-//    }
-//    NSLog(@"viewdidappear");
-//}
+- (void)updateBuildings:(NSNotification *)notification {
+    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
+    [requestHandler buildings];
+}
 
 - (void)updateTintColor:(NSNotification *)notification {
     self.tableView.sectionIndexColor = [UIColor appTintColor];
     [self.tableView reloadData];
-}
-
-- (void)updateBuildings:(NSNotification *)notification {
-    NSLog(@"update buildings");
-    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
-    [requestHandler buildings];
 }
 
 #pragma mark - Table view data source
@@ -238,19 +194,16 @@ const float UITableDefaultRowHeight = 44.0;
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
     NSArray *buildings = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-#warning what if buildings array is empty?
     if (buildings && !error) {
         [self showErrorLabel:NO error:nil];
         if ([buildings count]) {
             NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
             [buildings writeToFile:path atomically:YES];
-            
             [self setupForBuildings:buildings];
         } else {
-            // show no buildings error
+            [self showErrorLabel:YES error:NSLocalizedString(@"NO_BUILDINGS_DATA", @"Buildings data is empty")];
         }
     } else {
-#warning error from parse error could already be good
         NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
         [self handleError:handler error:error];
     }
@@ -320,16 +273,14 @@ const float UITableDefaultRowHeight = 44.0;
     [self.tableView reloadData];
     [self.tableView setContentOffset:CGPointZero];
     
-    // Show the No Results Found label if the user has entered text but didn't find anything.
-    // keyboard for right-aligned languages will send a "\n" text change notification when they become active, or after all text is deleted from an input started in left layout. Don't take this as user text input.
+    // Show the No Results label if the user has entered text but didn't find anything
     [self showErrorLabel:( [query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"] ) error:NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results")];
 }
 
 - (void)showErrorLabel:(BOOL)show error:(NSString *)error {
-#warning !_errorLabel is potentially problematic
     if(show && !_errorLabel) {
         // Show the Error label
-        CGRect errorLabelFrame = [self.tableView frame];
+        CGRect errorLabelFrame = [self.tableView bounds];
         errorLabelFrame.origin.y += (IS_IPAD) ? UITableDefaultRowHeight * 3 : UITableDefaultRowHeight;
         errorLabelFrame.size.height = UITableDefaultRowHeight; // Height should be one row
         
@@ -340,10 +291,12 @@ const float UITableDefaultRowHeight = 44.0;
         [_errorLabel setTextAlignment:NSTextAlignmentCenter];
         
         [_errorLabel setText:error];
-        [_errorLabel setTextColor:[UIColor blackColor]];
+        [_errorLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
         [_errorLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
         
         [self.view addSubview:_errorLabel];
+    } else if (show && _errorLabel) {
+        _errorLabel.text = error;
     } else if (!show && _errorLabel) {
         // Hide the Error label
         [_errorLabel removeFromSuperview];
@@ -366,7 +319,6 @@ const float UITableDefaultRowHeight = 44.0;
         _selectedBuilding = [self buildingForIndexPath:indexPath];
         
         NSMutableArray *menuItems = [NSMutableArray new];
-        
         if ([_selectedBuilding hasPhoneNumer]) {
             UIMenuItem *call = [[UIMenuItem alloc] initWithTitle:_selectedBuilding.phone action:@selector(call:)];
             [menuItems addObject:call];

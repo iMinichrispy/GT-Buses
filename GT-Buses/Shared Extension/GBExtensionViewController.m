@@ -27,6 +27,12 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _updating = NO;
+        
+        
+        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+        [GBConfig sharedInstance].showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
     }
     return self;
 }
@@ -52,6 +58,12 @@
 - (void)updateLayout {
     // To be overriden by sublasses
     // Subclasses should organize and display stops here
+}
+
+- (void)userDefaultsDidChange:(NSNotification *)notification {
+    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    [GBConfig sharedInstance].showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
+    // To be overriden by sublasses
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {

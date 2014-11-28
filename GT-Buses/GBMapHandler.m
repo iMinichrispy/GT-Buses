@@ -94,6 +94,8 @@ static NSString * const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier"
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[GBBusAnnotation class]]) {
+#warning dequeue annotations
+//        [mapView dequeueReusableAnnotationViewWithIdentifier:<#(NSString *)#>];
         GBBusAnnotationView *annotationView = [[GBBusAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:GBBusAnnotationIdentifier];
         return annotationView;
     }

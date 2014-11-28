@@ -14,16 +14,19 @@ extern NSString * const GBUserDefaultsAgencyKey;
 extern NSString * const GBUserDefaultsSelectedRouteKey;
 extern NSString * const GBUserDefaultsSelectedColorKey;
 extern NSString * const GBUserDefaultsBuildingsVersionKey;
+extern NSString * const GBUserDefaultsShowsBusIdentifiers;
 
 extern NSString * const GBSharedDefaultsExtensionSuiteName;
 extern NSString * const GBSharedDefaultsFavoriteStopsKey;
 extern NSString * const GBSharedDefaultsRoutesKey;
+extern NSString * const GBSharedDefaultsShowsArrivalTimeKey;
 
 extern NSString * const GBNotificationTintColorDidChange;
 extern NSString * const GBNotificationPartyModeDidChange;
 extern NSString * const GBNotificationMessageDidChange;
 extern NSString * const GBNotificationiOSVersionDidChange;
 extern NSString * const GBNotificationBuildingsVersionDidChange;
+extern NSString * const GBNotificationShowsBusIdentifiersDidChange;
 
 extern NSString * const GBRequestRouteConfigTask;
 extern NSString * const GBRequestVehicleLocationsTask;
@@ -31,9 +34,6 @@ extern NSString * const GBRequestVehiclePredictionsTask;
 extern NSString * const GBRequestMultiPredictionsTask;
 extern NSString * const GBRequestMessagesTask;
 extern NSString * const GBRequestBuildingsTask;
-
-extern float const kSideWidth;
-extern float const kSideWidthiPad;
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)

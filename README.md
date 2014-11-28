@@ -20,11 +20,6 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 - Open source request handler
 
 iOS 8:
-- Add extension
-    - Use App Group for sharing data
-    - Color circle for indicating bus route
-    - Bus stop name with time predictions under it
-    - Rotates through stops (two/three at a time)
 - Don't use activateConstraints:
 
 In possible update:
@@ -108,7 +103,6 @@ v1.1.1
 v2.0
 - [Debug] Show stop ids on stop annotation
 - [Debug] Display predictions in minutes & seconds
-- [Debug] Added Reset, Stops, and Party button items to toolbar
 - [Debug] Added CPU graph
 - Now using GT Buses heroku backend
     - Routes no longer take a week to update
@@ -123,8 +117,10 @@ v2.0
 - Added NSLocalisedStrings
 - Restructured requesthandler errors
 - Added visualeffectview to search table
-- Tap and hold building cell to call
-- Changed way map region is calculated for rout - also allowed for enabling alpha on bus route control
+- Tap and hold building cell to call, copy address
+- Changed way map region is calculated for route - also allowed for re-enabling alpha on bus route control
+- Buildings saved on device and also updated from server when buildings data version changes
+- Added settings: arrival vs time until
 
 ## Debug Target Differences
 

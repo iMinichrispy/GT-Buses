@@ -1,6 +1,6 @@
 //
 //  RequestHandler.h
-//  HousePoints
+//  RequestHandler
 //
 //  Created by Alex Perez on 1/4/14.
 //  Copyright (c) 2014 Alex Perez. All rights reserved.

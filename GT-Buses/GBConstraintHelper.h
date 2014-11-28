@@ -13,5 +13,9 @@
 
 + (NSArray *)spacingConstraintFromTopView:(UIView *)topView toBottomView:(UIView *)bottomView;
 + (NSArray *)fillConstraint:(UIView *)view horizontal:(BOOL)horizontal;
++ (NSLayoutConstraint *)centerX:(UIView *)view withView:(UIView *)view2;
++ (NSLayoutConstraint *)centerY:(UIView *)view withView:(UIView *)view2;
++ (NSLayoutConstraint *)widthConstraint:(UIView *)view width:(double)width;
++ (NSLayoutConstraint *)heightConstraint:(UIView *)view height:(double)height;
 
 @end

@@ -15,11 +15,11 @@
 #import "GBSideBarItem.h"
 #import "UIViewController+GBMailComposer.h"
 
-#define SCREEN_WIDTH ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.width : [[UIScreen mainScreen] bounds].size.height)
-#define SCREEN_HEIGHT ((([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait) || ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)) ? [[UIScreen mainScreen] bounds].size.height : [[UIScreen mainScreen] bounds].size.width)
-
 float const kButtonHeight = 40.0f;
 float const kButtonSpacing = 10.0f;
+
+float const kSideWidth = 150.0f;
+float const kSideWidthiPad = 200.0f;
 
 @interface GBAboutController () <UIActionSheetDelegate, GBTintColorDelegate>
 
@@ -75,10 +75,6 @@ float const kButtonSpacing = 10.0f;
     return IS_IPAD ? kSideWidthiPad : kSideWidth;
 }
 
-- (void)reviewApp {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/gtbuses"]];
-}
-
 #pragma mark - Tint Color
 
 - (void)updateTintColor {
@@ -96,47 +92,6 @@ float const kButtonSpacing = 10.0f;
     [[UINavigationBar appearance] setTintColor:color];
 }
 
-- (void)updateTintColor:(NSNotification *)notification {
-    [self updateTintColor];
-    for (UIView *view in self.view.subviews) {
-        if ([view conformsToProtocol:@protocol(GBTintColorDelegate)])
-            [((id<GBTintColorDelegate>)view) updateTintColor];
-    }
-}
-
-#pragma mark - Action Sheet
-
-- (void)changeColor:(UILongPressGestureRecognizer *)recognizer {
-    if (recognizer.state == UIGestureRecognizerStateBegan) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"SELECT_COLOR", @"Select color prompt") delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
-        
-        NSArray *tintColors = [GBColors availableTintColors];
-        for (NSDictionary *color in tintColors) [actionSheet addButtonWithTitle:color[@"name"]];
-        
-        if (!IS_IPAD) [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:NSLocalizedString(@"SELECT_COLOR_CANCEL", @"Select color cancel")]];
-        
-        [actionSheet showFromRect:recognizer.view.frame inView:self.view animated:YES];
-    }
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex != actionSheet.cancelButtonIndex) {
-        NSArray *tintColors = [GBColors availableTintColors];
-        NSDictionary *selectedColor = tintColors[buttonIndex];
-        UIColor *color = selectedColor[@"color"];
-        [GBColors setAppTintColor:color];
-    }
-}
-
-#pragma mark - MFMailComposeViewControllerDelegate
-
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
-    if (result == MFMailComposeResultFailed) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"MESSAGE_FAILED", @"Mail failed alert tile") message:NSLocalizedString(@"MESSAGE_FAILED_TO_SEND", @"Mail failed alert message") delegate:nil cancelButtonTitle:NSLocalizedString(@"MESSAGE_DISMISS", @"Mail failed alert dismiss") otherButtonTitles:nil];
-        [alert show];
-    }
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
 
 #pragma mark - Message
 

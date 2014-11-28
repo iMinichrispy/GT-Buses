@@ -14,6 +14,7 @@
 #import "GBStop.h"
 #import "GBStopView.h"
 #import "GBConstraintHelper.h"
+#import "GBConfig.h"
 
 @interface GBExtensionViewController : UIViewController
 
@@ -25,5 +26,6 @@
 - (void)updatePredictions;
 - (void)displayError:(NSString *)error;
 - (NSInteger)maxNumberStops;
+- (void)userDefaultsDidChange:(NSNotification *)notification;
 
 @end

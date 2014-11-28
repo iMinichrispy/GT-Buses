@@ -10,6 +10,7 @@
 
 #import "GBRoute.h"
 #import "GBDirection.h"
+#import "GBConfig.h"
 
 @implementation NSDictionary (GBStop)
 
@@ -53,24 +54,44 @@
 
 + (NSString *)predictionsStringForPredictions:(NSArray *)predictions {
     if ([predictions count]) {
-        NSMutableString *predictionsString = [NSMutableString stringWithString:NSLocalizedString(@"PREDICTIONS_IN", @"In x, y, ...")];
+        BOOL showsArrivalTime = [[GBConfig sharedInstance] showsArrivalTime];
+        
+        NSMutableString *predictionsString;
+        if (showsArrivalTime) {
+            predictionsString = [NSMutableString stringWithString:NSLocalizedString(@"PREDICTIONS_AT", @"At x, y, ...")];
+        } else {
+            predictionsString = [NSMutableString stringWithString:NSLocalizedString(@"PREDICTIONS_IN", @"In x, y, ...")];
+        }
+        
         NSDictionary *lastPredication = [predictions lastObject];
         for (NSDictionary *prediction in predictions) {
-#if DEBUG
-//            int totalSeconds = [prediction[@"seconds"] intValue];
-//            double minutes = totalSeconds / 60;
-//            double seconds = totalSeconds % 60;
-//            NSString *time = [NSString stringWithFormat:@"%.f:%02.f", minutes, seconds];
-//            [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", time];
-            [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", prediction[@"minutes"]];
-#else
-            [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", prediction[@"minutes"]];
-#endif
+            if (showsArrivalTime) {
+                NSInteger seconds = [prediction[@"seconds"] intValue];
+                NSDate *date = [NSDate dateWithTimeIntervalSinceNow:seconds];
+                
+                NSDateFormatter *formatter = [self predictionDateFormatter];
+                NSString *formattedPrecition = [[formatter stringFromDate:date] lowercaseString];
+                
+                [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", formattedPrecition];
+                
+            } else {
+                [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", prediction[@"minutes"]];
+            }
         }
         return predictionsString;
     }
     
     return NSLocalizedString(@"NO_PREDICTIONS", @"No predictions for stop");
+}
+
++ (NSDateFormatter *)predictionDateFormatter {
+    static NSDateFormatter *formatter;
+    if (!formatter) {
+        formatter = [[NSDateFormatter alloc] init];
+        [formatter setLocale:[NSLocale currentLocale]];
+        [formatter setDateFormat:@"h:mma"];
+    }
+    return formatter;
 }
 
 @end

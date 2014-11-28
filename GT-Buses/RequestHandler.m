@@ -1,6 +1,6 @@
 //
 //  RequestHandler.m
-//  HousePoints
+//  RequestHandler
 //
 //  Created by Alex Perez on 1/4/14.
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
@@ -25,12 +25,7 @@
     [request setHTTPMethod:@"GET"];
     [request setCachePolicy:_cachePolicy];
     [request setValue:[RequestHandler userAgent] forHTTPHeaderField:@"User-Agent"];
-    if ([NSURLConnection canHandleRequest:request]) {
-        [self requestWithRequest:request];
-    } else {
-        NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorUnsupportedURL userInfo:nil];
-        [self mainThreadError:error];
-    }
+    [self requestWithRequest:request];
 }
 
 - (void)postRequestWithURL:(NSString *)url postData:(NSData *)postData {
@@ -51,52 +46,24 @@
 
 - (void)requestWithRequest:(NSURLRequest *)request {
     [self setActivityIndicatorVisible:YES];
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         if ([data length] > 0 && error == nil) {
             NSInteger code = [((NSHTTPURLResponse *)response) statusCode];
             if (code == 200)
-                [self mainThreadData:data];
+                [self receivedData:data];
             else {
                 NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:code userInfo:nil];
-                [self mainThreadError:error];
+                [self handleError:error];
             }
         }
         else if (error != nil) {
-            [self mainThreadError:error];
+            [self handleError:error];
         }
         else {
             NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorUnknown userInfo:nil];
-            [self mainThreadError:error];
+            [self handleError:error];
         }
     }];
-}
-
-- (void)handleError:(NSError *)error {
-#if !EXTENSION
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    [alert show];
-#endif
-}
-
-- (void)mainThreadData:(NSData *)data {
-    if ([NSThread isMainThread])
-        [self receivedData:data];
-    else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [self receivedData:data];
-        });
-    }
-}
-
-- (void)mainThreadError:(NSError *)error {
-    if ([NSThread isMainThread])
-        [self checkDelegateHandleError:error];
-    else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [self checkDelegateHandleError:error];
-        });
-    }
 }
 
 - (void)receivedData:(NSData *)data {
@@ -105,14 +72,16 @@
         [self.delegate handleResponse:self data:data];
     }
 }
-
-- (void)checkDelegateHandleError:(NSError *)error {
+- (void)handleError:(NSError *)error {
     [self setActivityIndicatorVisible:NO];
     if ([self.delegate respondsToSelector:@selector(handleError:error:)]) {
         [self.delegate handleError:self error:error];
     }
     else {
-        [self handleError:error];
+#if !EXTENSION
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alert show];
+#endif
     }
 }
 

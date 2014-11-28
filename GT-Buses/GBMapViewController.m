@@ -65,6 +65,7 @@ int const kRefreshInterval = 5;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(togglePartyMode:) name:GBNotificationPartyModeDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleBusIdentifiers:) name:GBNotificationShowsBusIdentifiersDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
@@ -82,7 +83,6 @@ int const kRefreshInterval = 5;
 #else
     UIView *contentView = _mapView;
 #endif
-    
     NSMutableArray *constraints = [NSMutableArray new];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_busRouteControlView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
@@ -163,10 +163,8 @@ int const kRefreshInterval = 5;
                         [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
                     }
                     
-                    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-                        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-                        [shared setObject:routes forKey:GBSharedDefaultsRoutesKey];
-                    }
+                    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+                    [shared setObject:routes forKey:GBSharedDefaultsRoutesKey];
                     
                     NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
                     if (_busRouteControlView.busRouteControl.numberOfSegments)
@@ -400,6 +398,18 @@ int const kRefreshInterval = 5;
     if (!party) {
         [GBColors setAppTintColor:[GBColors defaultColor]];
     }
+}
+
+- (void)toggleBusIdentifiers:(NSNotification *)notification {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBusAnnotation class]];
+    NSArray *busAnnotations = [_mapView.annotations filteredArrayUsingPredicate:predicate];
+    
+    for (MKPointAnnotation *annotation in busAnnotations) {
+        GBBusAnnotationView *annotationView = (GBBusAnnotationView *)[_mapView viewForAnnotation:annotation];
+        [annotationView setIdentifierVisible:[[GBConfig sharedInstance] showsBusIdentifiers]];
+    }
+    
+    
 }
 
 #pragma mark - Messages

@@ -42,11 +42,18 @@
         
         _buildingsVersion = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsBuildingsVersionKey];
         
-#if DEBUG
-        _showBusIdentifiers = YES;
-#else
-        _showBusIdentifiers = NO; // check settigns defaults, also requires ios 7!!!
-#endif
+        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+        _showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
+        
+        
+#warning requires ios 7!!
+        _showsBusIdentifiers = [[NSUserDefaults standardUserDefaults] boolForKey:GBUserDefaultsShowsBusIdentifiers];
+        
+//#if DEBUG
+//        _showBusIdentifiers = YES;
+//#else
+//        _showBusIdentifiers = NO; // check settigns defaults, also requires ios 7!!!
+//#endif
     }
     return self;
 }
@@ -112,6 +119,14 @@
         // If ios version > current ios version
         
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationiOSVersionDidChange object:iOSVersion];
+    }
+}
+
+- (void)setShowsBusIdentifiers:(BOOL)showsBusIdentifiers {
+    if (_showsBusIdentifiers != showsBusIdentifiers) {
+        _showsBusIdentifiers = showsBusIdentifiers;
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationShowsBusIdentifiersDidChange object:nil];
     }
 }
 

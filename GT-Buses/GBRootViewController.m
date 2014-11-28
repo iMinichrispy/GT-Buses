@@ -17,7 +17,7 @@
 #import "GBBuildingsViewController.h"
 #import "GBBuilding.h"
 #import "GBBuildingAnnotation.h"
-#import "GBAboutViewController.h"
+#import "GBSettingsViewController.h"
 
 @interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate> {
     NSString *_currentQuery;
@@ -27,7 +27,7 @@
 @property (nonatomic, strong) GBBuildingsViewController *buildingsController;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIVisualEffectView *overlayView;
-@property (nonatomic, strong) GBAboutViewController *aboutController;
+@property (nonatomic, strong) GBSettingsViewController *aboutController;
 
 @end
 
@@ -55,7 +55,7 @@ float const kAboutViewAnimationSpeed = .2;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reduceTransparencyDidChange:) name:UIAccessibilityReduceTransparencyStatusDidChangeNotification object:nil];
     
-    self.navigationItem.leftBarButtonItem = [self aboutButton];
+    self.navigationItem.rightBarButtonItem = [self settingsButton];
     
 #if DEFAULT_IMAGE
     self.title = @"";
@@ -67,7 +67,7 @@ float const kAboutViewAnimationSpeed = .2;
 - (void)setSearchEnaled:(BOOL)searchEnaled {
     if (_searchEnaled != searchEnaled) {
         _searchEnaled = searchEnaled;
-        self.navigationItem.rightBarButtonItem = (searchEnaled) ? [self searchButton] : nil;
+        self.navigationItem.leftBarButtonItem = (searchEnaled) ? [self searchButton] : nil;
     }
 }
 
@@ -77,10 +77,10 @@ float const kAboutViewAnimationSpeed = .2;
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor controlTintColor];
 }
 
-- (void)aboutPressed {
+- (void)settingsPressed {
     CGRect screenSize = [[UIScreen mainScreen] bounds];
     
-    _aboutController = [[GBAboutViewController alloc] init];
+    _aboutController = [[GBSettingsViewController alloc] init];
     _aboutController.view.frame = screenSize;
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(effectViewTap:)];
@@ -103,6 +103,8 @@ float const kAboutViewAnimationSpeed = .2;
     [UIView animateWithDuration:kAboutViewAnimationSpeed animations:^{
         rootView.transform = CGAffineTransformMakeScale(1, 1);
         [_aboutController.view removeFromSuperview];
+    } completion:^(BOOL finished) {
+        _aboutController = nil;
     }];
 }
 
@@ -116,10 +118,10 @@ float const kAboutViewAnimationSpeed = .2;
     [_searchBar becomeFirstResponder];
 }
 
-- (UIBarButtonItem *)aboutButton {
-    UIBarButtonItem *aboutButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"ABOUT_BUTTON", @"Button to open About screen") style:UIBarButtonItemStyleBordered target:self action:@selector(aboutPressed)];
-    aboutButton.tintColor = [UIColor controlTintColor];
-    return aboutButton;
+- (UIBarButtonItem *)settingsButton {
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsPressed)];
+    settingsButton.tintColor = [UIColor controlTintColor];
+    return settingsButton;
 }
 
 - (UIBarButtonItem *)searchButton {
@@ -145,6 +147,7 @@ float const kAboutViewAnimationSpeed = .2;
         _buildingsController.delegate = self;
         
         [_mapViewController.view addSubview:_buildingsController.view];
+        
         UIView *buildingsView = _buildingsController.view;
         CGSize size = [self buildingSearchMaxViewSize];
         
@@ -237,8 +240,8 @@ float const kAboutViewAnimationSpeed = .2;
     self.navigationItem.prompt = nil;
     self.navigationItem.titleView = nil;
     
-    [self.navigationItem setLeftBarButtonItem:[self aboutButton] animated:YES];
-    [self.navigationItem setRightBarButtonItem:[self searchButton] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[self settingsButton] animated:YES];
+    [self.navigationItem setLeftBarButtonItem:[self searchButton] animated:YES];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
     NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];

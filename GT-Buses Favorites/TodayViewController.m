@@ -23,8 +23,6 @@
         
         NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
         self.stops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
     }
     return self;
 }
@@ -35,6 +33,7 @@
 }
 
 - (void)userDefaultsDidChange:(NSNotification *)notification {
+    [super userDefaultsDidChange:notification];
     NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
     self.stops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
     self.sectionView.parameterString = nil;

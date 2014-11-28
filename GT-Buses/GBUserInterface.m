@@ -44,7 +44,7 @@
         self.backgroundColor = [UIColor clearColor]; // Default background color is white on <=iOS6
         self.textColor = [UIColor whiteColor];
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        self.font = [UIFont fontWithName:GBFontDefault size:14];
+        self.font = [UIFont fontWithName:GBFontDefault size:16];
     }
     return self;
 }
@@ -58,9 +58,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        self.backgroundColor = [[UIColor appTintColor] darkerColor:0.2];
-        self.titleLabel.textColor = [UIColor whiteColor];
-        self.titleLabel.font = [UIFont fontWithName:GBFontDefault size:16];
+        self.backgroundColor = [ [UIColor appTintColor] darkerColor:0];
+//        self.titleLabel.textColor = [UIColor whiteColor];
+        self.titleLabel.font = [UIFont fontWithName:GBFontDefault size:17];
+        self.layer.cornerRadius = 5;
     }
     return self;
 }
@@ -68,7 +69,7 @@
 - (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     
-    float colorFactor = highlighted ? 0.26f : 0.2f;
+    float colorFactor = highlighted ? 0.05f : 0;
     self.backgroundColor = [[UIColor appTintColor] darkerColor:colorFactor];
 }
 
