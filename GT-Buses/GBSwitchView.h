@@ -8,12 +8,9 @@
 
 @import UIKit;
 
-#import "GBColors.h"
+#import "GBOptionView.h"
 
-@interface GBSwitchView : UIButton <GBTintColorDelegate>
-
-@property (nonatomic, strong) UILabel *label;
-@property (nonatomic, strong) UISwitch *aSwitch;
+@interface GBSwitchView : GBOptionView
 
 - (instancetype)initWithTitle:(NSString *)title defaults:(NSUserDefaults *)defaults key:(NSString *)key;
 

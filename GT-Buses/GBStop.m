@@ -70,9 +70,9 @@
                 NSDate *date = [NSDate dateWithTimeIntervalSinceNow:seconds];
                 
                 NSDateFormatter *formatter = [self predictionDateFormatter];
-                NSString *formattedPrecition = [[formatter stringFromDate:date] lowercaseString];
+                NSString *formattedPrediction = [[formatter stringFromDate:date] lowercaseString];
                 
-                [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", formattedPrecition];
+                [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", formattedPrediction];
                 
             } else {
                 [predictionsString appendFormat:prediction == lastPredication ? @"%@" : @"%@, ", prediction[@"minutes"]];

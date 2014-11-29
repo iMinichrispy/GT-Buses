@@ -178,7 +178,6 @@ int const kRefreshInterval = 5;
                 [self handleError:handler error:error];
             }
         } else if (handler.task == GBRequestVehicleLocationsTask) {
-            [self checkForMessages:dictionary];
             NSDictionary *config = dictionary[@"body"][@"config"];
             [[GBConfig sharedInstance] handleConfig:config];
             long long newLocationUpdate = [dictionary[@"body"][@"lastTime"][@"time"] longLongValue];
@@ -381,7 +380,7 @@ int const kRefreshInterval = 5;
 
 - (void)updateRegion {
     GBRoute *selectedRoute = [self selectedRoute];
-    UIEdgeInsets padding = UIEdgeInsetsMake(50, 7, 10, 7);
+    UIEdgeInsets padding = UIEdgeInsetsMake(50, 7, 10, 7); // Increase top padding to account for bus route control overlay
     MKMapRect visibleRect = [self.mapView mapRectThatFits:selectedRoute.mapRect edgePadding:padding];
     [UIView animateWithDuration:kSetRegionAnimationSpeed animations:^{
         [_mapView setVisibleMapRect:visibleRect];
@@ -401,6 +400,7 @@ int const kRefreshInterval = 5;
 }
 
 - (void)toggleBusIdentifiers:(NSNotification *)notification {
+#warning untested
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBusAnnotation class]];
     NSArray *busAnnotations = [_mapView.annotations filteredArrayUsingPredicate:predicate];
     
@@ -408,22 +408,6 @@ int const kRefreshInterval = 5;
         GBBusAnnotationView *annotationView = (GBBusAnnotationView *)[_mapView viewForAnnotation:annotation];
         [annotationView setIdentifierVisible:[[GBConfig sharedInstance] showsBusIdentifiers]];
     }
-    
-    
-}
-
-#pragma mark - Messages
-
-- (void)checkForMessages:(NSDictionary *)dictionary {
-    /*
-     NSDictionary *prediction = [dictionary[@"body"][@"predictions"] firstObject];
-     if (prediction) {
-     NSString *messageText = prediction[@"message"][@"text"];
-     if ([messageText length]) {
-     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBMessagesTask delegate:self];
-     [requestHandler messages];
-     }
-     }*/
 }
 
 #pragma mark - Timer

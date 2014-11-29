@@ -16,6 +16,7 @@
 #import "GBSwitchView.h"
 #import "UIDevice+Hardware.h"
 #import "UIViewController+GBMailComposer.h"
+#import "GBSegmentedControlView.h"
 
 @interface GBSettingsViewController () <UIActionSheetDelegate>
 
@@ -44,41 +45,55 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%@",[[NSLocale currentLocale] objectForKey:NSLocaleMeasurementSystem]);
-    NSLog(@"%@",[[NSLocale currentLocale] displayNameForKey:NSLocaleMeasurementSystem value:@"U.S."]);
-    
-    // Prediction(s) (times): [In 1][At 9:41am]
-    // Distances: [mi][km] - based on locale
-    // Bus identifiers: on/off
     
     // 24 hr (locale)
     // km/mi (locale)
     // selected routes
     // update available
 #warning distance from top and bottom really needs to vary w/ device height
+    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    
+    
     
     UILabel *settingsLabel = [[GBLabel alloc] init];
     settingsLabel.text = @"Settings";
     settingsLabel.font = [UIFont fontWithName:GBFontDefault size:23];
     [self.view addSubview:settingsLabel];
     
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-    GBSwitchView *arrivalTimeSwitchView = [[GBSwitchView alloc] initWithTitle:@"Shows Arrival Time" defaults:shared key:GBSharedDefaultsShowsArrivalTimeKey];
-    arrivalTimeSwitchView.aSwitch.on = [GBConfig sharedInstance].showsArrivalTime;
-    [arrivalTimeSwitchView.aSwitch addTarget:self action:@selector(arrivalTimeDidSwitch:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:arrivalTimeSwitchView];
     
-    GBSwitchView *busIdentifiersSwitchView = [[GBSwitchView alloc] initWithTitle:@"Show Bus Identifiers" defaults:[NSUserDefaults standardUserDefaults] key:GBUserDefaultsShowsBusIdentifiers];
-    busIdentifiersSwitchView.aSwitch.on = [GBConfig sharedInstance].showsBusIdentifiers;
-    [busIdentifiersSwitchView.aSwitch addTarget:self action:@selector(busIdentifierDidSwitch:) forControlEvents:UIControlEventValueChanged];
+    NSInteger seconds = 300;
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:seconds];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setLocale:[NSLocale currentLocale]];
+    [formatter setDateFormat:@"h:mm"];
+    
+    NSString *formattedPrediction = [formatter stringFromDate:date];
+    
+    NSString *inString = [NSString stringWithFormat:@"In %i", (int) seconds / 60];
+    NSString *atString = [NSString stringWithFormat:@"At %@", formattedPrediction];
+    
+    GBOptionView *arrivalTimeOptionView = [[GBSegmentedControlView alloc] initWithTitle:@"Predictions:" items:@[inString, atString] defaults:shared key:GBSharedDefaultsShowsArrivalTimeKey];
+    UISegmentedControl *arrivalTimeSegmentedControl = (UISegmentedControl *)arrivalTimeOptionView.accessoryView;
+    arrivalTimeSegmentedControl.selectedSegmentIndex = [GBConfig sharedInstance].showsArrivalTime;
+    [arrivalTimeSegmentedControl addTarget:self action:@selector(arrivalTimeValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:arrivalTimeOptionView];
+    
+    GBOptionView *distancesOptionView = [[GBSegmentedControlView alloc] initWithTitle:@"Distances:" items:@[@"Mi", @"Km"] defaults:nil key:nil];
+    [self.view addSubview:distancesOptionView];
+    
+    GBOptionView *busIdentifiersSwitchView = [[GBSwitchView alloc] initWithTitle:@"Show Bus Identifiers" defaults:[NSUserDefaults standardUserDefaults] key:GBUserDefaultsShowsBusIdentifiers];
+    UISwitch *busIdentifiersSwitch = (UISwitch *)busIdentifiersSwitchView.accessoryView;
+    busIdentifiersSwitch.on = [GBConfig sharedInstance].showsBusIdentifiers;
+    [busIdentifiersSwitch addTarget:self action:@selector(busIdentifierDidSwitch:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:busIdentifiersSwitchView];
     
     
     UIButton *supportButton = [[GBButton alloc] init];
-    //    [supportButton setTitle:NSLocalizedString(@"SUPPORT", @"Support button") forState:UIControlStateNormal];
+//    [supportButton setTitle:NSLocalizedString(@"SUPPORT", @"Support button") forState:UIControlStateNormal];
     [supportButton setTitle:@"Feedback" forState:UIControlStateNormal];
     [supportButton addTarget:self action:@selector(showSupportMailComposer) forControlEvents:UIControlEventTouchUpInside];
-    //    [supportButton addTarget:self action:@selector(toggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
+//    [supportButton addTarget:self action:@selector(toggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:supportButton];
     
     UIButton *reviewAppButton = [[GBButton alloc] init];
@@ -95,26 +110,19 @@
     [self.view addSubview:copyrightLabel];
     
     NSMutableArray *constraints = [NSMutableArray new];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[settingsLabel]-15-[arrivalTimeSwitchView]-10-[busIdentifiersSwitchView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(settingsLabel, arrivalTimeSwitchView, busIdentifiersSwitchView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[settingsLabel]-15-[arrivalTimeOptionView]-10-[distancesOptionView]-10-[busIdentifiersSwitchView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(settingsLabel, arrivalTimeOptionView, busIdentifiersSwitchView, distancesOptionView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[reviewAppButton(50)]-20-[supportButton(50)]-40-[copyrightLabel]-35-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(copyrightLabel, supportButton, reviewAppButton)]];
     [constraints addObject:[GBConstraintHelper centerX:settingsLabel withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:copyrightLabel withView:self.view]];
-    [constraints addObject:[GBConstraintHelper centerX:arrivalTimeSwitchView withView:self.view]];
+    [constraints addObject:[GBConstraintHelper centerX:arrivalTimeOptionView withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:busIdentifiersSwitchView withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:supportButton withView:self.view]];
     [constraints addObject:[GBConstraintHelper widthConstraint:supportButton width:200]];
     [constraints addObject:[GBConstraintHelper centerX:reviewAppButton withView:self.view]];
     [constraints addObject:[GBConstraintHelper widthConstraint:reviewAppButton width:200]];
+    [constraints addObject:[GBConstraintHelper centerX:distancesOptionView withView:self.view]];
+    
     [self.view addConstraints:constraints];
-    
-//    SBNotificationControlColorSettings *colorSettings = [SBNotificationControlColorSettings editButtonSettingsWithGraphicsQuality];
-//    
-//    SBNotificationVibrantButton *vibrantButton = [[SBNotificationVibrantButton alloc] initWithColorSettings:colorSettings];
-//    [vibrantButton setTitle:@"Review App" forState:UIControlStateNormal];
-//    vibrantButton.frame = CGRectMake(0, 0, 140, 35);
-//    vibrantButton.center = self.view.center;
-//    [[vibrancyEffectView contentView] addSubview:vibrantButton];
-    
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeColor:)];
     [longPress setMinimumPressDuration:2];
@@ -131,8 +139,8 @@
     }
 }
 
-- (void)arrivalTimeDidSwitch:(UISwitch *)sender {
-    [GBConfig sharedInstance].showsArrivalTime = sender.on;
+- (void)arrivalTimeValueChanged:(UISegmentedControl *)sender {
+    [GBConfig sharedInstance].showsArrivalTime = sender.selectedSegmentIndex;
 }
 
 - (void)busIdentifierDidSwitch:(UISwitch *)sender {

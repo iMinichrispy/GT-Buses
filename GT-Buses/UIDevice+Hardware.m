@@ -15,6 +15,7 @@
 
 - (BOOL)supportsVisualEffects {
 #if TARGET_IPHONE_SIMULATOR
+    // Checking via machine name doesn't work on simulator, so just assume yes for all devices
     return YES;
 #else
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {

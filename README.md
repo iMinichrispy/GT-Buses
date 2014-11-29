@@ -121,6 +121,7 @@ v2.0
 - Changed way map region is calculated for route - also allowed for re-enabling alpha on bus route control
 - Buildings saved on device and also updated from server when buildings data version changes
 - Added settings: arrival vs time until
+- Added custom URL scheme - gtbuses://
 
 ## Debug Target Differences
 

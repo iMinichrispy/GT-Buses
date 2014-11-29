@@ -11,10 +11,10 @@
 #import "GBConstants.h"
 #import "GBConfig.h"
 
-#if !DEBUG || !TARGET_IPHONE_SIMULATOR
-static NSString * const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
-#else
+#if LOCAL_SERVER
 static NSString * const GBRequestBaseURL = @"http://localhost:5000";
+#else
+static NSString * const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
 #endif
 
 // public xml feed:

@@ -132,6 +132,8 @@
 		FAC4808D1A201B330000DC6B /* GBSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807E1A201B330000DC6B /* GBSectionView.m */; };
 		FAC4808F1A201B330000DC6B /* GBStopGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480801A201B330000DC6B /* GBStopGroup.m */; };
 		FAC480911A201B330000DC6B /* GBStopView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480821A201B330000DC6B /* GBStopView.m */; };
+		FAC6F9B11A290E6500792CDC /* GBSegmentedControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC6F9B01A290E6500792CDC /* GBSegmentedControlView.m */; };
+		FAC6F9B41A29119000792CDC /* GBOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC6F9B31A29119000792CDC /* GBOptionView.m */; };
 		FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */; };
 		FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD597C01A12C66E0079B36C /* GBWindow.m */; };
 		FAD6A3401A1CE4F500D98955 /* GBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6A33F1A1CE4F500D98955 /* GBImage.m */; };
@@ -295,6 +297,10 @@
 		FAC480801A201B330000DC6B /* GBStopGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBStopGroup.m; sourceTree = "<group>"; };
 		FAC480811A201B330000DC6B /* GBStopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBStopView.h; sourceTree = "<group>"; };
 		FAC480821A201B330000DC6B /* GBStopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBStopView.m; sourceTree = "<group>"; };
+		FAC6F9AF1A290E6500792CDC /* GBSegmentedControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSegmentedControlView.h; sourceTree = "<group>"; };
+		FAC6F9B01A290E6500792CDC /* GBSegmentedControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSegmentedControlView.m; sourceTree = "<group>"; };
+		FAC6F9B21A29119000792CDC /* GBOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBOptionView.h; sourceTree = "<group>"; };
+		FAC6F9B31A29119000792CDC /* GBOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBOptionView.m; sourceTree = "<group>"; };
 		FACFA1A01A0DAE2A00F3E2C3 /* GBConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConfig.h; sourceTree = "<group>"; };
 		FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConfig.m; sourceTree = "<group>"; };
 		FAD597BF1A12C66E0079B36C /* GBWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBWindow.h; sourceTree = "<group>"; };
@@ -429,6 +435,10 @@
 				FAF453B81A2141E7005A16A9 /* UIDevice+Hardware.m */,
 				FA8EC67C1A27AA4100E54A86 /* GBSwitchView.h */,
 				FA8EC67D1A27AA4100E54A86 /* GBSwitchView.m */,
+				FAC6F9AF1A290E6500792CDC /* GBSegmentedControlView.h */,
+				FAC6F9B01A290E6500792CDC /* GBSegmentedControlView.m */,
+				FAC6F9B21A29119000792CDC /* GBOptionView.h */,
+				FAC6F9B31A29119000792CDC /* GBOptionView.m */,
 				FA0B9C091A11BAAB005197CC /* Models */,
 				FAA1235518A57E150049A5FA /* Mail */,
 				FAA1235418A57E090049A5FA /* UI */,
@@ -919,6 +929,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAC6F9B41A29119000792CDC /* GBOptionView.m in Sources */,
 				FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */,
 				FAA1234518A523170049A5FA /* GBAboutController.m in Sources */,
 				FA8EC67E1A27AA4100E54A86 /* GBSwitchView.m in Sources */,
@@ -934,6 +945,7 @@
 				FAD597C51A12D1040079B36C /* APGraphLayer.m in Sources */,
 				FA15FC921A1DA1A800C175AB /* GBBuildingsViewController.m in Sources */,
 				FA7005601A1F0AD300694D10 /* GBBus.m in Sources */,
+				FAC6F9B11A290E6500792CDC /* GBSegmentedControlView.m in Sources */,
 				FA8C118B19D30758008F5927 /* GBRootViewController.m in Sources */,
 				FAD6A3401A1CE4F500D98955 /* GBImage.m in Sources */,
 				FA0B9C0C1A11BABD005197CC /* GBSideBarItem.m in Sources */,
@@ -1207,6 +1219,7 @@
 					"APP_STORE_MAP=0",
 					"CPU_GRAPH=0",
 					"HIDE_MAP=0",
+					"LOCAL_SERVER=0",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";

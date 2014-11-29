@@ -12,14 +12,14 @@
 #import "GBUserInterface.h"
 #import "GBColors.h"
 
-@interface GBSwitch : UISwitch
+@interface GBDefaultsSwitch : UISwitch
 
 @property (nonatomic, strong) NSUserDefaults *defaults;
 @property (nonatomic, strong) NSString *key;
 
 @end
 
-@implementation GBSwitch
+@implementation GBDefaultsSwitch
 
 - (instancetype)initWithDefaults:(NSUserDefaults *)defaults key:(NSString *)key {
     self = [super init];
@@ -32,7 +32,7 @@
     return self;
 }
 
-- (void)valueDidChange:(UISwitch *)sender {;
+- (void)valueDidChange:(UISwitch *)sender {
     [_defaults setBool:sender.on forKey:_key];
     [_defaults synchronize];
 }
@@ -43,45 +43,12 @@
 @implementation GBSwitchView
 
 - (instancetype)initWithTitle:(NSString *)title defaults:(NSUserDefaults *)defaults key:(NSString *)key {
-    self = [super init];
+    self = [super initWithTitle:title];
     if (self) {
-        self.translatesAutoresizingMaskIntoConstraints = NO;
-//        self.backgroundColor = [UIColor redColor];
-//        self.layer.borderColor = RGBColor(236, 240, 241).CGColor;
-//        self.layer.borderWidth = 1.0f;
-//        self.layer.cornerRadius = 4;
+        UISwitch *defaultsSwitch = [[GBDefaultsSwitch alloc] initWithDefaults:defaults key:key];
+        defaultsSwitch.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _label = [[GBLabel alloc] init];
-        _label.text = title;
-        _label.textColor = RGBColor(224, 224, 224);
-        
-        _aSwitch = [[GBSwitch alloc] initWithDefaults:defaults key:key];
-        _aSwitch.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        [self addSubview:_label];
-        [self addSubview:_aSwitch];
-        
-        NSMutableArray *constraints = [NSMutableArray new];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_label]-[_aSwitch]-10-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_label, _aSwitch)]];
-        [constraints addObject:[GBConstraintHelper centerY:_aSwitch withView:self]];
-        [constraints addObject:[NSLayoutConstraint
-                                constraintWithItem:self
-                                attribute:NSLayoutAttributeHeight
-                                relatedBy:NSLayoutRelationEqual
-                                toItem:nil
-                                attribute:0
-                                multiplier:1
-                                constant:50]];
-        [constraints addObject:[NSLayoutConstraint
-                                constraintWithItem:self
-                                attribute:NSLayoutAttributeWidth
-                                relatedBy:NSLayoutRelationEqual
-                                toItem:nil
-                                attribute:0
-                                multiplier:1
-                                constant:250]];
-        [constraints addObject:[GBConstraintHelper centerY:_label withView:self]];
-        [self addConstraints:constraints];
+        [self setAccessoryView:defaultsSwitch];
         
         [self updateTintColor];
     }
@@ -89,7 +56,7 @@
 }
 
 - (void)updateTintColor {
-    _aSwitch.onTintColor = [UIColor appTintColor];
+    ((UISwitch *)self.accessoryView).onTintColor = [UIColor appTintColor];
 }
 
 @end

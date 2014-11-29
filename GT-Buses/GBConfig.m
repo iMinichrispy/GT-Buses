@@ -49,6 +49,8 @@
 #warning requires ios 7!!
         _showsBusIdentifiers = [[NSUserDefaults standardUserDefaults] boolForKey:GBUserDefaultsShowsBusIdentifiers];
         
+//        [[NSLocale currentLocale] objectForKey:NSLocaleUsesMetricSystem]
+        
 //#if DEBUG
 //        _showBusIdentifiers = YES;
 //#else
