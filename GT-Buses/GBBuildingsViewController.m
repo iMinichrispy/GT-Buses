@@ -51,7 +51,7 @@ const float UITableDefaultRowHeight = 44.0;
     tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     tableView.sectionHeaderHeight = 22;
     
-    if ([[UIDevice currentDevice] supportsVisualEffects] && !UIAccessibilityIsReduceTransparencyEnabled()) {
+    if ([[UIDevice currentDevice] supportsVisualEffects]) {
         UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
         UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
         tableView.backgroundView = effectView;
@@ -75,9 +75,10 @@ const float UITableDefaultRowHeight = 44.0;
         self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
     
-    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
-    NSArray *buildings = [[NSArray alloc] initWithContentsOfFile:path];
-    [self setupForBuildings:buildings];
+//    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
+//    NSArray *buildings = [[NSArray alloc] initWithContentsOfFile:path];
+//    [self setupForBuildings:buildings];
+    [self setupForBuildings:nil];
 }
 
 - (void)setupForBuildings:(NSArray *)buildings {
@@ -193,7 +194,8 @@ const float UITableDefaultRowHeight = 44.0;
 
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
-    NSArray *buildings = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
+    NSPropertyListFormat format;
+    NSArray *buildings = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:&format error:&error];
     if (buildings && !error) {
         [self showErrorLabel:NO error:nil];
         if ([buildings count]) {

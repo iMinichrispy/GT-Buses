@@ -20,6 +20,10 @@
 
 @end
 
+@interface GBBorderButton : UIButton
+
+@end
+
 @interface GBSegmentedControl : UISegmentedControl
 
 @end

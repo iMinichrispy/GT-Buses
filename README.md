@@ -7,6 +7,7 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 
 ## To-Do
 
+- Caret image is not pdf
 - Redesign About view
     - Parallax effect
 - Nothing having to do with favoriting routes or notification center should be on deivces <ios8
@@ -101,13 +102,12 @@ v1.1.1
 v2.0
 - [Debug] Show stop ids on stop annotation
 - [Debug] Display predictions in minutes & seconds
-- [Debug] Added CPU graph
 - Now using GT Buses heroku backend
     - Routes no longer take a week to update
 - About Controller now uses auto layout
 - Review App button changes to Update Now in About controller when new version is available
 - Sped up animation time when switching routes
-- Bus arrow image and stop dot image now rendered on device (not png)
+- Bus arrow image and stop dot image now rendered on device (no longer a png)
 - Added search buildings ability
 - Moved refresh button to bus route control
 - Split up extension into 2: favorites and nearby
@@ -120,6 +120,7 @@ v2.0
 - Buildings saved on device and also updated from server when buildings data version changes
 - Added settings: arrival vs time until
 - Added custom URL scheme - gtbuses://
+- Using pdfs for images
 
 ## Debug Target Differences
 

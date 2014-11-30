@@ -191,7 +191,7 @@
 		FA15FCD31A1856F6008FA394 /* GBSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSectionView.h; sourceTree = "<group>"; };
 		FA15FCD41A1856F6008FA394 /* GBSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSectionView.m; sourceTree = "<group>"; };
 		FA1FE92618A1D8A300757643 /* GT-Buses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GT-Buses.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA1FE93118A1D8A300757643 /* GT-Buses-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GT-Buses-Info.plist"; sourceTree = "<group>"; };
+		FA1FE93118A1D8A300757643 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA1FE93518A1D8A300757643 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FA1FE93718A1D8A300757643 /* GT-Buses-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GT-Buses-Prefix.pch"; sourceTree = "<group>"; };
 		FA1FE93818A1D8A300757643 /* GBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAppDelegate.h; sourceTree = "<group>"; };
@@ -437,7 +437,7 @@
 				FAA4EB9119A7BEB200AF68E3 /* RequestHandler */,
 				FA1FE97E18A1D9DD00757643 /* XMLReader */,
 				FA5531441A20E75300BAFB90 /* en.lproj */,
-				FA1FE93118A1D8A300757643 /* GT-Buses-Info.plist */,
+				FA1FE93118A1D8A300757643 /* Info.plist */,
 				FA1FE93518A1D8A300757643 /* main.m */,
 				FA1FE93718A1D8A300757643 /* GT-Buses-Prefix.pch */,
 			);
@@ -1169,11 +1169,11 @@
 					"$(inherited)",
 					"DEFAULT_IMAGE=0",
 					"APP_STORE_MAP=0",
-					"HIDE_MAP=0",
-					"LOCAL_SERVER=0",
+					"HIDE_MAP=1",
+					"LOCAL_SERVER=1",
 				);
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
+				INFOPLIST_FILE = "GT-Buses/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1198,7 +1198,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				INFOPLIST_FILE = "GT-Buses/GT-Buses-Info.plist";
+				INFOPLIST_FILE = "GT-Buses/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

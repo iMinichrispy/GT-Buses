@@ -25,20 +25,23 @@ float const kButtonWidth = 200.0f;
 
 @interface GBSettingsViewController () <UIActionSheetDelegate>
 
+@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) UIButton *reviewAppButton;
+
 @end
 
 @implementation GBSettingsViewController
 
 - (void)loadView {
     UIView *view;
-//    if ([[UIDevice currentDevice] supportsVisualEffects]) {
+    if ([[UIDevice currentDevice] supportsVisualEffects]) {
         UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         view = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-//    } else {
-//        view = [[UIView alloc] init];
-//        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.5];
-//    }
-    
+    } else {
+        view = [[UIView alloc] init];
+        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.5];
+    }
+
     view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.view = view;
 }
@@ -46,19 +49,12 @@ float const kButtonWidth = 200.0f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // selected routes
-    // update available
 #warning distance from top and bottom really needs to vary w/ device height
-    
-    
-    
     
     UILabel *settingsLabel = [[GBLabel alloc] init];
     settingsLabel.text = NSLocalizedString(@"SETTINGS", @"Settings title");
     settingsLabel.font = [UIFont fontWithName:GBFontDefault size:23];
     [self.view addSubview:settingsLabel];
-    
-    
-    
     
     GBOptionView *arrivalTimeOptionView = [[GBSegmentedControlView alloc] initWithTitle:NSLocalizedString(@"PREDICTIONS_SETTING", @"Predictions setting title") items:[self arrivalTimeItems]];
     UISegmentedControl *arrivalTimeSegmentedControl = (UISegmentedControl *)arrivalTimeOptionView.accessoryView;
@@ -66,49 +62,66 @@ float const kButtonWidth = 200.0f;
     [arrivalTimeSegmentedControl addTarget:self action:@selector(arrivalTimeValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:arrivalTimeOptionView];
     
-    GBOptionView *busIdentifiersSwitchView = [[GBSwitchView alloc] initWithTitle:@"Show Bus Identifiers"];
+    GBOptionView *busIdentifiersSwitchView = [[GBSwitchView alloc] initWithTitle:NSLocalizedString(@"SHOW_BUS_IDENTIFIERS", @"Toggle for showing bus identifiers")];
     UISwitch *busIdentifiersSwitch = (UISwitch *)busIdentifiersSwitchView.accessoryView;
     busIdentifiersSwitch.on = [GBConfig sharedInstance].showsBusIdentifiers;
     [busIdentifiersSwitch addTarget:self action:@selector(busIdentifierDidSwitch:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:busIdentifiersSwitchView];
     
+    UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
+    [toggleRoutesButton setTitle:@"Toggle Routes" forState:UIControlStateNormal];
+    [self.view addSubview:toggleRoutesButton];
+    
+    _messageLabel = [[GBLabel alloc] init];
+    _messageLabel.font = [UIFont fontWithName:GBFontDefault size:16];
+    _messageLabel.numberOfLines = 0;
+    _messageLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_messageLabel];
     
     UIButton *supportButton = [[GBButton alloc] init];
     [supportButton setTitle:NSLocalizedString(@"SUPPORT", @"Support button") forState:UIControlStateNormal];
     [supportButton addTarget:self action:@selector(showSupportMailComposer) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:supportButton];
     
-    UIButton *reviewAppButton = [[GBButton alloc] init];
-    [reviewAppButton setTitle:NSLocalizedString(@"REVIEW_APP", @"Review app button") forState:UIControlStateNormal];
-    [supportButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:reviewAppButton];
-    
+    _reviewAppButton = [[GBButton alloc] init];
+    [_reviewAppButton setTitle:NSLocalizedString(@"REVIEW_APP", @"Review app button") forState:UIControlStateNormal];
+    [_reviewAppButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_reviewAppButton];
     
     UILabel *copyrightLabel = [[UILabel alloc] init];
-    copyrightLabel.text = @"Copyright © 2015 by Alex Perez";
+    copyrightLabel.text = NSLocalizedString(@"COPYRIGHT", @"Copyright");
     copyrightLabel.font = [UIFont fontWithName:GBFontDefault size:11];
     copyrightLabel.textColor = RGBColor(133, 133, 133);
     copyrightLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:copyrightLabel];
     
     NSMutableArray *constraints = [NSMutableArray new];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[settingsLabel]-15-[arrivalTimeOptionView]-10-[busIdentifiersSwitchView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(settingsLabel, arrivalTimeOptionView, busIdentifiersSwitchView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[reviewAppButton(buttonHeight)]-20-[supportButton(buttonHeight)]-40-[copyrightLabel]-35-|" options:0 metrics:@{@"buttonHeight":@(kButtonHeight)} views:NSDictionaryOfVariableBindings(copyrightLabel, supportButton, reviewAppButton)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[settingsLabel]-15-[arrivalTimeOptionView]-10-[busIdentifiersSwitchView]-12-[toggleRoutesButton]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(settingsLabel, arrivalTimeOptionView, busIdentifiersSwitchView, toggleRoutesButton)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_messageLabel]-7-[_reviewAppButton(buttonHeight)]-20-[supportButton(buttonHeight)]-40-[copyrightLabel]-35-|" options:0 metrics:@{@"buttonHeight":@(kButtonHeight)} views:NSDictionaryOfVariableBindings(copyrightLabel, supportButton, _reviewAppButton, _messageLabel)]];
     [constraints addObject:[GBConstraintHelper centerX:settingsLabel withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:copyrightLabel withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:arrivalTimeOptionView withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:busIdentifiersSwitchView withView:self.view]];
+    [constraints addObject:[GBConstraintHelper centerX:toggleRoutesButton withView:self.view]];
+    
+    [constraints addObject:[GBConstraintHelper widthConstraint:toggleRoutesButton width:150]];
+    [constraints addObject:[GBConstraintHelper heightConstraint:toggleRoutesButton height:40]];
+    
+    [constraints addObject:[GBConstraintHelper centerX:_messageLabel withView:self.view]];
+    [constraints addObject:[GBConstraintHelper widthConstraint:_messageLabel width:kButtonWidth]];
     [constraints addObject:[GBConstraintHelper centerX:supportButton withView:self.view]];
     [constraints addObject:[GBConstraintHelper widthConstraint:supportButton width:kButtonWidth]];
-    [constraints addObject:[GBConstraintHelper centerX:reviewAppButton withView:self.view]];
-    [constraints addObject:[GBConstraintHelper widthConstraint:reviewAppButton width:kButtonWidth]];
+    [constraints addObject:[GBConstraintHelper centerX:_reviewAppButton withView:self.view]];
+    [constraints addObject:[GBConstraintHelper widthConstraint:_reviewAppButton width:kButtonWidth]];
     [self.view addConstraints:constraints];
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeColor:)];
     [longPress setMinimumPressDuration:2];
-    [reviewAppButton addGestureRecognizer:longPress];
+    [_reviewAppButton addGestureRecognizer:longPress];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessage:) name:GBNotificationMessageDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateiOSVersion:) name:GBNotificationiOSVersionDidChange object:nil];
 }
 
 - (void)updateTintColor:(NSNotification *)notification {
@@ -182,26 +195,26 @@ float const kButtonWidth = 200.0f;
     return @[inString, atString];
 }
 
-//#pragma mark - Message
-//
-//- (void)updateMessage:(NSNotification *)notification {
-//    NSString *message = [[GBConfig sharedInstance] message];
-//    _messageLabel.text = message;
-//}
-//
-//- (void)updateiOSVersion:(NSNotification *)notification {
-//    NSString *iOSVersion = notification.object;
-//    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-//    NSString *currentVersion = info[@"CFBundleShortVersionString"];
-//    
-//    if ([iOSVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending) {
-//        _messageLabel.text = NSLocalizedString(@"UPDATE_AVAILABLE", @"Update available button");
-//        [_appReviewButton setTitle:NSLocalizedString(@"UPDATE_NOW", @"Update now button") forState:UIControlStateNormal];
-//    } else {
-//        [_appReviewButton setTitle:NSLocalizedString(@"REVIEW_APP", @"Review app button") forState:UIControlStateNormal];
-//        [self updateMessage:nil];
-//    }
-//}
+#pragma mark - Config
 
+- (void)updateMessage:(NSNotification *)notification {
+    // TODO: Support for localization
+    NSString *message = [[GBConfig sharedInstance] message];
+    _messageLabel.text = message;
+}
+
+- (void)updateiOSVersion:(NSNotification *)notification {
+    NSString *iOSVersion = notification.object;
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *currentVersion = info[@"CFBundleShortVersionString"];
+    
+    if ([iOSVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending) {
+        _messageLabel.text = NSLocalizedString(@"UPDATE_AVAILABLE", @"Update available button");
+        [_reviewAppButton setTitle:NSLocalizedString(@"UPDATE_NOW", @"Update now button") forState:UIControlStateNormal];
+    } else {
+        [_reviewAppButton setTitle:NSLocalizedString(@"REVIEW_APP", @"Review app button") forState:UIControlStateNormal];
+        [self updateMessage:nil];
+    }
+}
 
 @end
