@@ -18,6 +18,7 @@
 #import "GBBuilding.h"
 #import "GBBuildingAnnotation.h"
 #import "GBSettingsViewController.h"
+#import "GBWindow.h"
 
 @interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate> {
     NSString *_currentQuery;
@@ -27,7 +28,7 @@
 @property (nonatomic, strong) GBBuildingsViewController *buildingsController;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIVisualEffectView *overlayView;
-@property (nonatomic, strong) GBSettingsViewController *aboutController;
+@property (nonatomic, strong) GBSettingsViewController *settingsController;
 
 @end
 
@@ -57,9 +58,7 @@ float const kAboutViewAnimationSpeed = .2;
     
     self.navigationItem.rightBarButtonItem = [self settingsButton];
     
-#if DEFAULT_IMAGE
-    self.title = @"";
-#else
+#if !DEFAULT_IMAGE
     self.title = NSLocalizedString(@"TITLE", @"Main Title");
 #endif
 }
@@ -80,42 +79,34 @@ float const kAboutViewAnimationSpeed = .2;
 - (void)settingsPressed {
     CGRect screenSize = [[UIScreen mainScreen] bounds];
     
-    _aboutController = [[GBSettingsViewController alloc] init];
-    _aboutController.view.frame = screenSize;
+    _settingsController = [[GBSettingsViewController alloc] init];
+    _settingsController.view.frame = screenSize;
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(effectViewTap:)];
-    [_aboutController.view addGestureRecognizer:tapGesture];
+    [_settingsController.view addGestureRecognizer:tapGesture];
     
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
     UIView *rootView = [window.subviews firstObject];
     [UIView animateWithDuration:kAboutViewAnimationSpeed animations:^{
         [[UIApplication sharedApplication] setStatusBarHidden:YES];
         rootView.transform = CGAffineTransformMakeScale(.9, .9);
-        
-        [window addSubview:_aboutController.view];
+        [window addSubview:_settingsController.view];
+    } completion:^(BOOL finished) {
+        window.settingsVisible = YES;
     }];
 }
 
 - (void)effectViewTap:(UITapGestureRecognizer *)recognizer {
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
     UIView *rootView = [window.subviews firstObject];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [UIView animateWithDuration:kAboutViewAnimationSpeed animations:^{
-        rootView.transform = CGAffineTransformMakeScale(1, 1);
-        [_aboutController.view removeFromSuperview];
+        rootView.transform = CGAffineTransformIdentity;
+        [_settingsController.view removeFromSuperview];
     } completion:^(BOOL finished) {
-        _aboutController = nil;
+        window.settingsVisible = NO;
+        _settingsController = nil;
     }];
-}
-
-- (void)showSearchBar {
-    self.navigationItem.prompt = NSLocalizedString(@"SEARCH_PROMPT", @"Displayed above search bar");
-    self.navigationItem.titleView = _searchBar;
-    
-    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
-    [self.navigationItem setRightBarButtonItem:[self cancelButton] animated:YES];
-    
-    [_searchBar becomeFirstResponder];
 }
 
 - (UIBarButtonItem *)settingsButton {
@@ -137,6 +128,16 @@ float const kAboutViewAnimationSpeed = .2;
 }
 
 #pragma mark - Search
+
+- (void)showSearchBar {
+    self.navigationItem.prompt = NSLocalizedString(@"SEARCH_PROMPT", @"Displayed above search bar");
+    self.navigationItem.titleView = _searchBar;
+    
+    [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+    [self.navigationItem setRightBarButtonItem:[self cancelButton] animated:YES];
+    
+    [_searchBar becomeFirstResponder];
+}
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     _searchBar.text = (_currentQuery) ? _currentQuery : @"";

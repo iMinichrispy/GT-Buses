@@ -22,6 +22,11 @@
 
 @interface GBStopAnnotationView : MKAnnotationView
 
+@property (nonatomic, strong) GBFavoriteButton *favoriteButton;
+@property (nonatomic, strong) UIImageView *stopImageView;
+
+- (void)setupForAnnotation:(GBStopAnnotation *)annotation;
+
 @end
 
 @implementation GBStopAnnotationView
@@ -38,17 +43,20 @@
         self.frame = CGRectMake(0, 0, size, size);
         self.canShowCallout = YES;
         
-        UIButton *favoriteButton = [[GBFavoriteButton alloc] initWithBusStopAnnotation:annotation];
-        self.rightCalloutAccessoryView = favoriteButton;
+        _favoriteButton = [[GBFavoriteButton alloc] init];
+        self.rightCalloutAccessoryView = _favoriteButton;
         
-        GBStopAnnotation *stopAnnotation = (GBStopAnnotation *)annotation;
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        UIColor *color = [stopAnnotation.stop.route.color darkerColor:0.2];
-        imageView.image = [UIImage circleImageWithColor:color size:size];
-        imageView.alpha = .7;
-        [self addSubview:imageView];
+        _stopImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        _stopImageView.alpha = .7;
+        [self addSubview:_stopImageView];
     }
     return self;
+}
+
+- (void)setupForAnnotation:(GBStopAnnotation *)annotation {
+    [_favoriteButton setStop:annotation.stop];
+    UIColor *color = [annotation.stop.route.color darkerColor:0.2];
+    _stopImageView.image = [UIImage circleImageWithColor:color size:self.frame.size.height];
 }
 
 @end
@@ -94,13 +102,23 @@ static NSString * const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier"
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[GBBusAnnotation class]]) {
-#warning dequeue annotations
-//        [mapView dequeueReusableAnnotationViewWithIdentifier:<#(NSString *)#>];
         GBBusAnnotationView *annotationView = [[GBBusAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:GBBusAnnotationIdentifier];
         return annotationView;
+        
+//        GBBusAnnotationView *annotationView = (GBBusAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:GBBusAnnotationIdentifier];
+//        if (!annotationView) {
+//            annotationView = [[GBBusAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:GBBusAnnotationIdentifier];
+//        }
+//#warning untested
+//        [annotationView setupForAnnotation:annotation];
+//        return annotationView;
     }
     else if ([annotation isKindOfClass:[GBStopAnnotation class]]) {
-        GBStopAnnotationView *annotationView = [[GBStopAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:GBStopAnnotationIdentifier];
+        GBStopAnnotationView *annotationView = (GBStopAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:GBStopAnnotationIdentifier];
+        if (!annotationView) {
+            annotationView = [[GBStopAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:GBStopAnnotationIdentifier];
+        }
+        [annotationView setupForAnnotation:annotation];
         return annotationView;
     }
     return nil;

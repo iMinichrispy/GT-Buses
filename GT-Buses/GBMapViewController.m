@@ -400,7 +400,6 @@ int const kRefreshInterval = 5;
 }
 
 - (void)toggleBusIdentifiers:(NSNotification *)notification {
-#warning untested
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBusAnnotation class]];
     NSArray *busAnnotations = [_mapView.annotations filteredArrayUsingPredicate:predicate];
     

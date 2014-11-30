@@ -29,12 +29,8 @@ static NSString * const GBRequestPredictionsPath = @"/predictions/";
 static NSString * const GBRequestMultiPredictionsPath = @"/multiPredictions";
 static NSString * const GBRequestSchedulePath = @"/schedule";
 static NSString * const GBRequestMessagesPath = @"/messages";
-
 static NSString * const GBRequestBuildingsPath = @"/buildings";
 
-static NSString * const GBRequestResetPath = @"/reset";
-static NSString * const GBRequestUpdateStopsPath = @"/updateStops";
-static NSString * const GBRequestTogglePartyPath = @"/toggleParty";
 /*
 @interface GBRequestConfig : NSObject
 

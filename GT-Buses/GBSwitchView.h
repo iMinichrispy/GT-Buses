@@ -12,6 +12,6 @@
 
 @interface GBSwitchView : GBOptionView
 
-- (instancetype)initWithTitle:(NSString *)title defaults:(NSUserDefaults *)defaults key:(NSString *)key;
+- (instancetype)initWithTitle:(NSString *)title;
 
 @end

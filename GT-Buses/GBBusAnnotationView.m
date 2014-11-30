@@ -51,16 +51,28 @@
         self.frame = _arrowImageView.bounds;
         self.canShowCallout = NO;
         
-        
-        
-        if ([sharedConfig showsBusIdentifiers]) {
-#warning why requires ios 7?
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-                
-            }
-        }
+        [self setIdentifierVisible:[sharedConfig showsBusIdentifiers]];
     }
     return self;
+}
+
+- (void)setupForAnnotation:(GBBusAnnotation *)annotation {
+    GBBus *bus = annotation.bus;
+    
+    GBConfig *sharedConfig = [GBConfig sharedInstance];
+    
+    CGSize arrowSize = IS_IPAD ? CGSizeMake(24, 32) : CGSizeMake(18, 24);
+    if ([sharedConfig isParty]) {
+        arrowSize = CGSizeMake(arrowSize.width * 4, arrowSize.height * 4);
+    }
+    
+    UIImage *colorArrowImage = [UIImage arrowImageWithColor:bus.color size:_arrowImageView.frame.size];
+    _arrowImageView.frame = CGRectMake(0, 0, arrowSize.width, arrowSize.height);
+    _arrowImageView.image = colorArrowImage;
+    
+    if ([sharedConfig showsBusIdentifiers]) {
+        _identifierLabel.text = bus.identifier;
+    }
 }
 
 - (void)updateArrowImageRotation {

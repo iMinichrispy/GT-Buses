@@ -8,29 +8,26 @@
 
 #import "GBFavoriteButton.h"
 
-#import "GBStopAnnotation.h"
 #import "GBStop.h"
 #import "GBConstants.h"
-
-@interface GBFavoriteButton ()
-
-@property (nonatomic, strong) GBStop *stop;
-
-@end
+#import "GBColors.h"
 
 @implementation GBFavoriteButton
 
-- (instancetype)initWithBusStopAnnotation:(GBStopAnnotation *)annotation {
-    self = [super initWithFrame:CGRectMake(0, 0, 30, 30)];
+- (instancetype)init {
+    self = [super initWithFrame:CGRectMake(0, 0, 26, 25)];
     if (self) {
-        _stop = annotation.stop;
-        
-        [self setFavorite:_stop.isFavorite];
-        
-        self.backgroundColor = [UIColor redColor];
         [self addTarget:self action:@selector(toggleFavorite:) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
+}
+
+- (void)setStop:(GBStop *)stop {
+    if (_stop != stop) {
+        _stop = stop;
+        
+        [self setFavorite:_stop.isFavorite];
+    }
 }
 
 - (void)toggleFavorite:(id)sender {
@@ -55,7 +52,8 @@
 }
 
 - (void)setFavorite:(BOOL)favorite {
-    [self setTitle:(favorite) ? @"1" : @"0" forState:UIControlStateNormal];
+    UIImage *image = (favorite) ? [UIImage imageNamed:@"Star-Filled"] : [UIImage imageNamed:@"Star"];
+    [self setImage:image forState:UIControlStateNormal];
 }
 
 @end

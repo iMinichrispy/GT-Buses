@@ -10,4 +10,6 @@
 
 @interface GBWindow : UIWindow
 
+@property (nonatomic) BOOL settingsVisible;
+
 @end

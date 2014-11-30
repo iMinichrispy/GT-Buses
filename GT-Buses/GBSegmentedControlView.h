@@ -12,6 +12,6 @@
 
 @interface GBSegmentedControlView : GBOptionView
 
-- (instancetype)initWithTitle:(NSString *)title items:(NSArray *)items defaults:(NSUserDefaults *)defaults key:(NSString *)key;
+- (instancetype)initWithTitle:(NSString *)title items:(NSArray *)items;
 
 @end

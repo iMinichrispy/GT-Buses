@@ -10,8 +10,8 @@
 
 #import "GBRootViewController.h"
 #import "GBUserInterface.h"
-#import "GBAboutController.h"
 #import "GBConstants.h"
+#import "GBWindow.h"
 
 @implementation GBAppDelegate
 
@@ -21,7 +21,7 @@
     
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:self.viewController];
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [[GBWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
     
@@ -29,11 +29,18 @@
 }
 
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-    static UIInterfaceOrientationMask orientationMask;
-    if (!orientationMask) {
-        orientationMask = (ROTATION_ENABLED) ? UIInterfaceOrientationMaskAll : UIInterfaceOrientationMaskPortrait;
+    if (ROTATION_ENABLED) {
+        // Don't allow rotation when settings is open since it interferes with the root view controller scale transform
+        GBWindow *gbwindow = (GBWindow *)window;
+        if (gbwindow.settingsVisible) {
+            UIInterfaceOrientation statusBarOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+            return UIInterfaceOrientationIsLandscape(statusBarOrientation) ? UIInterfaceOrientationMaskLandscape : (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown);
+        }
+        
+        return UIInterfaceOrientationMaskAll;
     }
-    return orientationMask;
+    
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

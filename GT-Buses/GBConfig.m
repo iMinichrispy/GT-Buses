@@ -31,7 +31,6 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        // Check user defaults?
         // agency
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         _iOSVersion = info[@"CFBundleShortVersionString"];
@@ -45,11 +44,7 @@
         NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
         _showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
         
-        
-#warning requires ios 7!!
         _showsBusIdentifiers = [[NSUserDefaults standardUserDefaults] boolForKey:GBUserDefaultsShowsBusIdentifiers];
-        
-//        [[NSLocale currentLocale] objectForKey:NSLocaleUsesMetricSystem]
         
 //#if DEBUG
 //        _showBusIdentifiers = YES;
@@ -124,10 +119,20 @@
     }
 }
 
+- (void)setShowsArrivalTime:(BOOL)showsArrivalTime {
+    if (_showsArrivalTime != showsArrivalTime) {
+        _showsArrivalTime = showsArrivalTime;
+        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+        [shared setBool:_showsArrivalTime forKey:GBSharedDefaultsShowsArrivalTimeKey];
+        [shared synchronize];
+    }
+}
+
 - (void)setShowsBusIdentifiers:(BOOL)showsBusIdentifiers {
     if (_showsBusIdentifiers != showsBusIdentifiers) {
         _showsBusIdentifiers = showsBusIdentifiers;
-        
+        [[NSUserDefaults standardUserDefaults] setBool:_showsBusIdentifiers forKey:GBUserDefaultsShowsBusIdentifiers];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationShowsBusIdentifiersDidChange object:nil];
     }
 }

@@ -11,47 +11,22 @@
 #import "GBUserInterface.h"
 #import "GBConstraintHelper.h"
 
-@interface GBDefaultsSegmentedControl : GBSegmentedControl
-
-@property (nonatomic, strong) NSUserDefaults *defaults;
-@property (nonatomic, strong) NSString *key;
-
-@end
-
-@implementation GBDefaultsSegmentedControl
-
-- (instancetype)initWithDefaults:(NSUserDefaults *)defaults key:(NSString *)key items:(NSArray *)items {
-    self = [super initWithItems:items];
-    if (self) {
-        _defaults = defaults;
-        _key = key;
-        
-        [self addTarget:self action:@selector(valueDidChange:) forControlEvents:UIControlEventValueChanged];
-    }
-    return self;
-}
-
-- (void)valueDidChange:(UISegmentedControl *)sender {
-    [_defaults setInteger:sender.selectedSegmentIndex forKey:_key];
-    [_defaults synchronize];
-}
-
-@end
-
 @implementation GBSegmentedControlView
 
-- (instancetype)initWithTitle:(NSString *)title items:(NSArray *)items defaults:(NSUserDefaults *)defaults key:(NSString *)key {
+float const kSegmentedControlWidth = 150.0f;
+
+- (instancetype)initWithTitle:(NSString *)title items:(NSArray *)items {
     self = [super initWithTitle:title];
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         
-        UISegmentedControl *segmentedControl = [[GBDefaultsSegmentedControl alloc] initWithDefaults:defaults key:key items:items];
+        UISegmentedControl *segmentedControl = [[GBSegmentedControl alloc] initWithItems:items];
         segmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
         segmentedControl.tintColor = [UIColor controlTintColor];
         
         [self setAccessoryView:segmentedControl];
         
-        [self addConstraint:[GBConstraintHelper widthConstraint:segmentedControl width:140]];
+        [self addConstraint:[GBConstraintHelper widthConstraint:segmentedControl width:kSegmentedControlWidth]];
         
         [self updateTintColor];
     }
@@ -59,7 +34,7 @@
 }
 
 - (void)updateTintColor {
-//    _segmentedControl.onTintColor = [UIColor appTintColor];
+    
 }
 
 @end

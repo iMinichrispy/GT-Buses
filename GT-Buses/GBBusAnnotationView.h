@@ -8,8 +8,10 @@
 
 @import MapKit;
 
+@class GBBusAnnotation;
 @interface GBBusAnnotationView : MKAnnotationView
 
+- (void)setupForAnnotation:(GBBusAnnotation *)annotation;
 - (void)updateArrowImageRotation;
 - (void)setIdentifierVisible:(BOOL)visible;
 
