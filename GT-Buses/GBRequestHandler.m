@@ -12,24 +12,24 @@
 #import "GBConfig.h"
 
 #if LOCAL_SERVER && TARGET_IPHONE_SIMULATOR
-static NSString * const GBRequestBaseURL = @"http://localhost:5000";
+static NSString *const GBRequestBaseURL = @"http://localhost:5000";
 #else
-static NSString * const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
+static NSString *const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
 #endif
 
 // public xml feed:
 // http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
 // http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=mit
 
-NSString * const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
+NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
 
-static NSString * const GBRequestRouteConfigPath = @"/routeConfig";
-static NSString * const GBRequestLocationsPath = @"/locations/";
-static NSString * const GBRequestPredictionsPath = @"/predictions/";
-static NSString * const GBRequestMultiPredictionsPath = @"/multiPredictions";
-static NSString * const GBRequestSchedulePath = @"/schedule";
-static NSString * const GBRequestMessagesPath = @"/messages";
-static NSString * const GBRequestBuildingsPath = @"/buildings";
+static NSString *const GBRequestRouteConfigPath = @"/routeConfig";
+static NSString *const GBRequestLocationsPath = @"/locations/";
+static NSString *const GBRequestPredictionsPath = @"/predictions/";
+static NSString *const GBRequestMultiPredictionsPath = @"/multiPredictions";
+static NSString *const GBRequestSchedulePath = @"/schedule";
+static NSString *const GBRequestMessagesPath = @"/messages";
+static NSString *const GBRequestBuildingsPath = @"/buildings";
 
 /*
 @interface GBRequestConfig : NSObject

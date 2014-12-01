@@ -13,8 +13,6 @@
 #import "GBDirection.h"
 #import "GBConstants.h"
 
-float const kMapRegionPadding = 0.0005f;
-
 @interface GBRoute ()
 
 + (MKMapRect)rectForPaths:(NSArray *)paths;

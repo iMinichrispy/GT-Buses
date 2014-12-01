@@ -20,7 +20,7 @@
 + (NSString *)errorStringForCode:(NSInteger)code;
 + (BOOL)isNextBusError:(NSDictionary *)dictionary;
 
-extern NSString * const GBRequestErrorDomain;
+extern NSString *const GBRequestErrorDomain;
 
 enum {
     GBRequestParseError = 2923,

@@ -15,8 +15,8 @@
 #import "UIDevice+Hardware.h"
 #import "GBBuildingCell.h"
 
-static NSString * const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
-static NSString * const GBBuildingsPlistFileName = @"Buildings.plist";
+static NSString *const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
+static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
 
 @interface GBBuildingsViewController () <RequestHandlerDelegate> {
     NSArray             *_partitionedBuildings;
@@ -33,7 +33,7 @@ static NSString * const GBBuildingsPlistFileName = @"Buildings.plist";
 
 @implementation GBBuildingsViewController
 
-const float UITableDefaultRowHeight = 44.0;
+float const UITableDefaultRowHeight = 44.0;
 
 - (instancetype)init {
     self = [super init];
@@ -314,7 +314,9 @@ const float UITableDefaultRowHeight = 44.0;
 
 - (void)longPress:(UILongPressGestureRecognizer *)recognizer {
     if (recognizer.state == UIGestureRecognizerStateBegan) {
+        // TODO: Allow Menu controller to become visible without changing the first responder (e.g. without dismissing the search keyboard)
         [self becomeFirstResponder];
+        
         UITableViewCell *cell = (UITableViewCell *)recognizer.view;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         _selectedBuilding = [self buildingForIndexPath:indexPath];

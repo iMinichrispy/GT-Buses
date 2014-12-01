@@ -18,8 +18,8 @@
 
 @implementation GBMapHandler
 
-static NSString * const GBStopAnnotationIdentifier = @"GBStopAnnotationIdentifier";
-static NSString * const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier";
+static NSString *const GBStopAnnotationIdentifier = @"GBStopAnnotationIdentifier";
+static NSString *const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier";
 
 // For iOS <=6
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
