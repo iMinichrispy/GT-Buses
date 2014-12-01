@@ -11,7 +11,9 @@
 @implementation NSDictionary (GBDirection)
 
 - (GBDirection *)toDirection {
-    GBDirection *direction = [[GBDirection alloc] initWithTitle:self[@"title"] tag:self[@"tag"]];
+    // TODO: Shouldn't have to remove 'to' from title - this should be fixed by Nextbus
+    NSString *title = [self[@"title"] stringByReplacingOccurrencesOfString:@"to " withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, MIN([self[@"title"] length], 3))];
+    GBDirection *direction = [[GBDirection alloc] initWithTitle:title tag:self[@"tag"]];
     direction.oneDirection = [self[@"oneDirection"] boolValue];
     return direction;
 }
