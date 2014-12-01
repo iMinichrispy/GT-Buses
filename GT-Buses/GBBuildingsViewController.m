@@ -75,10 +75,9 @@ const float UITableDefaultRowHeight = 44.0;
         self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
     
-//    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
-//    NSArray *buildings = [[NSArray alloc] initWithContentsOfFile:path];
-//    [self setupForBuildings:buildings];
-    [self setupForBuildings:nil];
+    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
+    NSArray *buildings = [[NSArray alloc] initWithContentsOfFile:path];
+    [self setupForBuildings:buildings];
 }
 
 - (void)setupForBuildings:(NSArray *)buildings {

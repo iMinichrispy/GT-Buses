@@ -76,6 +76,7 @@ float const kButtonWidth = 200.0f;
     _messageLabel.font = [UIFont fontWithName:GBFontDefault size:16];
     _messageLabel.numberOfLines = 0;
     _messageLabel.textAlignment = NSTextAlignmentCenter;
+    _messageLabel.text = [[GBConfig sharedInstance] message];
     [self.view addSubview:_messageLabel];
     
     UIButton *supportButton = [[GBButton alloc] init];
@@ -122,6 +123,9 @@ float const kButtonWidth = 200.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessage:) name:GBNotificationMessageDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateiOSVersion:) name:GBNotificationiOSVersionDidChange object:nil];
+    
+    [self updateMessage:nil];
+    [self updateiOSVersion:nil];
 }
 
 - (void)updateTintColor:(NSNotification *)notification {
@@ -173,8 +177,6 @@ float const kButtonWidth = 200.0f;
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-
-
 - (void)reviewApp {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/gtbuses"]];
 }
@@ -204,11 +206,7 @@ float const kButtonWidth = 200.0f;
 }
 
 - (void)updateiOSVersion:(NSNotification *)notification {
-    NSString *iOSVersion = notification.object;
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    NSString *currentVersion = info[@"CFBundleShortVersionString"];
-    
-    if ([iOSVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending) {
+    if ([[GBConfig sharedInstance] updateAvailable]) {
         _messageLabel.text = NSLocalizedString(@"UPDATE_AVAILABLE", @"Update available button");
         [_reviewAppButton setTitle:NSLocalizedString(@"UPDATE_NOW", @"Update now button") forState:UIControlStateNormal];
     } else {

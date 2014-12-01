@@ -11,56 +11,10 @@
 #import "GBBusAnnotation.h"
 #import "GBStopAnnotation.h"
 #import "GBBusRouteLine.h"
-#import "GBColors.h"
-#import "GBConstants.h"
-#import "GBConfig.h"
-#import "GBFavoriteButton.h"
-#import "GBStop.h"
-#import "GBRoute.h"
-#import "GBImage.h"
 #import "GBBusAnnotationView.h"
-
-@interface GBStopAnnotationView : MKAnnotationView
-
-@property (nonatomic, strong) GBFavoriteButton *favoriteButton;
-@property (nonatomic, strong) UIImageView *stopImageView;
-
-- (void)setupForAnnotation:(GBStopAnnotation *)annotation;
-
-@end
-
-@implementation GBStopAnnotationView
-
-- (instancetype)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
-    if (self) {
-        if (![annotation isKindOfClass:[GBStopAnnotation class]]) {
-            [NSException raise:NSInvalidArgumentException format:@"GBStopAnnotationView requires annotation of class GBStopAnnotation"];
-        }
-        
-        float size = IS_IPAD ? 17.0f : 10.0f;
-        if ([[GBConfig sharedInstance] isParty]) size = size * 2;
-        self.frame = CGRectMake(0, 0, size, size);
-        self.canShowCallout = YES;
-        
-        _favoriteButton = [[GBFavoriteButton alloc] init];
-        self.rightCalloutAccessoryView = _favoriteButton;
-        
-        _stopImageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        _stopImageView.alpha = .7;
-        [self addSubview:_stopImageView];
-    }
-    return self;
-}
-
-- (void)setupForAnnotation:(GBStopAnnotation *)annotation {
-    [_favoriteButton setStop:annotation.stop];
-    UIColor *color = [annotation.stop.route.color darkerColor:0.2];
-    _stopImageView.image = [UIImage circleImageWithColor:color size:self.frame.size.height];
-}
-
-@end
-
+#import "GBStopAnnotationView.h"
+#import "GBConfig.h"
+#import "GBConstants.h"
 
 @implementation GBMapHandler
 

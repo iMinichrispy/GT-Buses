@@ -185,7 +185,6 @@ int const kRefreshInterval = 5;
                 NSArray *vehicles = dictionary[@"body"][@"vehicle"];
                 if (vehicles) {
                     if (![vehicles isKindOfClass:[NSArray class]]) vehicles = @[vehicles];
-                    
                     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBusAnnotation class]];
                     NSMutableArray *busAnnotations = [[_mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
                     

@@ -146,4 +146,11 @@
     }
 }
 
+- (BOOL)updateAvailable {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *currentVersion = info[@"CFBundleShortVersionString"];
+    NSLog(@"Cur: %@, Latest: %@", currentVersion, _iOSVersion);
+    return ([_iOSVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending);
+}
+
 @end
