@@ -197,7 +197,7 @@
 		FA1FE93718A1D8A300757643 /* GT-Buses-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GT-Buses-Prefix.pch"; sourceTree = "<group>"; };
 		FA1FE93818A1D8A300757643 /* GBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBAppDelegate.h; sourceTree = "<group>"; };
 		FA1FE93918A1D8A300757643 /* GBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBAppDelegate.m; sourceTree = "<group>"; };
-		FA1FE94118A1D8A300757643 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "GT-Buses/Images.xcassets"; sourceTree = "<group>"; };
+		FA1FE94118A1D8A300757643 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FA1FE94718A1D8A300757643 /* GT-BusesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GT-BusesTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1FE95018A1D8A300757643 /* GT-BusesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GT-BusesTests-Info.plist"; sourceTree = "<group>"; };
 		FA1FE95218A1D8A300757643 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -376,7 +376,6 @@
 			children = (
 				FA94503B19EC55620022DF7C /* README.md */,
 				FA1FE92F18A1D8A300757643 /* GT-Buses */,
-				FA1FE94118A1D8A300757643 /* Images.xcassets */,
 				FAC480731A201B330000DC6B /* Shared Extension */,
 				FAC480171A2004D20000DC6B /* GT-Buses Favorites */,
 				FAB9D2681A2270F700EC9736 /* GT-Buses Nearby */,
@@ -443,6 +442,7 @@
 				FA1FE93118A1D8A300757643 /* Info.plist */,
 				FA1FE93518A1D8A300757643 /* main.m */,
 				FA1FE93718A1D8A300757643 /* GT-Buses-Prefix.pch */,
+				FA1FE94118A1D8A300757643 /* Images.xcassets */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
