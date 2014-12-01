@@ -419,6 +419,7 @@ int const kRefreshInterval = 5;
 }
 
 - (void)invalidateRefreshTimer {
+    lastLocationUpdate = 0;
     if ([_refreshTimer isValid]) [_refreshTimer invalidate];
 }
 
