@@ -1,17 +1,17 @@
 //
-//  UIViewController+GBMailComposer.m
+//  UIViewController+MailComposer.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 8/14/14.
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "UIViewController+GBMailComposer.h"
+#import "UIViewController+MailComposer.h"
 
 #import "GBConstants.h"
 #import "GBSupportEmail.h"
 
-@implementation UIViewController (GBMailComposer)
+@implementation UIViewController (MailComposer)
 
 - (void)showSupportMailComposer {
     if ([MFMailComposeViewController canSendMail]) {

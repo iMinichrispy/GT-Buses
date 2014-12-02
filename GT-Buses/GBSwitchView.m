@@ -12,7 +12,6 @@
 #import "GBUserInterface.h"
 #import "GBColors.h"
 
-
 @implementation GBSwitchView
 
 - (instancetype)initWithTitle:(NSString *)title {

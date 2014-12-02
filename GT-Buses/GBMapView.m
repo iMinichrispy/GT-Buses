@@ -29,7 +29,6 @@
         
         _mapHandler = [[GBMapHandler alloc] init];
         self.delegate = _mapHandler;
-        
         self.region = DEFAULT_REGION;
     }
     return self;

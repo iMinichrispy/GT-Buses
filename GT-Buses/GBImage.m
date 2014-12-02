@@ -13,7 +13,7 @@
 @implementation UIImage (GBImage)
 
 + (UIImage *)arrowImageWithColor:(UIColor *)color size:(CGSize)size {
-    // Saves the arrow image so only one needs to be created per color & size
+    // Caches the arrow image so only one needs to be created per color & size
     static NSMutableDictionary *arrowImages;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -52,7 +52,7 @@
 
 
 + (UIImage *)circleImageWithColor:(UIColor *)color size:(float)size {
-    // Saves the dot image so only one needs to be created per color & size
+    // Caches the dot image so only one needs to be created per color & size
     static NSMutableDictionary *circleImages;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

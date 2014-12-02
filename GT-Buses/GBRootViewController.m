@@ -1,5 +1,5 @@
 //
-//  GBViewController.m
+//  GBRootViewController.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 1/22/14.

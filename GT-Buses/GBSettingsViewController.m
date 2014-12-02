@@ -1,5 +1,5 @@
 //
-//  GBAboutViewController.m
+//  GBSettingsViewController.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 11/23/14.
@@ -15,7 +15,7 @@
 #import "GBConfig.h"
 #import "GBSwitchView.h"
 #import "UIDevice+Hardware.h"
-#import "UIViewController+GBMailComposer.h"
+#import "UIViewController+MailComposer.h"
 #import "GBSegmentedControlView.h"
 
 #define PREDICTION_EXAMPLE_SECONDS     300

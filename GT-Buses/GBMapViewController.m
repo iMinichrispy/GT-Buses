@@ -1,5 +1,5 @@
 //
-//  GBMapView.m
+//  GBMapViewController.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 11/19/14.

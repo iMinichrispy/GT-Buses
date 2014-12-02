@@ -1,5 +1,5 @@
 //
-//  UIViewController+GBMailComposer.h
+//  UIViewController+MailComposer.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 8/14/14.
@@ -9,7 +9,7 @@
 @import Foundation;
 @import MessageUI;
 
-@interface UIViewController (GBMailComposer) <MFMailComposeViewControllerDelegate>
+@interface UIViewController (MailComposer) <MFMailComposeViewControllerDelegate>
 
 - (void)showSupportMailComposer;
 

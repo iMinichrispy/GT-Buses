@@ -1,5 +1,5 @@
 //
-//  GBAboutViewController.h
+//  GBSettingsViewController.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 11/23/14.

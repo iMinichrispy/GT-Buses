@@ -113,7 +113,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<Title: %@, Tag: %@>", self.title, self.tag];
+    return [NSString stringWithFormat:@"<GBRoute title: %@, tag: %@>", _title, _tag];
 }
 
 @end

@@ -20,20 +20,20 @@
 }
 
 + (NSLayoutConstraint *)centerX:(UIView *)view withView:(UIView *)view2 {
-    return [self centerX:YES view:view withView:view2];
+    return [self center:NSLayoutAttributeCenterX view:view withView:view2];
 }
 
 + (NSLayoutConstraint *)centerY:(UIView *)view withView:(UIView *)view2 {
-    return [self centerX:NO view:view withView:view2];
+    return [self center:NSLayoutAttributeCenterY view:view withView:view2];
 }
 
-+ (NSLayoutConstraint *)centerX:(BOOL)x view:(UIView *)view withView:(UIView *)view2 {
++ (NSLayoutConstraint *)center:(NSLayoutAttribute)attribute view:(UIView *)view withView:(UIView *)view2 {
    return [NSLayoutConstraint
            constraintWithItem:view
-           attribute:(x) ? NSLayoutAttributeCenterX : NSLayoutAttributeCenterY
+           attribute:attribute
            relatedBy:NSLayoutRelationEqual
            toItem:view2
-           attribute:(x) ? NSLayoutAttributeCenterX : NSLayoutAttributeCenterY
+           attribute:attribute
            multiplier:1
            constant:0];
 }

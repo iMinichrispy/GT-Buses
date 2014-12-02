@@ -1,5 +1,5 @@
 //
-//  GBVibrantLabelView.h
+//  GBSectionHeaderView.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 11/13/14.
