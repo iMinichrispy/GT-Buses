@@ -10,6 +10,6 @@
 
 #import "GBColors.h"
 
-@interface GBBuildingCell : UITableViewCell <GBTintColorDelegate>
+@interface GBBuildingCell : UITableViewCell <GBTintColor>
 
 @end

@@ -10,7 +10,7 @@
 
 #import "GBColors.h"
 
-@interface GBOptionView : UIButton <GBTintColorDelegate>
+@interface GBOptionView : UIButton <GBTintColor>
 
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIView *accessoryView;

@@ -236,7 +236,10 @@ float const kAboutViewAnimationSpeed = .2;
 }
 
 - (void)hideSearchBar {
-    _buildingsController.view.hidden = YES;
+//    [_buildingsController setupForQuery:@""];
+    [_buildingsController.view removeFromSuperview];
+    _buildingsController = nil;
+//    _buildingsController.view.hidden = YES;
     
     self.navigationItem.prompt = nil;
     self.navigationItem.titleView = nil;
@@ -250,7 +253,6 @@ float const kAboutViewAnimationSpeed = .2;
     
     _searchBar.text = @"";
     _currentQuery = @"";
-    [_buildingsController setupForQuery:@""];
 }
 
 - (void)didSelectBuilding:(GBBuilding *)building {

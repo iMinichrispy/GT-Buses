@@ -130,8 +130,8 @@ float const kButtonWidth = 200.0f;
 
 - (void)updateTintColor:(NSNotification *)notification {
     for (UIView *view in self.view.subviews) {
-        if ([view conformsToProtocol:@protocol(GBTintColorDelegate)])
-            [((id<GBTintColorDelegate>)view) updateTintColor];
+        if ([view conformsToProtocol:@protocol(GBTintColor)])
+            [((id<GBTintColor>)view) updateTintColor];
     }
 }
 

@@ -140,8 +140,8 @@
 - (void)setBuildingsVersion:(NSInteger)buildingsVersion {
     if (_buildingsVersion != buildingsVersion) {
         _buildingsVersion = buildingsVersion;
-        [[NSUserDefaults standardUserDefaults] setInteger:_buildingsVersion forKey:GBUserDefaultsBuildingsVersionKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+#warning should only set saved buildings version once new buildings are retrived and stored
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationBuildingsVersionDidChange object:nil];
     }
 }
@@ -149,7 +149,6 @@
 - (BOOL)updateAvailable {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *currentVersion = info[@"CFBundleShortVersionString"];
-    NSLog(@"Cur: %@, Latest: %@", currentVersion, _iOSVersion);
     return ([_iOSVersion compare:currentVersion options:NSNumericSearch] == NSOrderedDescending);
 }
 

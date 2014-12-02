@@ -13,7 +13,7 @@ static inline UIColor *RGBColor(CGFloat red, CGFloat green, CGFloat blue) {
     return [UIColor colorWithRed:(red / 255.0) green:(green / 255.0) blue:(blue / 255.0) alpha:1.0];
 }
 
-@protocol GBTintColorDelegate <NSObject>
+@protocol GBTintColor <NSObject>
 
 @required
 - (void)updateTintColor;

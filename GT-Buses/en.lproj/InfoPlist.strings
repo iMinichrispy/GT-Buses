@@ -1,3 +1,4 @@
 /* Localized versions of Info.plist keys */
 
+/* Displayed in alert requesting location services */
 "NSLocationWhenInUseUsageDescription" = "See where you are on the map and view the nearest stops.";

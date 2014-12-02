@@ -14,6 +14,7 @@
 #import "GBColors.h"
 #import "UIDevice+Hardware.h"
 #import "GBBuildingCell.h"
+#import "GBConfig.h"
 
 static NSString *const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
@@ -80,6 +81,12 @@ float const UITableDefaultRowHeight = 44.0;
     [self setupForBuildings:buildings];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSLog(@"viewDidAppear");
+#warning needs a spin loading
+}
+
 - (void)setupForBuildings:(NSArray *)buildings {
     if (buildings) {
         NSMutableArray *newBuildings = [NSMutableArray new];
@@ -97,6 +104,12 @@ float const UITableDefaultRowHeight = 44.0;
 }
 
 - (void)updateBuildings:(NSNotification *)notification {
+    NSLog(@"update buildings");
+    
+    [self performSelector:@selector(test) withObject:nil afterDelay:3];
+}
+
+- (void)test {
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
     [requestHandler buildings];
 }
@@ -200,6 +213,9 @@ float const UITableDefaultRowHeight = 44.0;
         if ([buildings count]) {
             NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
             [buildings writeToFile:path atomically:YES];
+            // Update the stored buildings version
+            [[NSUserDefaults standardUserDefaults] setInteger:[[GBConfig sharedInstance] buildingsVersion] forKey:GBUserDefaultsBuildingsVersionKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self setupForBuildings:buildings];
         } else {
             [self showErrorLabel:YES error:NSLocalizedString(@"NO_BUILDINGS_DATA", @"Buildings data is empty")];
@@ -211,12 +227,11 @@ float const UITableDefaultRowHeight = 44.0;
 }
 
 - (void)handleError:(RequestHandler *)handler error:(NSError *)error {
-    [self showErrorLabel:YES error:[GBRequestHandler errorStringForCode:[error code]]];
-}
-
-- (void)setAllBuildings:(NSArray *)allBuildings {
-    if (_allBuildings != allBuildings) {
-        _allBuildings = allBuildings;
+    // Fall back on stored buildings (if available) if fails to retrieve udpated buildings
+#warning unintended consequences?
+    NSLog(@"_allBuildings: %i", [_allBuildings count]);
+    if (![_allBuildings count]) {
+        [self showErrorLabel:YES error:[GBRequestHandler errorStringForCode:[error code]]];
     }
 }
 
@@ -279,6 +294,7 @@ float const UITableDefaultRowHeight = 44.0;
 }
 
 - (void)showErrorLabel:(BOOL)show error:(NSString *)error {
+    NSLog(@"show error label: %d",show);
     if(show && !_errorLabel) {
         // Show the Error label
         CGRect errorLabelFrame = [self.tableView bounds];
