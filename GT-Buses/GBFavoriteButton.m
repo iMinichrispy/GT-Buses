@@ -33,7 +33,7 @@
 - (void)toggleFavorite:(id)sender {
     _stop.favorite = !_stop.favorite;
     
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
     NSMutableArray *stops = [[shared objectForKey:GBSharedDefaultsFavoriteStopsKey] mutableCopy];
     if (!stops) {
         stops = [NSMutableArray new];

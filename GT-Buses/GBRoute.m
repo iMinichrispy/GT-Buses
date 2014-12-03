@@ -47,7 +47,7 @@
         }
     }
     
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
     NSArray *favoriteStops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
     
     NSMutableArray *stops = [NSMutableArray new];

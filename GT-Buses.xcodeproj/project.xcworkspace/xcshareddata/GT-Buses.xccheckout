@@ -10,14 +10,14 @@
 	<string>GT-Buses</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>E5156265DBFB30B24CF1469D9782E77C7884BB77</key>
+		<key>A4E8B2FEB1B607830CEA72C04BE27E8D71F9D80A</key>
 		<string>gitlab.com:iMinichrispy/gt-buses.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>GT-Buses.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E5156265DBFB30B24CF1469D9782E77C7884BB77</key>
+		<key>A4E8B2FEB1B607830CEA72C04BE27E8D71F9D80A</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E5156265DBFB30B24CF1469D9782E77C7884BB77</string>
+	<string>A4E8B2FEB1B607830CEA72C04BE27E8D71F9D80A</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>E5156265DBFB30B24CF1469D9782E77C7884BB77</string>
+			<string>A4E8B2FEB1B607830CEA72C04BE27E8D71F9D80A</string>
 			<key>IDESourceControlWCCName</key>
 			<string>GT-Buses</string>
 		</dict>

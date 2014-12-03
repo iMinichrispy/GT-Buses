@@ -41,8 +41,7 @@
         
         _buildingsVersion = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsBuildingsVersionKey];
         
-        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-        _showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
+        _showsArrivalTime = [[NSUserDefaults sharedDefaults] boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
         
         _showsBusIdentifiers = [[NSUserDefaults standardUserDefaults] boolForKey:GBUserDefaultsShowsBusIdentifiers];
         
@@ -122,9 +121,8 @@
 - (void)setShowsArrivalTime:(BOOL)showsArrivalTime {
     if (_showsArrivalTime != showsArrivalTime) {
         _showsArrivalTime = showsArrivalTime;
-        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-        [shared setBool:_showsArrivalTime forKey:GBSharedDefaultsShowsArrivalTimeKey];
-        [shared synchronize];
+        [[NSUserDefaults sharedDefaults] setBool:_showsArrivalTime forKey:GBSharedDefaultsShowsArrivalTimeKey];
+        [[NSUserDefaults sharedDefaults] synchronize];
     }
 }
 

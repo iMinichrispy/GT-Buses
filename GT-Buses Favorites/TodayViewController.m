@@ -21,7 +21,7 @@
     if (self) {
         self.sectionView = [[GBSectionView alloc] initWithTitle:NSLocalizedString(@"FAVORITES_SECTION", @"Favorites section title") defaultsKey:@"key"];
         
-        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+        NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
         self.stops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
     }
     return self;
@@ -34,7 +34,7 @@
 
 - (void)userDefaultsDidChange:(NSNotification *)notification {
     [super userDefaultsDidChange:notification];
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
     self.stops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
     self.sectionView.parameterString = nil;
     [self updateLayout];

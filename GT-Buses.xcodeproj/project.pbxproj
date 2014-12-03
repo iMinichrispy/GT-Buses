@@ -22,6 +22,9 @@
 		FA1FE97C18A1D9C600757643 /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
 		FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
 		FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98318A1D9F800757643 /* RequestHandler.m */; };
+		FA28C7E11A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = FA28C7E01A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m */; };
+		FA28C7E31A2E96B300C1C9C1 /* NSUserDefaults+SharedDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = FA28C7E01A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m */; };
+		FA28C7E41A2E96D900C1C9C1 /* NSUserDefaults+SharedDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = FA28C7E01A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m */; };
 		FA2B6FC41A1430BA00C60449 /* GBStop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC31A1430BA00C60449 /* GBStop.m */; };
 		FA42AA111A2BEFA000AA4391 /* GBStopAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA42AA101A2BEFA000AA4391 /* GBStopAnnotationView.m */; };
 		FA4519091A2272DA00EC849C /* GBExtensionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807A1A201B330000DC6B /* GBExtensionViewController.m */; };
@@ -211,6 +214,8 @@
 		FA1FE98018A1D9DD00757643 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		FA1FE98218A1D9F800757643 /* RequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHandler.h; sourceTree = "<group>"; };
 		FA1FE98318A1D9F800757643 /* RequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHandler.m; sourceTree = "<group>"; };
+		FA28C7DF1A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+SharedDefaults.h"; sourceTree = "<group>"; };
+		FA28C7E01A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+SharedDefaults.m"; sourceTree = "<group>"; };
 		FA2B6FC21A1430BA00C60449 /* GBStop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBStop.h; sourceTree = "<group>"; };
 		FA2B6FC31A1430BA00C60449 /* GBStop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBStop.m; sourceTree = "<group>"; };
 		FA3C921719AA8AD300CEC529 /* RouteConfig.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = RouteConfig.xml; sourceTree = "<group>"; };
@@ -416,6 +421,8 @@
 				FAC6F9B01A290E6500792CDC /* GBSegmentedControlView.m */,
 				FAC6F9B21A29119000792CDC /* GBOptionView.h */,
 				FAC6F9B31A29119000792CDC /* GBOptionView.m */,
+				FA28C7DF1A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.h */,
+				FA28C7E01A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m */,
 				FA0B9C091A11BAAB005197CC /* Models */,
 				FAA1235518A57E150049A5FA /* Mail */,
 				FAA1235418A57E090049A5FA /* UI */,
@@ -895,6 +902,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAC6F9B41A29119000792CDC /* GBOptionView.m in Sources */,
+				FA28C7E11A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m in Sources */,
 				FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */,
 				FA8EC67E1A27AA4100E54A86 /* GBSwitchView.m in Sources */,
 				FA1FE97518A1D9B000757643 /* GBBusAnnotation.m in Sources */,
@@ -1004,6 +1012,7 @@
 				FA4519101A2272FC00EC849C /* XMLReader.m in Sources */,
 				FA938B441A26C8900018823A /* GBConstraintHelper.m in Sources */,
 				FA4519131A22730700EC849C /* GBStop.m in Sources */,
+				FA28C7E31A2E96B300C1C9C1 /* NSUserDefaults+SharedDefaults.m in Sources */,
 				FA4519091A2272DA00EC849C /* GBExtensionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1028,6 +1037,7 @@
 				FAC4801C1A2004D20000DC6B /* TodayViewController.m in Sources */,
 				FA938B431A26C8900018823A /* GBConstraintHelper.m in Sources */,
 				FAC4808B1A201B330000DC6B /* GBSectionHeaderView.m in Sources */,
+				FA28C7E41A2E96D900C1C9C1 /* NSUserDefaults+SharedDefaults.m in Sources */,
 				FAC4808D1A201B330000DC6B /* GBSectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

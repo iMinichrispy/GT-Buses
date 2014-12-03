@@ -29,7 +29,7 @@
         _updating = NO;
         
         
-        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+        NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
         [GBConfig sharedInstance].showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
@@ -61,7 +61,7 @@
 }
 
 - (void)userDefaultsDidChange:(NSNotification *)notification {
-    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
     [GBConfig sharedInstance].showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
     // To be overriden by sublasses
 }

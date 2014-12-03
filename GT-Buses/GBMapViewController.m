@@ -163,8 +163,7 @@ int const kRefreshInterval = 5;
                         [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
                     }
                     
-                    NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-                    [shared setObject:routes forKey:GBSharedDefaultsRoutesKey];
+                    [[NSUserDefaults sharedDefaults] setObject:routes forKey:GBSharedDefaultsRoutesKey];
                     
                     NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
                     if (_busRouteControlView.busRouteControl.numberOfSegments)

@@ -78,4 +78,16 @@ static NSString *const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier";
     return nil;
 }
 
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
+    for (MKAnnotationView *annotationView in views) {
+        // Ensures bus annotation is added above stops
+        if ([annotationView isKindOfClass:[GBBusAnnotationView class]]) {
+            [[annotationView superview] bringSubviewToFront:annotationView];
+        } else {
+            // Since buses and stops are never added simultaneously, break if the first annotation is not a bus annotation
+            break;
+        }
+    }
+}
+
 @end

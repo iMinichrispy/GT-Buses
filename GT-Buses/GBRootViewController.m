@@ -34,7 +34,7 @@
 
 @implementation GBRootViewController
 
-float const kAboutViewAnimationSpeed = .2;
+float const kSettingsViewAnimationSpeed = .2;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -87,7 +87,7 @@ float const kAboutViewAnimationSpeed = .2;
     
     GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
     UIView *rootView = [window.subviews firstObject];
-    [UIView animateWithDuration:kAboutViewAnimationSpeed animations:^{
+    [UIView animateWithDuration:kSettingsViewAnimationSpeed animations:^{
         [[UIApplication sharedApplication] setStatusBarHidden:YES];
         rootView.transform = CGAffineTransformMakeScale(.9, .9);
         [window addSubview:_settingsController.view];
@@ -100,7 +100,7 @@ float const kAboutViewAnimationSpeed = .2;
     GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
     UIView *rootView = [window.subviews firstObject];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    [UIView animateWithDuration:kAboutViewAnimationSpeed animations:^{
+    [UIView animateWithDuration:kSettingsViewAnimationSpeed animations:^{
         rootView.transform = CGAffineTransformIdentity;
         [_settingsController.view removeFromSuperview];
     } completion:^(BOOL finished) {

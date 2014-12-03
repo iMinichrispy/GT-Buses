@@ -8,6 +8,13 @@
 
 #import "RequestHandler.h"
 
+extern NSString *const GBRequestRouteConfigTask;
+extern NSString *const GBRequestVehicleLocationsTask;
+extern NSString *const GBRequestVehiclePredictionsTask;
+extern NSString *const GBRequestMultiPredictionsTask;
+extern NSString *const GBRequestMessagesTask;
+extern NSString *const GBRequestBuildingsTask;
+
 @interface GBRequestHandler : RequestHandler
 
 - (void)routeConfig;

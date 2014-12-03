@@ -86,18 +86,19 @@
 }
 
 + (NSString *)userAgent {
-    static NSString *userAgentString;
-    if (!userAgentString) {
+    static NSString *userAgent;
+    if (!userAgent) {
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         NSString *bundleName = info[(NSString *)kCFBundleNameKey];
         NSString *version = info[@"CFBundleShortVersionString"];
-        NSString *model = [[UIDevice currentDevice] model];
-        NSString *systemName = [[UIDevice currentDevice] systemName];
-        NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
+        UIDevice *device = [UIDevice currentDevice];
+        NSString *model = [device model];
+        NSString *systemName = [device systemName];
+        NSString *systemVersion = [device systemVersion];
         NSString *localeIdentifier = [[NSLocale currentLocale] localeIdentifier];
-        userAgentString = [NSString stringWithFormat:@"%@ %@ (%@; %@ %@; %@)", bundleName, version, model, systemName, systemVersion, localeIdentifier];
+        userAgent = [NSString stringWithFormat:@"%@ %@ (%@; %@ %@; %@)", bundleName, version, model, systemName, systemVersion, localeIdentifier];
     }
-    return userAgentString;
+    return userAgent;
 }
 
 @end

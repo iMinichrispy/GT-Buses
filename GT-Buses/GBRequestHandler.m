@@ -31,6 +31,14 @@ static NSString *const GBRequestSchedulePath = @"/schedule";
 static NSString *const GBRequestMessagesPath = @"/messages";
 static NSString *const GBRequestBuildingsPath = @"/buildings";
 
+
+NSString *const GBRequestRouteConfigTask = @"GBRequestRouteConfigTask";
+NSString *const GBRequestVehicleLocationsTask = @"GBRequestVehicleLocationsTask";
+NSString *const GBRequestVehiclePredictionsTask = @"GBRequestVehiclePredictionsTask";
+NSString *const GBRequestMultiPredictionsTask = @"GBRequestMultiPredictionsTask";
+NSString *const GBRequestMessagesTask = @"GBRequestMessagesTask";
+NSString *const GBRequestBuildingsTask = @"GBRequestBuildingsTask";
+
 /*
 @interface GBRequestConfig : NSObject
 

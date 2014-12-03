@@ -28,8 +28,7 @@
     if (self) {
         self.sectionView = [[GBSectionView alloc] initWithTitle:NSLocalizedString(@"NEARBY_SECTION", @"Nearby section title") defaultsKey:@"key11"];
         
-        NSUserDefaults *shared = [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
-        NSArray *routes = [shared objectForKey:GBSharedDefaultsRoutesKey];
+        NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
         
         NSMutableArray *savedRoutes = [NSMutableArray new];
         if ([routes count]) {
