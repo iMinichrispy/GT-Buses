@@ -16,6 +16,8 @@
 #import "GBBuildingCell.h"
 #import "GBConfig.h"
 
+// TODO: This class's fail-safe mechainisms should be redone to be made more clear (Loading from saved, retrieving from server, updating when buildings version changes)
+
 static NSString *const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
 
@@ -23,7 +25,7 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
     NSArray             *_partitionedBuildings;
     NSArray             *_sectionIndexTitles;
     NSMutableIndexSet   *_populatedIndexSet;
-    UILabel             *_errorLabel;
+    UILabel             *_statusLabel;
     GBBuilding          *_selectedBuilding;
 }
 
@@ -76,19 +78,25 @@ float const UITableDefaultRowHeight = 44.0;
         self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
     
-    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
-    NSArray *buildings = [[NSArray alloc] initWithContentsOfFile:path];
+    NSArray *buildings = [self savedBuildings];
     [self setupForBuildings:buildings];
+}
+
+- (NSArray *)savedBuildings {
+    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
+    return [[NSArray alloc] initWithContentsOfFile:path];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"viewDidAppear");
 #warning needs a spin loading
+    if (![_allBuildings count]) {
+        [self updateBuildings:nil];
+    }
 }
 
 - (void)setupForBuildings:(NSArray *)buildings {
-    if (buildings) {
+    if ([buildings count]) {
         NSMutableArray *newBuildings = [NSMutableArray new];
         
         for (NSDictionary *dictinary in buildings) {
@@ -98,18 +106,12 @@ float const UITableDefaultRowHeight = 44.0;
         _allBuildings = newBuildings;
         _buildings = _allBuildings;
         [self showAllBuildings];
-    } else {
-        [self updateBuildings:nil];
     }
 }
 
 - (void)updateBuildings:(NSNotification *)notification {
     NSLog(@"update buildings");
-    
-    [self performSelector:@selector(test) withObject:nil afterDelay:3];
-}
-
-- (void)test {
+    [self showStatusLabel:YES status:@"Loading..."];
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
     [requestHandler buildings];
 }
@@ -209,7 +211,7 @@ float const UITableDefaultRowHeight = 44.0;
     NSPropertyListFormat format;
     NSArray *buildings = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:&format error:&error];
     if (buildings && !error) {
-        [self showErrorLabel:NO error:nil];
+        [self showStatusLabel:NO status:nil];
         if ([buildings count]) {
             NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
             [buildings writeToFile:path atomically:YES];
@@ -218,7 +220,7 @@ float const UITableDefaultRowHeight = 44.0;
             [[NSUserDefaults standardUserDefaults] synchronize];
             [self setupForBuildings:buildings];
         } else {
-            [self showErrorLabel:YES error:NSLocalizedString(@"NO_BUILDINGS_DATA", @"Buildings data is empty")];
+            [self revertToSavedBuildings];
         }
     } else {
         NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
@@ -226,13 +228,24 @@ float const UITableDefaultRowHeight = 44.0;
     }
 }
 
+- (void)revertToSavedBuildings {
+    NSArray *buildings = [self savedBuildings];
+    if ([buildings count]) {
+        [self showStatusLabel:NO status:nil];
+        [self setupForBuildings:buildings];
+    } else {
+        [self showStatusLabel:YES status:NSLocalizedString(@"NO_BUILDINGS_DATA", @"Buildings data is empty")];
+    }
+}
+
 - (void)handleError:(RequestHandler *)handler error:(NSError *)error {
     // Fall back on stored buildings (if available) if fails to retrieve udpated buildings
+    [self revertToSavedBuildings];
 #warning unintended consequences?
-    NSLog(@"_allBuildings: %i", [_allBuildings count]);
-    if (![_allBuildings count]) {
-        [self showErrorLabel:YES error:[GBRequestHandler errorStringForCode:[error code]]];
-    }
+//    NSLog(@"_allBuildings: %lu", (unsigned long)[_allBuildings count]);
+//    if (![_allBuildings count]) {
+//        [self showStatusLabel:YES status:[GBRequestHandler errorStringForCode:[error code]]];
+//    }
 }
 
 - (void)showAllBuildings {
@@ -272,6 +285,7 @@ float const UITableDefaultRowHeight = 44.0;
     _sectionIndexTitles = [collation sectionIndexTitles];
     _partitionedBuildings = sections;
     [self.tableView reloadData];
+    NSLog(@"sho all");
 }
 
 - (void)setupForQuery:(NSString *)query {
@@ -289,36 +303,44 @@ float const UITableDefaultRowHeight = 44.0;
     [self.tableView reloadData];
     [self.tableView setContentOffset:CGPointZero];
     
-    // Show the No Results label if the user has entered text but didn't find anything
-    [self showErrorLabel:( [query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"] ) error:NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results")];
+    if ([_allBuildings count]) {
+        // Show the No Results label if the user has entered text but didn't find anything
+        [self showStatusLabel:( [query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"] ) status:NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results")];
+    } else {
+        [self revertToSavedBuildings];
+    }
 }
 
-- (void)showErrorLabel:(BOOL)show error:(NSString *)error {
-    NSLog(@"show error label: %d",show);
-    if(show && !_errorLabel) {
+- (void)showStatusLabel:(BOOL)show status:(NSString *)status {
+    NSLog(@"show status label: %d, %@",show,status);
+    if(show && !_statusLabel) {
         // Show the Error label
         CGRect errorLabelFrame = [self.tableView bounds];
         errorLabelFrame.origin.y += (IS_IPAD) ? UITableDefaultRowHeight * 3 : UITableDefaultRowHeight;
         errorLabelFrame.size.height = UITableDefaultRowHeight; // Height should be one row
         
-        _errorLabel = [[UILabel alloc] initWithFrame:errorLabelFrame];
+        _statusLabel = [[UILabel alloc] initWithFrame:errorLabelFrame];
         
-        [_errorLabel setOpaque:NO];
-        [_errorLabel setBackgroundColor:nil];
-        [_errorLabel setTextAlignment:NSTextAlignmentCenter];
+        [_statusLabel setOpaque:NO];
+        [_statusLabel setBackgroundColor:nil];
+        [_statusLabel setTextAlignment:NSTextAlignmentCenter];
         
-        [_errorLabel setText:error];
-        [_errorLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
-        [_errorLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
+        [_statusLabel setText:status];
+        [_statusLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
+        [_statusLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
         
-        [self.view addSubview:_errorLabel];
-    } else if (show && _errorLabel) {
-        _errorLabel.text = error;
-    } else if (!show && _errorLabel) {
+        [self.view addSubview:_statusLabel];
+    } else if (show && _statusLabel) {
+        _statusLabel.text = status;
+    } else if (!show && _statusLabel) {
         // Hide the Error label
-        [_errorLabel removeFromSuperview];
-        _errorLabel = nil;
+        [_statusLabel removeFromSuperview];
+        _statusLabel = nil;
     }
+}
+
+- (void)reset {
+    
 }
 
 #pragma mark - Menu controller

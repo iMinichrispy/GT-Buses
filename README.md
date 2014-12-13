@@ -9,13 +9,13 @@ Download: [itunes.apple.com](https://itunes.apple.com/us/app/gt-buses/id81544863
 
 - Caret image is not pdf
 - Redesign About view
-    - Parallax effect
+- Parallax effect
 - Nothing having to do with favoriting routes or notification center should be on deivces <ios8
 - Notification remove observer
 - Support accessibility text
 - Stops where combining stops into stop group by stopid's would be useful:
-    - Fitten Hall (fitthall), stopId=0022
-    - Transit Hub - Arrival (tranhub_a), stopId=0086
+- Fitten Hall (fitthall), stopId=0022
+- Transit Hub - Arrival (tranhub_a), stopId=0086
 - Open source request handler
 
 iOS 8:
@@ -34,18 +34,18 @@ In possible update:
 - Ability to tun off/on certain routes  
 - Add a Call Stingerette button: 404-385-7433  
 - Add ability to set a timer to be notified when a bus arrives  
-    1. User can view predictions for buses and set a timer to be notified  
-        - User only has a limited number of bus predictions to go off of  
-    2. User selects what time they want to leave by and I use background app refresh to update times and notify accurately  
-        - I have no control over how often the app refreshes in the background  
-    3. User sets what time they want to leave by and I use a push server that updates time data and sends a push notification to accurately notify them when the bus is there  
-        - Requires Internet to send timer  
-        - A lot of work to implement  
+1. User can view predictions for buses and set a timer to be notified  
+- User only has a limited number of bus predictions to go off of  
+2. User selects what time they want to leave by and I use background app refresh to update times and notify accurately  
+- I have no control over how often the app refreshes in the background  
+3. User sets what time they want to leave by and I use a push server that updates time data and sends a push notification to accurately notify them when the bus is there  
+- Requires Internet to send timer  
+- A lot of work to implement  
 - Type in where/what building you need to go to: http://gtjourney.gatech.edu/gt-devhub/apis#campusmapapi  
-    - http://m.gatech.edu/widget/gtplaces/content/api/buildings
-    - Once you find nearest stop, you can get bus routes that stop there
-    - Also need to user current location to find nearest stop to you and find out which route to take - including direction
-    - What if user has no location?
+- http://m.gatech.edu/widget/gtplaces/content/api/buildings
+- Once you find nearest stop, you can get bus routes that stop there
+- Also need to user current location to find nearest stop to you and find out which route to take - including direction
+- What if user has no location?
 - Table of current route w/ stop info (makes switchig routes and maintaining list view annoying)
 - Change update interval (test optimal)
 - Schedule
@@ -103,7 +103,7 @@ v2.0
 - [Debug] Show stop ids on stop annotation
 - [Debug] Display predictions in minutes & seconds
 - Now using GT Buses heroku backend
-    - Routes no longer take a week to update
+- Routes no longer take a week to update
 - About Controller now uses auto layout
 - Review App button changes to Update Now in About controller when new version is available
 - Sped up animation time when switching routes

@@ -44,12 +44,6 @@
         _showsArrivalTime = [[NSUserDefaults sharedDefaults] boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
         
         _showsBusIdentifiers = [[NSUserDefaults standardUserDefaults] boolForKey:GBUserDefaultsShowsBusIdentifiers];
-        
-//#if DEBUG
-//        _showBusIdentifiers = YES;
-//#else
-//        _showBusIdentifiers = NO; // check settigns defaults, also requires ios 7!!!
-//#endif
     }
     return self;
 }
@@ -102,7 +96,6 @@
 - (void)setVersion:(NSInteger)version {
     if (_version != version) {
         _version = version;
-#warning could be 0
         
     }
 }
@@ -110,9 +103,6 @@
 - (void)setIOSVersion:(NSString *)iOSVersion {
     if (_iOSVersion != iOSVersion) {
         _iOSVersion = iOSVersion;
-        
-        // iOS Version did change
-        // If ios version > current ios version
         
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationiOSVersionDidChange object:iOSVersion];
     }
@@ -138,8 +128,7 @@
 - (void)setBuildingsVersion:(NSInteger)buildingsVersion {
     if (_buildingsVersion != buildingsVersion) {
         _buildingsVersion = buildingsVersion;
-#warning should only set saved buildings version once new buildings are retrived and stored
-        
+        // Don't update NSUserDefaults here because saved buildings version should only be saved once new buildings are retrieved and stored
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationBuildingsVersionDidChange object:nil];
     }
 }

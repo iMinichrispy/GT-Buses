@@ -20,5 +20,6 @@
 @property (nonatomic, weak) id<GBBuidlingsDelegate> delegate;
 
 - (void)setupForQuery:(NSString *)query;
+- (void)reset;
 
 @end

@@ -22,6 +22,7 @@
 
 @interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate> {
     NSString *_currentQuery;
+//    GBBuildingsViewController *_buildingsController;
 }
 
 @property (nonatomic, strong) GBMapViewController *mapViewController;
@@ -146,14 +147,63 @@ float const kSettingsViewAnimationSpeed = .2;
     if (!_buildingsController) {
         _buildingsController = [[GBBuildingsViewController alloc] init];
         _buildingsController.delegate = self;
+        if (ROTATION_ENABLED) {
+            _buildingsController.view.layer.cornerRadius = 5;
+        }
         
         [_mapViewController.view addSubview:_buildingsController.view];
-        
-        UIView *buildingsView = _buildingsController.view;
-        CGSize size = [self buildingSearchMaxViewSize];
-        
-        // Constraints that ensure search doesn't take up the whole screen on devices with larger displays
-        NSMutableArray *constraints = [NSMutableArray new];
+        [self.view addConstraints:[self buildingsControllerConstraints]];
+    }
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText; {
+    [_buildingsController setupForQuery:searchText];
+    _currentQuery = searchText;
+}
+
+- (void)hideSearchBar {
+    [_buildingsController setupForQuery:@""];
+    _buildingsController.view.hidden = YES;
+    
+    self.navigationItem.prompt = nil;
+    self.navigationItem.titleView = nil;
+    
+    [self.navigationItem setRightBarButtonItem:[self settingsButton] animated:YES];
+    [self.navigationItem setLeftBarButtonItem:[self searchButton] animated:YES];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
+    NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];
+    [_mapViewController.mapView removeAnnotations:buildingAnnotations];
+    
+    _searchBar.text = @"";
+    _currentQuery = @"";
+}
+
+- (void)didSelectBuilding:(GBBuilding *)building {
+    _buildingsController.view.hidden = YES;
+    [_searchBar resignFirstResponder];
+    _searchBar.text = building.name;
+    
+    GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
+    [_mapViewController.mapView addAnnotation:annotation];
+    [_mapViewController.mapView selectAnnotation:annotation animated:YES];
+}
+
+- (void)reduceTransparencyDidChange:(NSNotification *)notification {
+    // Since buildings controller uses a blur effect, set it to nil so that it is re-initialized the next time the search button is pressed. (The buildings controller initializer accounts for the reduce transparency accessibility setting).
+#warning what if its or settings is being displayed when transparency changes?
+    [self hideSearchBar];
+    _buildingsController = nil;
+}
+
+- (NSArray *)buildingsControllerConstraints {
+    UIView *buildingsView = _buildingsController.view;
+    CGSize size = [self buildingSearchMaxViewSize];
+    
+    // Constraints that ensure search doesn't take up the whole screen on devices with larger displays
+    static NSMutableArray *constraints;
+    if (!constraints) {
+        constraints = [NSMutableArray new];
         [constraints addObject:[NSLayoutConstraint
                                 constraintWithItem:buildingsView
                                 attribute:NSLayoutAttributeWidth
@@ -195,8 +245,6 @@ float const kSettingsViewAnimationSpeed = .2;
                                          multiplier:1
                                          constant:0];
         if (ROTATION_ENABLED) {
-            _buildingsController.view.layer.cornerRadius = 5;
-            
             leftHug.priority = UILayoutPriorityDefaultHigh;
             rightHug.priority = UILayoutPriorityDefaultHigh;
             
@@ -219,8 +267,8 @@ float const kSettingsViewAnimationSpeed = .2;
         
         [constraints addObjectsFromArray:@[rightHug, leftHug, bottomHug]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[buildingsView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(buildingsView)]];
-        [self.view addConstraints:constraints];
     }
+    return constraints;
 }
 
 - (CGSize)buildingSearchMaxViewSize {
@@ -228,47 +276,6 @@ float const kSettingsViewAnimationSpeed = .2;
         return CGSizeMake(394.0, 394.0);
     }
     return CGSizeMake(540.0, 620.0);
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText; {
-    [_buildingsController setupForQuery:searchText];
-    _currentQuery = searchText;
-}
-
-- (void)hideSearchBar {
-//    [_buildingsController setupForQuery:@""];
-    [_buildingsController.view removeFromSuperview];
-    _buildingsController = nil;
-//    _buildingsController.view.hidden = YES;
-    
-    self.navigationItem.prompt = nil;
-    self.navigationItem.titleView = nil;
-    
-    [self.navigationItem setRightBarButtonItem:[self settingsButton] animated:YES];
-    [self.navigationItem setLeftBarButtonItem:[self searchButton] animated:YES];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
-    NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];
-    [_mapViewController.mapView removeAnnotations:buildingAnnotations];
-    
-    _searchBar.text = @"";
-    _currentQuery = @"";
-}
-
-- (void)didSelectBuilding:(GBBuilding *)building {
-    _buildingsController.view.hidden = YES;
-    [_searchBar resignFirstResponder];
-    _searchBar.text = building.name;
-    
-    GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
-    [_mapViewController.mapView addAnnotation:annotation];
-    [_mapViewController.mapView selectAnnotation:annotation animated:YES];
-}
-
-- (void)reduceTransparencyDidChange:(NSNotification *)notification {
-    // Since buildings controller uses a blur effect, set it to nil so that it is re-initialized the next time the search button is pressed. (The buildings controller initializer accounts for the reduce transparency accessibility setting).
-    [self hideSearchBar];
-    _buildingsController = nil;
 }
 
 @end
