@@ -85,12 +85,10 @@
 }
 
 + (NSDateFormatter *)predictionDateFormatter {
-    static NSDateFormatter *formatter;
-    if (!formatter) {
-        formatter = [[NSDateFormatter alloc] init];
-        [formatter setLocale:[NSLocale currentLocale]];
-        [formatter setDateFormat:@"h:mma"];
-    }
+    // Don't cache as static variable, since user could change their locale
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setLocale:[NSLocale currentLocale]];
+    [formatter setDateFormat:@"h:mma"];
     return formatter;
 }
 

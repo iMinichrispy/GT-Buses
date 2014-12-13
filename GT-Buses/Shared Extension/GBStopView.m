@@ -19,10 +19,6 @@
 
 @implementation GBStopView
 
-float const GBStopViewImageViewHeight = 40.0f;
-float const GBStopViewImageViewWidth = 35.0f;
-float const kStopCircleSize = 25.0f;
-
 - (instancetype)initWithStop:(GBStop *)stop {
     GBStopGroup *stopGroup = [[GBStopGroup alloc] initWithStop:stop];
     self = [self initWithStopGroup:stopGroup];
@@ -35,7 +31,7 @@ float const kStopCircleSize = 25.0f;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         _stopGroup = stopGroup;
         
-        UIImage *coloredCircle = [[self class] circlesWithStopGroup:_stopGroup];
+        UIImage *coloredCircle = [UIImage circlesWithStopGroup:_stopGroup];
         
         _routeImageView = [[UIImageView alloc] init];
         _routeImageView.image = coloredCircle;
@@ -80,7 +76,7 @@ float const kStopCircleSize = 25.0f;
         
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[predictionsEffectView][_distanceLabel]-2-[_directionLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, predictionsEffectView, _distanceLabel)]];
         
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_predictionsLabel][_distanceLabel(>=35)]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _predictionsLabel, _distanceLabel)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_predictionsLabel]-3-[_distanceLabel(>=35)]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _predictionsLabel, _distanceLabel)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][predictionsEffectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, predictionsEffectView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _directionLabel)]];
         
@@ -94,7 +90,7 @@ float const kStopCircleSize = 25.0f;
                                   toItem:nil
                                   attribute:0
                                   multiplier:0
-                                  constant:GBStopViewImageViewWidth];
+                                  constant:coloredCircle.size.width];
         _imageHeightConstraint.priority = UILayoutPriorityDefaultHigh;
         [constraints addObject:_imageHeightConstraint];
         [NSLayoutConstraint activateConstraints:constraints];
@@ -136,32 +132,6 @@ float const kStopCircleSize = 25.0f;
         distanceFormatter.unitStyle = MKDistanceFormatterUnitStyleAbbreviated;
     }
     return [distanceFormatter stringFromDistance:distance];
-}
-
-+ (UIImage *)circlesWithStopGroup:(GBStopGroup *)stopGroup {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(GBStopViewImageViewWidth, GBStopViewImageViewHeight), NO, 0.0f);
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(ctx);
-    
-    CGContextSetLineWidth(ctx, 2.0);
-    CGContextSetStrokeColorWithColor(ctx, [UIColor whiteColor].CGColor);
-    
-    float y = 2;
-    for (GBStop *stop in stopGroup.stops) {
-        CGRect rect = CGRectMake(3, y, kStopCircleSize - 6, kStopCircleSize - 6);
-        
-        CGContextSetFillColorWithColor(ctx, stop.route.color.CGColor);
-        
-        CGContextFillEllipseInRect(ctx, rect);
-        CGContextStrokeEllipseInRect(ctx, rect);
-        y += 12;
-    }
-    
-    CGContextRestoreGState(ctx);
-    UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return circle;
 }
 
 @end

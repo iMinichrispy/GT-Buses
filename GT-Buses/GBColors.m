@@ -63,16 +63,15 @@
 + (NSArray *)tintColors {
     static NSArray *tintColors;
     if (!tintColors) {
-        NSDictionary *blueColor = @{@"name":@"Blue", @"color":[self blueColor]};
-        NSDictionary *redColor = @{@"name":@"Red", @"color":[self redColor]};
-        NSDictionary *greenColor = @{@"name":@"Green", @"color":[self greenColor]};
-        NSDictionary *pinkColor = @{@"name":@"Pink", @"color":[self pinkColor]};
-        NSDictionary *yellowColor = @{@"name":@"Yellow", @"color":[self yellowColor]};
-        NSDictionary *darkColor = @{@"name":@"Dark", @"color":[self darkColor]};
+        NSDictionary *blueColor = @{@"name":NSLocalizedString(@"BLUE", @"Blue Color"), @"color":[self blueColor]};
+        NSDictionary *redColor = @{@"name":NSLocalizedString(@"RED", @"Red Color"), @"color":[self redColor]};
+        NSDictionary *greenColor = @{@"name":NSLocalizedString(@"GREEN", @"Green Color"), @"color":[self greenColor]};
+        NSDictionary *pinkColor = @{@"name":NSLocalizedString(@"PINK", @"Pink Color"), @"color":[self pinkColor]};
+        NSDictionary *yellowColor = @{@"name":NSLocalizedString(@"YELLOW", @"Yellow Color"), @"color":[self yellowColor]};
+        NSDictionary *blackColor = @{@"name":NSLocalizedString(@"BLACK", @"Black Color"), @"color":[self blackColor]};
         
-        tintColors = @[blueColor, redColor, greenColor, pinkColor, yellowColor, darkColor];
+        tintColors = @[blueColor, redColor, greenColor, pinkColor, yellowColor, blackColor];
     }
-    
     return tintColors;
 }
 
@@ -84,7 +83,6 @@
         if (color[@"color"] != [GBColors sharedInstance].currentTintColor)
             [availableColors addObject:color];
     }
-    
     return availableColors;
 }
 
@@ -127,12 +125,12 @@
 + (UIColor *)yellowColor {
     static UIColor *color;
     if (!color) {
-        color = RGBColor(230, 207, 98);
+        color = RGBColor(234,185,0);
     }
     return color;
 }
 
-+ (UIColor *)darkColor {
++ (UIColor *)blackColor {
     static UIColor *color;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

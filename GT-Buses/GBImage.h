@@ -8,9 +8,11 @@
 
 @import UIKit;
 
+@class GBStopGroup;
 @interface UIImage (GBImage)
 
 + (UIImage *)arrowImageWithColor:(UIColor *)color size:(CGSize)size;
 + (UIImage *)circleImageWithColor:(UIColor *)color size:(float)size;
++ (UIImage *)circlesWithStopGroup:(GBStopGroup *)stopGroup;
 
 @end

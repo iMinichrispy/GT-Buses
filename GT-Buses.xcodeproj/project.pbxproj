@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA06FDDD1A3BFF6F004531CA /* GBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6A33F1A1CE4F500D98955 /* GBImage.m */; };
+		FA06FDDE1A3BFF70004531CA /* GBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6A33F1A1CE4F500D98955 /* GBImage.m */; };
 		FA15FC8C1A1D8DFF00C175AB /* GBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC8B1A1D8DFF00C175AB /* GBMapViewController.m */; };
 		FA15FC921A1DA1A800C175AB /* GBBuildingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC911A1DA1A800C175AB /* GBBuildingsViewController.m */; };
 		FA1FE93618A1D8A300757643 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE93518A1D8A300757643 /* main.m */; };
@@ -1000,6 +1002,7 @@
 				FA45190E1A2272E600EC849C /* GBStopGroup.m in Sources */,
 				FA45190F1A2272E900EC849C /* GBStopView.m in Sources */,
 				FAB9D26D1A2270F700EC9736 /* TodayViewController.m in Sources */,
+				FA06FDDE1A3BFF70004531CA /* GBImage.m in Sources */,
 				FA4519121A22730500EC849C /* GBRoute.m in Sources */,
 				FA45190D1A2272E400EC849C /* GBSectionView.m in Sources */,
 				FA45190B1A2272DF00EC849C /* GBErrorView.m in Sources */,
@@ -1025,6 +1028,7 @@
 				FAC480911A201B330000DC6B /* GBStopView.m in Sources */,
 				FAC480371A200F3E0000DC6B /* GBRoute.m in Sources */,
 				FAC480331A2008EA0000DC6B /* RequestHandler.m in Sources */,
+				FA06FDDD1A3BFF6F004531CA /* GBImage.m in Sources */,
 				FAC480871A201B330000DC6B /* GBErrorView.m in Sources */,
 				FAC4803A1A200F770000DC6B /* GBColors.m in Sources */,
 				FAC4808F1A201B330000DC6B /* GBStopGroup.m in Sources */,

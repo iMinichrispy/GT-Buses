@@ -32,8 +32,7 @@
     GBConfig *sharedConfig = [GBConfig sharedInstance];
     [body appendFormat:@"Shows Arrival Time: %d\n", [sharedConfig showsArrivalTime]];
     [body appendFormat:@"Shows Bus Identifiers: %d\n", [sharedConfig showsBusIdentifiers]];
-    [body appendFormat:@"Buildings Version: %li\n", (long)[sharedConfig buildingsVersion]];
-#warning remember to append settings as necessary
+    [body appendFormat:@"Buildings Version: %li/%li\n", (long)[[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsBuildingsVersionKey], (long)[sharedConfig buildingsVersion]];
     
     NSInteger color = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedColorKey];
     // If color is 0, it's the default color (which we don't care about)

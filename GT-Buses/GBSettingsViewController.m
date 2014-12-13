@@ -81,6 +81,7 @@ float const kButtonWidth = 200.0f;
     
     UIButton *supportButton = [[GBButton alloc] init];
     [supportButton setTitle:NSLocalizedString(@"SUPPORT", @"Support button") forState:UIControlStateNormal];
+    // TODO: Presenting view controllers on detached view controllers is discouraged
     [supportButton addTarget:self action:@selector(showSupportMailComposer) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:supportButton];
     

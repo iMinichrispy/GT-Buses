@@ -8,6 +8,8 @@
 
 #import "GBImage.h"
 
+#import "GBStop.h"
+#import "GBRoute.h"
 #import "GBStopGroup.h"
 
 @implementation UIImage (GBImage)
@@ -63,20 +65,52 @@
     UIImage *image = circleImages[key];
     if (!image) {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(size, size), NO, 0.0f);
-        CGContextRef ctx = UIGraphicsGetCurrentContext();
-        CGContextSaveGState(ctx);
-        CGContextSetLineWidth(ctx, 2.0);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSaveGState(context);
+        CGContextSetLineWidth(context, 2.0);
         CGRect rect = CGRectMake(0, 0, size, size);
-        CGContextSetFillColorWithColor(ctx, color.CGColor);
-        CGContextFillEllipseInRect(ctx, rect);
+        CGContextSetFillColorWithColor(context, color.CGColor);
+        CGContextFillEllipseInRect(context, rect);
         
-        CGContextRestoreGState(ctx);
+        CGContextRestoreGState(context);
         image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         circleImages[key] = image;
     }
     
     return image;
+}
+
+float const GBStopViewImageViewHeight = 40.0f;
+float const GBStopViewImageViewWidth = 35.0f;
+float const kStopCircleSize = 25.0f;
+
++ (UIImage *)circlesWithStopGroup:(GBStopGroup *)stopGroup {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(GBStopViewImageViewWidth, GBStopViewImageViewHeight), NO, 0.0f);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
+    
+    CGContextSetLineWidth(context, 2.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+    // Adding inner shadow aides visibility if there's a route with a white color
+    CGContextSetShadowWithColor(context, CGSizeZero, 1, [UIColor blackColor].CGColor);
+    
+    float y = 2;
+    for (GBStop *stop in stopGroup.stops) {
+        CGRect rect = CGRectMake(3, y, kStopCircleSize - 6, kStopCircleSize - 6);
+        
+        CGContextSetFillColorWithColor(context, stop.route.color.CGColor);
+        
+        CGContextFillEllipseInRect(context, rect);
+        CGContextStrokeEllipseInRect(context, rect);
+        y += 12;
+    }
+    
+    CGContextRestoreGState(context);
+    UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return circle;
 }
 
 @end

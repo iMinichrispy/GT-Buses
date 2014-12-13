@@ -232,6 +232,7 @@ int const kRefreshInterval = 5;
             }
             lastLocationUpdate = newLocationUpdate;
         } else if (handler.task == GBRequestVehiclePredictionsTask) {
+            // TODO: What's the benefit of repeatedly looping through all the stop annotations and updating the prediction times when a user can only see one at a time anyway?
             long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
             if (newPredictionUpdate != lastPredictionUpdate) {
                 NSArray *predictions = dictionary[@"body"][@"predictions"];
