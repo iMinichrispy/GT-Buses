@@ -102,7 +102,7 @@
         if (predictions) {
             if (![predictions isKindOfClass:[NSArray class]])
                 predictions = [NSArray arrayWithObject:predictions];
-#warning some predictions labels could still have Loading... b/c text isn't set for all
+            
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBStopView class]];
             NSArray *stopViews = [_sectionView.stopsView.subviews filteredArrayUsingPredicate:predicate];
             
@@ -128,20 +128,28 @@
                 }
             }
         } else {
-            
+#warning wifi error handling
         }
     } else {
         //error handling
     }
 }
 
-- (void)handleError:(RequestHandler *)handler code:(NSInteger)code message:(NSString *)message {
-    NSLog(@"http error (%li) %@", (long)code, message);
+- (void)handleError:(RequestHandler *)handler error:(NSError *)error {
+    
 }
 
+#define NC_ELEMENTS_HEIGHT 94.0
+#define AVG_STOPVIEW_HEIGHT 110.0
+
 - (NSInteger)maxNumberStops {
-#warning calculate this better
-    return 5;
+    CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    CGFloat freeSpace = screenHeight - NC_ELEMENTS_HEIGHT;
+    NSInteger numElements = ceil(freeSpace / AVG_STOPVIEW_HEIGHT);
+    
+    NSLog(@"(%f - %f) / %f = %li", screenHeight, NC_ELEMENTS_HEIGHT, AVG_STOPVIEW_HEIGHT, (long)numElements);
+    
+    return MIN(numElements, 5);
 }
 
 @end

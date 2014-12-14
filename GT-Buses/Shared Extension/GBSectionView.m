@@ -43,7 +43,6 @@
 - (instancetype)initWithTitle:(NSString *)title defaultsKey:(NSString *)defaultsKey {
     self = [super init];
     if (self) {
-//        self.translatesAutoresizingMaskIntoConstraints = NO;
         _stopsVisibile = YES; // nsuserdefaults
         
         _headerView = [[GBSectionHeaderView alloc] initWithTitle:title];
