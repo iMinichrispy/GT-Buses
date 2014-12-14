@@ -82,11 +82,11 @@
     return image;
 }
 
-#define STOP_VIEW_IMAGE_VIEW_SIZE ((CGSize) {.height = 40.0, .width = 35.0})
+#define STOP_CIRCLE_IMAGE_VIEW_SIZE ((CGSize) {.height = 40.0, .width = 35.0})
 float const kStopCircleSize = 25.0f;
 
 + (UIImage *)circlesWithStopGroup:(GBStopGroup *)stopGroup {
-    UIGraphicsBeginImageContextWithOptions(STOP_VIEW_IMAGE_VIEW_SIZE, NO, 0.0f);
+    UIGraphicsBeginImageContextWithOptions(STOP_CIRCLE_IMAGE_VIEW_SIZE, NO, 0.0f);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     

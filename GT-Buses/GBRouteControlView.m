@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "GBBusRouteControlView.h"
+#import "GBRouteControlView.h"
 
 #import "GBUserInterface.h"
 #import "GBConstants.h"
 
-@implementation GBBusRouteControlView
+@implementation GBRouteControlView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];

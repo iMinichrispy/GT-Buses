@@ -87,7 +87,6 @@ float const kSettingsViewAnimationSpeed = .2;
     GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
     UIView *rootView = [window.subviews firstObject];
     [UIView animateWithDuration:kSettingsViewAnimationSpeed animations:^{
-        [[UIApplication sharedApplication] setStatusBarHidden:YES];
         rootView.transform = CGAffineTransformMakeScale(.9, .9);
         [window addSubview:_settingsController.view];
     } completion:^(BOOL finished) {

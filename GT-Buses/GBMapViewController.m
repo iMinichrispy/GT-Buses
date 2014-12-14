@@ -9,7 +9,7 @@
 #import "GBMapViewController.h"
 
 #import "GBMapView.h"
-#import "GBBusRouteControlView.h"
+#import "GBRouteControlView.h"
 #import "GBRequestHandler.h"
 #import "GBRoute.h"
 #import "GBStop.h"
@@ -23,6 +23,8 @@
 #import "GBBuildingAnnotation.h"
 #import "GBBusAnnotationView.h"
 #import "GBBus.h"
+#import "GBToggleRoutesController.h"
+#import "GBUserInterface.h"
 
 #if APP_STORE_MAP
 #import "MKMapView+AppStoreMap.h"
@@ -36,7 +38,7 @@ int const kRefreshInterval = 5;
     long long lastPredictionUpdate;
 }
 
-@property (nonatomic, strong) GBBusRouteControlView *busRouteControlView;
+@property (nonatomic, strong) GBRouteControlView *busRouteControlView;
 @property (nonatomic, strong) NSMutableArray *routes;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) NSTimer *refreshTimer;
@@ -51,7 +53,7 @@ int const kRefreshInterval = 5;
         _mapView = [[GBMapView alloc] init];
         [self.view addSubview:_mapView];
         
-        _busRouteControlView = [[GBBusRouteControlView alloc] init];
+        _busRouteControlView = [[GBRouteControlView alloc] init];
         [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
         [_busRouteControlView.refreshButton addTarget:self action:@selector(requestUpdate) forControlEvents:UIControlEventTouchUpInside];
         [_mapView addSubview:_busRouteControlView];
@@ -125,10 +127,15 @@ int const kRefreshInterval = 5;
     
     NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
     NSMutableArray *disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
+    if (!disabledRoutes) {
+        disabledRoutes = [NSMutableArray new];
+    }
     
+    NSInteger maxNumRoutes = [[GBToggleRoutesController class] maxNumRoutes];
+    BOOL exceededMax = NO;
+    int count = 0;
     for (NSDictionary *dictionary in routes) {
         GBRoute *route = [dictionary xmlToRoute];
-        
         BOOL enabled = YES;
         for (int x = 0; x < [disabledRoutes count]; x++) {
             NSDictionary *dictionary = disabledRoutes[x];
@@ -140,9 +147,17 @@ int const kRefreshInterval = 5;
         }
         
         if (enabled) {
-            [_routes addObject:route];
-            NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
-            [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
+            if (count < maxNumRoutes) {
+                [_routes addObject:route];
+                NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
+                [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.shortTitle atIndex:index animated:YES];
+                count++;
+            } else {
+                // If we exceed the maximum number of routes, disable the remaining routes and later prompt user to customize
+                NSDictionary *routeDic = [route toDictionary];
+                [disabledRoutes addObject:routeDic];
+                exceededMax = YES;
+            }
         }
     }
     
@@ -151,6 +166,14 @@ int const kRefreshInterval = 5;
         _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
     
     [self didChangeBusRoute];
+    
+    if (exceededMax) {
+        [[NSUserDefaults sharedDefaults] setObject:disabledRoutes forKey:GBSharedDefaultsDisabledRoutesKey];
+        GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
+        GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
+        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
 }
 
 - (void)updateVisibleRoutes:(NSNotification *)notification {

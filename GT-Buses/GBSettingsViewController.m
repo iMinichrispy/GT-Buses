@@ -154,6 +154,11 @@ float const kButtonWidth = 200.0f;
     [GBConfig sharedInstance].showsBusIdentifiers = sender.on;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+}
+
 #pragma mark - Action Sheet
 
 - (void)changeColor:(UILongPressGestureRecognizer *)recognizer {

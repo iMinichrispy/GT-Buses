@@ -23,7 +23,7 @@
 
 - (GBRoute *)xmlToRoute {
     NSString *tag = self[@"tag"];
-    NSString *title = [tag capitalizedString];
+    NSString *title = self[@"title"];
     
     GBRoute *route = [[GBRoute alloc] initWithTitle:title tag:tag];
     route.paths = self[@"path"];
@@ -114,6 +114,10 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<GBRoute title: %@, tag: %@>", _title, _tag];
+}
+
+- (NSString *)shortTitle {
+    return [_tag capitalizedString];
 }
 
 @end

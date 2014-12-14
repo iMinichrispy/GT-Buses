@@ -64,7 +64,6 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 }
 
 - (void)dismiss:(id)sender {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -88,21 +87,16 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     GBRoute *route = _routes[indexPath.row];
     NSDictionary *routeDic = [route toDictionary];
     
-    if (route.enabled) {
-        if ([self canDisableRoute]) {
-            // Disable Route
-            route.enabled = NO;
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [_disabledRoutes addObject:routeDic];
-            [self updateDisabledRoutes];
-        }
-    } else {
-        // Enable Route
+    if (route.enabled && [self canDisableRoute]) {
+        route.enabled = NO;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        [_disabledRoutes addObject:routeDic];
+        [self updateDisabledRoutes];
+    } else if (!route.enabled && [self canEnableRoute]) {
         route.enabled = YES;
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         [_disabledRoutes removeObject:routeDic];
@@ -118,7 +112,19 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 
 - (BOOL)canDisableRoute {
     // Ensures at least one route remains selected
-    return ([_routes count] - ([_disabledRoutes count] + 1));
+    return [_routes count] - ([_disabledRoutes count] + 1);
+}
+
+- (BOOL)canEnableRoute {
+    // Limit the number of routes that can be enabled
+    return ([_routes count] - [_disabledRoutes count]) < [[self class] maxNumRoutes];
+}
+
++ (NSInteger)maxNumRoutes {
+    // Calculate a reasonable maximum number of routes based on the device's smallest side
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    float smallestLength = MIN(screenSize.width, screenSize.height);
+    return roundf(.02107 * smallestLength + .21);
 }
 
 @end

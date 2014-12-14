@@ -8,7 +8,7 @@
 
 #import "GBColors.h"
 
-@interface GBBusRouteControlView : UIView <GBTintColor>
+@interface GBRouteControlView : UIView <GBTintColor>
 
 @property (nonatomic, strong) UILabel *errorLabel;
 @property (nonatomic, strong) UIButton *refreshButton;

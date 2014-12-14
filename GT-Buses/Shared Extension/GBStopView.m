@@ -113,7 +113,7 @@
         GBStop *lastStop = [_stopGroup.stops lastObject];
         for (GBStop *stop in _stopGroup.stops) {
             NSString *stopPredictions = (stop.predictions) ? stop.predictions : @"";
-            predictionsLabelText = [predictionsLabelText stringByAppendingFormat:(stop == lastStop) ? @"%@: %@" : @"%@: %@, ", stop.route.title, stopPredictions];
+            predictionsLabelText = [predictionsLabelText stringByAppendingFormat:(stop == lastStop) ? @"%@: %@" : @"%@: %@, ", stop.route.shortTitle, stopPredictions];
         }
     }
     

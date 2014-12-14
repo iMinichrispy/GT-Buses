@@ -10,4 +10,6 @@
 
 @interface GBToggleRoutesController : UITableViewController
 
++ (NSInteger)maxNumRoutes;
+
 @end

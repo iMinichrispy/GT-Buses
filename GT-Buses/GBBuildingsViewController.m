@@ -99,7 +99,6 @@ float const UITableDefaultRowHeight = 44.0;
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-#warning needs a spin loading
     if (![_allBuildings count]) {
         [self updateBuildings:nil];
     }
