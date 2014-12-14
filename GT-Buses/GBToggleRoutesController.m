@@ -12,6 +12,7 @@
 #import "GBRoute.h"
 #import "GBColors.h"
 #import "GBRouteCell.h"
+#import "GBImage.h"
 #import "NSUserDefaults+SharedDefaults.h"
 
 static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
@@ -74,10 +75,11 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:GBRouteCellIdentifier forIndexPath:indexPath];
+    GBRouteCell *cell = [tableView dequeueReusableCellWithIdentifier:GBRouteCellIdentifier forIndexPath:indexPath];
     
     GBRoute *route = _routes[indexPath.row];
-    cell.textLabel.text = route.title;
+    cell.titleLabel.text = route.title;
+    cell.circleImageView.image = [UIImage circleRouteImageWithRoute:route];
     cell.accessoryType = (route.enabled) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     return cell;

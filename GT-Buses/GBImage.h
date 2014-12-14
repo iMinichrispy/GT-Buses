@@ -8,11 +8,14 @@
 
 @import UIKit;
 
-@class GBStopGroup;
+extern float const kRouteImageViewSize;
+
+@class GBStopGroup, GBRoute;
 @interface UIImage (GBImage)
 
 + (UIImage *)arrowImageWithColor:(UIColor *)color size:(CGSize)size;
-+ (UIImage *)circleImageWithColor:(UIColor *)color size:(float)size;
++ (UIImage *)circleStopImageWithColor:(UIColor *)color size:(float)size;
 + (UIImage *)circlesWithStopGroup:(GBStopGroup *)stopGroup;
++ (UIImage *)circleRouteImageWithRoute:(GBRoute *)route;
 
 @end

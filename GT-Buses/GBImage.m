@@ -11,6 +11,7 @@
 #import "GBStop.h"
 #import "GBRoute.h"
 #import "GBStopGroup.h"
+#import "GBRouteCell.h"
 
 @implementation UIImage (GBImage)
 
@@ -53,7 +54,7 @@
 }
 
 
-+ (UIImage *)circleImageWithColor:(UIColor *)color size:(float)size {
++ (UIImage *)circleStopImageWithColor:(UIColor *)color size:(float)size {
     // Caches the dot image so only one needs to be created per color & size
     static NSMutableDictionary *circleImages;
     static dispatch_once_t onceToken;
@@ -81,12 +82,11 @@
     return image;
 }
 
-float const GBStopViewImageViewHeight = 40.0f;
-float const GBStopViewImageViewWidth = 35.0f;
+#define STOP_VIEW_IMAGE_VIEW_SIZE ((CGSize) {.height = 40.0, .width = 35.0})
 float const kStopCircleSize = 25.0f;
 
 + (UIImage *)circlesWithStopGroup:(GBStopGroup *)stopGroup {
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(GBStopViewImageViewWidth, GBStopViewImageViewHeight), NO, 0.0f);
+    UIGraphicsBeginImageContextWithOptions(STOP_VIEW_IMAGE_VIEW_SIZE, NO, 0.0f);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     
@@ -105,6 +105,33 @@ float const kStopCircleSize = 25.0f;
         CGContextStrokeEllipseInRect(context, rect);
         y += 12;
     }
+    
+    CGContextRestoreGState(context);
+    UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return circle;
+}
+
+float const kRouteImageViewSize = 50.0f;
+float const kRouteCircleSize = 20.0f;
+
++ (UIImage *)circleRouteImageWithRoute:(GBRoute *)route {
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(kRouteImageViewSize, kRouteImageViewSize), NO, 0.0f);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
+    
+    CGContextSetLineWidth(context, 2.0);
+    CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextSetShadowWithColor(context, CGSizeZero, 1, [UIColor blackColor].CGColor);
+    
+    CGFloat indent = (kRouteImageViewSize - kRouteCircleSize) / 2;
+    CGRect rect = CGRectMake(indent, indent, kRouteCircleSize, kRouteCircleSize);
+    
+    CGContextSetFillColorWithColor(context, route.color.CGColor);
+    
+    CGContextFillEllipseInRect(context, rect);
+    CGContextStrokeEllipseInRect(context, rect);
     
     CGContextRestoreGState(context);
     UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();

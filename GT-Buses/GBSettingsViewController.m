@@ -49,8 +49,6 @@ float const kButtonWidth = 200.0f;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // selected routes
-#warning distance from top and bottom really needs to vary w/ device height
     
     UILabel *settingsLabel = [[GBLabel alloc] init];
     settingsLabel.text = NSLocalizedString(@"SETTINGS", @"Settings title");

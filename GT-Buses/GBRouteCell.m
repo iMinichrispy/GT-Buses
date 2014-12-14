@@ -11,22 +11,29 @@
 #import "GBColors.h"
 #import "GBConstants.h"
 #import "GBConstraintHelper.h"
+#import "GBImage.h"
 
 @implementation GBRouteCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-//        _checkboxView = [[UIView alloc] init];
-//        _checkboxView.translatesAutoresizingMaskIntoConstraints = NO;
-//        _checkboxView.backgroundColor = [UIColor redColor];
-//        [self addSubview:_checkboxView];
-//        
-//        NSMutableArray *constraints = [NSMutableArray new];
-//        [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:_checkboxView horizontal:NO]];
-//        [constraints addObject:[GBConstraintHelper widthConstraint:_checkboxView width:50]];
-//        [self addConstraints:constraints];
-        self.textLabel.font = [UIFont fontWithName:GBFontDefault size:17];
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _titleLabel.font = [UIFont fontWithName:GBFontDefault size:17];
+        [self addSubview:_titleLabel];
+        
+        _circleImageView = [[UIImageView alloc] init];
+        _circleImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        _circleImageView.contentMode = UIViewContentModeCenter;
+        [self addSubview:_circleImageView];
+        
+        NSMutableArray *constraints = [NSMutableArray new];
+        [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:_circleImageView horizontal:NO]];
+        [constraints addObject:[GBConstraintHelper centerY:_titleLabel withView:self]];
+        [constraints addObject:[GBConstraintHelper heightConstraint:_circleImageView height:kRouteImageViewSize]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_circleImageView(size)][_titleLabel]|" options:0 metrics:@{@"size":@(kRouteImageViewSize)} views:NSDictionaryOfVariableBindings(_titleLabel, _circleImageView)]];
+        [self addConstraints:constraints];
         
         UIView *selectedView = [[UIView alloc] init];
         selectedView.backgroundColor = [[UIColor appTintColor] colorWithAlphaComponent:.5];

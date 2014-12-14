@@ -10,6 +10,7 @@
 
 @interface GBRouteCell : UITableViewCell
 
-@property (nonatomic, strong) UIView *checkboxView;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *circleImageView;
 
 @end

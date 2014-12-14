@@ -58,7 +58,6 @@
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.backgroundColor = [[UIColor appTintColor] darkerColor:0];
-//        self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.font = [UIFont fontWithName:GBFontDefault size:17];
         self.layer.cornerRadius = 5;
     }
@@ -85,10 +84,9 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [self setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.layer.borderColor = [UIColor whiteColor].CGColor;
-//        self.layer.borderColor = RGBColor(236, 240, 241).CGColor;
         self.layer.borderWidth = 1;
         self.layer.cornerRadius = 5;
         self.titleLabel.font = [UIFont fontWithName:@"Avenir-Medium" size:16];
@@ -128,15 +126,6 @@
         self.textAlignment = NSTextAlignmentCenter;
     }
     return self;
-}
-
-@end
-
-
-@implementation GBSideBarView
-
-- (void)updateTintColor {
-    self.backgroundColor = [[UIColor appTintColor] darkerColor:0.15];
 }
 
 @end

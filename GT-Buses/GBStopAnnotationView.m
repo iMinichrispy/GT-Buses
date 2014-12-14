@@ -47,7 +47,7 @@
     self.frame = CGRectMake(0, 0, size, size);
     
     UIColor *color = [annotation.stop.route.color darkerColor:0.2];
-    _stopImageView.image = [UIImage circleImageWithColor:color size:self.frame.size.height];
+    _stopImageView.image = [UIImage circleStopImageWithColor:color size:self.frame.size.height];
     _stopImageView.frame = self.bounds;
 }
 

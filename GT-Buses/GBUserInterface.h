@@ -31,8 +31,3 @@
 @interface GBErrorLabel : UILabel
 
 @end
-
-
-@interface GBSideBarView : UIView <GBTintColor>
-
-@end
