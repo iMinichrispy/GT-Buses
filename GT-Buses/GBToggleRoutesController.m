@@ -97,17 +97,20 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
             route.enabled = NO;
             cell.accessoryType = UITableViewCellAccessoryNone;
             [_disabledRoutes addObject:routeDic];
+            [self updateDisabledRoutes];
         }
     } else {
         // Enable Route
         route.enabled = YES;
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         [_disabledRoutes removeObject:routeDic];
+        [self updateDisabledRoutes];
     }
-    
+}
+
+- (void)updateDisabledRoutes {
     NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
     [sharedDefaults setObject:_disabledRoutes forKey:GBSharedDefaultsDisabledRoutesKey];
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationDisabledRoutesDidChange object:nil];
 }
 

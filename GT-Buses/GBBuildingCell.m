@@ -17,8 +17,7 @@
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     if (self) {
         self.textLabel.font = [UIFont fontWithName:GBFontDefault size:16];
-        if ([[UIDevice currentDevice] supportsVisualEffects])
-            self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }

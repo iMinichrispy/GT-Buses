@@ -155,6 +155,7 @@ int const kRefreshInterval = 5;
 
 - (void)updateVisibleRoutes:(NSNotification *)notification {
     NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
+    // TODO: Instead of resetting the whole control, only add or remove the given segment
     [self setupRouteControlForRoutes:routes];
 }
 

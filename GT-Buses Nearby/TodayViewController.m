@@ -28,20 +28,36 @@
     if (self) {
         self.sectionView = [[GBSectionView alloc] initWithTitle:NSLocalizedString(@"NEARBY_SECTION", @"Nearby section title") defaultsKey:@"key11"];
         
+        NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
         NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
+        NSMutableArray *disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
         
         NSMutableArray *savedRoutes = [NSMutableArray new];
         if ([routes count]) {
             for (NSDictionary *routeDic in routes) {
                 GBRoute *route = [routeDic xmlToRoute];
-                [savedRoutes addObject:route];
+                
+                // Ensure only enabled routes are used
+                BOOL enabled = YES;
+                for (int x = 0; x < [disabledRoutes count]; x++) {
+                    NSDictionary *dictionary = disabledRoutes[x];
+                    if ([dictionary[@"tag"] isEqualToString:route.tag]) {
+                        [disabledRoutes removeObjectAtIndex:x];
+                        enabled = NO;
+                        break;
+                    }
+                }
+                
+                if (enabled) {
+                    [savedRoutes addObject:route];
+                }
             }
         }
         _savedRoutes = savedRoutes;
         
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
-        _locationManager.distanceFilter = 40.0f; // min meters required for location update
+        _locationManager.distanceFilter = 40.0f; // Min meters required for location update
         _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     }
     return self;

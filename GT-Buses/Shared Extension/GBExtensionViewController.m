@@ -11,11 +11,12 @@
 @import NotificationCenter;
 
 #import "GBSectionView.h"
-#import "GBErrorView.h"
+#import "GBLabelEffectView.h"
 #import "GBSectionHeaderView.h"
 #import "GBRequestHandler.h"
 #import "XMLReader.h"
 #import "GBStopGroup.h"
+#import "GBColors.h"
 
 @interface GBExtensionViewController () <NCWidgetProviding, RequestHandlerDelegate>
 
@@ -27,7 +28,6 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         _updating = NO;
-        
         
         NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
         [GBConfig sharedInstance].showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
@@ -72,14 +72,15 @@
 }
 
 - (void)displayError:(NSString *)error {
-    GBErrorView *errorView = [[GBErrorView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
-    errorView.label.text = error;
-    
+    GBLabelEffectView *errorView = [[GBLabelEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
+    errorView.textLabel.text = error;
+    errorView.textLabel.textColor = [UIColor grayExtensionTextColor];
+    errorView.textLabel.textAlignment = NSTextAlignmentCenter;
     [_sectionView.stopsView addSubview:errorView];
     
     NSMutableArray *constraints = [NSMutableArray new];
     [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:errorView horizontal:YES]];
-    [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:errorView horizontal:NO]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-7-[errorView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(errorView)]];
     [NSLayoutConstraint activateConstraints:constraints];
 }
 
@@ -91,7 +92,7 @@
         _updating = YES;
     }
 }
-#warning account for UIAccessibilityIsReduceTransparencyEnabled
+
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];

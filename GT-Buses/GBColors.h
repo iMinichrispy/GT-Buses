@@ -34,6 +34,7 @@ static inline UIColor *RGBColor(CGFloat red, CGFloat green, CGFloat blue) {
 + (UIColor *)appTintColor;
 + (UIColor *)controlTintColor;
 + (UIColor *)colorWithHexString:(NSString *)hexString;
++ (UIColor *)grayExtensionTextColor;
 
 @end
 

@@ -30,7 +30,6 @@
 		FA2B6FC41A1430BA00C60449 /* GBStop.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2B6FC31A1430BA00C60449 /* GBStop.m */; };
 		FA42AA111A2BEFA000AA4391 /* GBStopAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA42AA101A2BEFA000AA4391 /* GBStopAnnotationView.m */; };
 		FA4519091A2272DA00EC849C /* GBExtensionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807A1A201B330000DC6B /* GBExtensionViewController.m */; };
-		FA45190B1A2272DF00EC849C /* GBErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480781A201B330000DC6B /* GBErrorView.m */; };
 		FA45190C1A2272E100EC849C /* GBSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807C1A201B330000DC6B /* GBSectionHeaderView.m */; };
 		FA45190D1A2272E400EC849C /* GBSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807E1A201B330000DC6B /* GBSectionView.m */; };
 		FA45190E1A2272E600EC849C /* GBStopGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480801A201B330000DC6B /* GBStopGroup.m */; };
@@ -104,6 +103,10 @@
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
 		FAA2725F1A3CE51F00C40D25 /* GBToggleRoutesController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA2725E1A3CE51F00C40D25 /* GBToggleRoutesController.m */; };
 		FAA272621A3CEA9000C40D25 /* GBRouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA272611A3CEA9000C40D25 /* GBRouteCell.m */; };
+		FAA272651A3D372900C40D25 /* GBLabelEffectView.h in Headers */ = {isa = PBXBuildFile; fileRef = FAA272631A3D372900C40D25 /* GBLabelEffectView.h */; };
+		FAA272661A3D372900C40D25 /* GBLabelEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA272641A3D372900C40D25 /* GBLabelEffectView.m */; };
+		FAA272671A3D372900C40D25 /* GBLabelEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA272641A3D372900C40D25 /* GBLabelEffectView.m */; };
+		FAA272681A3D372900C40D25 /* GBLabelEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA272641A3D372900C40D25 /* GBLabelEffectView.m */; };
 		FAA7B6B81A194F1200CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB56ABD1A229E4200CBDD76 /* GBSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB56ABC1A229E4200CBDD76 /* GBSettingsViewController.m */; };
@@ -126,7 +129,6 @@
 		FAC4803A1A200F770000DC6B /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
 		FAC4803B1A20105F0000DC6B /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
 		FAC480831A201B330000DC6B /* Extension.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAC480741A201B330000DC6B /* Extension.xcassets */; };
-		FAC480871A201B330000DC6B /* GBErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480781A201B330000DC6B /* GBErrorView.m */; };
 		FAC480891A201B330000DC6B /* GBExtensionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807A1A201B330000DC6B /* GBExtensionViewController.m */; };
 		FAC4808B1A201B330000DC6B /* GBSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807C1A201B330000DC6B /* GBSectionHeaderView.m */; };
 		FAC4808D1A201B330000DC6B /* GBSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC4807E1A201B330000DC6B /* GBSectionView.m */; };
@@ -261,6 +263,8 @@
 		FAA2725E1A3CE51F00C40D25 /* GBToggleRoutesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBToggleRoutesController.m; sourceTree = "<group>"; };
 		FAA272601A3CEA9000C40D25 /* GBRouteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBRouteCell.h; sourceTree = "<group>"; };
 		FAA272611A3CEA9000C40D25 /* GBRouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBRouteCell.m; sourceTree = "<group>"; };
+		FAA272631A3D372900C40D25 /* GBLabelEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBLabelEffectView.h; sourceTree = "<group>"; };
+		FAA272641A3D372900C40D25 /* GBLabelEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBLabelEffectView.m; sourceTree = "<group>"; };
 		FAA7B6B61A194F1200CB8FB2 /* GBDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBDirection.h; sourceTree = "<group>"; };
 		FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDirection.m; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
@@ -284,8 +288,6 @@
 		FAC4801D1A2004D20000DC6B /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
 		FAC480261A2005460000DC6B /* GT-Buses Favorites.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "GT-Buses Favorites.entitlements"; sourceTree = "<group>"; };
 		FAC480741A201B330000DC6B /* Extension.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Extension.xcassets; sourceTree = "<group>"; };
-		FAC480771A201B330000DC6B /* GBErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBErrorView.h; sourceTree = "<group>"; };
-		FAC480781A201B330000DC6B /* GBErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBErrorView.m; sourceTree = "<group>"; };
 		FAC480791A201B330000DC6B /* GBExtensionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBExtensionViewController.h; sourceTree = "<group>"; };
 		FAC4807A1A201B330000DC6B /* GBExtensionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBExtensionViewController.m; sourceTree = "<group>"; };
 		FAC4807B1A201B330000DC6B /* GBSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSectionHeaderView.h; sourceTree = "<group>"; };
@@ -636,8 +638,6 @@
 				FAC480741A201B330000DC6B /* Extension.xcassets */,
 				FAC480791A201B330000DC6B /* GBExtensionViewController.h */,
 				FAC4807A1A201B330000DC6B /* GBExtensionViewController.m */,
-				FAC480771A201B330000DC6B /* GBErrorView.h */,
-				FAC480781A201B330000DC6B /* GBErrorView.m */,
 				FAC4807B1A201B330000DC6B /* GBSectionHeaderView.h */,
 				FAC4807C1A201B330000DC6B /* GBSectionHeaderView.m */,
 				FAC4807D1A201B330000DC6B /* GBSectionView.h */,
@@ -646,6 +646,8 @@
 				FAC480801A201B330000DC6B /* GBStopGroup.m */,
 				FAC480811A201B330000DC6B /* GBStopView.h */,
 				FAC480821A201B330000DC6B /* GBStopView.m */,
+				FAA272631A3D372900C40D25 /* GBLabelEffectView.h */,
+				FAA272641A3D372900C40D25 /* GBLabelEffectView.m */,
 			);
 			name = "Shared Extension";
 			path = "GT-Buses/Shared Extension";
@@ -660,6 +662,7 @@
 			files = (
 				FA938B411A26C8900018823A /* GBConstraintHelper.h in Headers */,
 				FA5E51291A258A5F0031E825 /* Buses.h in Headers */,
+				FAA272651A3D372900C40D25 /* GBLabelEffectView.h in Headers */,
 				FA5E512A1A258ADB0031E825 /* GBAppDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -980,6 +983,7 @@
 				FA5E51071A256A8C0031E825 /* GBStopAnnotation.m in Sources */,
 				FA5E510E1A256B070031E825 /* GBBusRouteControlView.m in Sources */,
 				FA5E51181A256B160031E825 /* GBDirection.m in Sources */,
+				FAA272681A3D372900C40D25 /* GBLabelEffectView.m in Sources */,
 				FA5E51161A256B160031E825 /* GBRoute.m in Sources */,
 				FA5E511D1A256CA60031E825 /* GBAppDelegate.m in Sources */,
 				FA938B451A26C8900018823A /* GBConstraintHelper.m in Sources */,
@@ -1023,7 +1027,6 @@
 				FA06FDDE1A3BFF70004531CA /* GBImage.m in Sources */,
 				FA4519121A22730500EC849C /* GBRoute.m in Sources */,
 				FA45190D1A2272E400EC849C /* GBSectionView.m in Sources */,
-				FA45190B1A2272DF00EC849C /* GBErrorView.m in Sources */,
 				FA4519111A22730000EC849C /* RequestHandler.m in Sources */,
 				FA4519171A22734F00EC849C /* GBDirection.m in Sources */,
 				FA938B471A26E26E0018823A /* GBConfig.m in Sources */,
@@ -1031,6 +1034,7 @@
 				FA4519161A22734A00EC849C /* GBRequestHandler.m in Sources */,
 				FA4519151A22734700EC849C /* GBConstants.m in Sources */,
 				FA4519101A2272FC00EC849C /* XMLReader.m in Sources */,
+				FAA272671A3D372900C40D25 /* GBLabelEffectView.m in Sources */,
 				FA938B441A26C8900018823A /* GBConstraintHelper.m in Sources */,
 				FA4519131A22730700EC849C /* GBStop.m in Sources */,
 				FA28C7E31A2E96B300C1C9C1 /* NSUserDefaults+SharedDefaults.m in Sources */,
@@ -1047,7 +1051,6 @@
 				FAC480371A200F3E0000DC6B /* GBRoute.m in Sources */,
 				FAC480331A2008EA0000DC6B /* RequestHandler.m in Sources */,
 				FA06FDDD1A3BFF6F004531CA /* GBImage.m in Sources */,
-				FAC480871A201B330000DC6B /* GBErrorView.m in Sources */,
 				FAC4803A1A200F770000DC6B /* GBColors.m in Sources */,
 				FAC4808F1A201B330000DC6B /* GBStopGroup.m in Sources */,
 				FAC480341A2009550000DC6B /* GBConstants.m in Sources */,
@@ -1057,6 +1060,7 @@
 				FAC480391A200F550000DC6B /* GBDirection.m in Sources */,
 				FAC480321A2008DE0000DC6B /* GBRequestHandler.m in Sources */,
 				FAC4801C1A2004D20000DC6B /* TodayViewController.m in Sources */,
+				FAA272661A3D372900C40D25 /* GBLabelEffectView.m in Sources */,
 				FA938B431A26C8900018823A /* GBConstraintHelper.m in Sources */,
 				FAC4808B1A201B330000DC6B /* GBSectionHeaderView.m in Sources */,
 				FA28C7E41A2E96D900C1C9C1 /* NSUserDefaults+SharedDefaults.m in Sources */,

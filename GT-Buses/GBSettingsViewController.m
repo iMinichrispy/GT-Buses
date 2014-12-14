@@ -231,6 +231,7 @@ float const kButtonWidth = 200.0f;
 - (void)showToggleRoutes:(id)sender {
     GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self presentViewController:navController animated:YES completion:NULL];
 }

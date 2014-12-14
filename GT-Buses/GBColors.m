@@ -168,6 +168,15 @@
     return RGBColor(r, g, b);
 }
 
++ (UIColor *)grayExtensionTextColor {
+    static UIColor *color;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        color = RGBColor(184, 191, 195);
+    });
+    return color;
+}
+
 @end
 
 

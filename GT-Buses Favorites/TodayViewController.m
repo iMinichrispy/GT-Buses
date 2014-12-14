@@ -27,11 +27,6 @@
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-}
-
 - (void)userDefaultsDidChange:(NSNotification *)notification {
     [super userDefaultsDidChange:notification];
     NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
@@ -50,7 +45,7 @@
         NSMutableArray *stopViews = [NSMutableArray new];
         for (NSDictionary *dictionary in self.stops) {
             GBStop *stop = [dictionary toStop];
-            // need to remove no favorites added view
+#warning need to remove no favorites added view
             
             GBStopView *stopView = [[GBStopView alloc] initWithStop:stop];
             [self.sectionView.stopsView addSubview:stopView];

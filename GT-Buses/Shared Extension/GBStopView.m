@@ -14,6 +14,7 @@
 #import "GBRoute.h"
 #import "GBStopGroup.h"
 #import "GBImage.h"
+#import "GBLabelEffectView.h"
 
 @import NotificationCenter;
 
@@ -39,32 +40,29 @@
         _routeImageView.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_routeImageView];
         
-        UIVisualEffectView *predictionsEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
-        predictionsEffectView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self addSubview:predictionsEffectView];
-        
-        _nameLabel = [[UILabel alloc] init];
-        _nameLabel.text = [_stopGroup firstStop].title;
-        _nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [[predictionsEffectView contentView] addSubview:_nameLabel];
+        GBLabelEffectView *nameEffectView = [[GBLabelEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
+        nameEffectView.textLabel.text = [_stopGroup firstStop].title;
+        nameEffectView.textLabel.textColor = [UIColor grayExtensionTextColor];
+        _nameLabel = nameEffectView.textLabel;
+        [self addSubview:nameEffectView];
         
         _predictionsLabel = [[UILabel alloc] init];
         _predictionsLabel.numberOfLines = 0;
         _predictionsLabel.text = @"Loading...";
-        _predictionsLabel.textColor = RGBColor(184, 191, 195);
+        _predictionsLabel.textColor = RGBColor(220, 220, 220);
         _predictionsLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_predictionsLabel];
         
         _distanceLabel = [[UILabel alloc] init];
         _distanceLabel.font = [UIFont systemFontOfSize:13];
         _distanceLabel.text = (stopGroup.distance) ? [[self class] stringWithDistance:_stopGroup.distance] : @"";
-        _distanceLabel.textColor = RGBColor(184, 191, 195);
+        _distanceLabel.textColor = [UIColor grayExtensionTextColor];
         _distanceLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_distanceLabel];
         
         _directionLabel = [[UILabel alloc] init];
         _directionLabel.text = [NSString stringWithFormat:@"To %@", [_stopGroup firstStop].direction.title];
-        _directionLabel.textColor = RGBColor(184, 191, 195);
+        _directionLabel.textColor = [UIColor grayExtensionTextColor];
         _directionLabel.font = [UIFont systemFontOfSize:11];
         _directionLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_directionLabel];
@@ -72,16 +70,13 @@
         
         NSMutableArray *constraints = [NSMutableArray new];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_routeImageView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[predictionsEffectView][_predictionsLabel]-2-[_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, predictionsEffectView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[nameEffectView][_predictionsLabel]-2-[_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, nameEffectView)]];
         
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[predictionsEffectView][_distanceLabel]-2-[_directionLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, predictionsEffectView, _distanceLabel)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[nameEffectView][_distanceLabel]-2-[_directionLabel]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, nameEffectView, _distanceLabel)]];
         
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_predictionsLabel]-3-[_distanceLabel(>=35)]-8-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _predictionsLabel, _distanceLabel)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][predictionsEffectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, predictionsEffectView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][nameEffectView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, nameEffectView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_routeImageView][_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView, _directionLabel)]];
-        
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_nameLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_nameLabel)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_nameLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_nameLabel)]];
         
         _imageHeightConstraint = [NSLayoutConstraint
                                   constraintWithItem:_routeImageView
