@@ -17,6 +17,7 @@
 #import "UIDevice+Hardware.h"
 #import "UIViewController+MailComposer.h"
 #import "GBSegmentedControlView.h"
+#import "GBToggleRoutesController.h"
 
 #define PREDICTION_EXAMPLE_SECONDS     300
 
@@ -39,7 +40,7 @@ float const kButtonWidth = 200.0f;
         view = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
     } else {
         view = [[UIView alloc] init];
-        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.5];
+        view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.85];
     }
 
     view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -68,10 +69,6 @@ float const kButtonWidth = 200.0f;
     [busIdentifiersSwitch addTarget:self action:@selector(busIdentifierDidSwitch:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:busIdentifiersSwitchView];
     
-    UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
-    [toggleRoutesButton setTitle:@"Toggle Routes" forState:UIControlStateNormal];
-    [self.view addSubview:toggleRoutesButton];
-    
     _messageLabel = [[GBLabel alloc] init];
     _messageLabel.font = [UIFont fontWithName:GBFontDefault size:16];
     _messageLabel.numberOfLines = 0;
@@ -98,16 +95,13 @@ float const kButtonWidth = 200.0f;
     [self.view addSubview:copyrightLabel];
     
     NSMutableArray *constraints = [NSMutableArray new];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[settingsLabel]-15-[arrivalTimeOptionView]-10-[busIdentifiersSwitchView]-12-[toggleRoutesButton]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(settingsLabel, arrivalTimeOptionView, busIdentifiersSwitchView, toggleRoutesButton)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_messageLabel]-7-[_reviewAppButton(buttonHeight)]-20-[supportButton(buttonHeight)]-40-[copyrightLabel]-35-|" options:0 metrics:@{@"buttonHeight":@(kButtonHeight)} views:NSDictionaryOfVariableBindings(copyrightLabel, supportButton, _reviewAppButton, _messageLabel)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-35-[settingsLabel]-15-[arrivalTimeOptionView]-10-[busIdentifiersSwitchView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(settingsLabel, arrivalTimeOptionView, busIdentifiersSwitchView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_messageLabel]-7-[_reviewAppButton(buttonHeight)]-20-[supportButton(buttonHeight)]-20-[copyrightLabel]-35-|" options:0 metrics:@{@"buttonHeight":@(kButtonHeight)} views:NSDictionaryOfVariableBindings(copyrightLabel, supportButton, _reviewAppButton, _messageLabel)]];
     [constraints addObject:[GBConstraintHelper centerX:settingsLabel withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:copyrightLabel withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:arrivalTimeOptionView withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:busIdentifiersSwitchView withView:self.view]];
-    [constraints addObject:[GBConstraintHelper centerX:toggleRoutesButton withView:self.view]];
     
-    [constraints addObject:[GBConstraintHelper widthConstraint:toggleRoutesButton width:150]];
-    [constraints addObject:[GBConstraintHelper heightConstraint:toggleRoutesButton height:40]];
     
     [constraints addObject:[GBConstraintHelper centerX:_messageLabel withView:self.view]];
     [constraints addObject:[GBConstraintHelper widthConstraint:_messageLabel width:kButtonWidth]];
@@ -116,6 +110,24 @@ float const kButtonWidth = 200.0f;
     [constraints addObject:[GBConstraintHelper centerX:_reviewAppButton withView:self.view]];
     [constraints addObject:[GBConstraintHelper widthConstraint:_reviewAppButton width:kButtonWidth]];
     [self.view addConstraints:constraints];
+    
+    // Only add the toggle routes button if the routes have been retrieved
+    NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
+    if ([routes count]) {
+        UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
+        [toggleRoutesButton setTitle:@"Toggle Routes" forState:UIControlStateNormal];
+        [toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:toggleRoutesButton];
+        
+        
+        NSMutableArray *constraints = [NSMutableArray new];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[toggleRoutesButton]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, toggleRoutesButton)]];
+        [constraints addObject:[GBConstraintHelper centerX:toggleRoutesButton withView:self.view]];
+        
+        [constraints addObject:[GBConstraintHelper widthConstraint:toggleRoutesButton width:150]];
+        [constraints addObject:[GBConstraintHelper heightConstraint:toggleRoutesButton height:40]];
+        [self.view addConstraints:constraints];
+    }
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeColor:)];
     [longPress setMinimumPressDuration:2];
@@ -214,6 +226,13 @@ float const kButtonWidth = 200.0f;
         [_reviewAppButton setTitle:NSLocalizedString(@"REVIEW_APP", @"Review app button") forState:UIControlStateNormal];
         [self updateMessage:nil];
     }
+}
+
+- (void)showToggleRoutes:(id)sender {
+    GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
+    GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [self presentViewController:navController animated:YES completion:NULL];
 }
 
 @end

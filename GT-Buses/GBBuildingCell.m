@@ -7,6 +7,8 @@
 //
 
 #import "GBBuildingCell.h"
+
+#import "GBConstants.h"
 #import "UIDevice+Hardware.h"
 
 @implementation GBBuildingCell
@@ -14,6 +16,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.textLabel.font = [UIFont fontWithName:GBFontDefault size:16];
         if ([[UIDevice currentDevice] supportsVisualEffects])
             self.backgroundColor = [UIColor clearColor];
     }

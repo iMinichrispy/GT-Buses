@@ -65,6 +65,7 @@ int const kRefreshInterval = 5;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(togglePartyMode:) name:GBNotificationPartyModeDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateVisibleRoutes:) name:GBNotificationDisabledRoutesDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(toggleBusIdentifiers:) name:GBNotificationShowsBusIdentifiersDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -117,6 +118,46 @@ int const kRefreshInterval = 5;
     [self invalidateRefreshTimer];
 }
 
+- (void)setupRouteControlForRoutes:(NSArray *)routes {
+    [self invalidateRefreshTimer];
+    [_busRouteControlView.busRouteControl removeAllSegments];
+    [_routes removeAllObjects];
+    
+    NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
+    NSMutableArray *disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
+    
+    for (NSDictionary *dictionary in routes) {
+        GBRoute *route = [dictionary xmlToRoute];
+        
+        BOOL enabled = YES;
+        for (int x = 0; x < [disabledRoutes count]; x++) {
+            NSDictionary *dictionary = disabledRoutes[x];
+            if ([dictionary[@"tag"] isEqualToString:route.tag]) {
+                [disabledRoutes removeObjectAtIndex:x];
+                enabled = NO;
+                break;
+            }
+        }
+        
+        if (enabled) {
+            [_routes addObject:route];
+            NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
+            [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
+        }
+    }
+    
+    NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
+    if (_busRouteControlView.busRouteControl.numberOfSegments)
+        _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
+    
+    [self didChangeBusRoute];
+}
+
+- (void)updateVisibleRoutes:(NSNotification *)notification {
+    NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
+    [self setupRouteControlForRoutes:routes];
+}
+
 #pragma mark - Location Manager
 
 - (void)showUserLocation {
@@ -156,20 +197,8 @@ int const kRefreshInterval = 5;
                 // Prevents duplicate routes from being added to route segmented control in case connection is slow and route config is requested multiple times
                 if (!selectedRoute) {
                     NSArray *routes = dictionary[@"body"][@"route"];
-                    for (NSDictionary *dictionary in routes) {
-                        GBRoute *route = [dictionary xmlToRoute];
-                        [_routes addObject:route];
-                        NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
-                        [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.title atIndex:index animated:YES];
-                    }
-                    
+                    [self setupRouteControlForRoutes:routes];
                     [[NSUserDefaults sharedDefaults] setObject:routes forKey:GBSharedDefaultsRoutesKey];
-                    
-                    NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
-                    if (_busRouteControlView.busRouteControl.numberOfSegments)
-                        _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
-                    
-                    [self didChangeBusRoute];
                 }
             } else {
                 [self invalidateRefreshTimer];
@@ -197,7 +226,7 @@ int const kRefreshInterval = 5;
                                 GBBusAnnotation *busAnnotation = busAnnotations[x];
                                 GBBus *bus = busAnnotation.bus;
                                 if ([bus.identifier isEqualToString:busPosition[@"id"]]) {
-                                    [busAnnotations removeObject:busAnnotation];
+                                    [busAnnotations removeObjectAtIndex:x];
                                     annotation = busAnnotation;
                                     break;
                                 }
@@ -263,7 +292,7 @@ int const kRefreshInterval = 5;
                                 
                                 // It's okay to remove an element while iterating since we're breaking anyway
                                 // Using a double for loop so this alows us to iterate over fewer elements the next time
-                                [busStopAnnotations removeObject:busStopAnnotation];
+                                [busStopAnnotations removeObjectAtIndex:x];
                                 break;
                             }
                         }

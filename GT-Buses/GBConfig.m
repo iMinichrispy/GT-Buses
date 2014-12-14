@@ -43,7 +43,7 @@
         
         _showsArrivalTime = [[NSUserDefaults sharedDefaults] boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
         
-        _showsBusIdentifiers = [[NSUserDefaults standardUserDefaults] boolForKey:GBUserDefaultsShowsBusIdentifiers];
+        _showsBusIdentifiers = [[NSUserDefaults standardUserDefaults] boolForKey:GBUserDefaultsShowsBusIdentifiersKey];
     }
     return self;
 }
@@ -119,7 +119,7 @@
 - (void)setShowsBusIdentifiers:(BOOL)showsBusIdentifiers {
     if (_showsBusIdentifiers != showsBusIdentifiers) {
         _showsBusIdentifiers = showsBusIdentifiers;
-        [[NSUserDefaults standardUserDefaults] setBool:_showsBusIdentifiers forKey:GBUserDefaultsShowsBusIdentifiers];
+        [[NSUserDefaults standardUserDefaults] setBool:_showsBusIdentifiers forKey:GBUserDefaultsShowsBusIdentifiersKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationShowsBusIdentifiersDidChange object:nil];
     }

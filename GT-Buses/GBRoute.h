@@ -29,5 +29,6 @@
 @property (nonatomic, strong) NSArray *stops;
 @property (nonatomic, strong) NSArray *directions;
 @property (nonatomic) MKMapRect mapRect;
+@property (nonatomic) BOOL enabled;
 
 @end

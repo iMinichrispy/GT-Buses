@@ -102,6 +102,8 @@
 		FA938B471A26E26E0018823A /* GBConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */; };
 		FAA00CFE1A3C9BED00F35A52 /* GBBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA00CFD1A3C9BED00F35A52 /* GBBuilding.m */; };
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
+		FAA2725F1A3CE51F00C40D25 /* GBToggleRoutesController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA2725E1A3CE51F00C40D25 /* GBToggleRoutesController.m */; };
+		FAA272621A3CEA9000C40D25 /* GBRouteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA272611A3CEA9000C40D25 /* GBRouteCell.m */; };
 		FAA7B6B81A194F1200CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB56ABD1A229E4200CBDD76 /* GBSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB56ABC1A229E4200CBDD76 /* GBSettingsViewController.m */; };
@@ -255,6 +257,10 @@
 		FAA1234B18A5793C0049A5FA /* GBUserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBUserInterface.h; sourceTree = "<group>"; };
 		FAA1234C18A5793C0049A5FA /* GBUserInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBUserInterface.m; sourceTree = "<group>"; };
 		FAA201A519BE703900FA1E7D /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		FAA2725D1A3CE51F00C40D25 /* GBToggleRoutesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBToggleRoutesController.h; sourceTree = "<group>"; };
+		FAA2725E1A3CE51F00C40D25 /* GBToggleRoutesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBToggleRoutesController.m; sourceTree = "<group>"; };
+		FAA272601A3CEA9000C40D25 /* GBRouteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBRouteCell.h; sourceTree = "<group>"; };
+		FAA272611A3CEA9000C40D25 /* GBRouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBRouteCell.m; sourceTree = "<group>"; };
 		FAA7B6B61A194F1200CB8FB2 /* GBDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBDirection.h; sourceTree = "<group>"; };
 		FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDirection.m; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
@@ -430,6 +436,8 @@
 				FAC6F9B31A29119000792CDC /* GBOptionView.m */,
 				FA28C7DF1A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.h */,
 				FA28C7E01A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m */,
+				FAA2725D1A3CE51F00C40D25 /* GBToggleRoutesController.h */,
+				FAA2725E1A3CE51F00C40D25 /* GBToggleRoutesController.m */,
 				FA0B9C091A11BAAB005197CC /* Models */,
 				FAA1235518A57E150049A5FA /* Mail */,
 				FAA1235418A57E090049A5FA /* UI */,
@@ -547,6 +555,8 @@
 				FAD6A33F1A1CE4F500D98955 /* GBImage.m */,
 				FA938B3A1A26B7B20018823A /* GBBuildingCell.h */,
 				FA938B3B1A26B7B20018823A /* GBBuildingCell.m */,
+				FAA272601A3CEA9000C40D25 /* GBRouteCell.h */,
+				FAA272611A3CEA9000C40D25 /* GBRouteCell.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -918,6 +928,7 @@
 				FA1FE93A18A1D8A300757643 /* GBAppDelegate.m in Sources */,
 				FA70055A1A1F012D00694D10 /* GBMapView.m in Sources */,
 				FA1FE96D18A1D9A400757643 /* GBMapHandler.m in Sources */,
+				FAA272621A3CEA9000C40D25 /* GBRouteCell.m in Sources */,
 				FA1FE97C18A1D9C600757643 /* GBColors.m in Sources */,
 				FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */,
 				FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */,
@@ -938,6 +949,7 @@
 				FAA7B6B81A194F1200CB8FB2 /* GBDirection.m in Sources */,
 				FA938B421A26C8900018823A /* GBConstraintHelper.m in Sources */,
 				FA1FE97718A1D9B000757643 /* GBStopAnnotation.m in Sources */,
+				FAA2725F1A3CE51F00C40D25 /* GBToggleRoutesController.m in Sources */,
 				FAA00CFE1A3C9BED00F35A52 /* GBBuilding.m in Sources */,
 				FA75CFD31A13CD27000B9CD6 /* GBFavoriteButton.m in Sources */,
 				FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */,

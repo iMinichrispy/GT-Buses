@@ -28,8 +28,10 @@
         
         self.canShowCallout = YES;
         
-        _favoriteButton = [[GBFavoriteButton alloc] init];
-        self.rightCalloutAccessoryView = _favoriteButton;
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+            _favoriteButton = [[GBFavoriteButton alloc] init];
+            self.rightCalloutAccessoryView = _favoriteButton;
+        }
         
         _stopImageView = [[UIImageView alloc] init];
         _stopImageView.alpha = .7;

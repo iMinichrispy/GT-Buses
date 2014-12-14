@@ -22,7 +22,6 @@
 
 @interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate> {
     NSString *_currentQuery;
-//    GBBuildingsViewController *_buildingsController;
 }
 
 @property (nonatomic, strong) GBMapViewController *mapViewController;
@@ -55,7 +54,6 @@ float const kSettingsViewAnimationSpeed = .2;
     _searchBar.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reduceTransparencyDidChange:) name:UIAccessibilityReduceTransparencyStatusDidChangeNotification object:nil];
     
     self.navigationItem.rightBarButtonItem = [self settingsButton];
     
@@ -187,13 +185,6 @@ float const kSettingsViewAnimationSpeed = .2;
     GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
     [_mapViewController.mapView addAnnotation:annotation];
     [_mapViewController.mapView selectAnnotation:annotation animated:YES];
-}
-
-- (void)reduceTransparencyDidChange:(NSNotification *)notification {
-    // Since buildings controller uses a blur effect, set it to nil so that it is re-initialized the next time the search button is pressed. (The buildings controller initializer accounts for the reduce transparency accessibility setting).
-#warning what if its or settings is being displayed when transparency changes?
-    [self hideSearchBar];
-    _buildingsController = nil;
 }
 
 - (NSArray *)buildingsControllerConstraints {

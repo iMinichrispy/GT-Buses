@@ -16,10 +16,11 @@ extern NSString *const GBUserDefaultsAgencyKey;
 extern NSString *const GBUserDefaultsSelectedRouteKey;
 extern NSString *const GBUserDefaultsSelectedColorKey;
 extern NSString *const GBUserDefaultsBuildingsVersionKey;
-extern NSString *const GBUserDefaultsShowsBusIdentifiers;
+extern NSString *const GBUserDefaultsShowsBusIdentifiersKey;
 
 extern NSString *const GBSharedDefaultsFavoriteStopsKey;
 extern NSString *const GBSharedDefaultsRoutesKey;
+extern NSString *const GBSharedDefaultsDisabledRoutesKey;
 extern NSString *const GBSharedDefaultsShowsArrivalTimeKey;
 
 extern NSString *const GBNotificationTintColorDidChange;
@@ -28,6 +29,7 @@ extern NSString *const GBNotificationMessageDidChange;
 extern NSString *const GBNotificationiOSVersionDidChange;
 extern NSString *const GBNotificationBuildingsVersionDidChange;
 extern NSString *const GBNotificationShowsBusIdentifiersDidChange;
+extern NSString *const GBNotificationDisabledRoutesDidChange;
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)

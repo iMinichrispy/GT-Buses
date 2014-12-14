@@ -53,16 +53,8 @@ float const UITableDefaultRowHeight = 44.0;
     tableView.dataSource = self;
     tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     tableView.sectionHeaderHeight = 22;
-    
-    if ([[UIDevice currentDevice] supportsVisualEffects]) {
-        UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-        tableView.backgroundView = effectView;
-        tableView.separatorEffect = blurEffect;
-        tableView.backgroundColor = [UIColor clearColor];
-    }
-    
     self.view = tableView;
+    [self reduceTransparencyDidChange:nil];
 }
 
 - (void)viewDidLoad {
@@ -72,6 +64,10 @@ float const UITableDefaultRowHeight = 44.0;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuildings:) name:GBNotificationBuildingsVersionDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
+    if (UIAccessibilityReduceTransparencyStatusDidChangeNotification != NULL) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reduceTransparencyDidChange:) name:UIAccessibilityReduceTransparencyStatusDidChangeNotification object:nil];
+    }
+    
     [self updateTintColor:nil];
     
     if ([self.tableView respondsToSelector:@selector(setKeyboardDismissMode:)]) {
@@ -80,6 +76,20 @@ float const UITableDefaultRowHeight = 44.0;
     
     NSArray *buildings = [self savedBuildings];
     [self setupForBuildings:buildings];
+}
+
+- (void)reduceTransparencyDidChange:(NSNotification *)notification {
+    if ([[UIDevice currentDevice] supportsVisualEffects]) {
+        UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        self.tableView.backgroundView = effectView;
+        self.tableView.separatorEffect = blurEffect;
+        self.tableView.backgroundColor = [UIColor clearColor];
+    } else {
+        self.tableView.backgroundView = nil;
+        self.tableView.separatorEffect = nil;
+        self.tableView.backgroundColor = [UIColor whiteColor];
+    }
 }
 
 - (NSArray *)savedBuildings {
@@ -110,7 +120,6 @@ float const UITableDefaultRowHeight = 44.0;
 }
 
 - (void)updateBuildings:(NSNotification *)notification {
-    NSLog(@"update buildings");
     [self showStatusLabel:YES status:@"Loading..."];
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
     [requestHandler buildings];
@@ -241,11 +250,6 @@ float const UITableDefaultRowHeight = 44.0;
 - (void)handleError:(RequestHandler *)handler error:(NSError *)error {
     // Fall back on stored buildings (if available) if fails to retrieve udpated buildings
     [self revertToSavedBuildings];
-#warning unintended consequences?
-//    NSLog(@"_allBuildings: %lu", (unsigned long)[_allBuildings count]);
-//    if (![_allBuildings count]) {
-//        [self showStatusLabel:YES status:[GBRequestHandler errorStringForCode:[error code]]];
-//    }
 }
 
 - (void)showAllBuildings {
@@ -285,7 +289,6 @@ float const UITableDefaultRowHeight = 44.0;
     _sectionIndexTitles = [collation sectionIndexTitles];
     _partitionedBuildings = sections;
     [self.tableView reloadData];
-    NSLog(@"sho all");
 }
 
 - (void)setupForQuery:(NSString *)query {
@@ -312,7 +315,6 @@ float const UITableDefaultRowHeight = 44.0;
 }
 
 - (void)showStatusLabel:(BOOL)show status:(NSString *)status {
-    NSLog(@"show status label: %d, %@",show,status);
     if(show && !_statusLabel) {
         // Show the Error label
         CGRect errorLabelFrame = [self.tableView bounds];

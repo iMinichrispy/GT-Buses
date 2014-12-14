@@ -71,7 +71,7 @@
 
 - (GBRoute *)toRoute {
     GBRoute *route = [[GBRoute alloc] initWithTitle:self[@"title"] tag:self[@"tag"]];
-    route.hexColor = self[@"hexColor"];
+    route.hexColor = self[@"color"];
     route.color = [UIColor colorWithHexString:route.hexColor];
     return route;
 }
@@ -90,7 +90,7 @@
 }
 
 - (NSDictionary *)toDictionary {
-    NSDictionary *dictionary = @{@"tag":_tag, @"title":_title, @"hexColor":_hexColor};
+    NSDictionary *dictionary = @{@"tag":_tag, @"title":_title, @"color":_hexColor};
     return dictionary;
 }
 
