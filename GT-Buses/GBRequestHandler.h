@@ -15,11 +15,12 @@ extern NSString *const GBRequestMultiPredictionsTask;
 extern NSString *const GBRequestMessagesTask;
 extern NSString *const GBRequestBuildingsTask;
 
+@class GBRoute;
 @interface GBRequestHandler : RequestHandler
 
 - (void)routeConfig;
-- (void)locationsForRoute:(NSString *)tag;
-- (void)predictionsForRoute:(NSString *)tag;
+- (void)locationsForRoute:(GBRoute *)route;
+- (void)predictionsForRoute:(GBRoute *)route;
 - (void)multiPredictionsForStops:(NSString *)parameterList;
 - (void)messages;
 - (void)buildings;

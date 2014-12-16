@@ -18,6 +18,7 @@ extern NSString *const GBUserDefaultsSelectedColorKey;
 extern NSString *const GBUserDefaultsBuildingsVersionKey;
 extern NSString *const GBUserDefaultsShowsBusIdentifiersKey;
 
+extern NSString *const GBSharedDefaultsAgencyKey;
 extern NSString *const GBSharedDefaultsFavoriteStopsKey;
 extern NSString *const GBSharedDefaultsRoutesKey;
 extern NSString *const GBSharedDefaultsDisabledRoutesKey;

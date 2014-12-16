@@ -17,6 +17,7 @@
 #import "XMLReader.h"
 #import "GBStopGroup.h"
 #import "GBColors.h"
+#import "GBRequestConfig.h"
 
 @interface GBExtensionViewController () <NCWidgetProviding, RequestHandlerDelegate>
 
@@ -29,8 +30,14 @@
     if (self) {
         _updating = NO;
         
+        GBConfig *sharedConfig = [GBConfig sharedInstance];
         NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
-        [GBConfig sharedInstance].showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
+        
+        sharedConfig.showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
+        NSString *agency = [shared objectForKey:GBSharedDefaultsAgencyKey];
+        GBRequestConfig *requestConfig = [[GBRequestConfig alloc] initWithAgency:agency];
+        sharedConfig.requestConfig = requestConfig;
+#warning need to handle if agency is nil or requestconfig is nil
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
     }

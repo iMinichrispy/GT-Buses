@@ -10,27 +10,8 @@
 
 #import "GBConstants.h"
 #import "GBConfig.h"
-
-#if LOCAL_SERVER && TARGET_IPHONE_SIMULATOR
-static NSString *const GBRequestBaseURL = @"http://localhost:5000";
-#else
-static NSString *const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
-#endif
-
-// public xml feed:
-// http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
-// http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=mit
-
-NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
-
-static NSString *const GBRequestRouteConfigPath = @"/routeConfig";
-static NSString *const GBRequestLocationsPath = @"/locations/";
-static NSString *const GBRequestPredictionsPath = @"/predictions/";
-static NSString *const GBRequestMultiPredictionsPath = @"/multiPredictions";
-static NSString *const GBRequestSchedulePath = @"/schedule";
-static NSString *const GBRequestMessagesPath = @"/messages";
-static NSString *const GBRequestBuildingsPath = @"/buildings";
-
+#import "GBRequestConfig.h"
+#import "GBRoute.h"
 
 NSString *const GBRequestRouteConfigTask = @"GBRequestRouteConfigTask";
 NSString *const GBRequestVehicleLocationsTask = @"GBRequestVehicleLocationsTask";
@@ -39,75 +20,54 @@ NSString *const GBRequestMultiPredictionsTask = @"GBRequestMultiPredictionsTask"
 NSString *const GBRequestMessagesTask = @"GBRequestMessagesTask";
 NSString *const GBRequestBuildingsTask = @"GBRequestBuildingsTask";
 
-/*
-@interface GBRequestConfig : NSObject
-
-@property (nonatomic, strong) NSString *baseURL;
-@property (nonatomic, strong) NSString *routeConfigURL;
-//@property (nonatomic, strong) NSString *baseURL;
-//@property (nonatomic, strong) NSString *baseURL;
-//@property (nonatomic, strong) NSString *baseURL;
-//@property (nonatomic, strong) NSString *baseURL;
-
-@end
-
-@implementation GBRequestConfig
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
-
-+ (instancetype)gtbusesConfig {
-    GBRequestConfig *herokuConfig = [[GBRequestConfig alloc] init];
-    herokuConfig.baseURL = @"https://gtbuses.herokuapp.com";
-    herokuConfig.ro
-    return herokuConfig;
-}
-
-+ (instancetype)nextbusConfig {
-    GBRequestConfig *herokuConfig = [[GBRequestConfig alloc] init];
-    
-    return herokuConfig;
-}
-
-@end*/
+NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
 
 @implementation GBRequestHandler
 
 #pragma mark - Requests
 
 - (void)routeConfig {
-    [self getRequestWithURL:[self routeConfigURL]];
+    GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
+    [self getRequestWithURL:[requestConfig routeConfigURL]];
 }
 
-- (void)locationsForRoute:(NSString *)tag {
-    NSString *baseURL = [self locationsBaseURL];
-    [self getRequestWithURL:FORMAT(@"%@%@", baseURL, tag)];
+- (void)locationsForRoute:(GBRoute *)route {
+    GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
+    if (requestConfig.source == GBRequestConfigSourceHeroku) {
+        [self getRequestWithURL:FORMAT(@"%@%@", [requestConfig locationsBaseURL], route.tag)];
+    } else if (requestConfig.source == GBRequestConfigSourceNextbusPublic) {
+        [self getRequestWithURL:FORMAT(@"%@&r=%@", [requestConfig locationsBaseURL], route.tag)];
+    }
 }
 
-- (void)predictionsForRoute:(NSString *)tag {
-    NSString *baseURL = [self predictionsBaseURL];
-    [self getRequestWithURL:FORMAT(@"%@%@", baseURL, tag)];
+- (void)predictionsForRoute:(GBRoute *)route; {
+    GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
+    if (requestConfig.source == GBRequestConfigSourceHeroku) {
+        NSString *baseURL = [requestConfig predictionsBaseURL];
+        [self getRequestWithURL:FORMAT(@"%@%@", baseURL, route.tag)];
+    } else if (requestConfig.source == GBRequestConfigSourceNextbusPublic) {
+        [self multiPredictionsForStops:route.stopParameters];
+    }
 }
 
 - (void)multiPredictionsForStops:(NSString *)parameterList {
-    [self getRequestWithURL:FORMAT(@"%@%@", [self multiPredictionsBaseURL], parameterList)];
+    GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
+    [self getRequestWithURL:FORMAT(@"%@%@", [requestConfig multiPredictionsBaseURL], parameterList)];
 }
 
 - (void)schedule {
-    [self getRequestWithURL:[self scheduleURL]];
+    GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
+    [self getRequestWithURL:[requestConfig scheduleURL]];
 }
 
 - (void)messages {
-    [self getRequestWithURL:[self messagesURL]];
+    GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
+    [self getRequestWithURL:[requestConfig messagesURL]];
 }
 
 - (void)buildings {
-    [self getRequestWithURL:[self buildingsURL]];
+    GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
+    [self getRequestWithURL:[requestConfig buildingsURL]];
 }
 
 + (NSString *)errorStringForCode:(NSInteger)code {
@@ -131,64 +91,6 @@ NSString *const GBRequestBuildingsTask = @"GBRequestBuildingsTask";
         return YES;
     }
     return NO;
-}
-
-#pragma mark - URLs
-
-- (NSString *)routeConfigURL {
-    static NSString *url;
-    if (!url) {
-        url = [GBRequestBaseURL stringByAppendingString:GBRequestRouteConfigPath];
-    }
-    return url;
-}
-
-- (NSString *)locationsBaseURL {
-    static NSString *url;
-    if (!url) {
-        url = [GBRequestBaseURL stringByAppendingString:GBRequestLocationsPath];
-    }
-    return url;
-}
-
-- (NSString *)predictionsBaseURL {
-    static NSString *url;
-    if (!url) {
-        url = [GBRequestBaseURL stringByAppendingString:GBRequestPredictionsPath];
-    }
-    return url;
-}
-
-- (NSString *)multiPredictionsBaseURL {
-    static NSString *url;
-    if (!url) {
-        url = [GBRequestBaseURL stringByAppendingString:GBRequestMultiPredictionsPath];
-    }
-    return url;
-}
-
-- (NSString *)scheduleURL {
-    static NSString *url;
-    if (!url) {
-        url = [GBRequestBaseURL stringByAppendingString:GBRequestSchedulePath];
-    }
-    return url;
-}
-
-- (NSString *)messagesURL {
-    static NSString *url;
-    if (!url) {
-        url = [GBRequestBaseURL stringByAppendingString:GBRequestMessagesPath];
-    }
-    return url;
-}
-
-- (NSString *)buildingsURL {
-    static NSString *url;
-    if (!url) {
-        url = [GBRequestBaseURL stringByAppendingString:GBRequestBuildingsPath];
-    }
-    return url;
 }
 
 @end

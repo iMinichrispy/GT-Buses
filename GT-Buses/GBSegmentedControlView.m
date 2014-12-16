@@ -34,7 +34,7 @@ float const kSegmentedControlWidth = 150.0f;
 }
 
 - (void)updateTintColor {
-#warning update this tint color
+#warning update this tint color (iOS 6?)
 }
 
 @end

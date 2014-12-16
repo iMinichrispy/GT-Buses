@@ -355,10 +355,10 @@ int const kRefreshInterval = 5;
         [self invalidateRefreshTimer];
 #else
         GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithTask:GBRequestVehicleLocationsTask delegate:self];
-        [locationHandler locationsForRoute:selectedRoute.tag];
+        [locationHandler locationsForRoute:selectedRoute];
         
         GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBRequestVehiclePredictionsTask delegate:self];
-        [predictionHandler predictionsForRoute:selectedRoute.tag];
+        [predictionHandler predictionsForRoute:selectedRoute];
 #endif
     }
 #if !DEFAULT_IMAGE

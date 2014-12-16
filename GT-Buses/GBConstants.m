@@ -16,6 +16,7 @@ NSString *const GBUserDefaultsSelectedColorKey = @"GBUserDefaultsSelectedColorKe
 NSString *const GBUserDefaultsBuildingsVersionKey = @"GBUserDefaultsBuildingsVersionKey";
 NSString *const GBUserDefaultsShowsBusIdentifiersKey = @"GBUserDefaultsShowsBusIdentifiersKey";
 
+NSString *const GBSharedDefaultsAgencyKey = @"GBSharedDefaultsAgencyKey";
 NSString *const GBSharedDefaultsFavoriteStopsKey = @"GBSharedDefaultsFavoriteStopsKey";
 NSString *const GBSharedDefaultsRoutesKey = @"GBSharedDefaultsRoutesKey";
 NSString *const GBSharedDefaultsDisabledRoutesKey = @"GBSharedDefaultsDisabledRoutesKey";

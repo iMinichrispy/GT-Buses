@@ -12,10 +12,13 @@
 #import "GBStop.h"
 #import "GBDirection.h"
 #import "GBConstants.h"
+#import "GBRequestConfig.h"
+#import "GBConfig.h"
 
 @interface GBRoute ()
 
 + (MKMapRect)rectForPaths:(NSArray *)paths;
+- (void)addParameterForStop:(GBStop *)stop;
 
 @end
 
@@ -63,6 +66,7 @@
             }
         }
         [stops addObject:stop];
+        [route addParameterForStop:stop];
     }
     route.stops = stops;
     
@@ -118,6 +122,19 @@
 
 - (NSString *)shortTitle {
     return [_tag capitalizedString];
+}
+
+
+- (void)addParameterForStop:(GBStop *)stop {
+    GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
+    if (requestConfig.source == GBRequestConfigSourceHeroku && ![_stopParameters length]) {
+        NSString *parameter = [NSString stringWithFormat:@"?stops=%@%%7C%@", stop.route.tag, stop.tag];
+        _stopParameters = parameter;
+    } else {
+        NSString *parameter = [NSString stringWithFormat:@"&stops=%@%%7C%@", stop.route.tag, stop.tag];
+        _stopParameters = [_stopParameters stringByAppendingString:parameter];
+    }
+    
 }
 
 @end
