@@ -23,30 +23,39 @@
 @end
 
 @implementation NSDictionary (Route)
-
+#warning zombies enabled
 - (GBRoute *)xmlToRoute {
     NSString *tag = self[@"tag"];
     NSString *title = self[@"title"];
+    NSString *shortTitle = self[@"shortTitle"];
+    if (![shortTitle length]) shortTitle = [tag capitalizedString];
     
     GBRoute *route = [[GBRoute alloc] initWithTitle:title tag:tag];
-    route.paths = self[@"path"];
-    route.mapRect = [GBRoute rectForPaths:route.paths];
+    route.shortTitle = shortTitle;
     route.hexColor = self[@"color"];
     route.color = [UIColor colorWithHexString:route.hexColor];
+    
+    NSArray *paths = self[@"path"];
+    if (![paths isKindOfClass:[NSArray class]]) paths = @[paths];
+    route.paths = paths;
+    route.mapRect = [GBRoute rectForPaths:route.paths];
     
     NSArray *directions = self[@"direction"];
     if (![directions isKindOfClass:[NSArray class]]) directions = @[directions];
     route.directions = directions;
     
+    BOOL oneDirection = [directions count] == 1;
     NSMutableDictionary *directionLookup = [NSMutableDictionary new];
     for (NSDictionary *dictionary in directions) {
         NSArray *stops = dictionary[@"stop"];
         GBDirection *direction = [[GBDirection alloc] initWithTitle:dictionary[@"title"] tag:dictionary[@"tag"]];
-        direction.oneDirection = [directions count] == 1;
-        if (![stops isKindOfClass:[NSArray class]]) stops = @[stops];
-        for (NSDictionary *stop in stops) {
-            NSString *stopTag = stop[@"tag"];
-            directionLookup[stopTag] = direction;
+        direction.oneDirection = oneDirection;
+        if (stops) {
+            if (![stops isKindOfClass:[NSArray class]]) stops = @[stops];
+            for (NSDictionary *stop in stops) {
+                NSString *stopTag = stop[@"tag"];
+                directionLookup[stopTag] = direction;
+            }
         }
     }
     
@@ -87,8 +96,10 @@
 - (instancetype)initWithTitle:(NSString *)title tag:(NSString *)tag {
     self = [super init];
     if (self) {
-        self.title = title;
-        self.tag = tag;
+        _title = title;
+        _tag = tag;
+        _stopParameters = @"";
+        
     }
     return self;
 }
@@ -112,18 +123,13 @@
             zoomRect = MKMapRectUnion(zoomRect, pointRect);
         }
     }
-    
+
     return zoomRect;
 }
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<GBRoute title: %@, tag: %@>", _title, _tag];
 }
-
-- (NSString *)shortTitle {
-    return [_tag capitalizedString];
-}
-
 
 - (void)addParameterForStop:(GBStop *)stop {
     GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
@@ -134,7 +140,6 @@
         NSString *parameter = [NSString stringWithFormat:@"&stops=%@%%7C%@", stop.route.tag, stop.tag];
         _stopParameters = [_stopParameters stringByAppendingString:parameter];
     }
-    
 }
 
 @end

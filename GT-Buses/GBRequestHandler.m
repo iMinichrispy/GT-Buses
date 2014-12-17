@@ -26,6 +26,10 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
 
 #pragma mark - Requests
 
+- (void)agencyList {
+    [self getRequestWithURL:FORMAT(@"%@%@",GBRequestHerokuBaseURL, @"/agencyList")];
+}
+
 - (void)routeConfig {
     GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
     [self getRequestWithURL:[requestConfig routeConfigURL]];
@@ -46,7 +50,9 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
         NSString *baseURL = [requestConfig predictionsBaseURL];
         [self getRequestWithURL:FORMAT(@"%@%@", baseURL, route.tag)];
     } else if (requestConfig.source == GBRequestConfigSourceNextbusPublic) {
-        [self multiPredictionsForStops:route.stopParameters];
+        if ([route.stopParameters length]) {
+            [self multiPredictionsForStops:route.stopParameters];
+        }
     }
 }
 

@@ -21,7 +21,7 @@
 }
 
 - (void)getRequestWithURL:(NSString *)url {
-    NSLog(@"GET: %@",url);
+    NSLog(@"GET [%@]: %@", _task, url);
 #warning what happens if url is nil?
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];
     [request setHTTPMethod:@"GET"];

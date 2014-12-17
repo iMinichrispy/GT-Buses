@@ -11,6 +11,7 @@
 @class GBRequestConfig;
 @interface GBConfig : NSObject
 
+@property (nonatomic, strong) NSString *agency;
 @property (nonatomic, strong) GBRequestConfig *requestConfig;
 @property (nonatomic, getter=isParty) BOOL party;
 @property (nonatomic) BOOL showsArrivalTime;

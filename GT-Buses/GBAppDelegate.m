@@ -19,9 +19,10 @@
 @implementation GBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    GBRequestConfig *requestConfig = [[GBRequestConfig alloc] initWithAgency:GBGeorgiaTechAgency];
-    [GBConfig sharedInstance].requestConfig = requestConfig;
-    [[NSUserDefaults sharedDefaults] setObject:GBGeorgiaTechAgency forKey:GBSharedDefaultsAgencyKey];
+    
+    // over 100 routes: actransit
+
+    [GBConfig sharedInstance].agency = @"indianapolis-air";
     
     self.viewController = [[GBRootViewController alloc] init];
     self.viewController.searchEnaled = YES;

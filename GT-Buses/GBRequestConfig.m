@@ -9,9 +9,9 @@
 #import "GBRequestConfig.h"
 
 #if LOCAL_SERVER && TARGET_IPHONE_SIMULATOR
-static NSString *const GBRequestHerokuBaseURL = @"http://localhost:5000";
+NSString *const GBRequestHerokuBaseURL = @"http://localhost:5000";
 #else
-static NSString *const GBRequestHerokuBaseURL = @"https://gtbuses.herokuapp.com";
+NSString *const GBRequestHerokuBaseURL = @"https://gtbuses.herokuapp.com";
 #endif
 
 //static NSString *const GBRequestBaseURL = @"http://localhost:5000";
@@ -40,39 +40,36 @@ NSString *const GBGeorgiaTechAgency = @"georgia-tech";
     if (self) {
         _agency = agency;
         if ([_agency isEqualToString:GBGeorgiaTechAgency]) {
-            [self setSource:GBRequestConfigSourceHeroku];
+            [self setupForSource:GBRequestConfigSourceHeroku];
         } else {
-            [self setSource:GBRequestConfigSourceNextbusPublic];
+            [self setupForSource:GBRequestConfigSourceNextbusPublic];
         }
     }
     return self;
 }
 
-- (void)setSource:(GBRequestConfigSource)source {
-    if (_source != source) {
-        _source = source;
-        
-        if (source == GBRequestConfigSourceHeroku) {
-            _baseURL = GBRequestHerokuBaseURL;
-            _routeConfigURL = [_baseURL stringByAppendingString:@"/routeConfig"];
-            _locationsBaseURL = [_baseURL stringByAppendingString:@"/locations/"];
-            _predictionsBaseURL = [_baseURL stringByAppendingString:@"/predictions/"];
-            _multiPredictionsBaseURL = [_baseURL stringByAppendingString:@"/multiPredictions"];
-            _scheduleURL = [_baseURL stringByAppendingString:@"/schedule"];
-            _messagesURL = [_baseURL stringByAppendingString:@"/messages"];
-            _buildingsURL = [_baseURL stringByAppendingString:@"/buildings"];
-        } else if (source == GBRequestConfigSourceNextbusPublic) {
-            _baseURL = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?a=%@", _agency];
-            _routeConfigURL = [_baseURL stringByAppendingString:@"&command=routeConfig"];
+- (void)setupForSource:(GBRequestConfigSource)source {
+    [self setSource:source];
+    if (source == GBRequestConfigSourceHeroku) {
+        _baseURL = GBRequestHerokuBaseURL;
+        _routeConfigURL = [_baseURL stringByAppendingString:@"/routeConfig"];
+        _locationsBaseURL = [_baseURL stringByAppendingString:@"/locations/"];
+        _predictionsBaseURL = [_baseURL stringByAppendingString:@"/predictions/"];
+        _multiPredictionsBaseURL = [_baseURL stringByAppendingString:@"/multiPredictions"];
+        _scheduleURL = [_baseURL stringByAppendingString:@"/schedule"];
+        _messagesURL = [_baseURL stringByAppendingString:@"/messages"];
+        _buildingsURL = [_baseURL stringByAppendingString:@"/buildings"];
+    } else if (source == GBRequestConfigSourceNextbusPublic) {
+        _baseURL = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?a=%@", _agency];
+        _routeConfigURL = [_baseURL stringByAppendingString:@"&command=routeConfig"];
 #warning &t=0
-            _locationsBaseURL = [_baseURL stringByAppendingString:@"&command=vehicleLocations&t=0"];
-            _predictionsBaseURL = nil;
-            _multiPredictionsBaseURL = [_baseURL stringByAppendingString:@"&command=predictionsForMultiStops"]; // &stops=%@%%7C%@
-            _scheduleURL = [_baseURL stringByAppendingString:@"&command=schedule"]; //&r=boston
-            _messagesURL = [_baseURL stringByAppendingString:@"&command=messages"];
-            _buildingsURL = nil;
-            //NSString *parameter = [NSString stringWithFormat:@"&stops=%@%%7C%@", stop.route.tag, stop.tag]
-        }
+        _locationsBaseURL = [_baseURL stringByAppendingString:@"&command=vehicleLocations&t=0"];
+        _predictionsBaseURL = nil;
+        _multiPredictionsBaseURL = [_baseURL stringByAppendingString:@"&command=predictionsForMultiStops"]; // &stops=%@%%7C%@
+        _scheduleURL = [_baseURL stringByAppendingString:@"&command=schedule"]; //&r=boston
+        _messagesURL = [_baseURL stringByAppendingString:@"&command=messages"];
+        _buildingsURL = nil;
+        //NSString *parameter = [NSString stringWithFormat:@"&stops=%@%%7C%@", stop.route.tag, stop.tag]
     }
 }
 

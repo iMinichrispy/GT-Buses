@@ -18,6 +18,7 @@ extern NSString *const GBRequestBuildingsTask;
 @class GBRoute;
 @interface GBRequestHandler : RequestHandler
 
+- (void)agencyList;
 - (void)routeConfig;
 - (void)locationsForRoute:(GBRoute *)route;
 - (void)predictionsForRoute:(GBRoute *)route;

@@ -9,6 +9,7 @@
 #import "GBConfig.h"
 
 #import "GBConstants.h"
+#import "GBRequestConfig.h"
 
 @interface GBConfig ()
 
@@ -31,7 +32,8 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        // agency
+        _agency = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsAgencyKey];
+        
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         _iOSVersion = info[@"CFBundleShortVersionString"];
         _version = 1;
@@ -75,6 +77,25 @@
         [self setParty:party];
     }
 }
+
+- (void)setAgency:(NSString *)agency {
+    if (_agency != agency) {
+        if (![_agency isEqualToString:agency]) {
+            // If the user switches agencies, clear the disabled routes
+            [[NSUserDefaults sharedDefaults] setObject:nil forKey:GBSharedDefaultsDisabledRoutesKey];
+        }
+        _agency = agency;
+        
+        
+        // disabled routes
+        // favorites
+#warning when you switch agencies, clear favorites and disaled routes?
+        
+        _requestConfig = [[GBRequestConfig alloc] initWithAgency:agency];
+        [[NSUserDefaults sharedDefaults] setObject:agency forKey:GBSharedDefaultsAgencyKey];
+    }
+}
+
 - (void)setMessage:(NSString *)message {
     if (_message != message) {
         _message = message;

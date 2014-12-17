@@ -35,7 +35,6 @@ int const kRefreshInterval = 5;
 
 @interface GBMapViewController () <RequestHandlerDelegate, CLLocationManagerDelegate> {
     long long lastLocationUpdate;
-    long long lastPredictionUpdate;
 }
 
 @property (nonatomic, strong) GBRouteControlView *busRouteControlView;
@@ -221,6 +220,8 @@ int const kRefreshInterval = 5;
                 // Prevents duplicate routes from being added to route segmented control in case connection is slow and route config is requested multiple times
                 if (!selectedRoute) {
                     NSArray *routes = dictionary[@"body"][@"route"];
+                    if (![routes isKindOfClass:[NSArray class]]) routes = @[routes];
+                    
                     [self setupRouteControlForRoutes:routes];
                     [[NSUserDefaults sharedDefaults] setObject:routes forKey:GBSharedDefaultsRoutesKey];
                 }
@@ -286,44 +287,47 @@ int const kRefreshInterval = 5;
             lastLocationUpdate = newLocationUpdate;
         } else if (handler.task == GBRequestVehiclePredictionsTask) {
             // TODO: What's the benefit of repeatedly looping through all the stop annotations and updating the prediction times when a user can only see one at a time anyway?
-            long long newPredictionUpdate = [dictionary[@"body"][@"keyForNextTime"][@"value"] longLongValue];
-            if (newPredictionUpdate != lastPredictionUpdate) {
-                NSArray *predictions = dictionary[@"body"][@"predictions"];
-                if (predictions) {
-                    if (![predictions isKindOfClass:[NSArray class]])
-                        predictions = [NSArray arrayWithObject:predictions];
+            NSArray *predictions = dictionary[@"body"][@"predictions"];
+            if (predictions) {
+                if (![predictions isKindOfClass:[NSArray class]])
+                    predictions = @[predictions];
+                
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBStopAnnotation class]];
+                NSMutableArray *busStopAnnotations = [[_mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
+                
+                for (NSDictionary *busStop in predictions) {
+                    NSDictionary *direction = busStop[@"direction"];
+                    // TODO: Handle multiple directions (there can be more than one)
+                    if ([direction isKindOfClass:[NSArray class]])
+                        direction = [((NSArray *)direction) firstObject];
                     
-                    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBStopAnnotation class]];
-                    NSMutableArray *busStopAnnotations = [[_mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
+                    NSArray *predictionData = direction[@"prediction"];
                     
-                    for (NSDictionary *busStop in predictions) {
-                        NSArray *predictionData = busStop[@"direction"][@"prediction"];
-                        NSArray *predictions;
-                        if (predictionData) {
-                            // If object is not array, add it to an array (XML workaround)
-                            if (![predictionData isKindOfClass:[NSArray class]])
-                                predictionData = @[predictionData];
-                            
-                            // Only show the first three predictions
-                            predictions = [predictionData subarrayWithRange:NSMakeRange(0, MIN(3, [predictionData count]))];
-                        }
+                    NSArray *predictions;
+                    if (predictionData) {
+                        // If object is not array, add it to an array (XML workaround)
+                        if (![predictionData isKindOfClass:[NSArray class]])
+                            predictionData = @[predictionData];
                         
-                        NSString *stopTag = busStop[@"stopTag"];
-                        for (int x = 0; x < [busStopAnnotations count]; x++) {
-                            GBStopAnnotation *busStopAnnotation = busStopAnnotations[x];
-                            if ([busStopAnnotation.stop.tag isEqualToString:stopTag]) {
-                                busStopAnnotation.subtitle = [GBStop predictionsStringForPredictions:predictions];
-                                
-                                // It's okay to remove an element while iterating since we're breaking anyway
-                                // Using a double for loop so this alows us to iterate over fewer elements the next time
-                                [busStopAnnotations removeObjectAtIndex:x];
-                                break;
-                            }
+                        // Only show the first three predictions
+                        predictions = [predictionData subarrayWithRange:NSMakeRange(0, MIN(3, [predictionData count]))];
+                    }
+                    
+                    NSString *stopTag = busStop[@"stopTag"];
+                    for (int x = 0; x < [busStopAnnotations count]; x++) {
+                        GBStopAnnotation *busStopAnnotation = busStopAnnotations[x];
+                        if ([busStopAnnotation.stop.tag isEqualToString:stopTag]) {
+                            NSString *predictionsString = [GBStop predictionsStringForPredictions:predictions];
+                            busStopAnnotation.subtitle = predictionsString;
+                            
+                            // It's okay to remove an element while iterating since we're breaking anyway
+                            // Using a double for loop so this alows us to iterate over fewer elements the next time
+                            [busStopAnnotations removeObjectAtIndex:x];
+                            break;
                         }
                     }
                 }
             }
-            lastPredictionUpdate = newPredictionUpdate;
         } else if (handler.task == GBRequestMessagesTask) {
             
             // check message id

@@ -32,7 +32,7 @@
         [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:_circleImageView horizontal:NO]];
         [constraints addObject:[GBConstraintHelper centerY:_titleLabel withView:self]];
         [constraints addObject:[GBConstraintHelper heightConstraint:_circleImageView height:kRouteImageViewSize]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_circleImageView(size)][_titleLabel]|" options:0 metrics:@{@"size":@(kRouteImageViewSize)} views:NSDictionaryOfVariableBindings(_titleLabel, _circleImageView)]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_circleImageView(size)][_titleLabel]-40-|" options:0 metrics:@{@"size":@(kRouteImageViewSize)} views:NSDictionaryOfVariableBindings(_titleLabel, _circleImageView)]];
         [self addConstraints:constraints];
         
         UIView *selectedView = [[UIView alloc] init];
