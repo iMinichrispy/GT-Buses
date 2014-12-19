@@ -26,7 +26,6 @@
     UIColor *color = [UIColor appTintColor];
     if ([self.navigationBar respondsToSelector:@selector(setBarTintColor:)]) {
         self.navigationBar.barTintColor = color;
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     } else {
         self.navigationBar.tintColor = color;
     }

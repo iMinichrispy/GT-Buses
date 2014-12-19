@@ -15,7 +15,10 @@ static NSString *const GBSharedDefaultsExtensionSuiteName = @"group.com.alexpere
 @implementation NSUserDefaults (SharedDefaults)
 
 + (NSUserDefaults *)sharedDefaults {
-    return [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    if ([NSUserDefaults instancesRespondToSelector:@selector(initWithSuiteName:)]) {
+        return [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+    }
+    return [NSUserDefaults standardUserDefaults];
 }
 
 @end

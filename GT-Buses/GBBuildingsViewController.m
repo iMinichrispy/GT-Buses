@@ -51,8 +51,10 @@ float const UITableDefaultRowHeight = 44.0;
     tableView.translatesAutoresizingMaskIntoConstraints = NO;
     tableView.delegate = self;
     tableView.dataSource = self;
-    tableView.sectionIndexBackgroundColor = [UIColor clearColor];
     tableView.sectionHeaderHeight = 22;
+    if ([tableView respondsToSelector:@selector(setSectionIndexBackgroundColor:)]) {
+        tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    }
     self.view = tableView;
     [self reduceTransparencyDidChange:nil];
 }
@@ -64,7 +66,8 @@ float const UITableDefaultRowHeight = 44.0;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuildings:) name:GBNotificationBuildingsVersionDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
-    if (UIAccessibilityReduceTransparencyStatusDidChangeNotification != NULL) {
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reduceTransparencyDidChange:) name:UIAccessibilityReduceTransparencyStatusDidChangeNotification object:nil];
     }
     
@@ -79,17 +82,24 @@ float const UITableDefaultRowHeight = 44.0;
 }
 
 - (void)reduceTransparencyDidChange:(NSNotification *)notification {
+    UIVisualEffect *visualEffect;
+    UIView *backgroundView;
+    UIColor *backgroundColor;
     if ([[UIDevice currentDevice] supportsVisualEffects]) {
-        UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-        self.tableView.backgroundView = effectView;
-        self.tableView.separatorEffect = blurEffect;
-        self.tableView.backgroundColor = [UIColor clearColor];
+        visualEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        backgroundView = [[UIVisualEffectView alloc] initWithEffect:visualEffect];
+        backgroundColor = [UIColor clearColor];
     } else {
-        self.tableView.backgroundView = nil;
-        self.tableView.separatorEffect = nil;
-        self.tableView.backgroundColor = [UIColor whiteColor];
+        visualEffect = nil;
+        backgroundView = nil;
+        backgroundColor = [UIColor whiteColor];
     }
+    
+    if ([self.tableView respondsToSelector:@selector(setSeparatorEffect:)]) {
+        self.tableView.separatorEffect = nil;
+    }
+    self.tableView.backgroundView = backgroundView;
+    self.tableView.backgroundColor = backgroundColor;
 }
 
 - (NSArray *)savedBuildings {

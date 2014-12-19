@@ -49,6 +49,7 @@ float const kSettingsViewAnimationSpeed = .2;
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
     [self.view addConstraints:constraints];
     
+    // TODO: After searchbar keyboard disappears on <iOS 7, it can't be selected again
     _searchBar = [[UISearchBar alloc] init];
     _searchBar.placeholder = NSLocalizedString(@"SEARCH_PLACEHOLDER", @"Placeholder text for search bar");
     _searchBar.delegate = self;
@@ -108,7 +109,11 @@ float const kSettingsViewAnimationSpeed = .2;
 }
 
 - (UIBarButtonItem *)settingsButton {
-    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Settings"] style:UIBarButtonItemStylePlain target:self action:@selector(settingsPressed)];
+    UIImage *settingsImage = [UIImage imageNamed:@"Settings"];
+    if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        settingsImage = [settingsImage imageWithColor:[UIColor whiteColor]];
+    }
+    UIBarButtonItem *settingsButton = [[UIBarButtonItem alloc] initWithImage:settingsImage style:UIBarButtonItemStylePlain target:self action:@selector(settingsPressed)];
     settingsButton.tintColor = [UIColor controlTintColor];
     return settingsButton;
 }

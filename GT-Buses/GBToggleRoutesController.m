@@ -31,11 +31,15 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
     
     self.title = NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes");
     
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)];
     self.navigationItem.leftBarButtonItem = doneButton;
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
     
-    [self.tableView setTintColor:[UIColor appTintColor]];
+    if ([self.tableView respondsToSelector:@selector(setTintColor:)]) {
+        [self.tableView setTintColor:[UIColor appTintColor]];
+    }
     [self.tableView registerClass:[GBRouteCell class] forCellReuseIdentifier:GBRouteCellIdentifier];
     
     NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];

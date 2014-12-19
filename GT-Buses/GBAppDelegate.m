@@ -22,7 +22,7 @@
     
     // over 100 routes: actransit
 
-    [GBConfig sharedInstance].agency = @"jta";
+    [GBConfig sharedInstance].agency = GBGeorgiaTechAgency;
     
     self.viewController = [[GBRootViewController alloc] init];
     self.viewController.searchEnaled = YES;

@@ -57,6 +57,7 @@ float const kButtonWidth = 200.0f;
     
     GBOptionView *arrivalTimeOptionView = [[GBSegmentedControlView alloc] initWithTitle:NSLocalizedString(@"PREDICTIONS_SETTING", @"Predictions setting title") items:[self arrivalTimeItems]];
     UISegmentedControl *arrivalTimeSegmentedControl = (UISegmentedControl *)arrivalTimeOptionView.accessoryView;
+    arrivalTimeSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     arrivalTimeSegmentedControl.selectedSegmentIndex = [GBConfig sharedInstance].showsArrivalTime;
     [arrivalTimeSegmentedControl addTarget:self action:@selector(arrivalTimeValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:arrivalTimeOptionView];
@@ -64,6 +65,7 @@ float const kButtonWidth = 200.0f;
     GBOptionView *busIdentifiersSwitchView = [[GBSwitchView alloc] initWithTitle:NSLocalizedString(@"SHOW_BUS_IDENTIFIERS", @"Toggle for showing bus identifiers")];
     UISwitch *busIdentifiersSwitch = (UISwitch *)busIdentifiersSwitchView.accessoryView;
     busIdentifiersSwitch.on = [GBConfig sharedInstance].showsBusIdentifiers;
+    busIdentifiersSwitch.enabled = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"));
     [busIdentifiersSwitch addTarget:self action:@selector(busIdentifierDidSwitch:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:busIdentifiersSwitchView];
     
@@ -85,11 +87,10 @@ float const kButtonWidth = 200.0f;
     [_reviewAppButton addTarget:self action:@selector(reviewApp) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_reviewAppButton];
     
-    UILabel *copyrightLabel = [[UILabel alloc] init];
+    UILabel *copyrightLabel = [[GBLabel alloc] init];
     copyrightLabel.text = NSLocalizedString(@"COPYRIGHT", @"Copyright");
     copyrightLabel.font = [UIFont fontWithName:GBFontDefault size:11];
     copyrightLabel.textColor = RGBColor(133, 133, 133);
-    copyrightLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:copyrightLabel];
     
     NSMutableArray *constraints = [NSMutableArray new];

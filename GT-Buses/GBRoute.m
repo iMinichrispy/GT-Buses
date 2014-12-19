@@ -23,7 +23,7 @@
 @end
 
 @implementation NSDictionary (Route)
-#warning zombies enabled
+
 - (GBRoute *)xmlToRoute {
     NSString *tag = self[@"tag"];
     NSString *title = self[@"title"];

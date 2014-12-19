@@ -50,17 +50,7 @@ int const kRefreshInterval = 5;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _mapView = [[GBMapView alloc] init];
-        [self.view addSubview:_mapView];
-        
-        _busRouteControlView = [[GBRouteControlView alloc] init];
-        [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
-        [_busRouteControlView.refreshButton addTarget:self action:@selector(requestUpdate) forControlEvents:UIControlEventTouchUpInside];
-        [_mapView addSubview:_busRouteControlView];
-        
         _routes = [NSMutableArray new];
-        
-        [self setupConstraints];
         
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
@@ -75,31 +65,36 @@ int const kRefreshInterval = 5;
     return self;
 }
 
-- (void)setupConstraints {
-#if DEFAULT_IMAGE || HIDE_MAP
-    self.title = @"";
-    self.navigationItem.leftBarButtonItem = nil;
-    UIView *contentView = [[UIView alloc] init];
-    contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    contentView.backgroundColor = RGBColor(240, 235, 212);
-    [self.view addSubview:contentView];
-#else
-    UIView *contentView = _mapView;
-#endif
-    NSMutableArray *constraints = [NSMutableArray new];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_busRouteControlView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)]" options:0 metrics:@{@"controlViewHeight":@43} views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(contentView)]];
-    [self.view addConstraints:constraints];
-}
-
 - (void)updateTintColor:(NSNotification *)notification {
     [_busRouteControlView updateTintColor];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+#if DEFAULT_IMAGE || HIDE_MAP
+    self.title = @"";
+    self.navigationItem.leftBarButtonItem = nil;
+    UIView *blankView = [[UIView alloc] initWithFrame:self.view.bounds];
+    blankView.backgroundColor = RGBColor(240, 235, 212);
+    [self.view addSubview:blankView];
+#else
+    _mapView = [[GBMapView alloc] init];
+    [self.view addSubview:_mapView];
+#endif
+    
+    _busRouteControlView = [[GBRouteControlView alloc] init];
+    [_busRouteControlView.busRouteControl addTarget:self action:@selector(didChangeBusRoute) forControlEvents:UIControlEventValueChanged];
+    [_busRouteControlView.refreshButton addTarget:self action:@selector(requestUpdate) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_busRouteControlView];
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_mapView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_mapView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_busRouteControlView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)]" options:0 metrics:@{@"controlViewHeight":@43} views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
+    [self.view addConstraints:constraints];
+    
     if (ROTATION_ENABLED) {
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -265,6 +260,7 @@ int const kRefreshInterval = 5;
                                 GBBus *bus = [[GBBus alloc] init];
                                 bus.identifier = busPosition[@"id"];
                                 bus.color = [selectedRoute.color darkerColor:0.5];
+                                bus.heading = [busPosition[@"heading"] intValue];
                                 
                                 annotation = [[GBBusAnnotation alloc] initWithBus:bus];
                                 annotation.coordinate = coordinate;
@@ -437,7 +433,11 @@ int const kRefreshInterval = 5;
 
 - (void)updateRegion {
     GBRoute *selectedRoute = [self selectedRoute];
-    UIEdgeInsets padding = UIEdgeInsetsMake(50, 7, 10, 7); // Increase top padding to account for bus route control overlay
+    UIEdgeInsets padding = UIEdgeInsetsZero;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        // Increase top padding to account for bus route control overlay
+        padding = UIEdgeInsetsMake(50, 7, 10, 7);
+    }
     MKMapRect visibleRect = [self.mapView mapRectThatFits:selectedRoute.mapRect edgePadding:padding];
     [UIView animateWithDuration:kSetRegionAnimationSpeed animations:^{
         [_mapView setVisibleMapRect:visibleRect];
@@ -471,7 +471,9 @@ int const kRefreshInterval = 5;
 - (void)resetRefreshTimer {
     if (![_refreshTimer isValid]) {
         _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshInterval target:self selector:@selector(requestUpdate) userInfo:nil repeats:YES];
-        _refreshTimer.tolerance = 1; // Improves power efficiency
+        if ([_refreshTimer respondsToSelector:@selector(setTolerance:)]) {
+            _refreshTimer.tolerance = 1; // Improves power efficiency
+        }
     }
     [self requestUpdate];
 }
