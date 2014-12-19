@@ -22,7 +22,7 @@
     
     // over 100 routes: actransit
 
-    [GBConfig sharedInstance].agency = @"indianapolis-air";
+    [GBConfig sharedInstance].agency = @"jta";
     
     self.viewController = [[GBRootViewController alloc] init];
     self.viewController.searchEnaled = YES;

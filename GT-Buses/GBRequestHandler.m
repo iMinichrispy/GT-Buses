@@ -13,6 +13,7 @@
 #import "GBRequestConfig.h"
 #import "GBRoute.h"
 
+NSString *const GBRequestAgencyTask = @"GBRequestAgencyTask";
 NSString *const GBRequestRouteConfigTask = @"GBRequestRouteConfigTask";
 NSString *const GBRequestVehicleLocationsTask = @"GBRequestVehicleLocationsTask";
 NSString *const GBRequestVehiclePredictionsTask = @"GBRequestVehiclePredictionsTask";

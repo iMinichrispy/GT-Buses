@@ -99,8 +99,6 @@ float const kButtonWidth = 200.0f;
     [constraints addObject:[GBConstraintHelper centerX:copyrightLabel withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:arrivalTimeOptionView withView:self.view]];
     [constraints addObject:[GBConstraintHelper centerX:busIdentifiersSwitchView withView:self.view]];
-    
-    
     [constraints addObject:[GBConstraintHelper centerX:_messageLabel withView:self.view]];
     [constraints addObject:[GBConstraintHelper widthConstraint:_messageLabel width:kButtonWidth]];
     [constraints addObject:[GBConstraintHelper centerX:supportButton withView:self.view]];
@@ -109,11 +107,17 @@ float const kButtonWidth = 200.0f;
     [constraints addObject:[GBConstraintHelper widthConstraint:_reviewAppButton width:kButtonWidth]];
     [self.view addConstraints:constraints];
     
+//    UIButton *selectAgencyButton = [[GBBorderButton alloc] init];
+//    [selectAgencyButton setTitle:NSLocalizedString(@"SELECT_AGENCY", @"Select agency") forState:UIControlStateNormal];
+//    [selectAgencyButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:selectAgencyButton];
+    
+    
     // Only add the toggle routes button if the routes have been retrieved
     NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
     if ([routes count]) {
         UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
-        [toggleRoutesButton setTitle:@"Toggle Routes" forState:UIControlStateNormal];
+        [toggleRoutesButton setTitle:NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes") forState:UIControlStateNormal];
         [toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:toggleRoutesButton];
         
