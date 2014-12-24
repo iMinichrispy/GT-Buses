@@ -68,6 +68,7 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 }
 
 - (void)dismiss:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationDisabledRoutesDidChange object:nil];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -111,7 +112,6 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 - (void)updateDisabledRoutes {
     NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
     [sharedDefaults setObject:_disabledRoutes forKey:GBSharedDefaultsDisabledRoutesKey];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationDisabledRoutesDidChange object:nil];
 }
 
 - (BOOL)canDisableRoute {

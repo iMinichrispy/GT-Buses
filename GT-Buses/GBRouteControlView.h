@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
+@import UIKit;
+
 #import "GBColors.h"
 
 @interface GBRouteControlView : UIView <GBTintColor>

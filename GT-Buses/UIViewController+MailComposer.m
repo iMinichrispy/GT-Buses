@@ -11,6 +11,8 @@
 #import "GBConstants.h"
 #import "GBSupportEmail.h"
 
+// TODO: [Bug] Dismissing mail composer changes status bar style on iOS 6 and below
+
 @implementation UIViewController (MailComposer)
 
 - (void)showSupportMailComposer {

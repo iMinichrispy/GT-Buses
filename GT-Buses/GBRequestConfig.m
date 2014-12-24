@@ -14,23 +14,6 @@ NSString *const GBRequestHerokuBaseURL = @"http://localhost:5000";
 NSString *const GBRequestHerokuBaseURL = @"https://gtbuses.herokuapp.com";
 #endif
 
-//static NSString *const GBRequestBaseURL = @"http://localhost:5000";
-//static NSString *const GBRequestBaseURL = @"https://gtbuses.herokuapp.com";
-//
-//static NSString *const GBRequestRouteConfigPath = @"/routeConfig";
-//static NSString *const GBRequestLocationsPath = @"/locations/";
-//static NSString *const GBRequestPredictionsPath = @"/predictions/";
-//static NSString *const GBRequestMultiPredictionsPath = @"/multiPredictions";
-//static NSString *const GBRequestSchedulePath = @"/schedule";
-//static NSString *const GBRequestMessagesPath = @"/messages";
-//static NSString *const GBRequestBuildingsPath = @"/buildings";
-
-
-
-//// public xml feed:
-//// http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
-//// http://webservices.nextbus.com/service/publicXMLFeed?a=mit&command=routeConfig
-
 NSString *const GBGeorgiaTechAgency = @"georgia-tech";
 
 @implementation GBRequestConfig
@@ -39,17 +22,14 @@ NSString *const GBGeorgiaTechAgency = @"georgia-tech";
     self = [super init];
     if (self) {
         _agency = agency;
-        if ([_agency isEqualToString:GBGeorgiaTechAgency]) {
-            [self setupForSource:GBRequestConfigSourceHeroku];
-        } else {
-            [self setupForSource:GBRequestConfigSourceNextbusPublic];
-        }
+        GBRequestConfigSource source = ([_agency isEqualToString:GBGeorgiaTechAgency]) ? GBRequestConfigSourceHeroku : GBRequestConfigSourceNextbusPublic;
+        _source = source;
+        [self setupForSource:_source];
     }
     return self;
 }
 
 - (void)setupForSource:(GBRequestConfigSource)source {
-    [self setSource:source];
     if (source == GBRequestConfigSourceHeroku) {
         _baseURL = GBRequestHerokuBaseURL;
         _routeConfigURL = [_baseURL stringByAppendingString:@"/routeConfig"];
@@ -62,14 +42,12 @@ NSString *const GBGeorgiaTechAgency = @"georgia-tech";
     } else if (source == GBRequestConfigSourceNextbusPublic) {
         _baseURL = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?a=%@", _agency];
         _routeConfigURL = [_baseURL stringByAppendingString:@"&command=routeConfig"];
-#warning &t=0
         _locationsBaseURL = [_baseURL stringByAppendingString:@"&command=vehicleLocations&t=0"];
         _predictionsBaseURL = nil;
         _multiPredictionsBaseURL = [_baseURL stringByAppendingString:@"&command=predictionsForMultiStops"]; // &stops=%@%%7C%@
         _scheduleURL = [_baseURL stringByAppendingString:@"&command=schedule"]; //&r=boston
         _messagesURL = [_baseURL stringByAppendingString:@"&command=messages"];
         _buildingsURL = nil;
-        //NSString *parameter = [NSString stringWithFormat:@"&stops=%@%%7C%@", stop.route.tag, stop.tag]
     }
 }
 

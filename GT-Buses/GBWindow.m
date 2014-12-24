@@ -8,10 +8,6 @@
 
 #import "GBWindow.h"
 
-@interface GBWindow ()
-
-@end
-
 @implementation GBWindow
 
 @end

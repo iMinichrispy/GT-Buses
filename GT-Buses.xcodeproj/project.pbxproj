@@ -113,6 +113,7 @@
 		FA95F3551A3EC3D60072F0CA /* GBSegmentedControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC6F9B01A290E6500792CDC /* GBSegmentedControlView.m */; };
 		FA95F3561A3EC3D80072F0CA /* GBOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC6F9B31A29119000792CDC /* GBOptionView.m */; };
 		FA95F3571A3EC3DB0072F0CA /* NSUserDefaults+SharedDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = FA28C7E01A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m */; };
+		FA98027E1A44EAB000F6DA6C /* GBHorizontalLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FA98027D1A44EAB000F6DA6C /* GBHorizontalLayout.m */; };
 		FAA00CFE1A3C9BED00F35A52 /* GBBuilding.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA00CFD1A3C9BED00F35A52 /* GBBuilding.m */; };
 		FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA1234C18A5793C0049A5FA /* GBUserInterface.m */; };
 		FAA270E91A41FB710071818A /* GBSelectAgencyController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA270E81A41FB710071818A /* GBSelectAgencyController.m */; };
@@ -153,6 +154,8 @@
 		FAC480911A201B330000DC6B /* GBStopView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC480821A201B330000DC6B /* GBStopView.m */; };
 		FAC6F9B11A290E6500792CDC /* GBSegmentedControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC6F9B01A290E6500792CDC /* GBSegmentedControlView.m */; };
 		FAC6F9B41A29119000792CDC /* GBOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC6F9B31A29119000792CDC /* GBOptionView.m */; };
+		FACEB98E1A4B3FFB00BE668B /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE98018A1D9DD00757643 /* XMLReader.m */; };
+		FACEB9911A4B54B800BE668B /* GBBorderButton.m in Sources */ = {isa = PBXBuildFile; fileRef = FACEB9901A4B54B800BE668B /* GBBorderButton.m */; };
 		FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */; };
 		FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD597C01A12C66E0079B36C /* GBWindow.m */; };
 		FAD6A3401A1CE4F500D98955 /* GBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6A33F1A1CE4F500D98955 /* GBImage.m */; };
@@ -273,6 +276,8 @@
 		FA94503B19EC55620022DF7C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA95F3481A3E985D0072F0CA /* GBRequestConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBRequestConfig.h; sourceTree = "<group>"; };
 		FA95F3491A3E985D0072F0CA /* GBRequestConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBRequestConfig.m; sourceTree = "<group>"; };
+		FA98027C1A44EAB000F6DA6C /* GBHorizontalLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBHorizontalLayout.h; sourceTree = "<group>"; };
+		FA98027D1A44EAB000F6DA6C /* GBHorizontalLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBHorizontalLayout.m; sourceTree = "<group>"; };
 		FAA00CFC1A3C9BED00F35A52 /* GBBuilding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBuilding.h; sourceTree = "<group>"; };
 		FAA00CFD1A3C9BED00F35A52 /* GBBuilding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBuilding.m; sourceTree = "<group>"; };
 		FAA1234B18A5793C0049A5FA /* GBUserInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBUserInterface.h; sourceTree = "<group>"; };
@@ -327,6 +332,8 @@
 		FAC6F9B01A290E6500792CDC /* GBSegmentedControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSegmentedControlView.m; sourceTree = "<group>"; };
 		FAC6F9B21A29119000792CDC /* GBOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBOptionView.h; sourceTree = "<group>"; };
 		FAC6F9B31A29119000792CDC /* GBOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBOptionView.m; sourceTree = "<group>"; };
+		FACEB98F1A4B54B800BE668B /* GBBorderButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBorderButton.h; sourceTree = "<group>"; };
+		FACEB9901A4B54B800BE668B /* GBBorderButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBorderButton.m; sourceTree = "<group>"; };
 		FACFA1A01A0DAE2A00F3E2C3 /* GBConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConfig.h; sourceTree = "<group>"; };
 		FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConfig.m; sourceTree = "<group>"; };
 		FAD597BF1A12C66E0079B36C /* GBWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBWindow.h; sourceTree = "<group>"; };
@@ -584,12 +591,12 @@
 		FA95F3471A3E97E00072F0CA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				FAC6F9B21A29119000792CDC /* GBOptionView.h */,
+				FAC6F9B31A29119000792CDC /* GBOptionView.m */,
 				FA8EC67C1A27AA4100E54A86 /* GBSwitchView.h */,
 				FA8EC67D1A27AA4100E54A86 /* GBSwitchView.m */,
 				FAC6F9AF1A290E6500792CDC /* GBSegmentedControlView.h */,
 				FAC6F9B01A290E6500792CDC /* GBSegmentedControlView.m */,
-				FAC6F9B21A29119000792CDC /* GBOptionView.h */,
-				FAC6F9B31A29119000792CDC /* GBOptionView.m */,
 				FA28C7DF1A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.h */,
 				FA28C7E01A2E95FA00C1C9C1 /* NSUserDefaults+SharedDefaults.m */,
 				FAF453B71A2141E7005A16A9 /* UIDevice+Hardware.h */,
@@ -612,10 +619,14 @@
 				FADE7D0F1967555800F318D5 /* GBRouteControlView.m */,
 				FAD597BF1A12C66E0079B36C /* GBWindow.h */,
 				FAD597C01A12C66E0079B36C /* GBWindow.m */,
-				FA75CFD11A13CD27000B9CD6 /* GBFavoriteButton.h */,
-				FA75CFD21A13CD27000B9CD6 /* GBFavoriteButton.m */,
 				FAD6A33E1A1CE4F500D98955 /* GBImage.h */,
 				FAD6A33F1A1CE4F500D98955 /* GBImage.m */,
+				FA75CFD11A13CD27000B9CD6 /* GBFavoriteButton.h */,
+				FA75CFD21A13CD27000B9CD6 /* GBFavoriteButton.m */,
+				FA98027C1A44EAB000F6DA6C /* GBHorizontalLayout.h */,
+				FA98027D1A44EAB000F6DA6C /* GBHorizontalLayout.m */,
+				FACEB98F1A4B54B800BE668B /* GBBorderButton.h */,
+				FACEB9901A4B54B800BE668B /* GBBorderButton.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -992,6 +1003,7 @@
 				FA1FE97C18A1D9C600757643 /* GBColors.m in Sources */,
 				FAA1234D18A5793C0049A5FA /* GBUserInterface.m in Sources */,
 				FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */,
+				FACEB9911A4B54B800BE668B /* GBBorderButton.m in Sources */,
 				FA15FC921A1DA1A800C175AB /* GBBuildingsViewController.m in Sources */,
 				FA7005601A1F0AD300694D10 /* GBBus.m in Sources */,
 				FAC6F9B11A290E6500792CDC /* GBSegmentedControlView.m in Sources */,
@@ -1001,6 +1013,7 @@
 				FAD6A3401A1CE4F500D98955 /* GBImage.m in Sources */,
 				FAEA8A1D1A2D67C600995A75 /* GBBusAnnotationView.m in Sources */,
 				FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */,
+				FA98027E1A44EAB000F6DA6C /* GBHorizontalLayout.m in Sources */,
 				FA1FE98118A1D9DD00757643 /* XMLReader.m in Sources */,
 				FADE7D0B1967504600F318D5 /* GBConstants.m in Sources */,
 				FA1FE96E18A1D9A400757643 /* GBRoute.m in Sources */,
@@ -1031,6 +1044,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FACEB98E1A4B3FFB00BE668B /* XMLReader.m in Sources */,
 				FA1FE95518A1D8A300757643 /* GT_BusesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1305,6 +1319,7 @@
 				CURRENT_PROJECT_VERSION = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "APP_STORE_MAP=1";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "GT-Buses/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;

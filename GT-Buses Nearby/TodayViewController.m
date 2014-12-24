@@ -130,7 +130,7 @@
                     
                     
                     for (int i = 1; i < [stopViews count]; ++i) {
-                        [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromTopView:stopViews[i - 1] toBottomView:stopViews[i]]];
+                        [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromTopView:stopViews[i - 1] toBottomView:stopViews[i] spacing:4.0]];
                     }
                     
                     GBStopView *first = [stopViews firstObject];

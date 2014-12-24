@@ -25,7 +25,7 @@
     [GBConfig sharedInstance].agency = GBGeorgiaTechAgency;
     
     self.viewController = [[GBRootViewController alloc] init];
-    self.viewController.searchEnaled = YES;
+    self.viewController.searchEnabled = YES;
     
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:self.viewController];
     

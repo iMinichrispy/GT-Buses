@@ -19,6 +19,7 @@ NSString *const GBRequestVehicleLocationsTask = @"GBRequestVehicleLocationsTask"
 NSString *const GBRequestVehiclePredictionsTask = @"GBRequestVehiclePredictionsTask";
 NSString *const GBRequestMultiPredictionsTask = @"GBRequestMultiPredictionsTask";
 NSString *const GBRequestMessagesTask = @"GBRequestMessagesTask";
+NSString *const GBRequestScheduleTask = @"GBRequestScheduleTask";
 NSString *const GBRequestBuildingsTask = @"GBRequestBuildingsTask";
 
 NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";

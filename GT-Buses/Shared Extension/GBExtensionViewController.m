@@ -81,6 +81,7 @@
 - (void)displayError:(NSString *)error {
     GBLabelEffectView *errorView = [[GBLabelEffectView alloc] initWithEffect:[UIVibrancyEffect notificationCenterVibrancyEffect]];
     errorView.textLabel.text = error;
+    errorView.textLabel.numberOfLines = 0;
     errorView.textLabel.textColor = [UIColor grayExtensionTextColor];
     errorView.textLabel.textAlignment = NSTextAlignmentCenter;
     [_sectionView.stopsView addSubview:errorView];
@@ -153,9 +154,6 @@
     CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
     CGFloat freeSpace = screenHeight - NC_ELEMENTS_HEIGHT;
     NSInteger numElements = ceil(freeSpace / AVG_STOPVIEW_HEIGHT);
-    
-    NSLog(@"(%f - %f) / %f = %li", screenHeight, NC_ELEMENTS_HEIGHT, AVG_STOPVIEW_HEIGHT, (long)numElements);
-    
     return MIN(numElements, 5);
 }
 

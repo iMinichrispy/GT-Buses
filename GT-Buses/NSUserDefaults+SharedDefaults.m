@@ -18,6 +18,7 @@ static NSString *const GBSharedDefaultsExtensionSuiteName = @"group.com.alexpere
     if ([NSUserDefaults instancesRespondToSelector:@selector(initWithSuiteName:)]) {
         return [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
     }
+    // Revert to standard defaults if device does not support shared defaults w/ extension
     return [NSUserDefaults standardUserDefaults];
 }
 

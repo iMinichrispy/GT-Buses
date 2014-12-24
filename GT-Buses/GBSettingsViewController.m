@@ -18,6 +18,8 @@
 #import "UIViewController+MailComposer.h"
 #import "GBSegmentedControlView.h"
 #import "GBToggleRoutesController.h"
+#import "GBHorizontalLayout.h"
+#import "GBBorderButton.h"
 
 #define PREDICTION_EXAMPLE_SECONDS     300
 
@@ -106,13 +108,11 @@ float const kButtonWidth = 200.0f;
     [constraints addObject:[GBConstraintHelper widthConstraint:supportButton width:kButtonWidth]];
     [constraints addObject:[GBConstraintHelper centerX:_reviewAppButton withView:self.view]];
     [constraints addObject:[GBConstraintHelper widthConstraint:_reviewAppButton width:kButtonWidth]];
-    [self.view addConstraints:constraints];
     
-//    UIButton *selectAgencyButton = [[GBBorderButton alloc] init];
-//    [selectAgencyButton setTitle:NSLocalizedString(@"SELECT_AGENCY", @"Select agency") forState:UIControlStateNormal];
-//    [selectAgencyButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:selectAgencyButton];
+    // gt buses: toggle routes*
+    // nextbus buses: select agency, toggle routes*, disable ads
     
+    NSMutableArray *segments = [NSMutableArray new];
     
     // Only add the toggle routes button if the routes have been retrieved
     NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
@@ -120,17 +120,33 @@ float const kButtonWidth = 200.0f;
         UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
         [toggleRoutesButton setTitle:NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes") forState:UIControlStateNormal];
         [toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:toggleRoutesButton];
-        
-        
-        NSMutableArray *constraints = [NSMutableArray new];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[toggleRoutesButton]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, toggleRoutesButton)]];
-        [constraints addObject:[GBConstraintHelper centerX:toggleRoutesButton withView:self.view]];
-        
-        [constraints addObject:[GBConstraintHelper widthConstraint:toggleRoutesButton width:150]];
-        [constraints addObject:[GBConstraintHelper heightConstraint:toggleRoutesButton height:40]];
-        [self.view addConstraints:constraints];
+        [segments addObject:toggleRoutesButton];
     }
+    
+    GBConfig *sharedConfig = [GBConfig sharedInstance];
+    if ([sharedConfig canSelectAgency]) {
+        UIButton *selectAgencyButton = [[GBBorderButton alloc] init];
+        [selectAgencyButton setTitle:NSLocalizedString(@"SELECT_AGENCY", @"Select agency") forState:UIControlStateNormal];
+        [selectAgencyButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
+        [segments addObject:selectAgencyButton];
+    }
+    
+    if ([sharedConfig adsVisible]) {
+        UIButton *disableAdsButton = [[GBBorderButton alloc] init];
+        [disableAdsButton setTitle:NSLocalizedString(@"DISABLE_ADS", @"Disable ads") forState:UIControlStateNormal];
+        [disableAdsButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
+        [segments addObject:disableAdsButton];
+    }
+    
+    GBHorizontalLayout *buttonSegment = [[GBHorizontalLayout alloc] init];
+    buttonSegment.translatesAutoresizingMaskIntoConstraints = NO;
+    [buttonSegment addSegments:segments];
+    [self.view addSubview:buttonSegment];
+    
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[buttonSegment]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, buttonSegment)]];
+    [constraints addObject:[GBConstraintHelper centerX:buttonSegment withView:self.view]];
+    
+    [self.view addConstraints:constraints];
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeColor:)];
     [longPress setMinimumPressDuration:2];

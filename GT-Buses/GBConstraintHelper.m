@@ -10,8 +10,12 @@
 
 @implementation GBConstraintHelper
 
-+ (NSArray *)spacingConstraintFromTopView:(UIView *)topView toBottomView:(UIView *)bottomView {
-    return [NSLayoutConstraint constraintsWithVisualFormat:@"V:[topView]-spacing-[bottomView]" options:0 metrics:@{@"spacing":@4} views:NSDictionaryOfVariableBindings(topView, bottomView)];
++ (NSArray *)spacingConstraintFromTopView:(UIView *)topView toBottomView:(UIView *)bottomView spacing:(double)spacing {
+    return [NSLayoutConstraint constraintsWithVisualFormat:@"V:[topView]-spacing-[bottomView]" options:0 metrics:@{@"spacing":@(spacing)} views:NSDictionaryOfVariableBindings(topView, bottomView)];
+}
+
++ (NSArray *)spacingConstraintFromLeftView:(UIView *)leftView toRightView:(UIView *)rightView spacing:(double)spacing {
+    return [NSLayoutConstraint constraintsWithVisualFormat:@"H:[leftView]-spacing-[rightView]" options:0 metrics:@{@"spacing":@(spacing)} views:NSDictionaryOfVariableBindings(leftView, rightView)];
 }
 
 + (NSArray *)fillConstraint:(UIView *)view horizontal:(BOOL)horizontal {

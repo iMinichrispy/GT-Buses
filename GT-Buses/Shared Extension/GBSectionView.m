@@ -13,6 +13,8 @@
 #import "GBStop.h"
 #import "GBRoute.h"
 #import "GBStopGroup.h"
+#import "GBConfig.h"
+#import "GBRequestConfig.h"
 
 @interface GBStopsView : UIView
 
@@ -88,11 +90,15 @@
 }
 
 - (void)addParameterForStop:(GBStop *)stop {
+    GBRequestConfig *config = [[GBConfig sharedInstance] requestConfig];
+    
     if ([_parameterString length]) {
         NSString *parameter = [NSString stringWithFormat:@"&stops=%@%%7C%@", stop.route.tag, stop.tag];
         _parameterString = [_parameterString stringByAppendingString:parameter];
     } else {
-        NSString *parameter = [NSString stringWithFormat:@"?stops=%@%%7C%@", stop.route.tag, stop.tag];
+        NSString *string = (config.source == GBRequestConfigSourceHeroku) ? @"?" : @"&";
+        
+        NSString *parameter = [NSString stringWithFormat:@"%@stops=%@%%7C%@", string, stop.route.tag, stop.tag];
         _parameterString = parameter;
     }
 }

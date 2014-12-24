@@ -30,10 +30,8 @@
         if ([incompatibleDevices containsObject:machineName]) {
             return NO;
         }
-        
         return YES;
     }
-    
     return NO;
 #endif
 }

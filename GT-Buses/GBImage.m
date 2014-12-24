@@ -92,7 +92,7 @@ float const kStopCircleSize = 25.0f;
     
     CGContextSetLineWidth(context, 2.0);
     CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
-    // Adding inner shadow aides visibility if there's a route with a white color
+    // Adding inner shadow aides visibility if there's a route with a white color or when displayed on white background (such as in table view)
     CGContextSetShadowWithColor(context, CGSizeZero, 1, [UIColor blackColor].CGColor);
     
     float y = 2;

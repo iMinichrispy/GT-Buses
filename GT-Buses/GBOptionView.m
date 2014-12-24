@@ -20,7 +20,7 @@
         
         _label = [[GBLabel alloc] init];
         _label.text = title;
-        _label.textColor = RGBColor(224, 224, 224);
+        _label.textColor = [UIColor colorWithWhite:.95 alpha:1.0];
         
         [self addSubview:_label];
         

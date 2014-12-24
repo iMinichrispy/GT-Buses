@@ -31,6 +31,8 @@
 #import "MKMapView+AppStoreMap.h"
 #endif
 
+// TODO: Provide way of viewing bus location and prediction data in a table view instead of on a map
+
 float const kSetRegionAnimationSpeed = 0.15f;
 int const kRefreshInterval = 5;
 
@@ -217,9 +219,9 @@ int const kRefreshInterval = 5;
                 if (!selectedRoute) {
                     NSArray *routes = dictionary[@"body"][@"route"];
                     if (![routes isKindOfClass:[NSArray class]]) routes = @[routes];
-                    
-                    [self setupRouteControlForRoutes:routes];
+
                     [[NSUserDefaults sharedDefaults] setObject:routes forKey:GBSharedDefaultsRoutesKey];
+                    [self setupRouteControlForRoutes:routes];
                 }
             } else {
                 [self invalidateRefreshTimer];
@@ -238,7 +240,6 @@ int const kRefreshInterval = 5;
                     NSMutableArray *busAnnotations = [[_mapView.annotations filteredArrayUsingPredicate:predicate] mutableCopy];
                     
                     GBRoute *selectedRoute = [self selectedRoute];
-                    
                     for (NSDictionary *busPosition in vehicles) {
                         // This if check ensures that when the user switches to a new route, no new buses from the old route are added and all buses not belonging to the current route are removed
                         if ([selectedRoute.tag isEqualToString:busPosition[@"routeTag"]]) {
@@ -272,6 +273,7 @@ int const kRefreshInterval = 5;
                             if (annotation.coordinate.latitude != coordinate.latitude || annotation.coordinate.longitude != coordinate.longitude) {
                                 GBBusAnnotationView *annotationView = (GBBusAnnotationView *)[_mapView viewForAnnotation:annotation];
                                 [UIView animateWithDuration:.8 animations:^{
+                                    // TODO: [Bug] When bus annotation coordinate is being animated and map view window is changed (pan, pinch), bus animation gets thrown off
                                     [annotationView updateArrowImageRotation];
                                     [annotation setCoordinate:coordinate];
                                 }];
@@ -326,8 +328,9 @@ int const kRefreshInterval = 5;
                 }
             }
         } else if (handler.task == GBRequestMessagesTask) {
-            
-            // check message id
+            // TODO: Handle messages
+        } else if (handler.task == GBRequestScheduleTask) {
+            // TODO: Handle schedule
         }
     } else  {
         NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];

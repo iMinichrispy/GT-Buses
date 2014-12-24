@@ -67,7 +67,6 @@
         _directionLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_directionLabel];
         
-        
         NSMutableArray *constraints = [NSMutableArray new];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_routeImageView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_routeImageView)]];
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[nameEffectView][_predictionsLabel]-2-[_directionLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_predictionsLabel, _directionLabel, nameEffectView)]];

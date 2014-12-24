@@ -11,6 +11,7 @@
 @class GBStop;
 @interface GBFavoriteButton : UIButton
 
+// TODO: Views should be decoupled from models
 @property (nonatomic, strong) GBStop *stop;
 
 @end

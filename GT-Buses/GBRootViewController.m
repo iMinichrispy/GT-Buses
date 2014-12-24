@@ -38,6 +38,7 @@ float const kSettingsViewAnimationSpeed = .2;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     _mapViewController = [[GBMapViewController alloc] init];
     _mapViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_mapViewController.view];
@@ -63,10 +64,10 @@ float const kSettingsViewAnimationSpeed = .2;
 #endif
 }
 
-- (void)setSearchEnaled:(BOOL)searchEnaled {
-    if (_searchEnaled != searchEnaled) {
-        _searchEnaled = searchEnaled;
-        self.navigationItem.leftBarButtonItem = (searchEnaled) ? [self searchButton] : nil;
+- (void)setSearchEnabled:(BOOL)searchEnabled {
+    if (_searchEnabled != searchEnabled) {
+        _searchEnabled = searchEnabled;
+        self.navigationItem.leftBarButtonItem = (searchEnabled) ? [self searchButton] : nil;
     }
 }
 
@@ -104,6 +105,7 @@ float const kSettingsViewAnimationSpeed = .2;
         [_settingsController.view removeFromSuperview];
     } completion:^(BOOL finished) {
         window.settingsVisible = NO;
+        [[NSNotificationCenter defaultCenter] removeObserver:_settingsController];
         _settingsController = nil;
     }];
 }
@@ -177,8 +179,8 @@ float const kSettingsViewAnimationSpeed = .2;
     NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];
     [_mapViewController.mapView removeAnnotations:buildingAnnotations];
     
-    _searchBar.text = @"";
     _currentQuery = @"";
+    _searchBar.text = _currentQuery;
 }
 
 - (void)didSelectBuilding:(GBBuilding *)building {

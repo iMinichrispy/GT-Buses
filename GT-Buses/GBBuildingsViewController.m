@@ -17,6 +17,7 @@
 #import "GBConfig.h"
 
 // TODO: This class's fail-safe mechainisms should be redone to be made more clear (Loading from saved, retrieving from server, updating when buildings version changes)
+// TODO: Add ability to search for stops
 
 static NSString *const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
 static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
@@ -268,7 +269,7 @@ float const UITableDefaultRowHeight = 44.0;
     NSMutableArray *unsortedSections = [NSMutableArray arrayWithCapacity:sectionCount];
     
     NSUInteger i;
-    // Create a row for each section.
+    // Create a row for each section
     for (i = 0; i < sectionCount; i++) {
         [unsortedSections addObject:[NSMutableArray array]];
     }
@@ -317,7 +318,7 @@ float const UITableDefaultRowHeight = 44.0;
     
     if ([_allBuildings count]) {
         // Show the No Results label if the user has entered text but didn't find anything
-        [self showStatusLabel:( [query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"] ) status:NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results")];
+        [self showStatusLabel:([query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"]) status:NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results")];
     } else {
         [self revertToSavedBuildings];
     }
@@ -325,36 +326,41 @@ float const UITableDefaultRowHeight = 44.0;
 
 - (void)showStatusLabel:(BOOL)show status:(NSString *)status {
     if(show && !_statusLabel) {
-        // Show the Error label
         CGRect errorLabelFrame = [self.tableView bounds];
         errorLabelFrame.origin.y += (IS_IPAD) ? UITableDefaultRowHeight * 3 : UITableDefaultRowHeight;
         errorLabelFrame.size.height = UITableDefaultRowHeight; // Height should be one row
         
         _statusLabel = [[UILabel alloc] initWithFrame:errorLabelFrame];
-        
         [_statusLabel setOpaque:NO];
         [_statusLabel setBackgroundColor:nil];
         [_statusLabel setTextAlignment:NSTextAlignmentCenter];
-        
         [_statusLabel setText:status];
         [_statusLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
         [_statusLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
-        
         [self.view addSubview:_statusLabel];
     } else if (show && _statusLabel) {
         _statusLabel.text = status;
     } else if (!show && _statusLabel) {
-        // Hide the Error label
         [_statusLabel removeFromSuperview];
         _statusLabel = nil;
     }
 }
 
-- (void)reset {
-    
+#pragma mark - Menu controller
+
+- (BOOL)becomeFirstResponder {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resignFirstResponder) name:UIMenuControllerDidHideMenuNotification object:nil];
+    return [super becomeFirstResponder];
 }
 
-#pragma mark - Menu controller
+- (BOOL)resignFirstResponder {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIMenuControllerDidHideMenuNotification object:nil];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    return [super resignFirstResponder];
+}
 
 - (BOOL)canBecomeFirstResponder {
     // Allows for UIMenuController to become visible over a cell
@@ -390,6 +396,8 @@ float const UITableDefaultRowHeight = 44.0;
         [menu setMenuItems:menuItems];
         [menu setTargetRect:cell.frame inView:cell.superview];
         [menu setMenuVisible:YES animated:YES];
+        
+        [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
 }
 

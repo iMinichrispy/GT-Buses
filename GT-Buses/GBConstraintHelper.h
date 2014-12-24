@@ -11,7 +11,8 @@
 
 @interface GBConstraintHelper : NSObject
 
-+ (NSArray *)spacingConstraintFromTopView:(UIView *)topView toBottomView:(UIView *)bottomView;
++ (NSArray *)spacingConstraintFromTopView:(UIView *)topView toBottomView:(UIView *)bottomView spacing:(double)spacing;
++ (NSArray *)spacingConstraintFromLeftView:(UIView *)leftView toRightView:(UIView *)rightView spacing:(double)spacing;
 + (NSArray *)fillConstraint:(UIView *)view horizontal:(BOOL)horizontal;
 + (NSLayoutConstraint *)centerX:(UIView *)view withView:(UIView *)view2;
 + (NSLayoutConstraint *)centerY:(UIView *)view withView:(UIView *)view2;

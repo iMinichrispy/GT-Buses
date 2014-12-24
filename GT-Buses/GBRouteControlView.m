@@ -33,10 +33,8 @@
         _refreshButton = [[UIButton alloc] init];
         _refreshButton.translatesAutoresizingMaskIntoConstraints = NO;
         UIImage *refreshImage = [UIImage imageNamed:@"Refresh"];
-        refreshImage = [refreshImage imageWithColor:[UIColor whiteColor]];
-        [_refreshButton setImage:refreshImage forState:UIControlStateNormal];
-        refreshImage = [refreshImage imageWithColor:[UIColor colorWithWhite:1 alpha:.3]];
-        [_refreshButton setImage:refreshImage forState:UIControlStateHighlighted];
+        [_refreshButton setImage:[refreshImage imageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+        [_refreshButton setImage:[refreshImage imageWithColor:[UIColor colorWithWhite:1 alpha:.3]] forState:UIControlStateHighlighted];
         _refreshButton.hidden = YES;
         
         [self updateTintColor];
@@ -49,8 +47,7 @@
         float segmentedControlSidePadding = IS_IPAD ? 15 : 6;
         
         NSMutableArray *constraints = [NSMutableArray new];
-        [constraints addObjectsFromArray:[NSLayoutConstraint
-                                          constraintsWithVisualFormat:@"H:|-padding-[_busRouteControl]-padding-|"
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[_busRouteControl]-padding-|"
                                           options:0
                                           metrics:@{@"padding":@(segmentedControlSidePadding)}
                                           views:NSDictionaryOfVariableBindings(_busRouteControl)]];

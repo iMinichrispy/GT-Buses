@@ -10,7 +10,7 @@
 @import Foundation;
 
 @interface GBRootViewController : UIViewController
-#warning move this to gbconfig?
-@property (nonatomic, getter=isSearchEnabled) BOOL searchEnaled;
+
+@property (nonatomic, getter=isSearchEnabled) BOOL searchEnabled;
 
 @end
