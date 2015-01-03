@@ -29,4 +29,8 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<GBAgency title: %@, tag: %@, regionTitle: %@", _title, _tag, _regionTitle];
+}
+
 @end

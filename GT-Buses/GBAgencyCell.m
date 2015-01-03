@@ -25,4 +25,12 @@
     return self;
 }
 
+- (void)updateTintColor {
+    self.textLabel.textColor = [UIColor appTintColor];
+    
+    UIView *selectedView = [[UIView alloc] init];
+    selectedView.backgroundColor = [[UIColor appTintColor] colorWithAlphaComponent:.5];
+    self.selectedBackgroundView = selectedView;
+}
+
 @end

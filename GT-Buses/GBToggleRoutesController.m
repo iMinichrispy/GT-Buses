@@ -47,7 +47,6 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
     if (!_disabledRoutes) {
         _disabledRoutes = [NSMutableArray new];
     }
-    
     NSArray *savedRoutes = [sharedDefaults objectForKey:GBSharedDefaultsRoutesKey];
     NSMutableArray *newRoutes = [NSMutableArray new];
     for (NSDictionary *dictionary in savedRoutes) {
@@ -68,6 +67,7 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 }
 
 - (void)dismiss:(id)sender {
+    [[NSUserDefaults sharedDefaults] synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationDisabledRoutesDidChange object:nil];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
@@ -92,7 +92,7 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     GBRoute *route = _routes[indexPath.row];
     NSDictionary *routeDic = [route toDictionary];
     
@@ -125,7 +125,7 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 }
 
 + (NSInteger)maxNumRoutes {
-    // Calculate a reasonable maximum number of routes based on the device's smallest side
+    // Calculate a reasonable maximum number of routes based on the device's smallest screen side
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     float smallestLength = MIN(screenSize.width, screenSize.height);
     return roundf(.02107 * smallestLength + .21);

@@ -45,7 +45,6 @@
         NSMutableArray *stopViews = [NSMutableArray new];
         for (NSDictionary *dictionary in self.stops) {
             GBStop *stop = [dictionary toStop];
-#warning need to remove no favorites added view
             
             GBStopView *stopView = [[GBStopView alloc] initWithStop:stop];
             [self.sectionView.stopsView addSubview:stopView];

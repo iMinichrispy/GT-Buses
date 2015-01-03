@@ -14,10 +14,16 @@
 #import "GBAgencyCell.h"
 #import "XMLReader.h"
 #import "GBRequestHandler.h"
+#import "GBAgencyCell.h"
+#import "GBConstants.h"
+#import "UITableViewController+StatusLabel.h"
 
 static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
 
-@interface GBSelectAgencyController () <RequestHandlerDelegate>
+@interface GBSelectAgencyController () <RequestHandlerDelegate> {
+    NSIndexPath *_selectedPath;
+    BOOL _didChangeAgency;
+}
 
 @property (nonatomic, strong) NSArray *agencies;
 
@@ -31,14 +37,19 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     self.title = NSLocalizedString(@"SELECT_AGENCY", @"Select agency");
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)];
+    doneButton.enabled = [[GBConfig sharedInstance].agency length];
     self.navigationItem.leftBarButtonItem = doneButton;
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
     
     [self.tableView setTintColor:[UIColor appTintColor]];
     [self.tableView registerClass:[GBAgencyCell class] forCellReuseIdentifier:GBAgencyCellIdentifier];
+    
+    [self setStatus:@"Loading..."];
 }
 
 - (void)dismiss:(id)sender {
+    GBAgency *agency = _agencies[_selectedPath.row];
+    [GBConfig sharedInstance].agency = agency.tag;
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -62,12 +73,13 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
             [newAgencies addObject:agency];
         }
         _agencies = newAgencies;
+        [self setStatus:nil];
         [self.tableView reloadData];
     }
 }
 
 - (void)handleError:(RequestHandler *)handler error:(NSError *)error {
-    
+    [self setStatus:FORMAT(@"%@%@", NSLocalizedString(@"AGENCY_LIST_ERROR", @"Failed to retrieve agency list"), [GBRequestHandler errorMessageForCode:[error code]])];
 }
 
 #pragma mark - Table view data source
@@ -82,12 +94,33 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     GBAgency *agency = _agencies[indexPath.row];
     cell.textLabel.text = agency.title;
     cell.detailTextLabel.text = agency.regionTitle;
-    cell.accessoryType = (agency.selected) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    
+    if (agency.selected) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        _selectedPath = indexPath;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
+    [(GBAgencyCell *)cell updateTintColor];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:_selectedPath];
+    GBAgency *selectedAgency = _agencies[_selectedPath.row];
+    selectedAgency.selected = NO;
+    selectedCell.accessoryType = UITableViewCellAccessoryNone;
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    GBAgency *agency = _agencies[indexPath.row];
+    agency.selected = YES;
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
+    _selectedPath = indexPath;
+    self.navigationItem.leftBarButtonItem.enabled = YES;
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

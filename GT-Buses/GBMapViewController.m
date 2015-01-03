@@ -26,6 +26,7 @@
 #import "GBToggleRoutesController.h"
 #import "GBUserInterface.h"
 #import "GBSelectAgencyController.h"
+#import "GBWindow.h"
 
 #if APP_STORE_MAP
 #import "MKMapView+AppStoreMap.h"
@@ -57,6 +58,7 @@ int const kRefreshInterval = 5;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(agencyDidChange:) name:GBNotificationAgencyDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(togglePartyMode:) name:GBNotificationPartyModeDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateVisibleRoutes:) name:GBNotificationDisabledRoutesDidChange object:nil];
@@ -164,8 +166,12 @@ int const kRefreshInterval = 5;
     
     [self didChangeBusRoute];
     
-    if (exceededMax) {
-        [[NSUserDefaults sharedDefaults] setObject:disabledRoutes forKey:GBSharedDefaultsDisabledRoutesKey];
+    [[NSUserDefaults sharedDefaults] setObject:disabledRoutes forKey:GBSharedDefaultsDisabledRoutesKey];
+    [[NSUserDefaults sharedDefaults] synchronize];
+    
+    GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
+    // Don't display toggle routes controller if settings is visible since it interferes with settings overlay layout
+    if (exceededMax && !window.settingsVisible) {
         GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
         GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
         navController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -343,7 +349,7 @@ int const kRefreshInterval = 5;
     _busRouteControlView.errorLabel.hidden = NO;
     _busRouteControlView.busRouteControl.hidden = YES;
     _busRouteControlView.refreshButton.hidden = NO;
-    _busRouteControlView.errorLabel.text = [GBRequestHandler errorStringForCode:[error code]];
+    _busRouteControlView.errorLabel.text = [GBRequestHandler errorMessageForCode:[error code]];
 }
 
 - (GBRoute *)selectedRoute {
@@ -367,12 +373,22 @@ int const kRefreshInterval = 5;
     }
 #if !DEFAULT_IMAGE
     else {
-        [_busRouteControlView.activityIndicator startAnimating];
-        _busRouteControlView.errorLabel.hidden = YES;
-        _busRouteControlView.refreshButton.hidden = YES;
-        
-        GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestRouteConfigTask delegate:self];
-        [requestHandler routeConfig];
+        if ([GBConfig sharedInstance].agency) {
+            [_busRouteControlView.activityIndicator startAnimating];
+            _busRouteControlView.errorLabel.hidden = YES;
+            _busRouteControlView.refreshButton.hidden = YES;
+            
+            GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestRouteConfigTask delegate:self];
+            [requestHandler routeConfig];
+        } else {
+            [self invalidateRefreshTimer];
+            
+            // If no agency is specified, prompt user to select one
+            GBSelectAgencyController *agencyController = [[GBSelectAgencyController alloc] init];
+            GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:agencyController];
+            navController.modalPresentationStyle = UIModalPresentationFormSheet;
+            [self presentViewController:navController animated:YES completion:NULL];
+        }
     }
 #endif
 }
@@ -467,6 +483,12 @@ int const kRefreshInterval = 5;
         GBBusAnnotationView *annotationView = (GBBusAnnotationView *)[_mapView viewForAnnotation:annotation];
         [annotationView setIdentifierVisible:[[GBConfig sharedInstance] showsBusIdentifiers]];
     }
+}
+
+- (void)agencyDidChange:(NSNotification *)notification {
+    [_busRouteControlView.busRouteControl removeAllSegments];
+    [self invalidateRefreshTimer];
+    [self requestUpdate];
 }
 
 #pragma mark - Timer

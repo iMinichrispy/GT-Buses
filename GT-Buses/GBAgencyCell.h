@@ -8,6 +8,8 @@
 
 @import UIKit;
 
-@interface GBAgencyCell : UITableViewCell
+#import "GBColors.h"
+
+@interface GBAgencyCell : UITableViewCell <GBTintColor>
 
 @end

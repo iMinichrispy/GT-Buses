@@ -15,6 +15,7 @@
 #import "UIDevice+Hardware.h"
 #import "GBBuildingCell.h"
 #import "GBConfig.h"
+#import "UITableViewController+StatusLabel.h"
 
 // TODO: This class's fail-safe mechainisms should be redone to be made more clear (Loading from saved, retrieving from server, updating when buildings version changes)
 // TODO: Add ability to search for stops
@@ -26,7 +27,6 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
     NSArray             *_partitionedBuildings;
     NSArray             *_sectionIndexTitles;
     NSMutableIndexSet   *_populatedIndexSet;
-    UILabel             *_statusLabel;
     GBBuilding          *_selectedBuilding;
 }
 
@@ -36,8 +36,6 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
 @end
 
 @implementation GBBuildingsViewController
-
-float const UITableDefaultRowHeight = 44.0;
 
 - (instancetype)init {
     self = [super init];
@@ -130,7 +128,7 @@ float const UITableDefaultRowHeight = 44.0;
 }
 
 - (void)updateBuildings:(NSNotification *)notification {
-    [self showStatusLabel:YES status:@"Loading..."];
+    [self setStatus:@"Loading..."];
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
     [requestHandler buildings];
 }
@@ -230,7 +228,7 @@ float const UITableDefaultRowHeight = 44.0;
     NSPropertyListFormat format;
     NSArray *buildings = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:&format error:&error];
     if (buildings && !error) {
-        [self showStatusLabel:NO status:nil];
+        [self setStatus:nil];
         if ([buildings count]) {
             NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
             [buildings writeToFile:path atomically:YES];
@@ -250,10 +248,10 @@ float const UITableDefaultRowHeight = 44.0;
 - (void)revertToSavedBuildings {
     NSArray *buildings = [self savedBuildings];
     if ([buildings count]) {
-        [self showStatusLabel:NO status:nil];
+        [self setStatus:nil];
         [self setupForBuildings:buildings];
     } else {
-        [self showStatusLabel:YES status:NSLocalizedString(@"NO_BUILDINGS_DATA", @"Buildings data is empty")];
+        [self setStatus:NSLocalizedString(@"NO_BUILDINGS_DATA", @"Buildings data is empty")];
     }
 }
 
@@ -318,31 +316,9 @@ float const UITableDefaultRowHeight = 44.0;
     
     if ([_allBuildings count]) {
         // Show the No Results label if the user has entered text but didn't find anything
-        [self showStatusLabel:([query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"]) status:NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results")];
+        [self setStatus:([query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"]) ? NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results") : nil];
     } else {
         [self revertToSavedBuildings];
-    }
-}
-
-- (void)showStatusLabel:(BOOL)show status:(NSString *)status {
-    if(show && !_statusLabel) {
-        CGRect errorLabelFrame = [self.tableView bounds];
-        errorLabelFrame.origin.y += (IS_IPAD) ? UITableDefaultRowHeight * 3 : UITableDefaultRowHeight;
-        errorLabelFrame.size.height = UITableDefaultRowHeight; // Height should be one row
-        
-        _statusLabel = [[UILabel alloc] initWithFrame:errorLabelFrame];
-        [_statusLabel setOpaque:NO];
-        [_statusLabel setBackgroundColor:nil];
-        [_statusLabel setTextAlignment:NSTextAlignmentCenter];
-        [_statusLabel setText:status];
-        [_statusLabel setTextColor:[UIColor colorWithWhite:0.5 alpha:1.0]];
-        [_statusLabel setFont:[UIFont boldSystemFontOfSize:18.0]];
-        [self.view addSubview:_statusLabel];
-    } else if (show && _statusLabel) {
-        _statusLabel.text = status;
-    } else if (!show && _statusLabel) {
-        [_statusLabel removeFromSuperview];
-        _statusLabel = nil;
     }
 }
 

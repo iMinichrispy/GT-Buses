@@ -13,7 +13,6 @@
 
 @interface GBConfig ()
 
-@property (nonatomic) NSInteger version;
 @property (nonatomic, strong) NSString *iOSVersion;
 
 @end
@@ -34,8 +33,6 @@
     if (self) {
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
         _iOSVersion = info[@"CFBundleShortVersionString"];
-        _version = 1;
-#warning is version used at all?
         _party = NO;
         _message = @"";
         
@@ -45,6 +42,7 @@
         
         NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
         _agency = [sharedDefaults objectForKey:GBSharedDefaultsAgencyKey];
+        _requestConfig = [[GBRequestConfig alloc] initWithAgency:_agency];
         _showsArrivalTime = [sharedDefaults boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
         
     }
@@ -52,18 +50,16 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<GBConfig Agency: %@, Version: %ld, Party: %d, ShowsArrivalTime: %d, ShowsBusIds: %d, Message: %@, BuildingsVersion: %li>", _agency, (long)_version, _party, _showsArrivalTime, _showsBusIdentifiers, _message, (long)_buildingsVersion];
+    return [NSString stringWithFormat:@"<GBConfig Agency: %@, iOSVersion: %@, Party: %d, ShowsArrivalTime: %d, ShowsBusIds: %d, Message: %@, BuildingsVersion: %li>", _agency, _iOSVersion, _party, _showsArrivalTime, _showsBusIdentifiers, _message, (long)_buildingsVersion];
 }
 
 - (void)handleConfig:(NSDictionary *)config {
     if (config) {
-        NSInteger version = [config[@"version"] integerValue];
         NSString *iOSVersion = config[@"iOSVersion"];
         NSString *message = config[@"message"];
         NSInteger buildingVersion = [config[@"buildingsVersion"] integerValue];
         BOOL party = [config[@"party"] boolValue];
         
-        [self setVersion:version];
         [self setBuildingsVersion:buildingVersion];
         
         if (![_message isEqualToString:message]) {
@@ -79,18 +75,25 @@
 
 - (void)setAgency:(NSString *)agency {
     if (_agency != agency) {
+        BOOL newAgency;
         NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
         if (![_agency isEqualToString:agency]) {
             // If the user switches agencies, clear the disabled routes
             [sharedDefaults setObject:nil forKey:GBSharedDefaultsDisabledRoutesKey];
             [sharedDefaults setObject:nil forKey:GBSharedDefaultsFavoriteStopsKey];
             [sharedDefaults setObject:nil forKey:GBSharedDefaultsRoutesKey];
+            
+            [sharedDefaults setObject:agency forKey:GBSharedDefaultsAgencyKey];
+            [sharedDefaults synchronize];
+            
+            newAgency = YES;
         }
         _agency = agency;
-        
         _requestConfig = [[GBRequestConfig alloc] initWithAgency:agency];
-        [sharedDefaults setObject:agency forKey:GBSharedDefaultsAgencyKey];
-        [sharedDefaults synchronize];
+        
+        if (newAgency) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationAgencyDidChange object:nil];
+        }
     }
 }
 
@@ -105,13 +108,6 @@
     if (_party != party) {
         _party = party;
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationPartyModeDidChange object:nil];
-    }
-}
-
-- (void)setVersion:(NSInteger)version {
-    if (_version != version) {
-        _version = version;
-        
     }
 }
 

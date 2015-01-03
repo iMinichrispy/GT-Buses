@@ -29,7 +29,7 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
 #pragma mark - Requests
 
 - (void)agencyList {
-    [self getRequestWithURL:FORMAT(@"%@%@",GBRequestHerokuBaseURL, @"/agencyList")];
+    [self getRequestWithURL:FORMAT(@"%@%@", GBRequestHerokuBaseURL, @"/agencyList")];
 }
 
 - (void)routeConfig {
@@ -78,7 +78,7 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
     [self getRequestWithURL:[requestConfig buildingsURL]];
 }
 
-+ (NSString *)errorStringForCode:(NSInteger)code {
++ (NSString *)errorMessageForCode:(NSInteger)code {
     NSString *errorString;
     switch (code) {
         case 400: errorString = NSLocalizedString(@"BAD_REQUEST_ERROR", @"400 Bad request error"); break;

@@ -32,12 +32,8 @@
         
         GBConfig *sharedConfig = [GBConfig sharedInstance];
         NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
-        
         sharedConfig.showsArrivalTime = [shared boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
-        NSString *agency = [shared objectForKey:GBSharedDefaultsAgencyKey];
-        GBRequestConfig *requestConfig = [[GBRequestConfig alloc] initWithAgency:agency];
-        sharedConfig.requestConfig = requestConfig;
-#warning need to handle if agency is nil or requestconfig is nil
+#warning need to handle if agency is nil
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDefaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
     }
@@ -49,7 +45,7 @@
 }
 
 - (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)defaultMarginInsets {
-    defaultMarginInsets.top +=5;
+    defaultMarginInsets.top += 5;
     return defaultMarginInsets;
 }
 
@@ -63,7 +59,7 @@
 }
 
 - (void)updateLayout {
-    // To be overriden by sublasses
+    // To be overriden by subclasses
     // Subclasses should organize and display stops here
 }
 
@@ -135,26 +131,27 @@
                     }
                 }
             }
-        } else {
-#warning wifi error handling
         }
     } else {
-        //error handling
+        NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
+        [self handleError:handler error:error];
     }
 }
 
 - (void)handleError:(RequestHandler *)handler error:(NSError *)error {
-    
+    NSString *errorMessage = [GBRequestHandler errorMessageForCode:[error code]];
+    [self displayError:errorMessage];
 }
 
+#define MAX_NUM_STOPS 5
 #define NC_ELEMENTS_HEIGHT 94.0
-#define AVG_STOPVIEW_HEIGHT 110.0
+#define ESTIMATED_STOPVIEW_HEIGHT 110.0
 
 - (NSInteger)maxNumberStops {
     CGFloat screenHeight = [[UIScreen mainScreen] bounds].size.height;
     CGFloat freeSpace = screenHeight - NC_ELEMENTS_HEIGHT;
-    NSInteger numElements = ceil(freeSpace / AVG_STOPVIEW_HEIGHT);
-    return MIN(numElements, 5);
+    NSInteger numElements = ceil(freeSpace / ESTIMATED_STOPVIEW_HEIGHT);
+    return MIN(numElements, MAX_NUM_STOPS);
 }
 
 @end

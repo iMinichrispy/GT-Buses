@@ -30,6 +30,7 @@
     [body appendFormat:@"Location Services Enabled: %d\n", [CLLocationManager locationServicesEnabled]];
     [body appendFormat:@"Location Services Status: %d\n", [CLLocationManager authorizationStatus]];
     GBConfig *sharedConfig = [GBConfig sharedInstance];
+    [body appendFormat:@"Agency: %@\n", [sharedConfig agency]];
     [body appendFormat:@"Shows Arrival Time: %d\n", [sharedConfig showsArrivalTime]];
     [body appendFormat:@"Shows Bus Identifiers: %d\n", [sharedConfig showsBusIdentifiers]];
     [body appendFormat:@"Buildings Version: %li/%li\n", (long)[[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsBuildingsVersionKey], (long)[sharedConfig buildingsVersion]];

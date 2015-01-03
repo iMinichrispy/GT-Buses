@@ -21,7 +21,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     // over 100 routes: actransit
-
+    
     [GBConfig sharedInstance].agency = GBGeorgiaTechAgency;
     
     self.viewController = [[GBRootViewController alloc] init];

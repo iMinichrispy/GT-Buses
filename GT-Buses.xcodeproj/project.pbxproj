@@ -125,6 +125,7 @@
 		FAA272661A3D372900C40D25 /* GBLabelEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA272641A3D372900C40D25 /* GBLabelEffectView.m */; };
 		FAA272671A3D372900C40D25 /* GBLabelEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA272641A3D372900C40D25 /* GBLabelEffectView.m */; };
 		FAA272681A3D372900C40D25 /* GBLabelEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA272641A3D372900C40D25 /* GBLabelEffectView.m */; };
+		FAA5E6C81A563ADA0055DD40 /* UITableViewController+StatusLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5E6C71A563ADA0055DD40 /* UITableViewController+StatusLabel.m */; };
 		FAA7B6B81A194F1200CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB56ABD1A229E4200CBDD76 /* GBSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB56ABC1A229E4200CBDD76 /* GBSettingsViewController.m */; };
@@ -295,6 +296,8 @@
 		FAA272611A3CEA9000C40D25 /* GBRouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBRouteCell.m; sourceTree = "<group>"; };
 		FAA272631A3D372900C40D25 /* GBLabelEffectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBLabelEffectView.h; sourceTree = "<group>"; };
 		FAA272641A3D372900C40D25 /* GBLabelEffectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBLabelEffectView.m; sourceTree = "<group>"; };
+		FAA5E6C61A563ADA0055DD40 /* UITableViewController+StatusLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewController+StatusLabel.h"; sourceTree = "<group>"; };
+		FAA5E6C71A563ADA0055DD40 /* UITableViewController+StatusLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+StatusLabel.m"; sourceTree = "<group>"; };
 		FAA7B6B61A194F1200CB8FB2 /* GBDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBDirection.h; sourceTree = "<group>"; };
 		FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDirection.m; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
@@ -334,6 +337,7 @@
 		FAC6F9B31A29119000792CDC /* GBOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBOptionView.m; sourceTree = "<group>"; };
 		FACEB98F1A4B54B800BE668B /* GBBorderButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBorderButton.h; sourceTree = "<group>"; };
 		FACEB9901A4B54B800BE668B /* GBBorderButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBorderButton.m; sourceTree = "<group>"; };
+		FACEB9941A4B5BB800BE668B /* GeorgiaTech.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = GeorgiaTech.gpx; sourceTree = "<group>"; };
 		FACFA1A01A0DAE2A00F3E2C3 /* GBConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBConfig.h; sourceTree = "<group>"; };
 		FACFA1A11A0DAE2A00F3E2C3 /* GBConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBConfig.m; sourceTree = "<group>"; };
 		FAD597BF1A12C66E0079B36C /* GBWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBWindow.h; sourceTree = "<group>"; };
@@ -476,6 +480,7 @@
 				FA75CFEA1A13D163000B9CD6 /* GT-Buses.entitlements */,
 				FA1FE93518A1D8A300757643 /* main.m */,
 				FA1FE93718A1D8A300757643 /* GT-Buses-Prefix.pch */,
+				FACEB9941A4B5BB800BE668B /* GeorgiaTech.gpx */,
 				FA1FE94118A1D8A300757643 /* Images.xcassets */,
 			);
 			name = "Supporting Files";
@@ -627,6 +632,8 @@
 				FA98027D1A44EAB000F6DA6C /* GBHorizontalLayout.m */,
 				FACEB98F1A4B54B800BE668B /* GBBorderButton.h */,
 				FACEB9901A4B54B800BE668B /* GBBorderButton.m */,
+				FAA5E6C61A563ADA0055DD40 /* UITableViewController+StatusLabel.h */,
+				FAA5E6C71A563ADA0055DD40 /* UITableViewController+StatusLabel.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1010,6 +1017,7 @@
 				FA42AA111A2BEFA000AA4391 /* GBStopAnnotationView.m in Sources */,
 				FA8C118B19D30758008F5927 /* GBRootViewController.m in Sources */,
 				FAA270E91A41FB710071818A /* GBSelectAgencyController.m in Sources */,
+				FAA5E6C81A563ADA0055DD40 /* UITableViewController+StatusLabel.m in Sources */,
 				FAD6A3401A1CE4F500D98955 /* GBImage.m in Sources */,
 				FAEA8A1D1A2D67C600995A75 /* GBBusAnnotationView.m in Sources */,
 				FA1FE98418A1D9F800757643 /* RequestHandler.m in Sources */,

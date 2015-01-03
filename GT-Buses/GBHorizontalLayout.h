@@ -10,6 +10,6 @@
 
 @interface GBHorizontalLayout : UIView
 
-- (void)addSegments:(NSArray *)segments;
+- (void)addItems:(NSArray *)items;
 
 @end

@@ -28,7 +28,7 @@ extern NSString *const GBRequestBuildingsTask;
 - (void)messages;
 - (void)buildings;
 
-+ (NSString *)errorStringForCode:(NSInteger)code;
++ (NSString *)errorMessageForCode:(NSInteger)code;
 + (BOOL)isNextBusError:(NSDictionary *)dictionary;
 
 extern NSString *const GBRequestErrorDomain;

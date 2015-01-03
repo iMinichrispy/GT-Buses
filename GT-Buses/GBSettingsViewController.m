@@ -20,6 +20,7 @@
 #import "GBToggleRoutesController.h"
 #import "GBHorizontalLayout.h"
 #import "GBBorderButton.h"
+#import "GBSelectAgencyController.h"
 
 #define PREDICTION_EXAMPLE_SECONDS     300
 
@@ -109,10 +110,7 @@ float const kButtonWidth = 200.0f;
     [constraints addObject:[GBConstraintHelper centerX:_reviewAppButton withView:self.view]];
     [constraints addObject:[GBConstraintHelper widthConstraint:_reviewAppButton width:kButtonWidth]];
     
-    // gt buses: toggle routes*
-    // nextbus buses: select agency, toggle routes*, disable ads
-    
-    NSMutableArray *segments = [NSMutableArray new];
+    NSMutableArray *items = [NSMutableArray new];
     
     // Only add the toggle routes button if the routes have been retrieved
     NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
@@ -120,31 +118,31 @@ float const kButtonWidth = 200.0f;
         UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
         [toggleRoutesButton setTitle:NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes") forState:UIControlStateNormal];
         [toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-        [segments addObject:toggleRoutesButton];
+        [items addObject:toggleRoutesButton];
     }
     
     GBConfig *sharedConfig = [GBConfig sharedInstance];
     if ([sharedConfig canSelectAgency]) {
         UIButton *selectAgencyButton = [[GBBorderButton alloc] init];
         [selectAgencyButton setTitle:NSLocalizedString(@"SELECT_AGENCY", @"Select agency") forState:UIControlStateNormal];
-        [selectAgencyButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-        [segments addObject:selectAgencyButton];
+        [selectAgencyButton addTarget:self action:@selector(showSelectAgency:) forControlEvents:UIControlEventTouchUpInside];
+        [items addObject:selectAgencyButton];
     }
     
     if ([sharedConfig adsVisible]) {
         UIButton *disableAdsButton = [[GBBorderButton alloc] init];
         [disableAdsButton setTitle:NSLocalizedString(@"DISABLE_ADS", @"Disable ads") forState:UIControlStateNormal];
         [disableAdsButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-        [segments addObject:disableAdsButton];
+        [items addObject:disableAdsButton];
     }
     
-    GBHorizontalLayout *buttonSegment = [[GBHorizontalLayout alloc] init];
-    buttonSegment.translatesAutoresizingMaskIntoConstraints = NO;
-    [buttonSegment addSegments:segments];
-    [self.view addSubview:buttonSegment];
+    GBHorizontalLayout *horizontalLayout = [[GBHorizontalLayout alloc] init];
+    horizontalLayout.translatesAutoresizingMaskIntoConstraints = NO;
+    [horizontalLayout addItems:items];
+    [self.view addSubview:horizontalLayout];
     
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[buttonSegment]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, buttonSegment)]];
-    [constraints addObject:[GBConstraintHelper centerX:buttonSegment withView:self.view]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[horizontalLayout]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, horizontalLayout)]];
+    [constraints addObject:[GBConstraintHelper centerX:horizontalLayout withView:self.view]];
     
     [self.view addConstraints:constraints];
     
@@ -189,7 +187,7 @@ float const kButtonWidth = 200.0f;
         NSArray *tintColors = [GBColors availableTintColors];
         for (NSDictionary *color in tintColors) [actionSheet addButtonWithTitle:color[@"name"]];
         
-        if (!IS_IPAD) [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:NSLocalizedString(@"SELECT_COLOR_CANCEL", @"Select color cancel")]];
+        if (!IS_IPAD) [actionSheet setCancelButtonIndex:[actionSheet addButtonWithTitle:NSLocalizedString(@"CANCEL", @"Cancel")]];
         
         [actionSheet showFromRect:recognizer.view.frame inView:self.view animated:YES];
     }
@@ -255,6 +253,14 @@ float const kButtonWidth = 200.0f;
 - (void)showToggleRoutes:(id)sender {
     GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [self presentViewController:navController animated:YES completion:NULL];
+}
+
+- (void)showSelectAgency:(id)sender {
+    GBSelectAgencyController *agencyController = [[GBSelectAgencyController alloc] init];
+    GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:agencyController];
     navController.modalPresentationStyle = UIModalPresentationFormSheet;
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self presentViewController:navController animated:YES completion:NULL];
