@@ -58,10 +58,6 @@ float const kSettingsViewAnimationSpeed = .2;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     
     self.navigationItem.rightBarButtonItem = [self settingsButton];
-    
-#if !DEFAULT_IMAGE
-    self.title = NSLocalizedString(@"TITLE", @"Main Title");
-#endif
 }
 
 - (void)setSearchEnabled:(BOOL)searchEnabled {

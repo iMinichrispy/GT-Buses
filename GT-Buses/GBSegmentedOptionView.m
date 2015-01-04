@@ -1,17 +1,17 @@
 //
-//  GBSegmentedControlView.m
+//  GBSegmentedOptionView.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 11/28/14.
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "GBSegmentedControlView.h"
+#import "GBSegmentedOptionView.h"
 
 #import "GBUserInterface.h"
 #import "GBConstraintHelper.h"
 
-@implementation GBSegmentedControlView
+@implementation GBSegmentedOptionView
 
 float const kSegmentedControlWidth = 150.0f;
 

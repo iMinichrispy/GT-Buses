@@ -85,31 +85,36 @@
     
     if (!_identifierLabel && visible) {
         _identifierLabel = [[UILabel alloc] init];
-        _identifierLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _identifierLabel.textColor = bus.color;
         _identifierLabel.font = [UIFont systemFontOfSize:12];
         _identifierLabel.text = bus.identifier;
         _identifierLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:_identifierLabel];
         
-        NSMutableArray *constraints = [NSMutableArray new];
-        [constraints addObject:[NSLayoutConstraint
-                                constraintWithItem:_identifierLabel
-                                attribute:NSLayoutAttributeCenterX
-                                relatedBy:NSLayoutRelationEqual
-                                toItem:_arrowImageView
-                                attribute:NSLayoutAttributeCenterX
-                                multiplier:1.0
-                                constant:0.0]];
-        [constraints addObject:[NSLayoutConstraint
-                                constraintWithItem:_identifierLabel
-                                attribute:NSLayoutAttributeCenterY
-                                relatedBy:NSLayoutRelationEqual
-                                toItem:_arrowImageView
-                                attribute:NSLayoutAttributeTop
-                                multiplier:1.0
-                                constant:-10.0]];
-        [self addConstraints:constraints];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            _identifierLabel.translatesAutoresizingMaskIntoConstraints = NO;
+            NSMutableArray *constraints = [NSMutableArray new];
+            [constraints addObject:[NSLayoutConstraint
+                                    constraintWithItem:_identifierLabel
+                                    attribute:NSLayoutAttributeCenterX
+                                    relatedBy:NSLayoutRelationEqual
+                                    toItem:_arrowImageView
+                                    attribute:NSLayoutAttributeCenterX
+                                    multiplier:1.0
+                                    constant:0.0]];
+            [constraints addObject:[NSLayoutConstraint
+                                    constraintWithItem:_identifierLabel
+                                    attribute:NSLayoutAttributeCenterY
+                                    relatedBy:NSLayoutRelationEqual
+                                    toItem:_arrowImageView
+                                    attribute:NSLayoutAttributeTop
+                                    multiplier:1.0
+                                    constant:-10.0]];
+            [self addConstraints:constraints];
+        } else {
+            [_identifierLabel sizeToFit];
+            _identifierLabel.center = CGPointMake(_arrowImageView.center.x, _arrowImageView.center.y - 20);
+        }
     } else if (!visible) {
         [_identifierLabel removeFromSuperview];
         _identifierLabel = nil;

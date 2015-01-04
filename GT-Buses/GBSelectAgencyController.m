@@ -41,10 +41,10 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     self.navigationItem.leftBarButtonItem = doneButton;
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
     
-    [self.tableView setTintColor:[UIColor appTintColor]];
+    if ([self.tableView respondsToSelector:@selector(setTintColor:)]) {
+        [self.tableView setTintColor:[UIColor appTintColor]];
+    }
     [self.tableView registerClass:[GBAgencyCell class] forCellReuseIdentifier:GBAgencyCellIdentifier];
-    
-    [self setStatus:@"Loading..."];
 }
 
 - (void)dismiss:(id)sender {
@@ -56,7 +56,9 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestAgencyTask delegate:self];
+    requestHandler.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
     [requestHandler agencyList];
+    [self setStatus:@"Loading..."];
 }
 
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
@@ -67,14 +69,21 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
         if (![agencies isKindOfClass:[NSArray class]]) agencies = @[agencies];
         
         NSMutableArray *newAgencies = [NSMutableArray new];
-        for (NSDictionary *dictionary in agencies) {
+        for (int x = 0; x < [agencies count]; x++) {
+            NSDictionary *dictionary = agencies[x];
             GBAgency *agency = [dictionary xmlToAgency];
             agency.selected = ([agency.tag isEqualToString:[GBConfig sharedInstance].agency]);
+            if (agency.selected) {
+                _selectedPath = [NSIndexPath indexPathForRow:x inSection:0];
+            }
             [newAgencies addObject:agency];
         }
         _agencies = newAgencies;
         [self setStatus:nil];
         [self.tableView reloadData];
+    } else {
+        NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
+        [self handleError:handler error:error];
     }
 }
 
@@ -93,14 +102,13 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     
     GBAgency *agency = _agencies[indexPath.row];
     cell.textLabel.text = agency.title;
+#if DEBUG
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ (%@)", agency.regionTitle, agency.tag];
+#else
     cell.detailTextLabel.text = agency.regionTitle;
+#endif
     
-    if (agency.selected) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        _selectedPath = indexPath;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
+    cell.accessoryType = (agency.selected) ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
     [(GBAgencyCell *)cell updateTintColor];
     

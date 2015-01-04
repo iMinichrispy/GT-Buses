@@ -1,18 +1,18 @@
 //
-//  GBSwitchView.m
+//  GBSwitchOptionView.m
 //  GT-Buses
 //
 //  Created by Alex Perez on 11/27/14.
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "GBSwitchView.h"
+#import "GBSwitchOptionView.h"
 
 #import "GBConstraintHelper.h"
 #import "GBUserInterface.h"
 #import "GBColors.h"
 
-@implementation GBSwitchView
+@implementation GBSwitchOptionView
 
 - (instancetype)initWithTitle:(NSString *)title {
     self = [super initWithTitle:title];

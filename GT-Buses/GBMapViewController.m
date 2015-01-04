@@ -125,9 +125,10 @@ int const kRefreshInterval = 5;
     [_routes removeAllObjects];
     
     NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
-    NSMutableArray *disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
+    NSMutableDictionary *disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
     if (!disabledRoutes) {
-        disabledRoutes = [NSMutableArray new];
+        // Using a dictionary allows for faster lookup time when determining whether a route is disabled
+        disabledRoutes = [NSMutableDictionary new];
     }
     
     NSInteger maxNumRoutes = [[GBToggleRoutesController class] maxNumRoutes];
@@ -135,16 +136,8 @@ int const kRefreshInterval = 5;
     int count = 0;
     for (NSDictionary *dictionary in routes) {
         GBRoute *route = [dictionary xmlToRoute];
-        BOOL enabled = YES;
-        for (int x = 0; x < [disabledRoutes count]; x++) {
-            NSDictionary *dictionary = disabledRoutes[x];
-            if ([dictionary[@"tag"] isEqualToString:route.tag]) {
-                [disabledRoutes removeObjectAtIndex:x];
-                enabled = NO;
-                break;
-            }
-        }
-        
+        // If the entry for the route's tag in the disabled routes dictionary is nil, then the route is enabled
+        BOOL enabled = !(disabledRoutes[route.tag]);
         if (enabled) {
             if (count < maxNumRoutes) {
                 [_routes addObject:route];
@@ -154,7 +147,8 @@ int const kRefreshInterval = 5;
             } else {
                 // If we exceed the maximum number of routes, disable the remaining routes and later prompt user to customize
                 NSDictionary *routeDic = [route toDictionary];
-                [disabledRoutes addObject:routeDic];
+                NSString *tag = routeDic[@"tag"];
+                disabledRoutes[tag] = routeDic;
                 exceededMax = YES;
             }
         }
@@ -170,7 +164,7 @@ int const kRefreshInterval = 5;
     [[NSUserDefaults sharedDefaults] synchronize];
     
     GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
-    // Don't display toggle routes controller if settings is visible since it interferes with settings overlay layout
+    // Don't display toggle routes controller if settings is visible since it interferes with the layout after dismissing settings
     if (exceededMax && !window.settingsVisible) {
         GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
         GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
@@ -181,7 +175,7 @@ int const kRefreshInterval = 5;
 
 - (void)updateVisibleRoutes:(NSNotification *)notification {
     NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
-    // TODO: Instead of resetting the whole control, only add or remove the given segment
+    // TODO: Instead of resetting the whole control, only add or remove the given route segment
     [self setupRouteControlForRoutes:routes];
 }
 

@@ -29,6 +29,5 @@ typedef NS_ENUM(NSInteger, GBRequestConfigSource) {
 @property (nonatomic, strong) NSString *multiPredictionsBaseURL;
 @property (nonatomic, strong) NSString *scheduleURL;
 @property (nonatomic, strong) NSString *messagesURL;
-@property (nonatomic, strong) NSString *buildingsURL;
 
 @end

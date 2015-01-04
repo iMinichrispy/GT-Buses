@@ -20,12 +20,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    // over 100 routes: actransit
-    
+    // over 100 routes: actransit, ttc, lametro, mbta
+
     [GBConfig sharedInstance].agency = GBGeorgiaTechAgency;
     
     self.viewController = [[GBRootViewController alloc] init];
     self.viewController.searchEnabled = YES;
+    
+#if !DEFAULT_IMAGE
+    self.viewController.title = NSLocalizedString(@"TITLE", @"Main Title");
+#endif
     
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:self.viewController];
     

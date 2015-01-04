@@ -13,10 +13,10 @@
 #import "GBConstraintHelper.h"
 #import "GBUserInterface.h"
 #import "GBConfig.h"
-#import "GBSwitchView.h"
+#import "GBSwitchOptionView.h"
 #import "UIDevice+Hardware.h"
 #import "UIViewController+MailComposer.h"
-#import "GBSegmentedControlView.h"
+#import "GBSegmentedOptionView.h"
 #import "GBToggleRoutesController.h"
 #import "GBHorizontalLayout.h"
 #import "GBBorderButton.h"
@@ -35,6 +35,8 @@ float const kButtonWidth = 200.0f;
 @end
 
 @implementation GBSettingsViewController
+
+// TODO: Presenting view controllers on detached view controllers is discouraged - warning when presenting mail, toggle routes, or select agency controllers
 
 - (void)loadView {
     UIView *view;
@@ -58,17 +60,16 @@ float const kButtonWidth = 200.0f;
     settingsLabel.font = [UIFont fontWithName:GBFontDefault size:23];
     [self.view addSubview:settingsLabel];
     
-    GBOptionView *arrivalTimeOptionView = [[GBSegmentedControlView alloc] initWithTitle:NSLocalizedString(@"PREDICTIONS_SETTING", @"Predictions setting title") items:[self arrivalTimeItems]];
+    GBOptionView *arrivalTimeOptionView = [[GBSegmentedOptionView alloc] initWithTitle:NSLocalizedString(@"PREDICTIONS_SETTING", @"Predictions setting title") items:[self arrivalTimeItems]];
     UISegmentedControl *arrivalTimeSegmentedControl = (UISegmentedControl *)arrivalTimeOptionView.accessoryView;
     arrivalTimeSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     arrivalTimeSegmentedControl.selectedSegmentIndex = [GBConfig sharedInstance].showsArrivalTime;
     [arrivalTimeSegmentedControl addTarget:self action:@selector(arrivalTimeValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:arrivalTimeOptionView];
     
-    GBOptionView *busIdentifiersSwitchView = [[GBSwitchView alloc] initWithTitle:NSLocalizedString(@"SHOW_BUS_IDENTIFIERS", @"Toggle for showing bus identifiers")];
+    GBOptionView *busIdentifiersSwitchView = [[GBSwitchOptionView alloc] initWithTitle:NSLocalizedString(@"SHOW_BUS_IDENTIFIERS", @"Toggle for showing bus identifiers")];
     UISwitch *busIdentifiersSwitch = (UISwitch *)busIdentifiersSwitchView.accessoryView;
     busIdentifiersSwitch.on = [GBConfig sharedInstance].showsBusIdentifiers;
-    busIdentifiersSwitch.enabled = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0"));
     [busIdentifiersSwitch addTarget:self action:@selector(busIdentifierDidSwitch:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:busIdentifiersSwitchView];
     
@@ -81,7 +82,6 @@ float const kButtonWidth = 200.0f;
     
     UIButton *supportButton = [[GBButton alloc] init];
     [supportButton setTitle:NSLocalizedString(@"SUPPORT", @"Support button") forState:UIControlStateNormal];
-    // TODO: Presenting view controllers on detached view controllers is discouraged
     [supportButton addTarget:self action:@selector(showSupportMailComposer) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:supportButton];
     

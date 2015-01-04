@@ -74,8 +74,7 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
 }
 
 - (void)buildings {
-    GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
-    [self getRequestWithURL:[requestConfig buildingsURL]];
+    [self getRequestWithURL:FORMAT(@"%@%@", GBRequestHerokuBaseURL, @"/buildings")];
 }
 
 + (NSString *)errorMessageForCode:(NSInteger)code {

@@ -1,5 +1,5 @@
 //
-//  GBSwitchView.h
+//  GBSwitchOptionView.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 11/27/14.
@@ -10,7 +10,7 @@
 
 #import "GBOptionView.h"
 
-@interface GBSwitchView : GBOptionView
+@interface GBSwitchOptionView : GBOptionView
 
 - (instancetype)initWithTitle:(NSString *)title;
 

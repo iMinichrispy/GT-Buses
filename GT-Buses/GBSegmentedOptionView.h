@@ -1,5 +1,5 @@
 //
-//  GBSegmentedControlView.h
+//  GBSegmentedOptionView.h
 //  GT-Buses
 //
 //  Created by Alex Perez on 11/28/14.
@@ -10,7 +10,7 @@
 
 #import "GBOptionView.h"
 
-@interface GBSegmentedControlView : GBOptionView
+@interface GBSegmentedOptionView : GBOptionView
 
 - (instancetype)initWithTitle:(NSString *)title items:(NSArray *)items;
 

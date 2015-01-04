@@ -345,7 +345,7 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
 
 - (void)longPress:(UILongPressGestureRecognizer *)recognizer {
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        // TODO: Allow Menu controller to become visible without changing the first responder (e.g. without dismissing the search keyboard)
+        // TODO: Allow menu controller to become visible without changing the first responder (e.g. without dismissing the search keyboard)
         [self becomeFirstResponder];
         
         UITableViewCell *cell = (UITableViewCell *)recognizer.view;

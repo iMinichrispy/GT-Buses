@@ -17,10 +17,12 @@
 
 static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 
-@interface GBToggleRoutesController ()
+@interface GBToggleRoutesController () {
+    BOOL _didToggleRoutes;
+}
 
 @property (nonatomic, strong) NSArray *routes;
-@property (nonatomic, strong) NSMutableArray *disabledRoutes;
+@property (nonatomic, strong) NSMutableDictionary *disabledRoutes;
 
 @end
 
@@ -45,8 +47,10 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
     NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
     _disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
     if (!_disabledRoutes) {
-        _disabledRoutes = [NSMutableArray new];
+        // TODO: This shouldn't ever be necessary
+        _disabledRoutes = [NSMutableDictionary new];
     }
+    
     NSArray *savedRoutes = [sharedDefaults objectForKey:GBSharedDefaultsRoutesKey];
     NSMutableArray *newRoutes = [NSMutableArray new];
     for (NSDictionary *dictionary in savedRoutes) {
@@ -58,17 +62,14 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 }
 
 - (BOOL)routeDisabled:(GBRoute *)route {
-    for (NSDictionary *dictionary in _disabledRoutes) {
-        if ([dictionary[@"tag"] isEqualToString:route.tag]) {
-            return YES;
-        }
-    }
-    return NO;
+    return _disabledRoutes[route.tag] != nil;
 }
 
 - (void)dismiss:(id)sender {
-    [[NSUserDefaults sharedDefaults] synchronize];
-    [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationDisabledRoutesDidChange object:nil];
+    if (_didToggleRoutes) {
+        [[NSUserDefaults sharedDefaults] synchronize];
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationDisabledRoutesDidChange object:nil];
+    }
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -95,16 +96,17 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     GBRoute *route = _routes[indexPath.row];
     NSDictionary *routeDic = [route toDictionary];
+    NSString *tag = routeDic[@"tag"];
     
     if (route.enabled && [self canDisableRoute]) {
         route.enabled = NO;
         cell.accessoryType = UITableViewCellAccessoryNone;
-        [_disabledRoutes addObject:routeDic];
+        _disabledRoutes[tag] = routeDic;
         [self updateDisabledRoutes];
     } else if (!route.enabled && [self canEnableRoute]) {
         route.enabled = YES;
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        [_disabledRoutes removeObject:routeDic];
+        [_disabledRoutes removeObjectForKey:tag];
         [self updateDisabledRoutes];
     }
 }
@@ -112,6 +114,7 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 - (void)updateDisabledRoutes {
     NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
     [sharedDefaults setObject:_disabledRoutes forKey:GBSharedDefaultsDisabledRoutesKey];
+    _didToggleRoutes = YES;
 }
 
 - (BOOL)canDisableRoute {

@@ -76,8 +76,8 @@
 - (void)setAgency:(NSString *)agency {
     if (_agency != agency) {
         BOOL newAgency;
-        NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
         if (![_agency isEqualToString:agency]) {
+            NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
             // If the user switches agencies, clear the disabled routes
             [sharedDefaults setObject:nil forKey:GBSharedDefaultsDisabledRoutesKey];
             [sharedDefaults setObject:nil forKey:GBSharedDefaultsFavoriteStopsKey];

@@ -30,7 +30,7 @@
         
         NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
         NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
-        NSMutableArray *disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
+        NSDictionary *disabledRoutes = [sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey];
         
         NSMutableArray *savedRoutes = [NSMutableArray new];
         if ([routes count]) {
@@ -38,16 +38,7 @@
                 GBRoute *route = [routeDic xmlToRoute];
                 
                 // Ensure only enabled routes are used
-                BOOL enabled = YES;
-                for (int x = 0; x < [disabledRoutes count]; x++) {
-                    NSDictionary *dictionary = disabledRoutes[x];
-                    if ([dictionary[@"tag"] isEqualToString:route.tag]) {
-                        [disabledRoutes removeObjectAtIndex:x];
-                        enabled = NO;
-                        break;
-                    }
-                }
-                
+                BOOL enabled = !(disabledRoutes[route.tag]);
                 if (enabled) {
                     [savedRoutes addObject:route];
                 }

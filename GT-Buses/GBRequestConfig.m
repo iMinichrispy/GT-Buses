@@ -38,16 +38,14 @@ NSString *const GBGeorgiaTechAgency = @"georgia-tech";
         _multiPredictionsBaseURL = [_baseURL stringByAppendingString:@"/multiPredictions"];
         _scheduleURL = [_baseURL stringByAppendingString:@"/schedule"];
         _messagesURL = [_baseURL stringByAppendingString:@"/messages"];
-        _buildingsURL = [_baseURL stringByAppendingString:@"/buildings"];
     } else if (source == GBRequestConfigSourceNextbusPublic) {
         _baseURL = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?a=%@", _agency];
         _routeConfigURL = [_baseURL stringByAppendingString:@"&command=routeConfig"];
         _locationsBaseURL = [_baseURL stringByAppendingString:@"&command=vehicleLocations&t=0"];
         _predictionsBaseURL = nil;
-        _multiPredictionsBaseURL = [_baseURL stringByAppendingString:@"&command=predictionsForMultiStops"]; // &stops=%@%%7C%@
-        _scheduleURL = [_baseURL stringByAppendingString:@"&command=schedule"]; //&r=boston
+        _multiPredictionsBaseURL = [_baseURL stringByAppendingString:@"&command=predictionsForMultiStops"];
+        _scheduleURL = [_baseURL stringByAppendingString:@"&command=schedule"];
         _messagesURL = [_baseURL stringByAppendingString:@"&command=messages"];
-        _buildingsURL = nil;
     }
 }
 

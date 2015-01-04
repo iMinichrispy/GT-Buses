@@ -99,7 +99,6 @@
         _title = title;
         _tag = tag;
         _stopParameters = @"";
-        
     }
     return self;
 }
