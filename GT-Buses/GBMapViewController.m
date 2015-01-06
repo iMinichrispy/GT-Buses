@@ -225,7 +225,15 @@ int const kRefreshInterval = 5;
                 }
             } else {
                 [self invalidateRefreshTimer];
-                NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestNextbusError userInfo:nil];
+                NSString *errorString = dictionary[@"body"][@"Error"][@"extra"];
+                NSInteger code;
+                if ([errorString containsString:@"Agency parameter"] && [errorString containsString:@"is not valid."]) {
+                    code = GBRequestNextbusInvalidAgencyError;
+                } else {
+                    code = GBRequestNextbusError;
+                }
+                
+                NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:code userInfo:nil];
                 [self handleError:handler error:error];
             }
         } else if (handler.task == GBRequestVehicleLocationsTask) {

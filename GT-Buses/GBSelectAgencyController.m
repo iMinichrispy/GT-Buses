@@ -37,7 +37,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     self.title = NSLocalizedString(@"SELECT_AGENCY", @"Select agency");
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)];
-    doneButton.enabled = [[GBConfig sharedInstance].agency length];
+    doneButton.enabled = [GBConfig sharedInstance].agency != nil;
     self.navigationItem.leftBarButtonItem = doneButton;
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
     
@@ -45,11 +45,39 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
         [self.tableView setTintColor:[UIColor appTintColor]];
     }
     [self.tableView registerClass:[GBAgencyCell class] forCellReuseIdentifier:GBAgencyCellIdentifier];
+    
+    [self setStatus:@"Loading..."];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(agencyDidChange:) name:GBNotificationAgencyDidChange object:nil];
+    
+}
+
+- (void)agencyDidChange:(NSNotification *)notification {
+    GBAgency *newAgency = [GBConfig sharedInstance].agency;
+    
+    GBAgency *selectedAgency = _agencies[_selectedPath.row];
+    selectedAgency.selected = NO;
+    _selectedPath = nil;
+    
+    for (int x = 0; x < [_agencies count]; x++) {
+        GBAgency *agency = _agencies[x];
+        if ([agency isEqual:newAgency]) {
+            agency.selected = YES;
+            _selectedPath = [NSIndexPath indexPathForRow:x inSection:0];
+            break;
+        }
+    }
+    
+    self.navigationItem.leftBarButtonItem.enabled = ([newAgency.tag length]);
+    [self.tableView reloadData];
 }
 
 - (void)dismiss:(id)sender {
-    GBAgency *agency = _agencies[_selectedPath.row];
-    [GBConfig sharedInstance].agency = agency.tag;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (_selectedPath) {
+        GBAgency *agency = _agencies[_selectedPath.row];
+        [GBConfig sharedInstance].agency = agency;
+    }
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -58,7 +86,6 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestAgencyTask delegate:self];
     requestHandler.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
     [requestHandler agencyList];
-    [self setStatus:@"Loading..."];
 }
 
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
@@ -72,7 +99,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
         for (int x = 0; x < [agencies count]; x++) {
             NSDictionary *dictionary = agencies[x];
             GBAgency *agency = [dictionary xmlToAgency];
-            agency.selected = ([agency.tag isEqualToString:[GBConfig sharedInstance].agency]);
+            agency.selected = ([agency isEqual:[GBConfig sharedInstance].agency]);
             if (agency.selected) {
                 _selectedPath = [NSIndexPath indexPathForRow:x inSection:0];
             }
@@ -88,7 +115,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
 }
 
 - (void)handleError:(RequestHandler *)handler error:(NSError *)error {
-    [self setStatus:FORMAT(@"%@%@", NSLocalizedString(@"AGENCY_LIST_ERROR", @"Failed to retrieve agency list"), [GBRequestHandler errorMessageForCode:[error code]])];
+    [self setStatus:FORMAT(@"%@%@.", NSLocalizedString(@"AGENCY_LIST_ERROR", @"Failed to retrieve agency list"), [GBRequestHandler errorMessageForCode:[error code]])];
 }
 
 #pragma mark - Table view data source

@@ -14,7 +14,9 @@
 @import NotificationCenter;
 @import CoreLocation;
 
-@interface TodayViewController () <NCWidgetProviding, CLLocationManagerDelegate>
+@interface TodayViewController () <NCWidgetProviding, CLLocationManagerDelegate> {
+    CLLocation *previousLocation;
+}
 
 @property (nonatomic, strong) NSArray *savedRoutes;
 @property (nonatomic, strong) CLLocationManager *locationManager;
@@ -149,7 +151,11 @@
 #pragma mark - Location Manager
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    [self updateLayout];
+    CLLocation *currentLocation = _locationManager.location;
+    if ([previousLocation distanceFromLocation:currentLocation]) {
+        [self updateLayout];
+    }
+    previousLocation = currentLocation;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -168,7 +174,6 @@
             [self displayError:NSLocalizedString(@"LOCATION_SERVICES_DISABLED", @"Location sevices are disabled")];
         } else if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
             [_locationManager startUpdatingLocation];
-            [self updateLayout];
         }
     } else {
         [self.sectionView reset];

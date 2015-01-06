@@ -8,13 +8,13 @@
 
 #import "GBRequestConfig.h"
 
+#import "GBAgency.h"
+
 #if LOCAL_SERVER && TARGET_IPHONE_SIMULATOR
 NSString *const GBRequestHerokuBaseURL = @"http://localhost:5000";
 #else
 NSString *const GBRequestHerokuBaseURL = @"https://gtbuses.herokuapp.com";
 #endif
-
-NSString *const GBGeorgiaTechAgency = @"georgia-tech";
 
 @implementation GBRequestConfig
 
@@ -22,7 +22,7 @@ NSString *const GBGeorgiaTechAgency = @"georgia-tech";
     self = [super init];
     if (self) {
         _agency = agency;
-        GBRequestConfigSource source = ([_agency isEqualToString:GBGeorgiaTechAgency]) ? GBRequestConfigSourceHeroku : GBRequestConfigSourceNextbusPublic;
+        GBRequestConfigSource source = ([_agency isEqualToString:GBGeorgiaTechAgencyTag]) ? GBRequestConfigSourceHeroku : GBRequestConfigSourceNextbusPublic;
         _source = source;
         [self setupForSource:_source];
     }

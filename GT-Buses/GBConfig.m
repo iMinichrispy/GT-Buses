@@ -10,6 +10,7 @@
 
 #import "GBConstants.h"
 #import "GBRequestConfig.h"
+#import "GBAgency.h"
 
 @interface GBConfig ()
 
@@ -41,10 +42,14 @@
         _showsBusIdentifiers = [standardDefaults boolForKey:GBUserDefaultsShowsBusIdentifiersKey];
         
         NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
-        _agency = [sharedDefaults objectForKey:GBSharedDefaultsAgencyKey];
-        _requestConfig = [[GBRequestConfig alloc] initWithAgency:_agency];
-        _showsArrivalTime = [sharedDefaults boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
         
+        NSString *agencyTag = [sharedDefaults objectForKey:GBSharedDefaultsAgencyKey];
+        if ([agencyTag length]) {
+            _agency = [[GBAgency alloc] initWithTitle:nil tag:agencyTag regionTitle:nil];
+        }
+        
+        _requestConfig = [[GBRequestConfig alloc] initWithAgency:_agency.tag];
+        _showsArrivalTime = [sharedDefaults boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
     }
     return self;
 }
@@ -73,23 +78,27 @@
     }
 }
 
-- (void)setAgency:(NSString *)agency {
+- (void)setAgency:(GBAgency *)agency {
     if (_agency != agency) {
         BOOL newAgency;
-        if (![_agency isEqualToString:agency]) {
+        if (![_agency isEqual:agency]) {
+            NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+            [standardDefaults setObject:nil forKey:GBUserDefaultsSelectedRouteKey];
+            [standardDefaults synchronize];
+            
             NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
             // If the user switches agencies, clear the disabled routes
             [sharedDefaults setObject:nil forKey:GBSharedDefaultsDisabledRoutesKey];
             [sharedDefaults setObject:nil forKey:GBSharedDefaultsFavoriteStopsKey];
             [sharedDefaults setObject:nil forKey:GBSharedDefaultsRoutesKey];
             
-            [sharedDefaults setObject:agency forKey:GBSharedDefaultsAgencyKey];
+            [sharedDefaults setObject:agency.tag forKey:GBSharedDefaultsAgencyKey];
             [sharedDefaults synchronize];
             
             newAgency = YES;
         }
         _agency = agency;
-        _requestConfig = [[GBRequestConfig alloc] initWithAgency:agency];
+        _requestConfig = [[GBRequestConfig alloc] initWithAgency:agency.tag];
         
         if (newAgency) {
             [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationAgencyDidChange object:nil];

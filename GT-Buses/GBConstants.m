@@ -10,7 +10,6 @@
 
 NSString *const GBFontDefault = @"Avenir-Medium";
 
-NSString *const GBUserDefaultsAgencyKey = @"GBUserDefaultsAgencyKey";
 NSString *const GBUserDefaultsSelectedRouteKey = @"GBUserDefaultsSelectedRouteKey";
 NSString *const GBUserDefaultsSelectedColorKey = @"GBUserDefaultsSelectedColorKey";
 NSString *const GBUserDefaultsBuildingsVersionKey = @"GBUserDefaultsBuildingsVersionKey";

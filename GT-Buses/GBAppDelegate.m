@@ -15,6 +15,7 @@
 #import "GBConfig.h"
 #import "GBRequestConfig.h"
 #import "NSUserDefaults+SharedDefaults.h"
+#import "GBAgency.h"
 
 @implementation GBAppDelegate
 
@@ -22,10 +23,11 @@
     
     // over 100 routes: actransit, ttc, lametro, mbta
 
-    [GBConfig sharedInstance].agency = GBGeorgiaTechAgency;
+    [GBConfig sharedInstance].agency = [GBAgency georgiaTechAgency];
+//    [GBConfig sharedInstance].adsVisible = YES;
+//    [GBConfig sharedInstance].canSelectAgency = YES;
     
     self.viewController = [[GBRootViewController alloc] init];
-    self.viewController.searchEnabled = YES;
     
 #if !DEFAULT_IMAGE
     self.viewController.title = NSLocalizedString(@"TITLE", @"Main Title");
@@ -53,6 +55,26 @@
     }
     
     return UIInterfaceOrientationMaskPortrait;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    // Example: gtbuses://?agency=georgia-tech
+    NSArray *components = [url.query componentsSeparatedByString:@"="];
+    if ([components count] == 2) {
+        NSString *key = components[0];
+        NSString *value = components[1];
+        
+        if ([key isEqualToString:@"agency"]) {
+            GBConfig *sharedConfig = [GBConfig sharedInstance];
+            if (sharedConfig.canSelectAgency && [value length]) {
+                GBAgency *agency = [[GBAgency alloc] initWithTitle:nil tag:value regionTitle:nil];
+                sharedConfig.agency = agency;
+            }
+        }
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

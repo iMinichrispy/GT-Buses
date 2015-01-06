@@ -14,6 +14,7 @@
 #import "GBRouteCell.h"
 #import "GBImage.h"
 #import "NSUserDefaults+SharedDefaults.h"
+#import "UITableViewController+StatusLabel.h"
 
 static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 
@@ -32,8 +33,6 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes");
-    
-    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)];
     self.navigationItem.leftBarButtonItem = doneButton;
@@ -59,6 +58,10 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
         [newRoutes addObject:route];
     }
     _routes = newRoutes;
+    
+    if (![savedRoutes count]) {
+        [self setStatus:NSLocalizedString(@"NO_SAVED_ROUTES", @"No saved routes")];
+    }
 }
 
 - (BOOL)routeDisabled:(GBRoute *)route {

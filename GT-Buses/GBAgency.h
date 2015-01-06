@@ -8,6 +8,8 @@
 
 @import Foundation;
 
+extern NSString *const GBGeorgiaTechAgencyTag;
+
 @class GBAgency;
 @interface NSDictionary (GBAgency)
 
@@ -18,10 +20,12 @@
 @interface GBAgency : NSObject
 
 - (instancetype)initWithTitle:(NSString *)title tag:(NSString *)tag regionTitle:(NSString *)regionTitle;
++ (GBAgency *)georgiaTechAgency;
 
 @property (nonatomic, strong) NSString *tag;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *regionTitle;
 @property (nonatomic) BOOL selected;
+@property (nonatomic) BOOL searchEnabled;
 
 @end

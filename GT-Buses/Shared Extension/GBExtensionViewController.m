@@ -47,6 +47,7 @@
 - (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)defaultMarginInsets {
     defaultMarginInsets.top += 5;
     return defaultMarginInsets;
+    return UIEdgeInsetsZero;
 }
 
 - (void)viewDidLoad {
@@ -56,6 +57,11 @@
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(updatePredictions)];
     [self.view addGestureRecognizer:tapGesture];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    // For handling orientation changes
+    [self updateLayout];
 }
 
 - (void)updateLayout {
@@ -90,7 +96,7 @@
 
 - (void)updatePredictions {
     NSString *parameters = _sectionView.parameterString;
-    if ([parameters length]) { // && !isUpdating
+    if ([parameters length]  && !_updating) {
         GBRequestHandler *predictionHandler = [[GBRequestHandler alloc] initWithTask:GBRequestMultiPredictionsTask delegate:self];
         [predictionHandler multiPredictionsForStops:parameters];
         _updating = YES;
@@ -100,15 +106,14 @@
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
-    _updating = NO; // make sure its the predictions task
+    _updating = NO;
     if (!error && dictionary) {
         NSArray *predictions = dictionary[@"body"][@"predictions"];
         if (predictions) {
             if (![predictions isKindOfClass:[NSArray class]])
                 predictions = [NSArray arrayWithObject:predictions];
             
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBStopView class]];
-            NSArray *stopViews = [_sectionView.stopsView.subviews filteredArrayUsingPredicate:predicate];
+            NSArray *stopViews = _sectionView.stopsView.subviews;
             
             for (NSDictionary *busStop in predictions) {
                 NSArray *predictionData = busStop[@"direction"][@"prediction"];
@@ -139,6 +144,7 @@
 }
 
 - (void)handleError:(RequestHandler *)handler error:(NSError *)error {
+    _updating = NO;
     NSString *errorMessage = [GBRequestHandler errorMessageForCode:[error code]];
     [self displayError:errorMessage];
 }

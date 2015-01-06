@@ -10,6 +10,6 @@
 
 @interface GBHorizontalLayout : UIView
 
-- (void)addItems:(NSArray *)items;
+@property (nonatomic, strong) NSArray *items;
 
 @end

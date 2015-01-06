@@ -19,6 +19,8 @@
 #import "GBBuildingAnnotation.h"
 #import "GBSettingsViewController.h"
 #import "GBWindow.h"
+#import "GBConfig.h"
+#import "GBAgency.h"
 
 @interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate> {
     NSString *_currentQuery;
@@ -43,27 +45,31 @@ float const kSettingsViewAnimationSpeed = .2;
     _mapViewController.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:_mapViewController.view];
     [self addChildViewController:_mapViewController];
-
+    
     NSMutableArray *constraints = [NSMutableArray new];
     UIView *mapViewControllerView = _mapViewController.view;
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
     [self.view addConstraints:constraints];
     
-    // TODO: After searchbar keyboard disappears on <iOS 7, it can't be selected again
+    // TODO: [Bug] After searchbar keyboard disappears on <iOS 7, it can't be selected again
     _searchBar = [[UISearchBar alloc] init];
     _searchBar.placeholder = NSLocalizedString(@"SEARCH_PLACEHOLDER", @"Placeholder text for search bar");
     _searchBar.delegate = self;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(agencyDidChange:) name:GBNotificationAgencyDidChange object:nil];
     
-    self.navigationItem.rightBarButtonItem = [self settingsButton];
+    [self agencyDidChange:nil];
 }
 
-- (void)setSearchEnabled:(BOOL)searchEnabled {
-    if (_searchEnabled != searchEnabled) {
-        _searchEnabled = searchEnabled;
-        self.navigationItem.leftBarButtonItem = (searchEnabled) ? [self searchButton] : nil;
+- (void)agencyDidChange:(NSNotification *)notifications {
+    if ([[GBConfig sharedInstance].agency searchEnabled]) {
+        self.navigationItem.rightBarButtonItem = [self settingsButton];
+        self.navigationItem.leftBarButtonItem =  [self searchButton];
+    } else {
+        self.navigationItem.rightBarButtonItem = nil;
+        self.navigationItem.leftBarButtonItem =  [self settingsButton];
     }
 }
 

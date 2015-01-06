@@ -25,45 +25,53 @@ double const kSegmentSpacing = 12.0;
     return self;
 }
 
-- (void)addItems:(NSArray *)items {
-    NSInteger count = [items count];
-    NSMutableArray *constraints = [NSMutableArray new];
-    if (count == 1) {
-        UIView *item = [items firstObject];
-        [self addSubview:item];
+- (void)setItems:(NSArray *)items {
+    if (_items != items) {
+        _items = items;
         
-        [constraints addObject:[GBConstraintHelper widthConstraint:item width:SINGLE_SEGMENT_SIZE.width]];
-        [constraints addObject:[GBConstraintHelper heightConstraint:item height:SINGLE_SEGMENT_SIZE.height]];
-        [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:item horizontal:YES]];
-        [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:item horizontal:NO]];
-    } else  if (count) {
-        for (int i = 0; i < count; i++) {
-            UIView *item = items[i];
-            [self addSubview:item];
-            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:item horizontal:NO]];
-            
-            if (i != 0) {
-                UIView *leftView = items[i - 1];
-                UIView *rightView = item;
-                [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromLeftView:leftView toRightView:rightView spacing:kSegmentSpacing]];
-                [constraints addObject:[NSLayoutConstraint
-                                        constraintWithItem:leftView
-                                        attribute:NSLayoutAttributeWidth
-                                        relatedBy:NSLayoutRelationEqual
-                                        toItem:rightView
-                                        attribute:NSLayoutAttributeWidth
-                                        multiplier:1.0 constant:0.0]];
-            }
+        for (UIView *subview in self.subviews) {
+            [subview removeFromSuperview];
         }
         
-        UIView *first = [items firstObject];
-        UIView *last = [items lastObject];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
-        [constraints addObject:[GBConstraintHelper heightConstraint:self height:MULTIPLE_SEGMENT_SIZE.height]];
-        [constraints addObject:[GBConstraintHelper widthConstraint:first width:MULTIPLE_SEGMENT_SIZE.width]];
+        NSInteger count = [items count];
+        NSMutableArray *constraints = [NSMutableArray new];
+        if (count == 1) {
+            UIView *item = [items firstObject];
+            [self addSubview:item];
+            
+            [constraints addObject:[GBConstraintHelper widthConstraint:item width:SINGLE_SEGMENT_SIZE.width]];
+            [constraints addObject:[GBConstraintHelper heightConstraint:item height:SINGLE_SEGMENT_SIZE.height]];
+            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:item horizontal:YES]];
+            [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:item horizontal:NO]];
+        } else  if (count) {
+            for (int i = 0; i < count; i++) {
+                UIView *item = items[i];
+                [self addSubview:item];
+                [constraints addObjectsFromArray:[GBConstraintHelper fillConstraint:item horizontal:NO]];
+                
+                if (i != 0) {
+                    UIView *leftView = items[i - 1];
+                    UIView *rightView = item;
+                    [constraints addObjectsFromArray:[GBConstraintHelper spacingConstraintFromLeftView:leftView toRightView:rightView spacing:kSegmentSpacing]];
+                    [constraints addObject:[NSLayoutConstraint
+                                            constraintWithItem:leftView
+                                            attribute:NSLayoutAttributeWidth
+                                            relatedBy:NSLayoutRelationEqual
+                                            toItem:rightView
+                                            attribute:NSLayoutAttributeWidth
+                                            multiplier:1.0 constant:0.0]];
+                }
+            }
+            
+            UIView *first = [items firstObject];
+            UIView *last = [items lastObject];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[first]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(first)]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[last]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(last)]];
+            [constraints addObject:[GBConstraintHelper heightConstraint:self height:MULTIPLE_SEGMENT_SIZE.height]];
+            [constraints addObject:[GBConstraintHelper widthConstraint:first width:MULTIPLE_SEGMENT_SIZE.width]];
+        }
+        [self addConstraints:constraints];
     }
-    [self addConstraints:constraints];
 }
 
 @end

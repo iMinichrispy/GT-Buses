@@ -15,6 +15,8 @@
 #import "GBRequestConfig.h"
 #import "GBConfig.h"
 
+#define SHORT_TITLE_BACKUP_MAX_LENGTH 5
+
 @interface GBRoute ()
 
 + (MKMapRect)rectForPaths:(NSArray *)paths;
@@ -28,7 +30,13 @@
     NSString *tag = self[@"tag"];
     NSString *title = self[@"title"];
     NSString *shortTitle = self[@"shortTitle"];
-    if (![shortTitle length]) shortTitle = [tag capitalizedString];
+    if (![shortTitle length]) {
+        if ([title length] < SHORT_TITLE_BACKUP_MAX_LENGTH) {
+            shortTitle = title;
+        } else {
+            shortTitle = [tag capitalizedString];
+        }
+    }
     
     GBRoute *route = [[GBRoute alloc] initWithTitle:title tag:tag];
     route.shortTitle = shortTitle;

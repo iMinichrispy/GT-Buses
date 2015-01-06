@@ -12,7 +12,6 @@
 
 extern NSString *const GBFontDefault;
 
-extern NSString *const GBUserDefaultsAgencyKey;
 extern NSString *const GBUserDefaultsSelectedRouteKey;
 extern NSString *const GBUserDefaultsSelectedColorKey;
 extern NSString *const GBUserDefaultsBuildingsVersionKey;

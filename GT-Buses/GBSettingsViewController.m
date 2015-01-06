@@ -27,7 +27,10 @@
 float const kButtonHeight = 50.0f;
 float const kButtonWidth = 200.0f;
 
-@interface GBSettingsViewController () <UIActionSheetDelegate>
+@interface GBSettingsViewController () <UIActionSheetDelegate> {
+    UIButton *_toggleRoutesButton;
+    GBHorizontalLayout *_horizontalLayout;
+}
 
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) UIButton *reviewAppButton;
@@ -115,10 +118,10 @@ float const kButtonWidth = 200.0f;
     // Only add the toggle routes button if the routes have been retrieved
     NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
     if ([routes count]) {
-        UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
-        [toggleRoutesButton setTitle:NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes") forState:UIControlStateNormal];
-        [toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-        [items addObject:toggleRoutesButton];
+        _toggleRoutesButton = [[GBBorderButton alloc] init];
+        [_toggleRoutesButton setTitle:NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes") forState:UIControlStateNormal];
+        [_toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
+        [items addObject:_toggleRoutesButton];
     }
     
     GBConfig *sharedConfig = [GBConfig sharedInstance];
@@ -136,13 +139,13 @@ float const kButtonWidth = 200.0f;
         [items addObject:disableAdsButton];
     }
     
-    GBHorizontalLayout *horizontalLayout = [[GBHorizontalLayout alloc] init];
-    horizontalLayout.translatesAutoresizingMaskIntoConstraints = NO;
-    [horizontalLayout addItems:items];
-    [self.view addSubview:horizontalLayout];
+    _horizontalLayout = [[GBHorizontalLayout alloc] init];
+    _horizontalLayout.translatesAutoresizingMaskIntoConstraints = NO;
+    _horizontalLayout.items = items;
+    [self.view addSubview:_horizontalLayout];
     
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[horizontalLayout]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, horizontalLayout)]];
-    [constraints addObject:[GBConstraintHelper centerX:horizontalLayout withView:self.view]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[_horizontalLayout]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, _horizontalLayout)]];
+    [constraints addObject:[GBConstraintHelper centerX:_horizontalLayout withView:self.view]];
     
     [self.view addConstraints:constraints];
     
@@ -153,6 +156,7 @@ float const kButtonWidth = 200.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessage:) name:GBNotificationMessageDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateiOSVersion:) name:GBNotificationiOSVersionDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAgency:) name:GBNotificationAgencyDidChange object:nil];
     
     [self updateMessage:nil];
     [self updateiOSVersion:nil];
@@ -248,6 +252,21 @@ float const kButtonWidth = 200.0f;
         [_reviewAppButton setTitle:NSLocalizedString(@"REVIEW_APP", @"Review app button") forState:UIControlStateNormal];
         [self updateMessage:nil];
     }
+}
+
+- (void)updateAgency:(NSNotification *)notification {
+    // Remove the toggle routes button if the agency changes since there will be no routes to toggle
+    NSMutableArray *items = [_horizontalLayout.items mutableCopy];
+    NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
+    if ([routes count]) {
+        // This isn't really ever called since the moment the agency changes, the routes would not have been loaded
+        if (![items containsObject:_toggleRoutesButton]) {
+            [items addObject:_toggleRoutesButton];
+        }
+    } else {
+        [items removeObject:_toggleRoutesButton];
+    }
+    _horizontalLayout.items = items;
 }
 
 - (void)showToggleRoutes:(id)sender {

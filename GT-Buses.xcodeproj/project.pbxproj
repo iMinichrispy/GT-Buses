@@ -43,6 +43,8 @@
 		FA4519171A22734F00EC849C /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
 		FA4519181A22740F00EC849C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA5531471A20E75300BAFB90 /* Localizable.strings */; };
 		FA4519191A22744B00EC849C /* GBColors.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE97918A1D9C600757643 /* GBColors.m */; };
+		FA54E2811A5B40A900D2E906 /* GBAgency.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA270EB1A41FC160071818A /* GBAgency.m */; };
+		FA54E2821A5B40AA00D2E906 /* GBAgency.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA270EB1A41FC160071818A /* GBAgency.m */; };
 		FA5531491A20E75300BAFB90 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA5531451A20E75300BAFB90 /* InfoPlist.strings */; };
 		FA55314A1A20E75300BAFB90 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA5531471A20E75300BAFB90 /* Localizable.strings */; };
 		FA5E50F11A2568D90031E825 /* GBRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA8C118A19D30758008F5927 /* GBRootViewController.m */; };
@@ -1114,6 +1116,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA54E2821A5B40AA00D2E906 /* GBAgency.m in Sources */,
 				FA95F34D1A3EC3900072F0CA /* GBRequestConfig.m in Sources */,
 				FA4519191A22744B00EC849C /* GBColors.m in Sources */,
 				FA45190E1A2272E600EC849C /* GBStopGroup.m in Sources */,
@@ -1141,6 +1144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA54E2811A5B40A900D2E906 /* GBAgency.m in Sources */,
 				FA95F34C1A3EC3900072F0CA /* GBRequestConfig.m in Sources */,
 				FAC480381A200F400000DC6B /* GBStop.m in Sources */,
 				FAC480911A201B330000DC6B /* GBStopView.m in Sources */,
@@ -1327,7 +1331,7 @@
 				CURRENT_PROJECT_VERSION = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GT-Buses/GT-Buses-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "APP_STORE_MAP=1";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				INFOPLIST_FILE = "GT-Buses/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;

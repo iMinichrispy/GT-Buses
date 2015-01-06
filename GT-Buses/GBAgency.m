@@ -8,6 +8,10 @@
 
 #import "GBAgency.h"
 
+NSString *const GBGeorgiaTechAgencyTag = @"georgia-tech";
+
+// TODO: Enable search for non-georgia tech agencies
+
 @implementation NSDictionary (GBAgency)
 
 - (GBAgency *)xmlToAgency {
@@ -25,12 +29,24 @@
         _title = title;
         _tag = tag;
         _regionTitle = regionTitle;
+        _searchEnabled = ([tag isEqualToString:GBGeorgiaTechAgencyTag]);
     }
     return self;
 }
 
++ (GBAgency *)georgiaTechAgency {
+    GBAgency *agency = [[GBAgency alloc] initWithTitle:@"Georgia Tech" tag:GBGeorgiaTechAgencyTag regionTitle:@"Georgia"];
+    return agency;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<GBAgency title: %@, tag: %@, regionTitle: %@", _title, _tag, _regionTitle];
+}
+
+- (BOOL)isEqual:(id)object {
+    if (object == self) return YES;
+    if (!object || ![object isKindOfClass:[self class]]) return NO;
+    return [_tag isEqualToString:((GBAgency *)object).tag];
 }
 
 @end

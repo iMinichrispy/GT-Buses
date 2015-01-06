@@ -74,7 +74,7 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
 }
 
 - (void)buildings {
-    [self getRequestWithURL:FORMAT(@"%@%@", GBRequestHerokuBaseURL, @"/buildings")];
+    [self getRequestWithURL:FORMAT(@"%@%@?agency=%@", GBRequestHerokuBaseURL, @"/buildings", [[GBConfig sharedInstance] agency])];
 }
 
 + (NSString *)errorMessageForCode:(NSInteger)code {
@@ -87,6 +87,7 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
         case 1008: case 1009: errorString = NSLocalizedString(@"NO_INTERNET_ERROR", @"1008/1009 No internet connection"); break;
         case GBRequestParseError: errorString = NSLocalizedString(@"PARSING_ERROR", @"Error parsing response xml"); break;
         case GBRequestNextbusError: errorString = NSLocalizedString(@"NEXTBUS_ERROR", @"Nextubs returned an error"); break;
+        case GBRequestNextbusInvalidAgencyError: errorString = NSLocalizedString(@"NEXTBUS_INVALID_AGNECY_ERROR", @"Invalid Nextbus agency"); break;
         default: errorString = NSLocalizedString(@"DEFAULT_ERROR", @"Default HTTP response error"); break;
     }
     return FORMAT(@"%@ (-%li)", errorString, (long) ABS(code));

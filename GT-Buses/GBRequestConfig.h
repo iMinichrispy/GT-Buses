@@ -10,7 +10,6 @@
 
 @interface GBRequestConfig : NSObject
 
-extern NSString *const GBGeorgiaTechAgency;
 extern NSString *const GBRequestHerokuBaseURL;
 
 typedef NS_ENUM(NSInteger, GBRequestConfigSource) {
