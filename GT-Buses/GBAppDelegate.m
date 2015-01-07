@@ -24,8 +24,9 @@
     // over 100 routes: actransit, ttc, lametro, mbta
 
     [GBConfig sharedInstance].agency = [GBAgency georgiaTechAgency];
-//    [GBConfig sharedInstance].adsVisible = YES;
-//    [GBConfig sharedInstance].canSelectAgency = YES;
+    [GBConfig sharedInstance].adsEnabled = YES;
+    [GBConfig sharedInstance].adsVisible = YES;
+    [GBConfig sharedInstance].canSelectAgency = YES;
     
     self.viewController = [[GBRootViewController alloc] init];
     
@@ -67,7 +68,7 @@
         if ([key isEqualToString:@"agency"]) {
             GBConfig *sharedConfig = [GBConfig sharedInstance];
             if (sharedConfig.canSelectAgency && [value length]) {
-                GBAgency *agency = [[GBAgency alloc] initWithTitle:nil tag:value regionTitle:nil];
+                GBAgency *agency = [[GBAgency alloc] initWithTag:value];
                 sharedConfig.agency = agency;
             }
         }

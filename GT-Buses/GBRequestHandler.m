@@ -12,6 +12,7 @@
 #import "GBConfig.h"
 #import "GBRequestConfig.h"
 #import "GBRoute.h"
+#import "GBAgency.h"
 
 NSString *const GBRequestAgencyTask = @"GBRequestAgencyTask";
 NSString *const GBRequestRouteConfigTask = @"GBRequestRouteConfigTask";
@@ -74,7 +75,7 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
 }
 
 - (void)buildings {
-    [self getRequestWithURL:FORMAT(@"%@%@?agency=%@", GBRequestHerokuBaseURL, @"/buildings", [[GBConfig sharedInstance] agency])];
+    [self getRequestWithURL:FORMAT(@"%@%@%@", GBRequestHerokuBaseURL, @"/buildings/", [[GBConfig sharedInstance] agency].tag)];
 }
 
 + (NSString *)errorMessageForCode:(NSInteger)code {

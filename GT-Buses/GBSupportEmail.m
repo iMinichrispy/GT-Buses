@@ -11,13 +11,15 @@
 #import "GBConstants.h"
 #import "GBConfig.h"
 #import "UIDevice+Hardware.h"
+#import "GBAgency.h"
 
 @import CoreLocation;
 
 @implementation GBSupportEmail
 
 + (NSString *)subject {
-    return @"GT Buses Support";
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    return [NSString stringWithFormat:@"%@ Support", info[@"CFBundleDisplayName"]];
 }
 
 + (NSString *)recipients {
@@ -30,7 +32,7 @@
     [body appendFormat:@"Location Services Enabled: %d\n", [CLLocationManager locationServicesEnabled]];
     [body appendFormat:@"Location Services Status: %d\n", [CLLocationManager authorizationStatus]];
     GBConfig *sharedConfig = [GBConfig sharedInstance];
-    [body appendFormat:@"Agency: %@\n", [sharedConfig agency]];
+    [body appendFormat:@"Agency: %@\n", [sharedConfig agency].tag];
     [body appendFormat:@"Shows Arrival Time: %d\n", [sharedConfig showsArrivalTime]];
     [body appendFormat:@"Shows Bus Identifiers: %d\n", [sharedConfig showsBusIdentifiers]];
     [body appendFormat:@"Buildings Version: %li/%li\n", (long)[[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsBuildingsVersionKey], (long)[sharedConfig buildingsVersion]];

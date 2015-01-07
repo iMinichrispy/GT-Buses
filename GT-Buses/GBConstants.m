@@ -29,3 +29,4 @@ NSString *const GBNotificationBuildingsVersionDidChange = @"GBNotificationBuildi
 NSString *const GBNotificationShowsBusIdentifiersDidChange = @"GBNotificationShowsBusIdentifiersDidChange";
 NSString *const GBNotificationDisabledRoutesDidChange = @"GBNotificationDisabledRoutesDidChange";
 NSString *const GBNotificationAgencyDidChange = @"GBNotificationAgencyDidChange";
+NSString *const GBNotificationAdsVisibleDidChange = @"GBNotificationAdsVisibleDidChange";

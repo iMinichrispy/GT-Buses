@@ -138,7 +138,7 @@
             }
         } else {
             [self.sectionView reset];
-            // request route config
+#warning request route config
             [self displayError:NSLocalizedString(@"NO_ROUTE_CONFIG", @"No route config")];
         }
     } else {

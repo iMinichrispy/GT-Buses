@@ -17,6 +17,7 @@
 @property (nonatomic) BOOL showsArrivalTime;
 @property (nonatomic) BOOL showsBusIdentifiers;
 @property (nonatomic) BOOL updateAvailable;
+@property (nonatomic) BOOL adsEnabled;
 @property (nonatomic) BOOL adsVisible;
 @property (nonatomic) BOOL canSelectAgency;
 @property (nonatomic, strong) NSString *message;

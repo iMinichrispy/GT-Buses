@@ -19,11 +19,12 @@ extern NSString *const GBGeorgiaTechAgencyTag;
 
 @interface GBAgency : NSObject
 
-- (instancetype)initWithTitle:(NSString *)title tag:(NSString *)tag regionTitle:(NSString *)regionTitle;
+- (instancetype)initWithTag:(NSString *)tag;
 + (GBAgency *)georgiaTechAgency;
 
 @property (nonatomic, strong) NSString *tag;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *shortTitle;
 @property (nonatomic, strong) NSString *regionTitle;
 @property (nonatomic) BOOL selected;
 @property (nonatomic) BOOL searchEnabled;

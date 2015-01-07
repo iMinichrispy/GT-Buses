@@ -86,6 +86,12 @@
     return availableColors;
 }
 
++ (void)restoreSavedTintColor {
+    NSInteger selectedColorIndex = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedColorKey];
+    UIColor *selectedColor = [GBColors tintColors][selectedColorIndex][@"color"];
+    [GBColors setAppTintColor:selectedColor];
+}
+
 + (UIColor *)blueColor {
     static UIColor *color;
     static dispatch_once_t onceToken;

@@ -15,7 +15,12 @@ NSString *const GBGeorgiaTechAgencyTag = @"georgia-tech";
 @implementation NSDictionary (GBAgency)
 
 - (GBAgency *)xmlToAgency {
-    GBAgency *agency = [[GBAgency alloc] initWithTitle:self[@"title"] tag:self[@"tag"] regionTitle:self[@"regionTitle"]];
+    GBAgency *agency = [[GBAgency alloc] initWithTag:self[@"tag"]];
+    agency.title = self[@"title"];
+    agency.regionTitle = self[@"regionTitle"];
+    NSString *shortTitle = self[@"shortTitle"];
+    agency.shortTitle = ([shortTitle length]) ? shortTitle : agency.title;
+    agency.searchEnabled = [self[@"searchEnabled"] boolValue];
     return agency;
 }
 
@@ -23,19 +28,17 @@ NSString *const GBGeorgiaTechAgencyTag = @"georgia-tech";
 
 @implementation GBAgency
 
-- (instancetype)initWithTitle:(NSString *)title tag:(NSString *)tag regionTitle:(NSString *)regionTitle {
+- (instancetype)initWithTag:(NSString *)tag {
     self = [super init];
     if (self) {
-        _title = title;
         _tag = tag;
-        _regionTitle = regionTitle;
         _searchEnabled = ([tag isEqualToString:GBGeorgiaTechAgencyTag]);
     }
     return self;
 }
 
 + (GBAgency *)georgiaTechAgency {
-    GBAgency *agency = [[GBAgency alloc] initWithTitle:@"Georgia Tech" tag:GBGeorgiaTechAgencyTag regionTitle:@"Georgia"];
+    GBAgency *agency = [[GBAgency alloc] initWithTag:GBGeorgiaTechAgencyTag];
     return agency;
 }
 

@@ -13,4 +13,7 @@
 
 @property (nonatomic, strong, readonly) MKMapView *mapView;
 
+- (void)resetRefreshTimer;
+- (void)invalidateRefreshTimer;
+
 @end

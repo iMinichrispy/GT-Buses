@@ -45,7 +45,7 @@
         
         NSString *agencyTag = [sharedDefaults objectForKey:GBSharedDefaultsAgencyKey];
         if ([agencyTag length]) {
-            _agency = [[GBAgency alloc] initWithTitle:nil tag:agencyTag regionTitle:nil];
+            _agency = [[GBAgency alloc] initWithTag:agencyTag];
         }
         
         _requestConfig = [[GBRequestConfig alloc] initWithAgency:_agency.tag];
@@ -149,6 +149,13 @@
         _buildingsVersion = buildingsVersion;
         // Don't update NSUserDefaults here because saved buildings version should only be saved once new buildings are retrieved and stored
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationBuildingsVersionDidChange object:nil];
+    }
+}
+
+- (void)setAdsVisible:(BOOL)adsVisible {
+    if (_adsVisible != adsVisible) {
+        _adsVisible = adsVisible;
+        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationAdsVisibleDidChange object:nil];
     }
 }
 

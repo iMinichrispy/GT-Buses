@@ -26,7 +26,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
 }
 
 @property (nonatomic, strong) NSArray *agencies;
-
+#warning save all agencies for lookup later
 @end
 
 @implementation GBSelectAgencyController
@@ -84,7 +84,6 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestAgencyTask delegate:self];
-    requestHandler.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
     [requestHandler agencyList];
 }
 

@@ -132,9 +132,10 @@ float const kButtonWidth = 200.0f;
         [items addObject:selectAgencyButton];
     }
     
-    if ([sharedConfig adsVisible]) {
+    if ([sharedConfig adsEnabled]) {
         UIButton *disableAdsButton = [[GBBorderButton alloc] init];
-        [disableAdsButton setTitle:NSLocalizedString(@"DISABLE_ADS", @"Disable ads") forState:UIControlStateNormal];
+//        disableAdsButton.enabled = [sharedConfig adsVisible];
+        [disableAdsButton setTitle:NSLocalizedString(@"REMOVE_ADS", @"Remove ads") forState:UIControlStateNormal];
         [disableAdsButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
         [items addObject:disableAdsButton];
     }
@@ -150,7 +151,7 @@ float const kButtonWidth = 200.0f;
     [self.view addConstraints:constraints];
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeColor:)];
-    [longPress setMinimumPressDuration:2];
+    [longPress setMinimumPressDuration:1];
     [_reviewAppButton addGestureRecognizer:longPress];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
@@ -242,6 +243,9 @@ float const kButtonWidth = 200.0f;
     // TODO: Support for localization
     NSString *message = [[GBConfig sharedInstance] message];
     _messageLabel.text = message;
+    if (![message length] && [[GBConfig sharedInstance] updateAvailable]) {
+        [self updateiOSVersion:nil];
+    }
 }
 
 - (void)updateiOSVersion:(NSNotification *)notification {

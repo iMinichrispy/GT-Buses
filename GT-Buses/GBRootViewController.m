@@ -9,6 +9,7 @@
 #import "GBRootViewController.h"
 
 @import MapKit;
+@import iAd;
 
 #import "GBMapViewController.h"
 #import "GBConstants.h"
@@ -22,8 +23,9 @@
 #import "GBConfig.h"
 #import "GBAgency.h"
 
-@interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate> {
+@interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate, ADBannerViewDelegate> {
     NSString *_currentQuery;
+    NSLayoutConstraint *_mapViewBottomContraint;
 }
 
 @property (nonatomic, strong) GBMapViewController *mapViewController;
@@ -31,6 +33,7 @@
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIVisualEffectView *overlayView;
 @property (nonatomic, strong) GBSettingsViewController *settingsController;
+@property (nonatomic, strong) ADBannerView *adBannerView;
 
 @end
 
@@ -49,7 +52,16 @@ float const kSettingsViewAnimationSpeed = .2;
     NSMutableArray *constraints = [NSMutableArray new];
     UIView *mapViewControllerView = _mapViewController.view;
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapViewControllerView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
+    _mapViewBottomContraint = [NSLayoutConstraint
+                               constraintWithItem:mapViewControllerView
+                               attribute:NSLayoutAttributeBottom
+                               relatedBy:NSLayoutRelationEqual
+                               toItem:self.view
+                               attribute:NSLayoutAttributeBottom
+                               multiplier:1.0
+                               constant:0.0];
+    [constraints addObject:_mapViewBottomContraint];
     [self.view addConstraints:constraints];
     
     // TODO: [Bug] After searchbar keyboard disappears on <iOS 7, it can't be selected again
@@ -59,12 +71,15 @@ float const kSettingsViewAnimationSpeed = .2;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(agencyDidChange:) name:GBNotificationAgencyDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adsVisibleDidChange:) name:GBNotificationAdsVisibleDidChange object:nil];
     
     [self agencyDidChange:nil];
+    [self adsVisibleDidChange:nil];
 }
 
 - (void)agencyDidChange:(NSNotification *)notifications {
-    if ([[GBConfig sharedInstance].agency searchEnabled]) {
+    GBAgency *agency = [GBConfig sharedInstance].agency;
+    if (agency.searchEnabled) {
         self.navigationItem.rightBarButtonItem = [self settingsButton];
         self.navigationItem.leftBarButtonItem =  [self searchButton];
     } else {
@@ -275,6 +290,44 @@ float const kSettingsViewAnimationSpeed = .2;
         return CGSizeMake(394.0, 394.0);
     }
     return CGSizeMake(540.0, 620.0);
+}
+
+#pragma mark - Ads
+
+- (void)adsVisibleDidChange:(NSNotification *)notification {
+    if ([GBConfig sharedInstance].adsVisible) {
+        _adBannerView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+        _adBannerView.delegate = self;
+        _adBannerView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:_adBannerView];
+        
+        [self.view removeConstraint:_mapViewBottomContraint];
+        UIView *mapViewControllerView = _mapViewController.view;
+        NSMutableArray *constraints = [NSMutableArray new];
+        _mapViewBottomContraint = [NSLayoutConstraint
+                                   constraintWithItem:mapViewControllerView
+                                   attribute:NSLayoutAttributeBottom
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:_adBannerView
+                                   attribute:NSLayoutAttributeBottom
+                                   multiplier:1.0
+                                   constant:0.0];
+        [constraints addObject:_mapViewBottomContraint];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_adBannerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_adBannerView)]];
+        [self.view addConstraints:constraints];
+    } else {
+        [_adBannerView removeFromSuperview];
+        // TODO: constraints
+    }
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {
+    [_mapViewController invalidateRefreshTimer];
+    return YES;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner {
+    [_mapViewController resetRefreshTimer];
 }
 
 @end

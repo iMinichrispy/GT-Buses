@@ -473,7 +473,7 @@ int const kRefreshInterval = 5;
     
     BOOL party = [[GBConfig sharedInstance] isParty];
     if (!party) {
-        [GBColors setAppTintColor:[GBColors defaultColor]];
+        [GBColors  restoreSavedTintColor];
     }
 }
 
