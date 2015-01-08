@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FA06FDDD1A3BFF6F004531CA /* GBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6A33F1A1CE4F500D98955 /* GBImage.m */; };
 		FA06FDDE1A3BFF70004531CA /* GBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6A33F1A1CE4F500D98955 /* GBImage.m */; };
+		FA14BD321A5DDD2B00D3717D /* GBBuildingsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FA14BD311A5DDD2B00D3717D /* GBBuildingsHelper.m */; };
 		FA15FC8C1A1D8DFF00C175AB /* GBMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC8B1A1D8DFF00C175AB /* GBMapViewController.m */; };
 		FA15FC921A1DA1A800C175AB /* GBBuildingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA15FC911A1DA1A800C175AB /* GBBuildingsViewController.m */; };
 		FA1FE93618A1D8A300757643 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1FE93518A1D8A300757643 /* main.m */; };
@@ -212,6 +213,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FA14BD301A5DDD2B00D3717D /* GBBuildingsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBuildingsHelper.h; sourceTree = "<group>"; };
+		FA14BD311A5DDD2B00D3717D /* GBBuildingsHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBBuildingsHelper.m; sourceTree = "<group>"; };
 		FA15FC8A1A1D8DFF00C175AB /* GBMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBMapViewController.h; sourceTree = "<group>"; };
 		FA15FC8B1A1D8DFF00C175AB /* GBMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBMapViewController.m; sourceTree = "<group>"; };
 		FA15FC901A1DA1A800C175AB /* GBBuildingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBBuildingsViewController.h; sourceTree = "<group>"; };
@@ -423,6 +426,15 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		FA14BD331A5E2F2D00D3717D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FA14BD301A5DDD2B00D3717D /* GBBuildingsHelper.h */,
+				FA14BD311A5DDD2B00D3717D /* GBBuildingsHelper.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		FA1FE91D18A1D8A300757643 = {
 			isa = PBXGroup;
 			children = (
@@ -467,6 +479,7 @@
 				FAA1235518A57E150049A5FA /* Mail */,
 				FA1FE96818A1D97100757643 /* Map */,
 				FA95F3471A3E97E00072F0CA /* Settings */,
+				FA14BD331A5E2F2D00D3717D /* Helpers */,
 				FA1FE93018A1D8A300757643 /* Supporting Files */,
 			);
 			path = "GT-Buses";
@@ -1014,6 +1027,7 @@
 				FAD597C11A12C66E0079B36C /* GBWindow.m in Sources */,
 				FACEB9911A4B54B800BE668B /* GBBorderButton.m in Sources */,
 				FA15FC921A1DA1A800C175AB /* GBBuildingsViewController.m in Sources */,
+				FA14BD321A5DDD2B00D3717D /* GBBuildingsHelper.m in Sources */,
 				FA7005601A1F0AD300694D10 /* GBBus.m in Sources */,
 				FAC6F9B11A290E6500792CDC /* GBSegmentedOptionView.m in Sources */,
 				FA42AA111A2BEFA000AA4391 /* GBStopAnnotationView.m in Sources */,

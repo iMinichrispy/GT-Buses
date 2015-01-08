@@ -21,7 +21,6 @@
 @property (nonatomic) BOOL adsVisible;
 @property (nonatomic) BOOL canSelectAgency;
 @property (nonatomic, strong) NSString *message;
-@property (nonatomic) NSInteger buildingsVersion;
 
 + (GBConfig *)sharedInstance;
 - (void)handleConfig:(NSDictionary *)config;

@@ -12,8 +12,9 @@ NSString *const GBFontDefault = @"Avenir-Medium";
 
 NSString *const GBUserDefaultsSelectedRouteKey = @"GBUserDefaultsSelectedRouteKey";
 NSString *const GBUserDefaultsSelectedColorKey = @"GBUserDefaultsSelectedColorKey";
-NSString *const GBUserDefaultsBuildingsVersionKey = @"GBUserDefaultsBuildingsVersionKey";
+NSString *const GBUserDefaultsBuildingsFileNamesKey = @"GBUserDefaultsBuildingsFileNamesKey";
 NSString *const GBUserDefaultsShowsBusIdentifiersKey = @"GBUserDefaultsShowsBusIdentifiersKey";
+NSString *const GBUserDefaultsAgenciesKey = @"GBUserDefaultsAgenciesKey";
 
 NSString *const GBSharedDefaultsAgencyKey = @"GBSharedDefaultsAgencyKey";
 NSString *const GBSharedDefaultsFavoriteStopsKey = @"GBSharedDefaultsFavoriteStopsKey";
@@ -25,7 +26,6 @@ NSString *const GBNotificationTintColorDidChange = @"GBNotificationTintColorDidC
 NSString *const GBNotificationPartyModeDidChange = @"GBNotificationPartyModeDidChange";
 NSString *const GBNotificationMessageDidChange = @"GBNotificationMessageDidChange";
 NSString *const GBNotificationiOSVersionDidChange = @"GBNotificationiOSVersionDidChange";
-NSString *const GBNotificationBuildingsVersionDidChange = @"GBNotificationBuildingsVersionDidChange";
 NSString *const GBNotificationShowsBusIdentifiersDidChange = @"GBNotificationShowsBusIdentifiersDidChange";
 NSString *const GBNotificationDisabledRoutesDidChange = @"GBNotificationDisabledRoutesDidChange";
 NSString *const GBNotificationAgencyDidChange = @"GBNotificationAgencyDidChange";

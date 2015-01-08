@@ -23,14 +23,11 @@
 #import "GBConfig.h"
 #import "GBAgency.h"
 
-@interface GBRootViewController () <UISearchBarDelegate, GBBuidlingsDelegate, ADBannerViewDelegate> {
-    NSString *_currentQuery;
+@interface GBRootViewController () <GBBuidlingsDelegate, ADBannerViewDelegate> {
     NSLayoutConstraint *_mapViewBottomContraint;
 }
 
 @property (nonatomic, strong) GBMapViewController *mapViewController;
-@property (nonatomic, strong) GBBuildingsViewController *buildingsController;
-@property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIVisualEffectView *overlayView;
 @property (nonatomic, strong) GBSettingsViewController *settingsController;
 @property (nonatomic, strong) ADBannerView *adBannerView;
@@ -64,11 +61,6 @@ float const kSettingsViewAnimationSpeed = .2;
     [constraints addObject:_mapViewBottomContraint];
     [self.view addConstraints:constraints];
     
-    // TODO: [Bug] After searchbar keyboard disappears on <iOS 7, it can't be selected again
-    _searchBar = [[UISearchBar alloc] init];
-    _searchBar.placeholder = NSLocalizedString(@"SEARCH_PLACEHOLDER", @"Placeholder text for search bar");
-    _searchBar.delegate = self;
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(agencyDidChange:) name:GBNotificationAgencyDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adsVisibleDidChange:) name:GBNotificationAdsVisibleDidChange object:nil];
@@ -79,12 +71,13 @@ float const kSettingsViewAnimationSpeed = .2;
 
 - (void)agencyDidChange:(NSNotification *)notifications {
     GBAgency *agency = [GBConfig sharedInstance].agency;
+    [self dismissSearchBar];
     if (agency.searchEnabled) {
         self.navigationItem.rightBarButtonItem = [self settingsButton];
         self.navigationItem.leftBarButtonItem =  [self searchButton];
     } else {
-        self.navigationItem.rightBarButtonItem = nil;
-        self.navigationItem.leftBarButtonItem =  [self settingsButton];
+        self.navigationItem.rightBarButtonItem = [self settingsButton];
+        self.navigationItem.leftBarButtonItem =  nil;
     }
 }
 
@@ -93,6 +86,8 @@ float const kSettingsViewAnimationSpeed = .2;
     self.navigationItem.leftBarButtonItem.tintColor = [UIColor controlTintColor];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor controlTintColor];
 }
+
+#pragma mark - Settings
 
 - (void)settingsPressed {
     CGRect screenSize = [[UIScreen mainScreen] bounds];
@@ -127,6 +122,8 @@ float const kSettingsViewAnimationSpeed = .2;
     }];
 }
 
+#pragma mark - Bar Buttons
+
 - (UIBarButtonItem *)settingsButton {
     UIImage *settingsImage = [UIImage imageNamed:@"Settings"];
     if (!SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
@@ -144,7 +141,7 @@ float const kSettingsViewAnimationSpeed = .2;
 }
 
 - (UIBarButtonItem *)cancelButton {
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(hideSearchBar)];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissSearchBar)];
     cancelButton.tintColor = [UIColor controlTintColor];
     return cancelButton;
 }
@@ -153,136 +150,96 @@ float const kSettingsViewAnimationSpeed = .2;
 
 - (void)showSearchBar {
     self.navigationItem.prompt = NSLocalizedString(@"SEARCH_PROMPT", @"Displayed above search bar");
-    self.navigationItem.titleView = _searchBar;
     
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     [self.navigationItem setRightBarButtonItem:[self cancelButton] animated:YES];
     
-    [_searchBar becomeFirstResponder];
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    _searchBar.text = (_currentQuery) ? _currentQuery : @"";
-    _buildingsController.view.hidden = NO;
+    GBBuildingsViewController *buildingsController = [[GBBuildingsViewController alloc] init];
+    buildingsController.delegate = self;
+#warning test this on ipod
+    // TODO: [Bug] After searchbar keyboard disappears on <iOS 7, it can't be selected again
+    UISearchBar *searchBar = [[UISearchBar alloc] init];
+    searchBar.placeholder = NSLocalizedString(@"SEARCH_PLACEHOLDER", @"Placeholder text for search bar");
+    searchBar.delegate = buildingsController;
+    self.navigationItem.titleView = searchBar;
     
-    if (!_buildingsController) {
-        _buildingsController = [[GBBuildingsViewController alloc] init];
-        _buildingsController.delegate = self;
-        if (ROTATION_ENABLED) {
-            _buildingsController.view.layer.cornerRadius = 5;
-        }
-        
-        [_mapViewController.view addSubview:_buildingsController.view];
-        [self.view addConstraints:[self buildingsControllerConstraints]];
+    if (ROTATION_ENABLED) {
+        buildingsController.view.layer.cornerRadius = 5;
     }
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText; {
-    [_buildingsController setupForQuery:searchText];
-    _currentQuery = searchText;
-}
-
-- (void)hideSearchBar {
-    [_buildingsController setupForQuery:@""];
-    _buildingsController.view.hidden = YES;
     
-    self.navigationItem.prompt = nil;
-    self.navigationItem.titleView = nil;
+    [_mapViewController.view addSubview:buildingsController.view];
+    [_mapViewController addChildViewController:buildingsController];
     
-    [self.navigationItem setRightBarButtonItem:[self settingsButton] animated:YES];
-    [self.navigationItem setLeftBarButtonItem:[self searchButton] animated:YES];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
-    NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];
-    [_mapViewController.mapView removeAnnotations:buildingAnnotations];
-    
-    _currentQuery = @"";
-    _searchBar.text = _currentQuery;
-}
-
-- (void)didSelectBuilding:(GBBuilding *)building {
-    _buildingsController.view.hidden = YES;
-    [_searchBar resignFirstResponder];
-    _searchBar.text = building.name;
-    
-    GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
-    [_mapViewController.mapView addAnnotation:annotation];
-    [_mapViewController.mapView selectAnnotation:annotation animated:YES];
-}
-
-- (NSArray *)buildingsControllerConstraints {
-    UIView *buildingsView = _buildingsController.view;
+    UIView *buildingsView = buildingsController.view;
     CGSize size = [self buildingSearchMaxViewSize];
     
-    // Constraints that ensure search doesn't take up the whole screen on devices with larger displays
-    static NSMutableArray *constraints;
-    if (!constraints) {
-        constraints = [NSMutableArray new];
-        [constraints addObject:[NSLayoutConstraint
-                                constraintWithItem:buildingsView
-                                attribute:NSLayoutAttributeWidth
-                                relatedBy:NSLayoutRelationLessThanOrEqual
-                                toItem:nil
-                                attribute:0
-                                multiplier:1
-                                constant:size.width]];
-        [constraints addObject:[NSLayoutConstraint
-                                constraintWithItem:buildingsView
-                                attribute:NSLayoutAttributeCenterX
-                                relatedBy:NSLayoutRelationEqual
-                                toItem:self.view
-                                attribute:NSLayoutAttributeCenterX
-                                multiplier:1
-                                constant:0]];
-        NSLayoutConstraint *leftHug = [NSLayoutConstraint
-                                       constraintWithItem:buildingsView
-                                       attribute:NSLayoutAttributeLeft
-                                       relatedBy:NSLayoutRelationEqual
-                                       toItem:self.view
-                                       attribute:NSLayoutAttributeLeft
-                                       multiplier:1
-                                       constant:0];
-        NSLayoutConstraint *rightHug = [NSLayoutConstraint
-                                        constraintWithItem:buildingsView
-                                        attribute:NSLayoutAttributeRight
-                                        relatedBy:NSLayoutRelationEqual
-                                        toItem:self.view
-                                        attribute:NSLayoutAttributeRight
-                                        multiplier:1
-                                        constant:0];
-        NSLayoutConstraint *bottomHug = [NSLayoutConstraint
-                                         constraintWithItem:buildingsView
-                                         attribute:NSLayoutAttributeBottom
-                                         relatedBy:NSLayoutRelationEqual
-                                         toItem:self.view
-                                         attribute:NSLayoutAttributeBottom
-                                         multiplier:1
-                                         constant:0];
-        if (ROTATION_ENABLED) {
-            leftHug.priority = UILayoutPriorityDefaultHigh;
-            rightHug.priority = UILayoutPriorityDefaultHigh;
-            
-            if (IS_IPAD) {
-                bottomHug.priority = UILayoutPriorityDefaultHigh;
-                [constraints addObject:[NSLayoutConstraint
-                                        constraintWithItem:buildingsView
-                                        attribute:NSLayoutAttributeHeight
-                                        relatedBy:NSLayoutRelationEqual
-                                        toItem:nil
-                                        attribute:0
-                                        multiplier:1
-                                        constant:size.height]];
-            }
-            
-            if (IS_IPHONE_6_PLUS) {
-                bottomHug.constant = -10;
-            }
+    NSMutableArray *constraints = [NSMutableArray new];
+    [constraints addObject:[NSLayoutConstraint
+                            constraintWithItem:buildingsView
+                            attribute:NSLayoutAttributeWidth
+                            relatedBy:NSLayoutRelationLessThanOrEqual
+                            toItem:nil
+                            attribute:0
+                            multiplier:1
+                            constant:size.width]];
+    [constraints addObject:[NSLayoutConstraint
+                            constraintWithItem:buildingsView
+                            attribute:NSLayoutAttributeCenterX
+                            relatedBy:NSLayoutRelationEqual
+                            toItem:self.view
+                            attribute:NSLayoutAttributeCenterX
+                            multiplier:1
+                            constant:0]];
+    NSLayoutConstraint *leftHug = [NSLayoutConstraint
+                                   constraintWithItem:buildingsView
+                                   attribute:NSLayoutAttributeLeft
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:self.view
+                                   attribute:NSLayoutAttributeLeft
+                                   multiplier:1
+                                   constant:0];
+    NSLayoutConstraint *rightHug = [NSLayoutConstraint
+                                    constraintWithItem:buildingsView
+                                    attribute:NSLayoutAttributeRight
+                                    relatedBy:NSLayoutRelationEqual
+                                    toItem:self.view
+                                    attribute:NSLayoutAttributeRight
+                                    multiplier:1
+                                    constant:0];
+    NSLayoutConstraint *bottomHug = [NSLayoutConstraint
+                                     constraintWithItem:buildingsView
+                                     attribute:NSLayoutAttributeBottom
+                                     relatedBy:NSLayoutRelationEqual
+                                     toItem:self.view
+                                     attribute:NSLayoutAttributeBottom
+                                     multiplier:1
+                                     constant:0];
+    if (ROTATION_ENABLED) {
+        leftHug.priority = UILayoutPriorityDefaultHigh;
+        rightHug.priority = UILayoutPriorityDefaultHigh;
+        
+        if (IS_IPAD) {
+            bottomHug.priority = UILayoutPriorityDefaultHigh;
+            [constraints addObject:[NSLayoutConstraint
+                                    constraintWithItem:buildingsView
+                                    attribute:NSLayoutAttributeHeight
+                                    relatedBy:NSLayoutRelationEqual
+                                    toItem:nil
+                                    attribute:0
+                                    multiplier:1
+                                    constant:size.height]];
         }
         
-        [constraints addObjectsFromArray:@[rightHug, leftHug, bottomHug]];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[buildingsView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(buildingsView)]];
+        if (IS_IPHONE_6_PLUS) {
+            bottomHug.constant = -10;
+        }
     }
-    return constraints;
+    
+    [constraints addObjectsFromArray:@[rightHug, leftHug, bottomHug]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[buildingsView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(buildingsView)]];
+    [self.view addConstraints:constraints];
+    
+    [searchBar becomeFirstResponder];
 }
 
 - (CGSize)buildingSearchMaxViewSize {
@@ -290,6 +247,36 @@ float const kSettingsViewAnimationSpeed = .2;
         return CGSizeMake(394.0, 394.0);
     }
     return CGSizeMake(540.0, 620.0);
+}
+
+- (void)dismissSearchBar {
+    UIViewController *buildingsViewController = [_mapViewController.childViewControllers firstObject];
+    if (buildingsViewController) {
+        [buildingsViewController removeFromParentViewController];
+        [buildingsViewController.view removeFromSuperview];
+        self.navigationItem.prompt = nil;
+        self.navigationItem.titleView = nil;
+        
+        [self.navigationItem setRightBarButtonItem:[self settingsButton] animated:YES];
+        [self.navigationItem setLeftBarButtonItem:[self searchButton] animated:YES];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBuildingAnnotation class]];
+        NSArray *buildingAnnotations = [_mapViewController.mapView.annotations filteredArrayUsingPredicate:predicate];
+        [_mapViewController.mapView removeAnnotations:buildingAnnotations];
+    }
+}
+
+- (void)didSelectBuilding:(GBBuilding *)building {
+    UIViewController *buildingsViewController = [_mapViewController.childViewControllers firstObject];
+    buildingsViewController.view.hidden = YES;
+    
+    UISearchBar *searchBar = (UISearchBar *)self.navigationItem.titleView;
+    [searchBar resignFirstResponder];
+    searchBar.text = building.name;
+    
+    GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
+    [_mapViewController.mapView addAnnotation:annotation];
+    [_mapViewController.mapView selectAnnotation:annotation animated:YES];
 }
 
 #pragma mark - Ads

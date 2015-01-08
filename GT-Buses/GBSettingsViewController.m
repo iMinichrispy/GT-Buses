@@ -240,7 +240,7 @@ float const kButtonWidth = 200.0f;
 #pragma mark - Config
 
 - (void)updateMessage:(NSNotification *)notification {
-    // TODO: Support for localization
+    // TODO: Support for localized messages
     NSString *message = [[GBConfig sharedInstance] message];
     _messageLabel.text = message;
     if (![message length] && [[GBConfig sharedInstance] updateAvailable]) {

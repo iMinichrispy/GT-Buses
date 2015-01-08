@@ -35,7 +35,6 @@
     [body appendFormat:@"Agency: %@\n", [sharedConfig agency].tag];
     [body appendFormat:@"Shows Arrival Time: %d\n", [sharedConfig showsArrivalTime]];
     [body appendFormat:@"Shows Bus Identifiers: %d\n", [sharedConfig showsBusIdentifiers]];
-    [body appendFormat:@"Buildings Version: %li/%li\n", (long)[[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsBuildingsVersionKey], (long)[sharedConfig buildingsVersion]];
     
     NSInteger color = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedColorKey];
     // If color is 0, it's the default color (which we don't care about)
@@ -50,8 +49,8 @@
         // Cache this since it's not really going to change for a given execution
         deviceInfo = [NSMutableString stringWithString:@"<-------- Info -------->\n"];
         [deviceInfo appendString:@"Report Type: Support\n"];
-        [deviceInfo appendString:@"Product: GT Buses\n"];
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+        [deviceInfo appendFormat:@"Product: %@\n", info[@"CFBundleDisplayName"]];
         [deviceInfo appendFormat:@"Version: %@\n", info[@"CFBundleShortVersionString"]];
         [deviceInfo appendFormat:@"Build: %@\n", info[@"CFBundleVersion"]];
         UIDevice *currentDevice = [UIDevice currentDevice];

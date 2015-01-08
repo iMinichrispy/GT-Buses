@@ -48,7 +48,7 @@
         
         _predictionsLabel = [[UILabel alloc] init];
         _predictionsLabel.numberOfLines = 0;
-        _predictionsLabel.text = @"Loading...";
+        _predictionsLabel.text =NSLocalizedString(@"LOADING", @"Loading...");
         _predictionsLabel.textColor = RGBColor(220, 220, 220);
         _predictionsLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:_predictionsLabel];
@@ -62,7 +62,7 @@
         [self addSubview:_distanceLabel];
         
         _directionLabel = [[UILabel alloc] init];
-        _directionLabel.text = [NSString stringWithFormat:@"To %@", [_stopGroup firstStop].direction.title];
+        _directionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"TO_DIRECTION", @"To [Direction]"), [_stopGroup firstStop].direction.title];
         _directionLabel.textColor = [UIColor grayExtensionTextColor];
         _directionLabel.font = [UIFont systemFontOfSize:11];
         _directionLabel.translatesAutoresizingMaskIntoConstraints = NO;

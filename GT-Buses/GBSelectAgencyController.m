@@ -26,7 +26,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
 }
 
 @property (nonatomic, strong) NSArray *agencies;
-#warning save all agencies for lookup later
+
 @end
 
 @implementation GBSelectAgencyController
@@ -46,7 +46,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     }
     [self.tableView registerClass:[GBAgencyCell class] forCellReuseIdentifier:GBAgencyCellIdentifier];
     
-    [self setStatus:@"Loading..."];
+    [self setStatus:NSLocalizedString(@"LOADING", @"Loading...")];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(agencyDidChange:) name:GBNotificationAgencyDidChange object:nil];
     
@@ -94,6 +94,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
         NSArray *agencies = dictionary[@"body"][@"agency"];
         if (![agencies isKindOfClass:[NSArray class]]) agencies = @[agencies];
         
+        NSMutableDictionary *agenciesDictionary = [NSMutableDictionary new];
         NSMutableArray *newAgencies = [NSMutableArray new];
         for (int x = 0; x < [agencies count]; x++) {
             NSDictionary *dictionary = agencies[x];
@@ -103,8 +104,14 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
                 _selectedPath = [NSIndexPath indexPathForRow:x inSection:0];
             }
             [newAgencies addObject:agency];
+            
+            agenciesDictionary[agency.tag] = dictionary;
         }
         _agencies = newAgencies;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:agenciesDictionary forKey:GBUserDefaultsAgenciesKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
         [self setStatus:nil];
         [self.tableView reloadData];
     } else {

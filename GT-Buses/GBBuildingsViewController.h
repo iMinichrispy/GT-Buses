@@ -15,10 +15,8 @@
 
 @end
 
-@interface GBBuildingsViewController : UITableViewController
+@interface GBBuildingsViewController : UITableViewController <UISearchBarDelegate>
 
 @property (nonatomic, weak) id<GBBuidlingsDelegate> delegate;
-
-- (void)setupForQuery:(NSString *)query;
 
 @end

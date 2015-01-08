@@ -79,7 +79,7 @@
     }
     else {
 #if !EXTENSION
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedStringWithDefaultValue(@"ERROR", nil, [NSBundle mainBundle], @"Error", @"Error") message:[NSString stringWithFormat:@"%@ (%li)", [error localizedDescription], (long)[error code]] delegate:nil cancelButtonTitle:nil otherButtonTitles:NSLocalizedStringWithDefaultValue(@"OK", nil, [NSBundle mainBundle], @"OK", @"Ok"), nil];
         [alert show];
 #endif
     }

@@ -38,14 +38,20 @@
         _message = @"";
         
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-        _buildingsVersion = [standardDefaults integerForKey:GBUserDefaultsBuildingsVersionKey];
         _showsBusIdentifiers = [standardDefaults boolForKey:GBUserDefaultsShowsBusIdentifiersKey];
         
         NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
         
         NSString *agencyTag = [sharedDefaults objectForKey:GBSharedDefaultsAgencyKey];
         if ([agencyTag length]) {
-            _agency = [[GBAgency alloc] initWithTag:agencyTag];
+            NSDictionary *agenciesDictionary = [standardDefaults objectForKey:GBUserDefaultsAgenciesKey];
+            NSDictionary *agencyDictionary = agenciesDictionary[agencyTag];
+            GBAgency *agency = [agencyDictionary xmlToAgency];
+            if (agency) {
+                _agency = agency;
+            } else {
+                _agency = [[GBAgency alloc] initWithTag:agencyTag];
+            }
         }
         
         _requestConfig = [[GBRequestConfig alloc] initWithAgency:_agency.tag];
@@ -55,17 +61,14 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<GBConfig Agency: %@, iOSVersion: %@, Party: %d, ShowsArrivalTime: %d, ShowsBusIds: %d, Message: %@, BuildingsVersion: %li>", _agency, _iOSVersion, _party, _showsArrivalTime, _showsBusIdentifiers, _message, (long)_buildingsVersion];
+    return [NSString stringWithFormat:@"<GBConfig Agency: %@, iOSVersion: %@, Party: %d, ShowsArrivalTime: %d, ShowsBusIds: %d, Message: %@>", _agency, _iOSVersion, _party, _showsArrivalTime, _showsBusIdentifiers, _message];
 }
 
 - (void)handleConfig:(NSDictionary *)config {
     if (config) {
         NSString *iOSVersion = config[@"iOSVersion"];
         NSString *message = config[@"message"];
-        NSInteger buildingVersion = [config[@"buildingsVersion"] integerValue];
         BOOL party = [config[@"party"] boolValue];
-        
-        [self setBuildingsVersion:buildingVersion];
         
         if (![_message isEqualToString:message]) {
             [self setMessage:message];
@@ -141,14 +144,6 @@
         [[NSUserDefaults standardUserDefaults] setBool:_showsBusIdentifiers forKey:GBUserDefaultsShowsBusIdentifiersKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationShowsBusIdentifiersDidChange object:nil];
-    }
-}
-
-- (void)setBuildingsVersion:(NSInteger)buildingsVersion {
-    if (_buildingsVersion != buildingsVersion) {
-        _buildingsVersion = buildingsVersion;
-        // Don't update NSUserDefaults here because saved buildings version should only be saved once new buildings are retrieved and stored
-        [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationBuildingsVersionDidChange object:nil];
     }
 }
 

@@ -42,7 +42,8 @@
 }
 
 - (NSString *)dialablePhoneNumber {
-    return [[self.phone componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] componentsJoinedByString:@""];
+    NSCharacterSet *characterSet = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+    return [[self.phone componentsSeparatedByCharactersInSet:characterSet] componentsJoinedByString:@""];
 }
 
 - (NSDictionary *)toDictionary {

@@ -16,18 +16,19 @@
 #import "GBBuildingCell.h"
 #import "GBConfig.h"
 #import "UITableViewController+StatusLabel.h"
+#import "GBAgency.h"
+#import "GBBuildingsHelper.h"
 
-// TODO: This class's fail-safe mechainisms should be redone to be made more clear (Loading from saved, retrieving from server, updating when buildings version changes)
 // TODO: Add ability to search for stops
 
 static NSString *const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
-static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
 
 @interface GBBuildingsViewController () <RequestHandlerDelegate> {
     NSArray             *_partitionedBuildings;
     NSArray             *_sectionIndexTitles;
     NSMutableIndexSet   *_populatedIndexSet;
     GBBuilding          *_selectedBuilding;
+    NSString            *_currentQuery;
 }
 
 @property (nonatomic, strong) NSArray *buildings;
@@ -44,7 +45,7 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
     }
     return self;
 }
-
+#warning testing required
 - (void)loadView {
     UITableView *tableView = [[UITableView alloc] init];
     tableView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -63,7 +64,6 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
     
     [self.tableView registerClass:[GBBuildingCell class] forCellReuseIdentifier:GBBuildingCellIdentifier];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBuildings:) name:GBNotificationBuildingsVersionDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
@@ -76,8 +76,12 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
         self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     }
     
-    NSArray *buildings = [self savedBuildings];
-    [self setupForBuildings:buildings];
+    [self setupBuildings];
+}
+
+- (void)updateTintColor:(NSNotification *)notification {
+    self.tableView.sectionIndexColor = [UIColor appTintColor];
+    [self.tableView reloadData];
 }
 
 - (void)reduceTransparencyDidChange:(NSNotification *)notification {
@@ -99,43 +103,6 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
     }
     self.tableView.backgroundView = backgroundView;
     self.tableView.backgroundColor = backgroundColor;
-}
-
-- (NSArray *)savedBuildings {
-    NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
-    return [[NSArray alloc] initWithContentsOfFile:path];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (![_allBuildings count]) {
-        [self updateBuildings:nil];
-    }
-}
-
-- (void)setupForBuildings:(NSArray *)buildings {
-    if ([buildings count]) {
-        NSMutableArray *newBuildings = [NSMutableArray new];
-        
-        for (NSDictionary *dictinary in buildings) {
-            GBBuilding *building = [dictinary toBuilding];
-            [newBuildings addObject:building];
-        }
-        _allBuildings = newBuildings;
-        _buildings = _allBuildings;
-        [self showAllBuildings];
-    }
-}
-
-- (void)updateBuildings:(NSNotification *)notification {
-    [self setStatus:@"Loading..."];
-    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
-    [requestHandler buildings];
-}
-
-- (void)updateTintColor:(NSNotification *)notification {
-    self.tableView.sectionIndexColor = [UIColor appTintColor];
-    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -221,43 +188,71 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
     [header.textLabel setTextColor:[UIColor whiteColor]];
 }
 
+- (NSMutableDictionary *)fileNamesDictionary {
+    NSMutableDictionary *fileNames = [[[NSUserDefaults standardUserDefaults] objectForKey:GBUserDefaultsBuildingsFileNamesKey] mutableCopy];
+    if (!fileNames) {
+        fileNames = [NSMutableDictionary new];
+    }
+    return fileNames;
+}
+
 #pragma mark - Request Handler
 
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
     NSPropertyListFormat format;
     NSArray *buildings = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:&format error:&error];
-    if (buildings && !error) {
+    if ([buildings count] && !error) {
         [self setStatus:nil];
-        if ([buildings count]) {
-            NSString *path = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:GBBuildingsPlistFileName];
-            [buildings writeToFile:path atomically:YES];
-            // Update the stored buildings version
-            [[NSUserDefaults standardUserDefaults] setInteger:[[GBConfig sharedInstance] buildingsVersion] forKey:GBUserDefaultsBuildingsVersionKey];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [self setupForBuildings:buildings];
-        } else {
-            [self revertToSavedBuildings];
-        }
+        NSString *agency = [[GBConfig sharedInstance] agency].tag;
+        [GBBuildingsHelper setBuildings:buildings forAgency:agency];
+        [self setupForBuildings:buildings];
     } else {
         NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
         [self handleError:handler error:error];
     }
 }
 
+- (void)handleError:(RequestHandler *)handler error:(NSError *)error {
+    // Fall back on stored buildings (if available) if fails to retrieve udpated buildings
+    [self revertToSavedBuildings];
+}
+
+- (void)setupBuildings {
+    NSArray *buildings = [GBBuildingsHelper savedBuildingsForAgency:[[GBConfig sharedInstance] agency].tag ignoreExpired:YES];
+    if ([buildings count]) {
+        [self setupForBuildings:buildings];
+    } else {
+        [self updateBuildings];
+    }
+}
+
+- (void)setupForBuildings:(NSArray *)buildings {
+    NSMutableArray *newBuildings = [NSMutableArray new];
+    
+    for (NSDictionary *dictinary in buildings) {
+        GBBuilding *building = [dictinary toBuilding];
+        [newBuildings addObject:building];
+    }
+    _allBuildings = newBuildings;
+    _buildings = _allBuildings;
+    [self showAllBuildings];
+}
+
+- (void)updateBuildings {
+    [self setStatus:NSLocalizedString(@"LOADING", @"Loading...")];
+    GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestBuildingsTask delegate:self];
+    [requestHandler buildings];
+}
+
 - (void)revertToSavedBuildings {
-    NSArray *buildings = [self savedBuildings];
+    NSArray *buildings = [GBBuildingsHelper savedBuildingsForAgency:[[GBConfig sharedInstance] agency].tag ignoreExpired:NO];
     if ([buildings count]) {
         [self setStatus:nil];
         [self setupForBuildings:buildings];
     } else {
         [self setStatus:NSLocalizedString(@"NO_BUILDINGS_DATA", @"Buildings data is empty")];
     }
-}
-
-- (void)handleError:(RequestHandler *)handler error:(NSError *)error {
-    // Fall back on stored buildings (if available) if fails to retrieve udpated buildings
-    [self revertToSavedBuildings];
 }
 
 - (void)showAllBuildings {
@@ -297,29 +292,6 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
     _sectionIndexTitles = [collation sectionIndexTitles];
     _partitionedBuildings = sections;
     [self.tableView reloadData];
-}
-
-- (void)setupForQuery:(NSString *)query {
-    _partitionedBuildings = nil;
-    
-    if ([query length]) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[c] %@ OR address contains[c] %@", query, query];
-        _buildings = [_allBuildings filteredArrayUsingPredicate:predicate];
-    } else {
-        _buildings = _allBuildings;
-        
-        // There is no entered text, show all buildings.
-        [self showAllBuildings];
-    }
-    [self.tableView reloadData];
-    [self.tableView setContentOffset:CGPointZero];
-    
-    if ([_allBuildings count]) {
-        // Show the No Results label if the user has entered text but didn't find anything
-        [self setStatus:([query length] && [_buildings count] == 0 && ![query isEqualToString:@"\n"]) ? NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results") : nil];
-    } else {
-        [self revertToSavedBuildings];
-    }
 }
 
 #pragma mark - Menu controller
@@ -394,6 +366,37 @@ static NSString *const GBBuildingsPlistFileName = @"Buildings.plist";
 
 - (void)doNothing:(UIMenuController *)sender {
     
+}
+
+#pragma mark - Search Bar
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText; {
+    _partitionedBuildings = nil;
+    
+    if ([searchText length]) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[c] %@ OR address contains[c] %@", searchText, searchText];
+        _buildings = [_allBuildings filteredArrayUsingPredicate:predicate];
+    } else {
+        _buildings = _allBuildings;
+        
+        // There is no entered text, show all buildings.
+        [self showAllBuildings];
+    }
+    [self.tableView reloadData];
+    [self.tableView setContentOffset:CGPointZero];
+    
+    if ([_allBuildings count]) {
+        // Show the No Results label if the user has entered text but didn't find anything
+        [self setStatus:([searchText length] && [_buildings count] == 0 && ![searchText isEqualToString:@"\n"]) ? NSLocalizedString(@"NO_RESULTS_FOUND", @"Search returned no results") : nil];
+    } else {
+        [self revertToSavedBuildings];
+    }
+    _currentQuery = searchText;
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    searchBar.text = (_currentQuery) ? _currentQuery : @"";
+    self.view.hidden = NO;
 }
 
 @end

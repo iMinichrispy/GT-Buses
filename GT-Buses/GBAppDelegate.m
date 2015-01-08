@@ -21,9 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    // over 100 routes: actransit, ttc, lametro, mbta
-
-    [GBConfig sharedInstance].agency = [GBAgency georgiaTechAgency];
+//    [GBConfig sharedInstance].agency = [GBAgency georgiaTechAgency];
     [GBConfig sharedInstance].adsEnabled = YES;
     [GBConfig sharedInstance].adsVisible = YES;
     [GBConfig sharedInstance].canSelectAgency = YES;
@@ -68,8 +66,14 @@
         if ([key isEqualToString:@"agency"]) {
             GBConfig *sharedConfig = [GBConfig sharedInstance];
             if (sharedConfig.canSelectAgency && [value length]) {
-                GBAgency *agency = [[GBAgency alloc] initWithTag:value];
-                sharedConfig.agency = agency;
+                NSDictionary *agenciesDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:GBUserDefaultsAgenciesKey];
+                NSDictionary *agencyDictionary = agenciesDictionary[value];
+                GBAgency *agency = [agencyDictionary xmlToAgency];
+                if (agency) {
+                    sharedConfig.agency = agency;
+                } else {
+                    sharedConfig.agency = [[GBAgency alloc] initWithTag:value];
+                }
             }
         }
         return YES;

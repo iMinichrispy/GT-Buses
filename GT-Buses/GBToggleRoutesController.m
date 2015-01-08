@@ -133,6 +133,7 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 + (NSInteger)maxNumRoutes {
     // Calculate a reasonable maximum number of routes based on the device's smallest screen side
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    // Width won't always be the smallest screen size since it's orientation-dependent on >=iOS 8
     float smallestLength = MIN(screenSize.width, screenSize.height);
     return roundf(.02107 * smallestLength + .21);
 }

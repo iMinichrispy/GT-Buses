@@ -69,10 +69,6 @@ int const kRefreshInterval = 5;
     return self;
 }
 
-- (void)updateTintColor:(NSNotification *)notification {
-    [_busRouteControlView updateTintColor];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -105,6 +101,10 @@ int const kRefreshInterval = 5;
     }
 }
 
+- (void)updateTintColor:(NSNotification *)notification {
+    [_busRouteControlView updateTintColor];
+}
+
 - (void)orientationChanged:(NSNotification *)notification {
     [self performSelector:@selector(updateRegion) withObject:nil afterDelay:1];
 }
@@ -117,60 +117,6 @@ int const kRefreshInterval = 5;
 - (void)applicationDidEnterBackground:(NSNotification *)notification {
     [self hideUserLocation];
     [self invalidateRefreshTimer];
-}
-
-- (void)setupRouteControlForRoutes:(NSArray *)routes {
-    [self invalidateRefreshTimer];
-    [_busRouteControlView.busRouteControl removeAllSegments];
-    [_routes removeAllObjects];
-    
-    NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
-    NSMutableDictionary *disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
-    if (!disabledRoutes) {
-        // Using a dictionary allows for faster lookup time when determining whether a route is disabled
-        disabledRoutes = [NSMutableDictionary new];
-    }
-    
-    NSInteger maxNumRoutes = [[GBToggleRoutesController class] maxNumRoutes];
-    BOOL exceededMax = NO;
-    int count = 0;
-    for (NSDictionary *dictionary in routes) {
-        GBRoute *route = [dictionary xmlToRoute];
-        // If the entry for the route's tag in the disabled routes dictionary is nil, then the route is enabled
-        BOOL enabled = !(disabledRoutes[route.tag]);
-        if (enabled) {
-            if (count < maxNumRoutes) {
-                [_routes addObject:route];
-                NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
-                [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.shortTitle atIndex:index animated:YES];
-                count++;
-            } else {
-                // If we exceed the maximum number of routes, disable the remaining routes and later prompt user to customize
-                NSDictionary *routeDic = [route toDictionary];
-                NSString *tag = routeDic[@"tag"];
-                disabledRoutes[tag] = routeDic;
-                exceededMax = YES;
-            }
-        }
-    }
-    
-    NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
-    if (_busRouteControlView.busRouteControl.numberOfSegments)
-        _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
-    
-    [self didChangeBusRoute];
-    
-    [[NSUserDefaults sharedDefaults] setObject:disabledRoutes forKey:GBSharedDefaultsDisabledRoutesKey];
-    [[NSUserDefaults sharedDefaults] synchronize];
-    
-    GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
-    // Don't display toggle routes controller if settings is visible since it interferes with the layout after dismissing settings
-    if (exceededMax && !window.settingsVisible) {
-        GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
-        GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
-        navController.modalPresentationStyle = UIModalPresentationFormSheet;
-        [self presentViewController:navController animated:YES completion:NULL];
-    }
 }
 
 - (void)updateVisibleRoutes:(NSNotification *)notification {
@@ -352,6 +298,60 @@ int const kRefreshInterval = 5;
     _busRouteControlView.busRouteControl.hidden = YES;
     _busRouteControlView.refreshButton.hidden = NO;
     _busRouteControlView.errorLabel.text = [GBRequestHandler errorMessageForCode:[error code]];
+}
+
+- (void)setupRouteControlForRoutes:(NSArray *)routes {
+    [self invalidateRefreshTimer];
+    [_busRouteControlView.busRouteControl removeAllSegments];
+    [_routes removeAllObjects];
+    
+    NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
+    NSMutableDictionary *disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
+    if (!disabledRoutes) {
+        // Using a dictionary allows for faster lookup time when determining whether a route is disabled
+        disabledRoutes = [NSMutableDictionary new];
+    }
+    
+    NSInteger maxNumRoutes = [[GBToggleRoutesController class] maxNumRoutes];
+    BOOL exceededMax = NO;
+    int count = 0;
+    for (NSDictionary *dictionary in routes) {
+        GBRoute *route = [dictionary xmlToRoute];
+        // If the entry for the route's tag in the disabled routes dictionary is nil, then the route is enabled
+        BOOL enabled = !(disabledRoutes[route.tag]);
+        if (enabled) {
+            if (count < maxNumRoutes) {
+                [_routes addObject:route];
+                NSInteger index = _busRouteControlView.busRouteControl.numberOfSegments;
+                [_busRouteControlView.busRouteControl insertSegmentWithTitle:route.shortTitle atIndex:index animated:YES];
+                count++;
+            } else {
+                // If we exceed the maximum number of routes, disable the remaining routes and later prompt user to customize
+                NSDictionary *routeDic = [route toDictionary];
+                NSString *tag = routeDic[@"tag"];
+                disabledRoutes[tag] = routeDic;
+                exceededMax = YES;
+            }
+        }
+    }
+    
+    NSInteger index = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedRouteKey];
+    if (_busRouteControlView.busRouteControl.numberOfSegments)
+        _busRouteControlView.busRouteControl.selectedSegmentIndex = index < _busRouteControlView.busRouteControl.numberOfSegments ? index : 0;
+    
+    [self didChangeBusRoute];
+    
+    [[NSUserDefaults sharedDefaults] setObject:disabledRoutes forKey:GBSharedDefaultsDisabledRoutesKey];
+    [[NSUserDefaults sharedDefaults] synchronize];
+    
+    GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
+    // Don't display toggle routes controller if settings is visible since it interferes with the layout after dismissing settings
+    if (exceededMax && !window.settingsVisible) {
+        GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
+        GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
+        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
 }
 
 - (GBRoute *)selectedRoute {
