@@ -46,10 +46,9 @@
         if ([agencyTag length]) {
             NSDictionary *agenciesDictionary = [standardDefaults objectForKey:GBUserDefaultsAgenciesKey];
             NSDictionary *agencyDictionary = agenciesDictionary[agencyTag];
-            GBAgency *agency = [agencyDictionary xmlToAgency];
-            if (agency) {
-                _agency = agency;
-            } else {
+            
+            _agency = [agencyDictionary xmlToAgency];
+            if (!_agency) {
                 _agency = [[GBAgency alloc] initWithTag:agencyTag];
             }
         }
@@ -64,7 +63,7 @@
     return [NSString stringWithFormat:@"<GBConfig Agency: %@, iOSVersion: %@, Party: %d, ShowsArrivalTime: %d, ShowsBusIds: %d, Message: %@>", _agency, _iOSVersion, _party, _showsArrivalTime, _showsBusIdentifiers, _message];
 }
 
-- (void)handleConfig:(NSDictionary *)config {
+- (void)updateConfig:(NSDictionary *)config {
     if (config) {
         NSString *iOSVersion = config[@"iOSVersion"];
         NSString *message = config[@"message"];

@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+@import MapKit;
 
 extern NSString *const GBGeorgiaTechAgencyTag;
 
@@ -21,6 +22,7 @@ extern NSString *const GBGeorgiaTechAgencyTag;
 
 - (instancetype)initWithTag:(NSString *)tag;
 + (GBAgency *)georgiaTechAgency;
+- (NSDictionary *)toDictionary;
 
 @property (nonatomic, strong) NSString *tag;
 @property (nonatomic, strong) NSString *title;

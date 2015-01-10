@@ -8,7 +8,7 @@
 
 @import UIKit;
 
-@interface GBHorizontalLayout : UIView
+@interface GBHorizontalLayout : UIButton
 
 @property (nonatomic, strong) NSArray *items;
 

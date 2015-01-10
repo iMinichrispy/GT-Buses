@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
+@import UIKit;
 @import Foundation;
 
 @class GBRequestConfig, GBAgency;
@@ -23,6 +24,6 @@
 @property (nonatomic, strong) NSString *message;
 
 + (GBConfig *)sharedInstance;
-- (void)handleConfig:(NSDictionary *)config;
+- (void)updateConfig:(NSDictionary *)config;
 
 @end

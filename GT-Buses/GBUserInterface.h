@@ -23,7 +23,3 @@
 @interface GBSegmentedControl : UISegmentedControl
 
 @end
-
-@interface GBErrorLabel : UILabel
-
-@end

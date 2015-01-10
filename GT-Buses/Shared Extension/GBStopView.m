@@ -63,6 +63,7 @@
         
         _directionLabel = [[UILabel alloc] init];
         _directionLabel.text = [NSString stringWithFormat:NSLocalizedString(@"TO_DIRECTION", @"To [Direction]"), [_stopGroup firstStop].direction.title];
+        [NSString localizedStringWithFormat:NSLocalizedString(@"TO_DIRECTION", @"To [Direction]"), [_stopGroup firstStop].direction.title];
         _directionLabel.textColor = [UIColor grayExtensionTextColor];
         _directionLabel.font = [UIFont systemFontOfSize:11];
         _directionLabel.translatesAutoresizingMaskIntoConstraints = NO;

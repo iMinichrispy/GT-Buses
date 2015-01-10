@@ -10,7 +10,7 @@
 
 NSString *const GBGeorgiaTechAgencyTag = @"georgia-tech";
 
-// TODO: Enable search for non-georgia tech agencies
+// TODO: Make region custom to each agency
 
 @implementation NSDictionary (GBAgency)
 
@@ -40,6 +40,11 @@ NSString *const GBGeorgiaTechAgencyTag = @"georgia-tech";
 + (GBAgency *)georgiaTechAgency {
     GBAgency *agency = [[GBAgency alloc] initWithTag:GBGeorgiaTechAgencyTag];
     return agency;
+}
+
+- (NSDictionary *)toDictionary {
+    // Should really only be used when loading from URL scheme
+    return @{@"tag":_tag, @"searchEnabled":@(_searchEnabled)};
 }
 
 - (NSString *)description {

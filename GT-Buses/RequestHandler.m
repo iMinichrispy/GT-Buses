@@ -8,6 +8,8 @@
 
 #import "RequestHandler.h"
 
+// TODO: Ability to cancel HTTP requests
+
 @implementation RequestHandler
 
 - (instancetype)initWithTask:(NSString *)task delegate:(id<RequestHandlerDelegate>)delegate {
@@ -40,6 +42,7 @@
 
 - (void)setActivityIndicatorVisible:(BOOL)hidden {
 #if !EXTENSION
+    // TODO: Keep track of an activity count to handle when multiple requests are made so the activity indicator isn't hidden before all requests are completed
     [UIApplication sharedApplication].networkActivityIndicatorVisible = hidden;
 #endif
 }

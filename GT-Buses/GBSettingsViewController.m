@@ -28,8 +28,8 @@ float const kButtonHeight = 50.0f;
 float const kButtonWidth = 200.0f;
 
 @interface GBSettingsViewController () <UIActionSheetDelegate> {
-    UIButton *_toggleRoutesButton;
     GBHorizontalLayout *_horizontalLayout;
+    UIButton *_toggleRoutesButton;
 }
 
 @property (nonatomic, strong) UILabel *messageLabel;
@@ -39,7 +39,7 @@ float const kButtonWidth = 200.0f;
 
 @implementation GBSettingsViewController
 
-// TODO: Presenting view controllers on detached view controllers is discouraged - warning when presenting mail, toggle routes, or select agency controllers
+// TODO: Presenting view controllers on detached view controllers is discouraged - warning when presenting view controllers from settings
 
 - (void)loadView {
     UIView *view;
@@ -77,7 +77,6 @@ float const kButtonWidth = 200.0f;
     [self.view addSubview:busIdentifiersSwitchView];
     
     _messageLabel = [[GBLabel alloc] init];
-    _messageLabel.font = [UIFont fontWithName:GBFontDefault size:16];
     _messageLabel.numberOfLines = 0;
     _messageLabel.textAlignment = NSTextAlignmentCenter;
     _messageLabel.text = [[GBConfig sharedInstance] message];
@@ -117,17 +116,17 @@ float const kButtonWidth = 200.0f;
     
     // Only add the toggle routes button if the routes have been retrieved
     NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
-    if ([routes count]) {
-        _toggleRoutesButton = [[GBBorderButton alloc] init];
-        [_toggleRoutesButton setTitle:NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes") forState:UIControlStateNormal];
-        [_toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-        [items addObject:_toggleRoutesButton];
-    }
+    UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
+    [toggleRoutesButton setTitle:NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes button") forState:UIControlStateNormal];
+    [toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
+    toggleRoutesButton.enabled = ([routes count]);
+    [items addObject:toggleRoutesButton];
+    _toggleRoutesButton = toggleRoutesButton;
     
     GBConfig *sharedConfig = [GBConfig sharedInstance];
     if ([sharedConfig canSelectAgency]) {
         UIButton *selectAgencyButton = [[GBBorderButton alloc] init];
-        [selectAgencyButton setTitle:NSLocalizedString(@"SELECT_AGENCY", @"Select agency") forState:UIControlStateNormal];
+        [selectAgencyButton setTitle:NSLocalizedString(@"SELECT_AGENCY", @"Select agency button") forState:UIControlStateNormal];
         [selectAgencyButton addTarget:self action:@selector(showSelectAgency:) forControlEvents:UIControlEventTouchUpInside];
         [items addObject:selectAgencyButton];
     }
@@ -135,7 +134,7 @@ float const kButtonWidth = 200.0f;
     if ([sharedConfig adsEnabled]) {
         UIButton *disableAdsButton = [[GBBorderButton alloc] init];
 //        disableAdsButton.enabled = [sharedConfig adsVisible];
-        [disableAdsButton setTitle:NSLocalizedString(@"REMOVE_ADS", @"Remove ads") forState:UIControlStateNormal];
+        [disableAdsButton setTitle:NSLocalizedString(@"REMOVE_ADS", @"Remove ads button") forState:UIControlStateNormal];
         [disableAdsButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
         [items addObject:disableAdsButton];
     }
@@ -157,7 +156,8 @@ float const kButtonWidth = 200.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessage:) name:GBNotificationMessageDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateiOSVersion:) name:GBNotificationiOSVersionDidChange object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAgency:) name:GBNotificationAgencyDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(agencyDidChange:) name:GBNotificationAgencyDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routesDidChange:) name:GBNotificationRoutesDidChange object:nil];
     
     [self updateMessage:nil];
     [self updateiOSVersion:nil];
@@ -211,7 +211,7 @@ float const kButtonWidth = 200.0f;
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
     if (result == MFMailComposeResultFailed) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"MESSAGE_FAILED", @"Mail failed alert tile") message:NSLocalizedString(@"MESSAGE_FAILED_TO_SEND", @"Mail failed alert message") delegate:nil cancelButtonTitle:NSLocalizedString(@"MESSAGE_DISMISS", @"Mail failed alert dismiss") otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"MESSAGE_FAILED", @"Mail failed alert tile") message:NSLocalizedString(@"MESSAGE_FAILED_TO_SEND", @"Mail failed alert message") delegate:nil cancelButtonTitle:NSLocalizedString(@"DISMISS", @"Dismiss") otherButtonTitles:nil];
         [alert show];
     }
     [self dismissViewControllerAnimated:YES completion:NULL];
@@ -258,21 +258,6 @@ float const kButtonWidth = 200.0f;
     }
 }
 
-- (void)updateAgency:(NSNotification *)notification {
-    // Remove the toggle routes button if the agency changes since there will be no routes to toggle
-    NSMutableArray *items = [_horizontalLayout.items mutableCopy];
-    NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
-    if ([routes count]) {
-        // This isn't really ever called since the moment the agency changes, the routes would not have been loaded
-        if (![items containsObject:_toggleRoutesButton]) {
-            [items addObject:_toggleRoutesButton];
-        }
-    } else {
-        [items removeObject:_toggleRoutesButton];
-    }
-    _horizontalLayout.items = items;
-}
-
 - (void)showToggleRoutes:(id)sender {
     GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
@@ -287,6 +272,15 @@ float const kButtonWidth = 200.0f;
     navController.modalPresentationStyle = UIModalPresentationFormSheet;
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self presentViewController:navController animated:YES completion:NULL];
+}
+
+- (void)agencyDidChange:(NSNotification *)notification {
+    _toggleRoutesButton.enabled = NO;
+}
+
+- (void)routesDidChange:(NSNotification *)notification {
+    NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
+    _toggleRoutesButton.enabled = ([routes count]);
 }
 
 @end

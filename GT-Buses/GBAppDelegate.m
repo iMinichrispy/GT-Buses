@@ -21,15 +21,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-//    [GBConfig sharedInstance].agency = [GBAgency georgiaTechAgency];
-    [GBConfig sharedInstance].adsEnabled = YES;
-    [GBConfig sharedInstance].adsVisible = YES;
-    [GBConfig sharedInstance].canSelectAgency = YES;
+    [GBConfig sharedInstance].agency = [GBAgency georgiaTechAgency];
+//    [GBConfig sharedInstance].adsEnabled = YES;
+//    [GBConfig sharedInstance].adsVisible = YES;
+//    [GBConfig sharedInstance].canSelectAgency = YES;
     
     self.viewController = [[GBRootViewController alloc] init];
     
 #if !DEFAULT_IMAGE
-    self.viewController.title = NSLocalizedString(@"TITLE", @"Main Title");
+    self.viewController.title = NSLocalizedString(@"GT_BUSES_TITLE", @"GT Buses main title");
 #endif
     
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:self.viewController];
@@ -58,23 +58,47 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     // Example: gtbuses://?agency=georgia-tech
-    NSArray *components = [url.query componentsSeparatedByString:@"="];
-    if ([components count] == 2) {
-        NSString *key = components[0];
-        NSString *value = components[1];
-        
-        if ([key isEqualToString:@"agency"]) {
-            GBConfig *sharedConfig = [GBConfig sharedInstance];
-            if (sharedConfig.canSelectAgency && [value length]) {
-                NSDictionary *agenciesDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:GBUserDefaultsAgenciesKey];
-                NSDictionary *agencyDictionary = agenciesDictionary[value];
-                GBAgency *agency = [agencyDictionary xmlToAgency];
-                if (agency) {
-                    sharedConfig.agency = agency;
-                } else {
-                    sharedConfig.agency = [[GBAgency alloc] initWithTag:value];
+    // Example: gtbuses://?agency=art&searchEnabled=1
+    NSArray *components = [url.query componentsSeparatedByString:@"&"];
+    
+    NSMutableDictionary *queryDictionary = [NSMutableDictionary new];
+    
+    for (NSString *pair in components) {
+        NSArray *pairComponents = [pair componentsSeparatedByString:@"="];
+        NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
+        NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+        queryDictionary[key] = value;
+    }
+    
+    NSString *agencyTag = queryDictionary[@"agency"];
+    if ([agencyTag length]) {
+        GBConfig *sharedConfig = [GBConfig sharedInstance];
+        if (sharedConfig.canSelectAgency) {
+            NSDictionary *agenciesDictionary = [[NSUserDefaults standardUserDefaults] objectForKey:GBUserDefaultsAgenciesKey];
+            NSDictionary *agencyDictionary = agenciesDictionary[agencyTag];
+            
+            GBAgency *agency;
+            if (agencyDictionary) {
+                agency = [agencyDictionary xmlToAgency];
+            } else {
+                agency = [[GBAgency alloc] initWithTag:agencyTag];
+                // If agency searchEnabled is hard-coded (as w/ Gatech), ignore the url parameter
+                if (!agency.searchEnabled) {
+                    agency.searchEnabled = [queryDictionary[@"searchEnabled"] boolValue];
+                    
+                    if (agency.searchEnabled) {
+                        // If the agency is search enabled, we need to save this property for the next time the app loads
+                        NSMutableDictionary *mutableAgencies = [agenciesDictionary mutableCopy];
+                        if (!mutableAgencies) {
+                            mutableAgencies = [NSMutableDictionary new];
+                        }
+                        mutableAgencies[agency.tag] = [agency toDictionary];
+                        [[NSUserDefaults standardUserDefaults] setObject:mutableAgencies forKey:GBUserDefaultsAgenciesKey];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                    }
                 }
             }
+            sharedConfig.agency = agency;
         }
         return YES;
     }

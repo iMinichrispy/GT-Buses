@@ -149,9 +149,9 @@ int const kRefreshInterval = 5;
 #pragma mark - Request Handler Delegate
 
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
-    [_busRouteControlView.activityIndicator stopAnimating];
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
+    [_busRouteControlView.activityIndicator stopAnimating];
     if (!error && dictionary) {
         _busRouteControlView.errorLabel.hidden = YES;
         _busRouteControlView.busRouteControl.hidden = NO;
@@ -171,7 +171,7 @@ int const kRefreshInterval = 5;
                 }
             } else {
                 [self invalidateRefreshTimer];
-                NSString *errorString = dictionary[@"body"][@"Error"][@"extra"];
+                NSString *errorString = dictionary[@"body"][@"Error"][kXMLReaderTextNodeKey];
                 NSInteger code;
                 if ([errorString containsString:@"Agency parameter"] && [errorString containsString:@"is not valid."]) {
                     code = GBRequestNextbusInvalidAgencyError;
@@ -184,7 +184,7 @@ int const kRefreshInterval = 5;
             }
         } else if (handler.task == GBRequestVehicleLocationsTask) {
             NSDictionary *config = dictionary[@"body"][@"config"];
-            [[GBConfig sharedInstance] handleConfig:config];
+            [[GBConfig sharedInstance] updateConfig:config];
             long long newLocationUpdate = [dictionary[@"body"][@"lastTime"][@"time"] longLongValue];
             if (newLocationUpdate != lastLocationUpdate) {
                 NSArray *vehicles = dictionary[@"body"][@"vehicle"];
@@ -343,6 +343,8 @@ int const kRefreshInterval = 5;
     
     [[NSUserDefaults sharedDefaults] setObject:disabledRoutes forKey:GBSharedDefaultsDisabledRoutesKey];
     [[NSUserDefaults sharedDefaults] synchronize];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationRoutesDidChange object:nil];
     
     GBWindow *window = (GBWindow *)[[UIApplication sharedApplication] keyWindow];
     // Don't display toggle routes controller if settings is visible since it interferes with the layout after dismissing settings

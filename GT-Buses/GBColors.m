@@ -9,6 +9,7 @@
 #import "GBColors.h"
 
 #import "GBConstants.h"
+#import "GBConfig.h"
 
 @interface GBColors ()
 
@@ -39,10 +40,6 @@
 #endif
     }
     return self;
-}
-
-+ (UIColor *)defaultColor {
-    return [self blueColor];
 }
 
 + (void)setAppTintColor:(UIColor *)color {

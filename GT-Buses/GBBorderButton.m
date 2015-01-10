@@ -34,4 +34,13 @@
     self.backgroundColor = (highlighted) ? [UIColor whiteColor] : nil;
 }
 
+- (void)setEnabled:(BOOL)enabled {
+    [super setEnabled:enabled];
+    
+    UIColor *color = (enabled) ? [UIColor whiteColor] : [UIColor lightGrayColor];
+    
+    self.layer.borderColor = color.CGColor;
+    [self setTitleColor:color forState:UIControlStateNormal];
+}
+
 @end

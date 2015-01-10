@@ -89,18 +89,3 @@
 }
 
 @end
-
-
-@implementation GBErrorLabel
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.textColor = [UIColor whiteColor];
-        self.backgroundColor = [UIColor clearColor];
-        self.textAlignment = NSTextAlignmentCenter;
-    }
-    return self;
-}
-
-@end

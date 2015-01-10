@@ -32,6 +32,7 @@ extern NSString *const GBNotificationShowsBusIdentifiersDidChange;
 extern NSString *const GBNotificationDisabledRoutesDidChange;
 extern NSString *const GBNotificationAgencyDidChange;
 extern NSString *const GBNotificationAdsVisibleDidChange;
+extern NSString *const GBNotificationRoutesDidChange;
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)

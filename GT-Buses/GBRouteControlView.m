@@ -26,8 +26,10 @@
         _activityIndicator = [[UIActivityIndicatorView alloc] init];
         _activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
         
-        _errorLabel = [[GBErrorLabel alloc] init];
-        _errorLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _errorLabel = [[GBLabel alloc] init];
+#warning test error label font on previous verisons
+        _errorLabel.textAlignment = NSTextAlignmentCenter;
+        _errorLabel.font = nil;
         _errorLabel.hidden = YES;
         
         _refreshButton = [[UIButton alloc] init];

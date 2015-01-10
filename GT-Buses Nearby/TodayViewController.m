@@ -81,7 +81,7 @@
             for (GBRoute *route in _savedRoutes) {
                 for (GBStop *stop in route.stops) {
                     CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
-                    CLLocationDistance distance = [location distanceFromLocation:stopLocation]; //meters (double)
+                    CLLocationDistance distance = [location distanceFromLocation:stopLocation];
                     
                     GBStopGroup *newStopGroup = [[GBStopGroup alloc] initWithStop:stop];
                     NSInteger index = [newNearestStops indexOfObject:newStopGroup];
@@ -89,9 +89,8 @@
                     if (index == NSNotFound) {
                         [self insertStopGroup:newStopGroup inNearestStops:newNearestStops withDistance:distance];
                     } else {
-#warning untested if actually works
                         if (newStopGroup.firstStop.direction.isOneDirection) {
-                            // create new stop group
+                            // Workaround to prevent glc stops from appearing in the same group
                             [self insertStopGroup:newStopGroup inNearestStops:newNearestStops withDistance:distance];
                         } else {
                             GBStopGroup *existingGroup = newNearestStops[index];
@@ -138,7 +137,7 @@
             }
         } else {
             [self.sectionView reset];
-#warning request route config
+            // TODO: Instead of displaying an error, request the route config and save it
             [self displayError:NSLocalizedString(@"NO_ROUTE_CONFIG", @"No route config")];
         }
     } else {
