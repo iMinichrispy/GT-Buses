@@ -19,7 +19,7 @@
 #import "XMLReader.h"
 #import "GBBusAnnotation.h"
 #import "GBStopAnnotation.h"
-#import "GBBusRouteLine.h"
+#import "GBRoutePolyLine.h"
 #import "GBBuildingAnnotation.h"
 #import "GBBusAnnotationView.h"
 #import "GBBus.h"
@@ -28,7 +28,7 @@
 #import "GBSelectAgencyController.h"
 #import "GBWindow.h"
 
-#if APP_STORE_MAP
+#if APP_STORE_IMAGE
 #import "MKMapView+AppStoreMap.h"
 #endif
 
@@ -71,7 +71,6 @@ int const kRefreshInterval = 5;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
 #if DEFAULT_IMAGE || HIDE_MAP
     self.title = @"";
     self.navigationItem.leftBarButtonItem = nil;
@@ -364,7 +363,7 @@ int const kRefreshInterval = 5;
 - (void)requestUpdate {
     GBRoute *selectedRoute = [self selectedRoute];
     if (selectedRoute) {
-#if APP_STORE_MAP
+#if APP_STORE_IMAGE
         [_mapView showBusesWithRoute:selectedRoute];
         [self invalidateRefreshTimer];
 #else
@@ -428,14 +427,14 @@ int const kRefreshInterval = 5;
             NSDictionary *point = points[y];
             coordinates[y] = CLLocationCoordinate2DMake([point[@"lat"] floatValue], [point[@"lon"] floatValue]);
         }
-        GBBusRouteLine *polygon = [GBBusRouteLine polylineWithCoordinates:coordinates count:[points count]];
+        GBRoutePolyLine *polygon = [GBRoutePolyLine polylineWithCoordinates:coordinates count:[points count]];
         polygon.color = selectedRoute.color;
         [_mapView addOverlay:polygon];
     }
     
     for (GBStop *stop in selectedRoute.stops) {
         GBStopAnnotation *stopAnnotation = [[GBStopAnnotation alloc] initWithStop:stop];
-#if DEBUG
+#if DEBUG && !APP_STORE_IMAGE
         stopAnnotation.title = FORMAT(@"%@ (%@)", stop.title, stop.tag);
 #else
         stopAnnotation.title = stop.title;
@@ -443,7 +442,7 @@ int const kRefreshInterval = 5;
         stopAnnotation.subtitle = NSLocalizedString(@"NO_PREDICTIONS", @"No predictions for stop");
         [stopAnnotation setCoordinate:CLLocationCoordinate2DMake(stop.lat, stop.lon)];
         [_mapView addAnnotation:stopAnnotation];
-#if APP_STORE_MAP
+#if APP_STORE_IMAGE
         stopAnnotation.subtitle = [MKMapView predictionsStringForRoute:selectedRoute];
         NSString *selectedStopTag = [MKMapView selectedStopTagForRoute:selectedRoute];
         if ([stopAnnotation.stop.tag isEqualToString:selectedStopTag])

@@ -10,7 +10,13 @@
 
 #import "GBConstants.h"
 
+#warning need a way to set extensionsuite
+#if NEXBUS_BUSES
+static NSString *const GBSharedDefaultsExtensionSuiteName = @"group.com.alexperez.nextbus-buses";
+#else
+//static NSString *const GBSharedDefaultsExtensionSuiteName = @"group.com.alexperez.nextbus-buses";
 static NSString *const GBSharedDefaultsExtensionSuiteName = @"group.com.alexperez.gt-buses";
+#endif
 
 @implementation NSUserDefaults (SharedDefaults)
 

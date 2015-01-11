@@ -53,6 +53,8 @@
 + (NSString *)selectedStopTagForRoute:(GBRoute *)route {
     if ([route.tag isEqualToString:@"red"]) return @"centrstud";
     else if ([route.tag isEqualToString:@"blue"]) return @"cherfers";
+    else if ([route.tag isEqualToString:@"green"]) return @"studcent_ib";
+    else if ([route.tag isEqualToString:@"trolley"]) return @"techsqua";
     return nil;
 }
 

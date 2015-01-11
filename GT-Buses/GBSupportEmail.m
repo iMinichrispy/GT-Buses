@@ -19,7 +19,7 @@
 
 + (NSString *)subject {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    return [NSString stringWithFormat:@"%@ Support", info[@"CFBundleDisplayName"]];
+    return [NSString stringWithFormat:@"%@ Support", info[@"CFBundleName"]];
 }
 
 + (NSString *)recipients {
@@ -50,7 +50,7 @@
         deviceInfo = [NSMutableString stringWithString:@"<-------- Info -------->\n"];
         [deviceInfo appendString:@"Report Type: Support\n"];
         NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-        [deviceInfo appendFormat:@"Product: %@\n", info[@"CFBundleDisplayName"]];
+        [deviceInfo appendFormat:@"Product: %@\n", info[@"CFBundleName"]];
         [deviceInfo appendFormat:@"Version: %@\n", info[@"CFBundleShortVersionString"]];
         [deviceInfo appendFormat:@"Build: %@\n", info[@"CFBundleVersion"]];
         UIDevice *currentDevice = [UIDevice currentDevice];

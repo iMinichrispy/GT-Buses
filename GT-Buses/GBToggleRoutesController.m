@@ -43,10 +43,15 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
     }
     [self.tableView registerClass:[GBRouteCell class] forCellReuseIdentifier:GBRouteCellIdentifier];
     
+    [self setupRoutes];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRoutes) name:GBNotificationRoutesDidChange object:nil];
+}
+
+- (void)setupRoutes {
     NSUserDefaults *sharedDefaults = [NSUserDefaults sharedDefaults];
     _disabledRoutes = [[sharedDefaults objectForKey:GBSharedDefaultsDisabledRoutesKey] mutableCopy];
     if (!_disabledRoutes) {
-        // TODO: This shouldn't ever be necessary
         _disabledRoutes = [NSMutableDictionary new];
     }
     
@@ -59,9 +64,9 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
     }
     _routes = newRoutes;
     
-    if (![savedRoutes count]) {
-        [self setStatus:NSLocalizedString(@"NO_SAVED_ROUTES", @"No saved routes")];
-    }
+    [self setStatus:([savedRoutes count]) ? nil : NSLocalizedString(@"NO_SAVED_ROUTES", @"No saved routes")];
+    
+    [self.tableView reloadData];
 }
 
 - (BOOL)routeDisabled:(GBRoute *)route {
@@ -73,6 +78,7 @@ static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
         [[NSUserDefaults sharedDefaults] synchronize];
         [[NSNotificationCenter defaultCenter] postNotificationName:GBNotificationDisabledRoutesDidChange object:nil];
     }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 

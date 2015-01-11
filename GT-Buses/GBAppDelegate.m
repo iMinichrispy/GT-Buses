@@ -44,8 +44,9 @@
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
     if (ROTATION_ENABLED) {
         // Don't allow rotation when settings is open since it interferes with the root view controller scale transform
+        
         GBWindow *gbwindow = (GBWindow *)window;
-        if (gbwindow.settingsVisible) {
+        if ([gbwindow isKindOfClass:[GBWindow class]] && gbwindow.settingsVisible) {
             UIInterfaceOrientation statusBarOrientation = [[UIApplication sharedApplication] statusBarOrientation];
             return UIInterfaceOrientationIsLandscape(statusBarOrientation) ? UIInterfaceOrientationMaskLandscape : (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown);
         }
@@ -65,8 +66,8 @@
     
     for (NSString *pair in components) {
         NSArray *pairComponents = [pair componentsSeparatedByString:@"="];
-        NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
-        NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+        NSString *key = [[pairComponents firstObject] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *value = [[pairComponents lastObject] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         queryDictionary[key] = value;
     }
     

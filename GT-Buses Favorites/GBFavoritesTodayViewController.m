@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "TodayViewController.h"
+#import "GBFavoritesTodayViewController.h"
 
 @import NotificationCenter;
 
-@interface TodayViewController () <NCWidgetProviding>
+@interface GBFavoritesTodayViewController () <NCWidgetProviding>
 
 @end
 
-@implementation TodayViewController
+@implementation GBFavoritesTodayViewController
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -37,7 +37,6 @@
 
 - (void)updateLayout {
     NSMutableArray *constraints = [NSMutableArray new];
-    
     for (UIView *view in self.sectionView.stopsView.subviews) {
         [view removeFromSuperview];
     }

@@ -8,7 +8,7 @@
 
 @import MapKit;
 
-@interface GBBusRouteLine : MKPolyline
+@interface GBRoutePolyLine : MKPolyline
 
 @property (nonatomic, strong) UIColor *color;
 

@@ -1,6 +1,6 @@
-//
+///
 //  TodayViewController.h
-//  GT-Buses Nearby
+//  GT-Buses Favorites
 //
 //  Created by Alex Perez on 11/21/14.
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
@@ -10,6 +10,6 @@
 
 #import "GBExtensionViewController.h"
 
-@interface TodayViewController : GBExtensionViewController
+@interface GBFavoritesTodayViewController : GBExtensionViewController
 
 @end

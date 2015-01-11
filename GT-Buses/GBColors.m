@@ -31,7 +31,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-#if APP_STORE_MAP
+#if APP_STORE_IMAGE
         _currentTintColor = [GBColors blueColor];
 #else
         NSArray *tintColors = [GBColors tintColors];

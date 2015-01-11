@@ -27,10 +27,7 @@
 float const kButtonHeight = 50.0f;
 float const kButtonWidth = 200.0f;
 
-@interface GBSettingsViewController () <UIActionSheetDelegate> {
-    GBHorizontalLayout *_horizontalLayout;
-    UIButton *_toggleRoutesButton;
-}
+@interface GBSettingsViewController () <UIActionSheetDelegate>
 
 @property (nonatomic, strong) UILabel *messageLabel;
 @property (nonatomic, strong) UIButton *reviewAppButton;
@@ -114,14 +111,10 @@ float const kButtonWidth = 200.0f;
     
     NSMutableArray *items = [NSMutableArray new];
     
-    // Only add the toggle routes button if the routes have been retrieved
-    NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
     UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
     [toggleRoutesButton setTitle:NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes button") forState:UIControlStateNormal];
     [toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-    toggleRoutesButton.enabled = ([routes count]);
     [items addObject:toggleRoutesButton];
-    _toggleRoutesButton = toggleRoutesButton;
     
     GBConfig *sharedConfig = [GBConfig sharedInstance];
     if ([sharedConfig canSelectAgency]) {
@@ -139,13 +132,17 @@ float const kButtonWidth = 200.0f;
         [items addObject:disableAdsButton];
     }
     
-    _horizontalLayout = [[GBHorizontalLayout alloc] init];
-    _horizontalLayout.translatesAutoresizingMaskIntoConstraints = NO;
-    _horizontalLayout.items = items;
-    [self.view addSubview:_horizontalLayout];
+    if ([items count] == 1) {
+        toggleRoutesButton.titleLabel.font = [UIFont fontWithName:GBFontDefault size:16];
+    }
     
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[_horizontalLayout]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, _horizontalLayout)]];
-    [constraints addObject:[GBConstraintHelper centerX:_horizontalLayout withView:self.view]];
+    GBHorizontalLayout *horizontalLayout = [[GBHorizontalLayout alloc] init];
+    horizontalLayout.translatesAutoresizingMaskIntoConstraints = NO;
+    horizontalLayout.items = items;
+    [self.view addSubview:horizontalLayout];
+    
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[horizontalLayout]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, horizontalLayout)]];
+    [constraints addObject:[GBConstraintHelper centerX:horizontalLayout withView:self.view]];
     
     [self.view addConstraints:constraints];
     
@@ -156,8 +153,6 @@ float const kButtonWidth = 200.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessage:) name:GBNotificationMessageDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateiOSVersion:) name:GBNotificationiOSVersionDidChange object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(agencyDidChange:) name:GBNotificationAgencyDidChange object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(routesDidChange:) name:GBNotificationRoutesDidChange object:nil];
     
     [self updateMessage:nil];
     [self updateiOSVersion:nil];
@@ -181,6 +176,26 @@ float const kButtonWidth = 200.0f;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+}
+
+- (void)reviewApp {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/gtbuses"]];
+}
+
+- (NSArray *)arrivalTimeItems {
+    NSInteger seconds = PREDICTION_EXAMPLE_SECONDS;
+    NSInteger minutes = (int) seconds / 60;
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:seconds];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setLocale:[NSLocale currentLocale]];
+    [formatter setDateFormat:@"h:mm"];
+    NSString *formattedPrediction = [formatter stringFromDate:date];
+    
+    NSString *inString = [NSString stringWithFormat:@"%@ %li", NSLocalizedString(@"PREDICTIONS_IN", @"In x, y, ..."), (long) minutes];
+    NSString *atString = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"PREDICTIONS_AT", @"At x, y, ..."), formattedPrediction];
+    
+    return @[inString, atString];
 }
 
 #pragma mark - Action Sheet
@@ -217,26 +232,6 @@ float const kButtonWidth = 200.0f;
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (void)reviewApp {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/gtbuses"]];
-}
-
-- (NSArray *)arrivalTimeItems {
-    NSInteger seconds = PREDICTION_EXAMPLE_SECONDS;
-    NSInteger minutes = (int) seconds / 60;
-    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:seconds];
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setLocale:[NSLocale currentLocale]];
-    [formatter setDateFormat:@"h:mm"];
-    NSString *formattedPrediction = [formatter stringFromDate:date];
-    
-    NSString *inString = [NSString stringWithFormat:@"%@ %li", NSLocalizedString(@"PREDICTIONS_IN", @"In x, y, ..."), (long) minutes];
-    NSString *atString = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"PREDICTIONS_AT", @"At x, y, ..."), formattedPrediction];
-    
-    return @[inString, atString];
-}
-
 #pragma mark - Config
 
 - (void)updateMessage:(NSNotification *)notification {
@@ -262,7 +257,7 @@ float const kButtonWidth = 200.0f;
     GBToggleRoutesController *routesController = [[GBToggleRoutesController alloc] init];
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:routesController];
     navController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    if (!IS_IPAD) [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
@@ -270,17 +265,8 @@ float const kButtonWidth = 200.0f;
     GBSelectAgencyController *agencyController = [[GBSelectAgencyController alloc] init];
     GBNavigationController *navController = [[GBNavigationController alloc] initWithRootViewController:agencyController];
     navController.modalPresentationStyle = UIModalPresentationFormSheet;
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    if (!IS_IPAD) [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self presentViewController:navController animated:YES completion:NULL];
-}
-
-- (void)agencyDidChange:(NSNotification *)notification {
-    _toggleRoutesButton.enabled = NO;
-}
-
-- (void)routesDidChange:(NSNotification *)notification {
-    NSArray *routes = [[NSUserDefaults sharedDefaults] objectForKey:GBSharedDefaultsRoutesKey];
-    _toggleRoutesButton.enabled = ([routes count]);
 }
 
 @end

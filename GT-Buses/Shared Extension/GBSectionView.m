@@ -45,7 +45,7 @@
 - (instancetype)initWithTitle:(NSString *)title defaultsKey:(NSString *)defaultsKey {
     self = [super init];
     if (self) {
-        _stopsVisibile = YES; // nsuserdefaults
+        _stopsVisibile = YES;
         
         _headerView = [[GBSectionHeaderView alloc] initWithTitle:title];
         [_headerView addTarget:self action:@selector(toggleStops) forControlEvents:UIControlEventTouchDown];
@@ -64,29 +64,7 @@
 }
 
 - (void)toggleStops {
-    if (_stopsVisibile) {
-        // hide stops
-//        for (UIView *view in _stopsView.subviews) {
-//            [view removeFromSuperview];
-//        }
-//        [_stopsView setNeedsUpdateConstraints];
-////        [_stopsView setNeedsLayout];
-//        [UIView animateWithDuration:5 animations:^{
-//            [_stopsView addConstraint:[NSLayoutConstraint
-//                                       constraintWithItem:_stopsView
-//                                       attribute:NSLayoutAttributeHeight
-//                                       relatedBy:NSLayoutRelationEqual
-//                                       toItem:nil
-//                                       attribute:0
-//                                       multiplier:1
-//                                       constant:0]];
-//            [_stopsView layoutIfNeeded];
-//        }];
-        
-    } else {
-        //show stops
-    }
-    _stopsVisibile = !_stopsVisibile;
+    // TODO: Add ability to show/hide stops
 }
 
 - (void)addParameterForStop:(GBStop *)stop {

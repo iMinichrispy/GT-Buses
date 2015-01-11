@@ -17,7 +17,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        
         self.alpha = .9;
         
         _busRouteControl = [[GBSegmentedControl alloc] init];
@@ -27,7 +26,6 @@
         _activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
         
         _errorLabel = [[GBLabel alloc] init];
-#warning test error label font on previous verisons
         _errorLabel.textAlignment = NSTextAlignmentCenter;
         _errorLabel.font = nil;
         _errorLabel.hidden = YES;

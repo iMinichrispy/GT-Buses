@@ -157,7 +157,7 @@ float const kSettingsViewAnimationSpeed = .2;
     
     GBBuildingsViewController *buildingsController = [[GBBuildingsViewController alloc] init];
     buildingsController.delegate = self;
-#warning test this again on iOS 6
+    
     // TODO: [Bug] After searchbar keyboard disappears on <iOS 7, it can't be selected again
     UISearchBar *searchBar = [[UISearchBar alloc] init];
     searchBar.placeholder = NSLocalizedString(@"SEARCH_PLACEHOLDER", @"Placeholder text for search bar");

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Alex Perez. All rights reserved.
 //
 
-#import "TodayViewController.h"
+#import "GBNearbyTodayViewController.h"
 
 #import "GBStopGroup.h"
 #import "GBDirection.h"
@@ -14,16 +14,14 @@
 @import NotificationCenter;
 @import CoreLocation;
 
-@interface TodayViewController () <NCWidgetProviding, CLLocationManagerDelegate> {
-    CLLocation *previousLocation;
-}
+@interface GBNearbyTodayViewController () <NCWidgetProviding, CLLocationManagerDelegate>
 
 @property (nonatomic, strong) NSArray *savedRoutes;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
 @end
 
-@implementation TodayViewController
+@implementation GBNearbyTodayViewController
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
@@ -54,11 +52,6 @@
         _locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
     }
     return self;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self setupForUserLocation];
 }
 
 - (void)insertStopGroup:(GBStopGroup *)newStopGroup inNearestStops:(NSMutableArray *)nearestStops withDistance:(CLLocationDistance)distance {
@@ -150,11 +143,7 @@
 #pragma mark - Location Manager
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    CLLocation *currentLocation = _locationManager.location;
-    if ([previousLocation distanceFromLocation:currentLocation]) {
-        [self updateLayout];
-    }
-    previousLocation = currentLocation;
+    [self updateLayout];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {

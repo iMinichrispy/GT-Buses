@@ -10,7 +10,7 @@
 
 #import "GBBusAnnotation.h"
 #import "GBStopAnnotation.h"
-#import "GBBusRouteLine.h"
+#import "GBRoutePolyLine.h"
 #import "GBBusAnnotationView.h"
 #import "GBStopAnnotationView.h"
 #import "GBConfig.h"
@@ -25,7 +25,7 @@ static NSString *const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier";
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineView *line = [[MKPolylineView alloc] initWithPolyline:overlay];
-        line.strokeColor = ((GBBusRouteLine *)overlay).color;
+        line.strokeColor = ((GBRoutePolyLine *)overlay).color;
         line.lineWidth = (([[GBConfig sharedInstance] isParty])) ? 20 : 10;
         line.lineCap = kCGLineCapButt;
         line.alpha = .5;
@@ -38,7 +38,7 @@ static NSString *const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier";
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id <MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *line = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
-        line.strokeColor = ((GBBusRouteLine *)overlay).color;
+        line.strokeColor = ((GBRoutePolyLine *)overlay).color;
         
         float lineWidth;
         if (IS_IPAD) lineWidth = 9;
