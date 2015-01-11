@@ -22,6 +22,7 @@
 #import "GBWindow.h"
 #import "GBConfig.h"
 #import "GBAgency.h"
+#import "GBIAPHelper.h"
 
 @interface GBRootViewController () <GBBuidlingsDelegate, ADBannerViewDelegate> {
     NSLayoutConstraint *_mapViewBottomContraint;
@@ -49,16 +50,7 @@ float const kSettingsViewAnimationSpeed = .2;
     NSMutableArray *constraints = [NSMutableArray new];
     UIView *mapViewControllerView = _mapViewController.view;
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapViewControllerView]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
-    _mapViewBottomContraint = [NSLayoutConstraint
-                               constraintWithItem:mapViewControllerView
-                               attribute:NSLayoutAttributeBottom
-                               relatedBy:NSLayoutRelationEqual
-                               toItem:self.view
-                               attribute:NSLayoutAttributeBottom
-                               multiplier:1.0
-                               constant:0.0];
-    [constraints addObject:_mapViewBottomContraint];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[mapViewControllerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(mapViewControllerView)]];
     [self.view addConstraints:constraints];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
@@ -283,30 +275,33 @@ float const kSettingsViewAnimationSpeed = .2;
 #pragma mark - Ads
 
 - (void)adsVisibleDidChange:(NSNotification *)notification {
-    if ([GBConfig sharedInstance].adsVisible) {
-        _adBannerView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
-        _adBannerView.delegate = self;
-        _adBannerView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addSubview:_adBannerView];
-        
-        [self.view removeConstraint:_mapViewBottomContraint];
-        UIView *mapViewControllerView = _mapViewController.view;
-        NSMutableArray *constraints = [NSMutableArray new];
-        _mapViewBottomContraint = [NSLayoutConstraint
-                                   constraintWithItem:mapViewControllerView
-                                   attribute:NSLayoutAttributeBottom
-                                   relatedBy:NSLayoutRelationEqual
-                                   toItem:_adBannerView
-                                   attribute:NSLayoutAttributeBottom
-                                   multiplier:1.0
-                                   constant:0.0];
-        [constraints addObject:_mapViewBottomContraint];
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_adBannerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_adBannerView)]];
-        [self.view addConstraints:constraints];
-    } else {
-        [_adBannerView removeFromSuperview];
-        // TODO: constraints
+    GBConfig *sharedConfig = [GBConfig sharedInstance];
+    if (sharedConfig.adsEnabled) {
+        if (sharedConfig.adsVisible) {
+            _adBannerView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+            _adBannerView.delegate = self;
+            _adBannerView.hidden = YES;
+            _adBannerView.translatesAutoresizingMaskIntoConstraints = NO;
+            [self.view addSubview:_adBannerView];
+            
+            NSMutableArray *constraints = [NSMutableArray new];
+            double constant = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? 0.0 : 50.0; // No idea why this is necessary
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_adBannerView]-constant-|" options:0 metrics:@{@"constant":@(constant)} views:NSDictionaryOfVariableBindings(_adBannerView)]];
+            [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_adBannerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_adBannerView)]];
+            [self.view addConstraints:constraints];
+        } else {
+            [_adBannerView removeFromSuperview];
+            _adBannerView = nil;
+        }
     }
+}
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner {
+    banner.hidden = NO;
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
+    banner.hidden = YES;
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave {

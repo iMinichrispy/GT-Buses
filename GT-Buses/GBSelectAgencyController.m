@@ -24,7 +24,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     NSIndexPath *_selectedPath;
     BOOL _didChangeAgency;
 }
-
+#warning if no wifi at first launch, user is stuck
 @property (nonatomic, strong) NSArray *agencies;
 
 @end

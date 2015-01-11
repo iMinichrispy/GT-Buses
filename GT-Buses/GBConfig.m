@@ -11,6 +11,7 @@
 #import "GBConstants.h"
 #import "GBRequestConfig.h"
 #import "GBAgency.h"
+#import "GBIAPHelper.h"
 
 @interface GBConfig ()
 
@@ -55,6 +56,8 @@
         
         _requestConfig = [[GBRequestConfig alloc] initWithAgency:_agency.tag];
         _showsArrivalTime = [sharedDefaults boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
+        
+        _adsVisible = ![[GBIAPHelper sharedInstance] productPurchased:NBIAPRemoveAdsIdentifier];
     }
     return self;
 }

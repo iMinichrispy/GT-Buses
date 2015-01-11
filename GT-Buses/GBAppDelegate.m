@@ -16,18 +16,15 @@
 #import "GBRequestConfig.h"
 #import "NSUserDefaults+SharedDefaults.h"
 #import "GBAgency.h"
+#import "GBIAPHelper.h"
 
 @implementation GBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [GBConfig sharedInstance].agency = [GBAgency georgiaTechAgency];
-//    [GBConfig sharedInstance].adsEnabled = YES;
-//    [GBConfig sharedInstance].adsVisible = YES;
-//    [GBConfig sharedInstance].canSelectAgency = YES;
     
     self.viewController = [[GBRootViewController alloc] init];
-    
 #if !DEFAULT_IMAGE
     self.viewController.title = NSLocalizedString(@"GT_BUSES_TITLE", @"GT Buses main title");
 #endif

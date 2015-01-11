@@ -139,6 +139,10 @@
 		FAA272681A3D372900C40D25 /* GBLabelEffectView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA272641A3D372900C40D25 /* GBLabelEffectView.m */; };
 		FAA5E6C81A563ADA0055DD40 /* UITableViewController+StatusLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA5E6C71A563ADA0055DD40 /* UITableViewController+StatusLabel.m */; };
 		FAA7B6B81A194F1200CB8FB2 /* GBDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */; };
+		FAAB47021A6253ED00FFF9F0 /* GBIAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB47011A6253ED00FFF9F0 /* GBIAPHelper.m */; };
+		FAAB47061A6254B900FFF9F0 /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB47051A6254B900FFF9F0 /* IAPHelper.m */; };
+		FAAB47071A6255F000FFF9F0 /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB47051A6254B900FFF9F0 /* IAPHelper.m */; };
+		FAAB47081A6255F600FFF9F0 /* GBIAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB47011A6253ED00FFF9F0 /* GBIAPHelper.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB56ABD1A229E4200CBDD76 /* GBSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB56ABC1A229E4200CBDD76 /* GBSettingsViewController.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+MailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+MailComposer.m */; };
@@ -312,6 +316,10 @@
 		FAA5E6C71A563ADA0055DD40 /* UITableViewController+StatusLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewController+StatusLabel.m"; sourceTree = "<group>"; };
 		FAA7B6B61A194F1200CB8FB2 /* GBDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBDirection.h; sourceTree = "<group>"; };
 		FAA7B6B71A194F1200CB8FB2 /* GBDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBDirection.m; sourceTree = "<group>"; };
+		FAAB47001A6253ED00FFF9F0 /* GBIAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBIAPHelper.h; sourceTree = "<group>"; };
+		FAAB47011A6253ED00FFF9F0 /* GBIAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBIAPHelper.m; sourceTree = "<group>"; };
+		FAAB47041A6254B900FFF9F0 /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
+		FAAB47051A6254B900FFF9F0 /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
 		FAB56ABB1A229E4200CBDD76 /* GBSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSettingsViewController.h; sourceTree = "<group>"; };
@@ -433,6 +441,8 @@
 				FA938B401A26C8900018823A /* GBConstraintHelper.m */,
 				FA14BD301A5DDD2B00D3717D /* GBBuildingsHelper.h */,
 				FA14BD311A5DDD2B00D3717D /* GBBuildingsHelper.m */,
+				FAAB47001A6253ED00FFF9F0 /* GBIAPHelper.h */,
+				FAAB47011A6253ED00FFF9F0 /* GBIAPHelper.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -492,6 +502,7 @@
 				FA1FE97E18A1D9DD00757643 /* XMLReader */,
 				FA5531441A20E75300BAFB90 /* en.lproj */,
 				FA1FE93118A1D8A300757643 /* Info.plist */,
+				FAAB47031A6254A200FFF9F0 /* IAPHelper */,
 				FA75CFEA1A13D163000B9CD6 /* GT-Buses.entitlements */,
 				FA1FE93518A1D8A300757643 /* main.m */,
 				FA1FE93718A1D8A300757643 /* GT-Buses-Prefix.pch */,
@@ -669,6 +680,15 @@
 				FA1FE98318A1D9F800757643 /* RequestHandler.m */,
 			);
 			name = RequestHandler;
+			sourceTree = "<group>";
+		};
+		FAAB47031A6254A200FFF9F0 /* IAPHelper */ = {
+			isa = PBXGroup;
+			children = (
+				FAAB47041A6254B900FFF9F0 /* IAPHelper.h */,
+				FAAB47051A6254B900FFF9F0 /* IAPHelper.m */,
+			);
+			name = IAPHelper;
 			sourceTree = "<group>";
 		};
 		FAB9D2681A2270F700EC9736 /* GT-Buses Nearby */ = {
@@ -1019,11 +1039,13 @@
 				FAA2725F1A3CE51F00C40D25 /* GBToggleRoutesController.m in Sources */,
 				FA75CFD31A13CD27000B9CD6 /* GBFavoriteButton.m in Sources */,
 				FADE7D161967605B00F318D5 /* GBRequestHandler.m in Sources */,
+				FAAB47061A6254B900FFF9F0 /* IAPHelper.m in Sources */,
 				FAA270EC1A41FC160071818A /* GBAgency.m in Sources */,
 				FAA270EF1A41FCE80071818A /* GBAgencyCell.m in Sources */,
 				FA1FE93618A1D8A300757643 /* main.m in Sources */,
 				FA8D789119C7AACE000A657C /* GBSupportEmail.m in Sources */,
 				FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */,
+				FAAB47021A6253ED00FFF9F0 /* GBIAPHelper.m in Sources */,
 				FA2B6FC41A1430BA00C60449 /* GBStop.m in Sources */,
 				FAF453B91A2141E7005A16A9 /* UIDevice+Hardware.m in Sources */,
 				FA95F34A1A3E985D0072F0CA /* GBRequestConfig.m in Sources */,
@@ -1075,8 +1097,10 @@
 				FA22FF9E1A60B378005C6740 /* GBBuilding.m in Sources */,
 				FA5E51021A256A810031E825 /* MKMapView+AppStoreMap.m in Sources */,
 				FA95F3501A3EC3A90072F0CA /* GBBuildingCell.m in Sources */,
+				FAAB47081A6255F600FFF9F0 /* GBIAPHelper.m in Sources */,
 				FA5E50F51A2569260031E825 /* GBConstants.m in Sources */,
 				FA454E931A60B17A003F9C3C /* GBAgency.m in Sources */,
+				FAAB47071A6255F000FFF9F0 /* IAPHelper.m in Sources */,
 				FA5E510C1A256B070031E825 /* GBColors.m in Sources */,
 				FA5E51041A256A870031E825 /* GBRoutePolyLine.m in Sources */,
 				FA5E50F71A25692D0031E825 /* GBSettingsViewController.m in Sources */,

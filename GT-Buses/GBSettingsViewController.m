@@ -21,16 +21,21 @@
 #import "GBHorizontalLayout.h"
 #import "GBBorderButton.h"
 #import "GBSelectAgencyController.h"
+#import "GBIAPHelper.h"
 
 #define PREDICTION_EXAMPLE_SECONDS     300
 
 float const kButtonHeight = 50.0f;
 float const kButtonWidth = 200.0f;
 
-@interface GBSettingsViewController () <UIActionSheetDelegate>
+@interface GBSettingsViewController () <UIActionSheetDelegate, UIAlertViewDelegate> {
+    NSArray *_products;
+    UIButton *_removeAdsButton;
+    UIButton *_reviewAppButton;
+    UIActivityIndicatorView *_activityIndicator;
+}
 
 @property (nonatomic, strong) UILabel *messageLabel;
-@property (nonatomic, strong) UIButton *reviewAppButton;
 
 @end
 
@@ -125,21 +130,43 @@ float const kButtonWidth = 200.0f;
     }
     
     if ([sharedConfig adsEnabled]) {
-        UIButton *disableAdsButton = [[GBBorderButton alloc] init];
-//        disableAdsButton.enabled = [sharedConfig adsVisible];
-        [disableAdsButton setTitle:NSLocalizedString(@"REMOVE_ADS", @"Remove ads button") forState:UIControlStateNormal];
-        [disableAdsButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-        [items addObject:disableAdsButton];
-    }
-    
-    if ([items count] == 1) {
-        toggleRoutesButton.titleLabel.font = [UIFont fontWithName:GBFontDefault size:16];
+        BOOL adsRemoved = [[GBIAPHelper sharedInstance] productPurchased:NBIAPRemoveAdsIdentifier];
+        UIButton *removeAdsButton = [[GBBorderButton alloc] init];
+        removeAdsButton.enabled = !adsRemoved;
+        [removeAdsButton setTitle:NSLocalizedString(@"REMOVE_ADS", @"Remove ads button") forState:UIControlStateNormal];
+        [removeAdsButton addTarget:self action:@selector(removeAds:) forControlEvents:UIControlEventTouchUpInside];
+        [items addObject:removeAdsButton];
+        _removeAdsButton = removeAdsButton;
+        
+        if (!adsRemoved) {
+            [[GBIAPHelper sharedInstance] requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
+                _products = products;
+            }];
+        }
     }
     
     GBHorizontalLayout *horizontalLayout = [[GBHorizontalLayout alloc] init];
     horizontalLayout.translatesAutoresizingMaskIntoConstraints = NO;
     horizontalLayout.items = items;
     [self.view addSubview:horizontalLayout];
+    
+    if ([items count] == 1) {
+        toggleRoutesButton.titleLabel.font = [UIFont fontWithName:GBFontDefault size:16];
+    } else if ([items count] == 3) {
+        UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:activityIndicator];
+        _activityIndicator = activityIndicator;
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_removeAdsButton]-9-[activityIndicator]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_removeAdsButton, activityIndicator)]];
+        [constraints addObject:[NSLayoutConstraint
+                                constraintWithItem:activityIndicator
+                                attribute:NSLayoutAttributeCenterY
+                                relatedBy:NSLayoutRelationEqual
+                                toItem:_removeAdsButton
+                                attribute:NSLayoutAttributeCenterY
+                                multiplier:1.0
+                                constant:0]];
+    }
     
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[horizontalLayout]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, horizontalLayout)]];
     [constraints addObject:[GBConstraintHelper centerX:horizontalLayout withView:self.view]];
@@ -153,6 +180,8 @@ float const kButtonWidth = 200.0f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMessage:) name:GBNotificationMessageDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateiOSVersion:) name:GBNotificationiOSVersionDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateRemoveAds:) name:GBNotificationAdsVisibleDidChange object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(transactionFinished:) name:IAPHelperTransactionFinishedNotification object:nil];
     
     [self updateMessage:nil];
     [self updateiOSVersion:nil];
@@ -267,6 +296,47 @@ float const kButtonWidth = 200.0f;
     navController.modalPresentationStyle = UIModalPresentationFormSheet;
     if (!IS_IPAD) [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [self presentViewController:navController animated:YES completion:NULL];
+}
+
+#pragma mark - Remove Ads
+
+- (void)removeAds:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"PURCHASE_OR_RESTORE_TITLE", @"Purchase or restore alert title") message:NSLocalizedString(@"PURCHASE_OR_RESTORE_MESSAGE", @"Purchase or restore alert message") delegate:self cancelButtonTitle:NSLocalizedString(@"CANCEL", @"Cancel") otherButtonTitles:NSLocalizedString(@"PURCHASE", @"Purchase"), NSLocalizedString(@"RESTORE", @"Restore"), nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        if ([_products count]) {
+            SKProduct *product = [_products firstObject];
+            [[GBIAPHelper sharedInstance] buyProduct:product];
+            [_activityIndicator startAnimating];
+        } else {
+            [[GBIAPHelper sharedInstance] requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
+                _products = products;
+                if (success) {
+                    SKProduct *product = (SKProduct *)[products firstObject];
+                    [[GBIAPHelper sharedInstance] buyProduct:product];
+                    [_activityIndicator startAnimating];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ALERT", @"Alert title") message:NSLocalizedString(@"REQUEST_PRODUCTS_FAIL_MESSAGE", @"Request products alert fail message") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
+                    [alert show];
+                }
+            }];
+        }
+    } else if (buttonIndex == 2) {
+        [[GBIAPHelper sharedInstance] restoreCompletedTransactions];
+        [_activityIndicator startAnimating];
+    }
+}
+
+- (void)updateRemoveAds:(NSNotification *)notification {
+    BOOL adsRemoved = [[GBIAPHelper sharedInstance] productPurchased:NBIAPRemoveAdsIdentifier];
+    _removeAdsButton.enabled = !adsRemoved;
+}
+
+- (void)transactionFinished:(NSNotification *)notification {
+    [_activityIndicator stopAnimating];
 }
 
 @end
