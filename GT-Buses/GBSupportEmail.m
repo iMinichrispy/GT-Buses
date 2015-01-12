@@ -36,6 +36,10 @@
     [body appendFormat:@"Shows Arrival Time: %d\n", [sharedConfig showsArrivalTime]];
     [body appendFormat:@"Shows Bus Identifiers: %d\n", [sharedConfig showsBusIdentifiers]];
     
+    if ([sharedConfig adsEnabled]) {
+        [body appendFormat:@"Ads Visible: %d\n", [sharedConfig adsVisible]];
+    }
+    
     NSInteger color = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedColorKey];
     // If color is 0, it's the default color (which we don't care about)
     if (color) [body appendFormat:@"Color: %ld\n", (long)color];

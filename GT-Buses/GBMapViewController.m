@@ -71,15 +71,19 @@ int const kRefreshInterval = 5;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-#if DEFAULT_IMAGE || HIDE_MAP
-    self.title = @"";
-    self.navigationItem.leftBarButtonItem = nil;
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+#warning ios 6 ipad default images
+#if DEFAULT_IMAGE || HIDE_MAPs
     UIView *blankView = [[UIView alloc] initWithFrame:self.view.bounds];
+    blankView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
     blankView.backgroundColor = RGBColor(240, 235, 212);
     [self.view addSubview:blankView];
 #else
     _mapView = [[GBMapView alloc] init];
     [self.view addSubview:_mapView];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_mapView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_mapView)]];
 #endif
     
     _busRouteControlView = [[GBRouteControlView alloc] init];
@@ -87,9 +91,6 @@ int const kRefreshInterval = 5;
     [_busRouteControlView.refreshButton addTarget:self action:@selector(requestUpdate) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_busRouteControlView];
     
-    NSMutableArray *constraints = [NSMutableArray new];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_mapView)]];
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mapView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_mapView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_busRouteControlView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_busRouteControlView(controlViewHeight)]" options:0 metrics:@{@"controlViewHeight":@43} views:NSDictionaryOfVariableBindings(_busRouteControlView)]];
     [self.view addConstraints:constraints];

@@ -59,6 +59,12 @@ float const kSettingsViewAnimationSpeed = .2;
     
     [self agencyDidChange:nil];
     [self adsVisibleDidChange:nil];
+    
+#if DEFAULT_IMAGE
+    self.title = @"";
+    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = nil;
+#endif
 }
 
 - (void)agencyDidChange:(NSNotification *)notifications {

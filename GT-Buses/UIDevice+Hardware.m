@@ -19,12 +19,9 @@
     return YES;
 #else
     if (NSClassFromString(@"UIVisualEffectView")) {
-        if (UIAccessibilityIsReduceTransparencyEnabled()) {
-            return NO;
-        }
+        if (UIAccessibilityIsReduceTransparencyEnabled()) return NO;
         
         NSString *machineName = [self machineName];
-        
         // iPad 2 and iPad 3 (AKA iPad w/ Retina Display) are the only >=iOS 8 devices that don't support blurring
         NSArray *incompatibleDevices = @[@"iPad2,1", @"iPad2,2", @"iPad2,3", @"iPad2,4", @"iPad3,1", @"iPad3,2", @"iPad3,3"];
         if ([incompatibleDevices containsObject:machineName]) {
