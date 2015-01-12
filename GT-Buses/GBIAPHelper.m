@@ -8,9 +8,9 @@
 
 #import "GBIAPHelper.h"
 
-@implementation GBIAPHelper
+#import "GBConstants.h"
 
-NSString *const NBIAPRemoveAdsIdentifier = @"com.alexperez.nextbusbuses.removeAds";
+@implementation GBIAPHelper
 
 + (GBIAPHelper *)sharedInstance {
     static dispatch_once_t once;

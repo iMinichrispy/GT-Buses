@@ -31,3 +31,5 @@ NSString *const GBNotificationDisabledRoutesDidChange = @"GBNotificationDisabled
 NSString *const GBNotificationAgencyDidChange = @"GBNotificationAgencyDidChange";
 NSString *const GBNotificationAdsVisibleDidChange = @"GBNotificationAdsVisibleDidChange";
 NSString *const GBNotificationRoutesDidChange = @"GBNotificationRoutesDidChange";
+
+NSString *const NBIAPRemoveAdsIdentifier = @"com.alexperez.nextbusbuses.removeAds";

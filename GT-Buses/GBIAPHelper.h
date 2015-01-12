@@ -8,8 +8,6 @@
 
 #import "IAPHelper.h"
 
-extern NSString *const NBIAPRemoveAdsIdentifier;
-
 @interface GBIAPHelper : IAPHelper
 
 + (GBIAPHelper *)sharedInstance;

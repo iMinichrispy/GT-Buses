@@ -45,7 +45,7 @@ static NSString *const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     }
     return self;
 }
-#warning testing required
+
 - (void)loadView {
     UITableView *tableView = [[UITableView alloc] init];
     tableView.translatesAutoresizingMaskIntoConstraints = NO;

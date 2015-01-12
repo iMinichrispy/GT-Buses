@@ -143,6 +143,8 @@
 		FAAB47061A6254B900FFF9F0 /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB47051A6254B900FFF9F0 /* IAPHelper.m */; };
 		FAAB47071A6255F000FFF9F0 /* IAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB47051A6254B900FFF9F0 /* IAPHelper.m */; };
 		FAAB47081A6255F600FFF9F0 /* GBIAPHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB47011A6253ED00FFF9F0 /* GBIAPHelper.m */; };
+		FAAB470B1A63434900FFF9F0 /* GBSettingsButtonsLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB470A1A63434900FFF9F0 /* GBSettingsButtonsLayout.m */; };
+		FAAB470C1A63458100FFF9F0 /* GBSettingsButtonsLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAB470A1A63434900FFF9F0 /* GBSettingsButtonsLayout.m */; };
 		FAAF78F819A8F53000E4B2D6 /* MKMapView+AppStoreMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */; };
 		FAB56ABD1A229E4200CBDD76 /* GBSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB56ABC1A229E4200CBDD76 /* GBSettingsViewController.m */; };
 		FAB682D2199D436600C0BF89 /* UIViewController+MailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAB682D1199D436600C0BF89 /* UIViewController+MailComposer.m */; };
@@ -320,6 +322,8 @@
 		FAAB47011A6253ED00FFF9F0 /* GBIAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBIAPHelper.m; sourceTree = "<group>"; };
 		FAAB47041A6254B900FFF9F0 /* IAPHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAPHelper.h; sourceTree = "<group>"; };
 		FAAB47051A6254B900FFF9F0 /* IAPHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAPHelper.m; sourceTree = "<group>"; };
+		FAAB47091A63434900FFF9F0 /* GBSettingsButtonsLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSettingsButtonsLayout.h; sourceTree = "<group>"; };
+		FAAB470A1A63434900FFF9F0 /* GBSettingsButtonsLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBSettingsButtonsLayout.m; sourceTree = "<group>"; };
 		FAAF78F619A8F53000E4B2D6 /* MKMapView+AppStoreMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+AppStoreMap.h"; sourceTree = "<group>"; };
 		FAAF78F719A8F53000E4B2D6 /* MKMapView+AppStoreMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+AppStoreMap.m"; sourceTree = "<group>"; };
 		FAB56ABB1A229E4200CBDD76 /* GBSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSettingsViewController.h; sourceTree = "<group>"; };
@@ -500,9 +504,9 @@
 			children = (
 				FAA4EB9119A7BEB200AF68E3 /* RequestHandler */,
 				FA1FE97E18A1D9DD00757643 /* XMLReader */,
+				FAAB47031A6254A200FFF9F0 /* IAPHelper */,
 				FA5531441A20E75300BAFB90 /* en.lproj */,
 				FA1FE93118A1D8A300757643 /* Info.plist */,
-				FAAB47031A6254A200FFF9F0 /* IAPHelper */,
 				FA75CFEA1A13D163000B9CD6 /* GT-Buses.entitlements */,
 				FA1FE93518A1D8A300757643 /* main.m */,
 				FA1FE93718A1D8A300757643 /* GT-Buses-Prefix.pch */,
@@ -649,6 +653,8 @@
 				FACEB9901A4B54B800BE668B /* GBBorderButton.m */,
 				FAA5E6C61A563ADA0055DD40 /* UITableViewController+StatusLabel.h */,
 				FAA5E6C71A563ADA0055DD40 /* UITableViewController+StatusLabel.m */,
+				FAAB47091A63434900FFF9F0 /* GBSettingsButtonsLayout.h */,
+				FAAB470A1A63434900FFF9F0 /* GBSettingsButtonsLayout.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -1046,6 +1052,7 @@
 				FA8D789119C7AACE000A657C /* GBSupportEmail.m in Sources */,
 				FACFA1A21A0DAE2A00F3E2C3 /* GBConfig.m in Sources */,
 				FAAB47021A6253ED00FFF9F0 /* GBIAPHelper.m in Sources */,
+				FAAB470B1A63434900FFF9F0 /* GBSettingsButtonsLayout.m in Sources */,
 				FA2B6FC41A1430BA00C60449 /* GBStop.m in Sources */,
 				FAF453B91A2141E7005A16A9 /* UIDevice+Hardware.m in Sources */,
 				FA95F34A1A3E985D0072F0CA /* GBRequestConfig.m in Sources */,
@@ -1064,6 +1071,7 @@
 				FA5E51071A256A8C0031E825 /* GBStopAnnotation.m in Sources */,
 				FA5E510E1A256B070031E825 /* GBRouteControlView.m in Sources */,
 				FA95F3571A3EC3DB0072F0CA /* NSUserDefaults+SharedDefaults.m in Sources */,
+				FAAB470C1A63458100FFF9F0 /* GBSettingsButtonsLayout.m in Sources */,
 				FA5E51181A256B160031E825 /* GBDirection.m in Sources */,
 				FAA272681A3D372900C40D25 /* GBLabelEffectView.m in Sources */,
 				FA5E51161A256B160031E825 /* GBRoute.m in Sources */,
@@ -1306,7 +1314,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"DEFAULT_IMAGE=0",
-					"APP_STORE_IMAGE=1",
+					"APP_STORE_IMAGE=0",
 					"HIDE_MAP=0",
 					"LOCAL_SERVER=0",
 				);
@@ -1406,7 +1414,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"EXTENSION=1",
 					"$(inherited)",
-					"APP_STORE_IMAGE=1",
+					"APP_STORE_IMAGE=0",
 				);
 				INFOPLIST_FILE = "GT-Buses Nearby/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1450,7 +1458,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"EXTENSION=1",
 					"$(inherited)",
-					"APP_STORE_IMAGE=1",
+					"APP_STORE_IMAGE=0",
 				);
 				INFOPLIST_FILE = "GT-Buses Favorites/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

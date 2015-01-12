@@ -24,7 +24,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     NSIndexPath *_selectedPath;
     BOOL _didChangeAgency;
 }
-#warning if no wifi at first launch, user is stuck
+
 @property (nonatomic, strong) NSArray *agencies;
 
 @end
@@ -35,6 +35,10 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"SELECT_AGENCY", @"Select agency");
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshAgencies) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss:)];
     doneButton.enabled = [GBConfig sharedInstance].agency != nil;
@@ -83,6 +87,11 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self refreshAgencies];
+}
+
+- (void)refreshAgencies {
+    [self.refreshControl beginRefreshing];
     GBRequestHandler *requestHandler = [[GBRequestHandler alloc] initWithTask:GBRequestAgencyTask delegate:self];
     [requestHandler agencyList];
 }
@@ -90,6 +99,7 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
+    [self.refreshControl endRefreshing];
     if (!error && dictionary) {
         NSArray *agencies = dictionary[@"body"][@"agency"];
         if (![agencies isKindOfClass:[NSArray class]]) agencies = @[agencies];
@@ -121,7 +131,10 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
 }
 
 - (void)handleError:(RequestHandler *)handler error:(NSError *)error {
-    [self setStatus:FORMAT(@"%@%@.", NSLocalizedString(@"AGENCY_LIST_ERROR", @"Failed to retrieve agency list"), [GBRequestHandler errorMessageForCode:[error code]])];
+    [self.refreshControl endRefreshing];
+    if (![_agencies count]) {
+        [self setStatus:FORMAT(@"%@%@.", NSLocalizedString(@"AGENCY_LIST_ERROR", @"Failed to retrieve agency list"), [GBRequestHandler errorMessageForCode:[error code]])];
+    }
 }
 
 #pragma mark - Table view data source

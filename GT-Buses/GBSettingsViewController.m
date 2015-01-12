@@ -18,7 +18,7 @@
 #import "UIViewController+MailComposer.h"
 #import "GBSegmentedOptionView.h"
 #import "GBToggleRoutesController.h"
-#import "GBHorizontalLayout.h"
+#import "GBSettingsButtonsLayout.h"
 #import "GBBorderButton.h"
 #import "GBSelectAgencyController.h"
 #import "GBIAPHelper.h"
@@ -30,12 +30,11 @@ float const kButtonWidth = 200.0f;
 
 @interface GBSettingsViewController () <UIActionSheetDelegate, UIAlertViewDelegate> {
     NSArray *_products;
+    UILabel *_messageLabel;
     UIButton *_removeAdsButton;
     UIButton *_reviewAppButton;
     UIActivityIndicatorView *_activityIndicator;
 }
-
-@property (nonatomic, strong) UILabel *messageLabel;
 
 @end
 
@@ -114,63 +113,32 @@ float const kButtonWidth = 200.0f;
     [constraints addObject:[GBConstraintHelper centerX:_reviewAppButton withView:self.view]];
     [constraints addObject:[GBConstraintHelper widthConstraint:_reviewAppButton width:kButtonWidth]];
     
-    NSMutableArray *items = [NSMutableArray new];
+    GBSettingsButtonsLayout *buttonLayout = [[GBSettingsButtonsLayout alloc] init];
+    [buttonLayout.toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonLayout.selectAgencyButton addTarget:self action:@selector(showSelectAgency:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonLayout.removeAdsButton addTarget:self action:@selector(removeAds:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:buttonLayout];
+    _removeAdsButton = buttonLayout.removeAdsButton;
     
-    UIButton *toggleRoutesButton = [[GBBorderButton alloc] init];
-    [toggleRoutesButton setTitle:NSLocalizedString(@"TOGGLE_ROUTES", @"Toggle routes button") forState:UIControlStateNormal];
-    [toggleRoutesButton addTarget:self action:@selector(showToggleRoutes:) forControlEvents:UIControlEventTouchUpInside];
-    [items addObject:toggleRoutesButton];
-    
-    GBConfig *sharedConfig = [GBConfig sharedInstance];
-    if ([sharedConfig canSelectAgency]) {
-        UIButton *selectAgencyButton = [[GBBorderButton alloc] init];
-        [selectAgencyButton setTitle:NSLocalizedString(@"SELECT_AGENCY", @"Select agency button") forState:UIControlStateNormal];
-        [selectAgencyButton addTarget:self action:@selector(showSelectAgency:) forControlEvents:UIControlEventTouchUpInside];
-        [items addObject:selectAgencyButton];
+    BOOL adsRemoved = [[GBIAPHelper sharedInstance] productPurchased:NBIAPRemoveAdsIdentifier];
+    _removeAdsButton.enabled = !adsRemoved;
+    if (!adsRemoved) {
+        [[GBIAPHelper sharedInstance] requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
+            _products = products;
+        }];
     }
     
-    if ([sharedConfig adsEnabled]) {
-        BOOL adsRemoved = [[GBIAPHelper sharedInstance] productPurchased:NBIAPRemoveAdsIdentifier];
-        UIButton *removeAdsButton = [[GBBorderButton alloc] init];
-        removeAdsButton.enabled = !adsRemoved;
-        [removeAdsButton setTitle:NSLocalizedString(@"REMOVE_ADS", @"Remove ads button") forState:UIControlStateNormal];
-        [removeAdsButton addTarget:self action:@selector(removeAds:) forControlEvents:UIControlEventTouchUpInside];
-        [items addObject:removeAdsButton];
-        _removeAdsButton = removeAdsButton;
-        
-        if (!adsRemoved) {
-            [[GBIAPHelper sharedInstance] requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
-                _products = products;
-            }];
-        }
-    }
-    
-    GBHorizontalLayout *horizontalLayout = [[GBHorizontalLayout alloc] init];
-    horizontalLayout.translatesAutoresizingMaskIntoConstraints = NO;
-    horizontalLayout.items = items;
-    [self.view addSubview:horizontalLayout];
-    
-    if ([items count] == 1) {
-        toggleRoutesButton.titleLabel.font = [UIFont fontWithName:GBFontDefault size:16];
-    } else if ([items count] == 3) {
+    if ([buttonLayout.items count] == 3) {
         UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
         [self.view addSubview:activityIndicator];
         _activityIndicator = activityIndicator;
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[_removeAdsButton]-9-[activityIndicator]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_removeAdsButton, activityIndicator)]];
-        [constraints addObject:[NSLayoutConstraint
-                                constraintWithItem:activityIndicator
-                                attribute:NSLayoutAttributeCenterY
-                                relatedBy:NSLayoutRelationEqual
-                                toItem:_removeAdsButton
-                                attribute:NSLayoutAttributeCenterY
-                                multiplier:1.0
-                                constant:0]];
+        [constraints addObject:[NSLayoutConstraint constraintWithItem:activityIndicator attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_removeAdsButton attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
     }
     
-    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[horizontalLayout]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, horizontalLayout)]];
-    [constraints addObject:[GBConstraintHelper centerX:horizontalLayout withView:self.view]];
-    
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[busIdentifiersSwitchView]-12-[buttonLayout]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(busIdentifiersSwitchView, buttonLayout)]];
+    [constraints addObject:[GBConstraintHelper centerX:buttonLayout withView:self.view]];
     [self.view addConstraints:constraints];
     
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(changeColor:)];

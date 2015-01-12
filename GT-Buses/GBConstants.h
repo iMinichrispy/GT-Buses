@@ -34,6 +34,8 @@ extern NSString *const GBNotificationAgencyDidChange;
 extern NSString *const GBNotificationAdsVisibleDidChange;
 extern NSString *const GBNotificationRoutesDidChange;
 
+extern NSString *const NBIAPRemoveAdsIdentifier;
+
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define IS_IPAD ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #define IS_IPHONE_6_PLUS ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone && MAX([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width) >= 736)

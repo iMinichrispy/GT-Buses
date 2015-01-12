@@ -52,6 +52,7 @@
         [[NSFileManager defaultManager] removeItemAtPath:[path stringByAppendingPathComponent:currentFileName] error:nil];
     }
     
+    // Save as a file with a timestamp, so we know when we should fetch a new one.
     NSInteger timestamp = [[NSDate date] timeIntervalSince1970];
     NSString *fileName = [NSString stringWithFormat:@"Buildings-%@-%li.plist", agency, (long)timestamp];
     [buildings writeToFile:[path stringByAppendingPathComponent:fileName] atomically:YES];

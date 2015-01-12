@@ -10,22 +10,30 @@
 
 #import "GBConstants.h"
 
-#warning need a way to set extensionsuite
-#if NEXBUS_BUSES
-static NSString *const GBSharedDefaultsExtensionSuiteName = @"group.com.alexperez.nextbus-buses";
-#else
-//static NSString *const GBSharedDefaultsExtensionSuiteName = @"group.com.alexperez.nextbus-buses";
-static NSString *const GBSharedDefaultsExtensionSuiteName = @"group.com.alexperez.gt-buses";
-#endif
-
 @implementation NSUserDefaults (SharedDefaults)
 
 + (NSUserDefaults *)sharedDefaults {
     if ([NSUserDefaults instancesRespondToSelector:@selector(initWithSuiteName:)]) {
-        return [[NSUserDefaults alloc] initWithSuiteName:GBSharedDefaultsExtensionSuiteName];
+        return [[NSUserDefaults alloc] initWithSuiteName:[self sharedDefaultsSuiteName]];
     }
     // Revert to standard defaults if device does not support shared defaults w/ extension
     return [NSUserDefaults standardUserDefaults];
+}
+
++ (NSString *)sharedDefaultsSuiteName {
+    static NSString *suiteName;
+    if (!suiteName) {
+        NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+        NSString *bundleIdentifier = info[@"CFBundleIdentifier"];
+        NSArray *components = [bundleIdentifier componentsSeparatedByString:@"."];
+        if ([components count] == 4) {
+            // Extensions will have an additional component on the bundle identifier, so remove it
+            components = [components subarrayWithRange:NSMakeRange(0, 3)];
+            bundleIdentifier = [components componentsJoinedByString:@"."];
+        }
+        suiteName = [NSString stringWithFormat:@"group.%@", bundleIdentifier];
+    }
+    return suiteName;
 }
 
 @end
