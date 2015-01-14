@@ -56,7 +56,7 @@
         _requestConfig = [[GBRequestConfig alloc] initWithAgency:_agency.tag];
         _showsArrivalTime = [sharedDefaults boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
         
-        // TODO: Should use method in IAPHelper to check this, but IAPHelper contains code not compatible w/ extension
+        // TODO: Should use method in IAPHelper to check this, but IAPHelper contains code not compatible w/ extensions
         _adsVisible = ![[NSUserDefaults standardUserDefaults] boolForKey:NBIAPRemoveAdsIdentifier];
     }
     return self;

@@ -13,21 +13,38 @@
 #import "GBColors.h"
 #import "GBBus.h"
 #import "GBStop.h"
+#import "GBConfig.h"
+#import "GBAgency.h"
 
 @implementation MKMapView (AppStoreMap)
 
 - (void)showBusesWithRoute:(GBRoute *)route {
     NSArray *buses;
-    if ([route.tag isEqualToString:@"red"]) {
-        buses = @[@{@"lat":@33.77815, @"lon":@(-84.3984),  @"heading":@90},
-                  @{@"lat":@33.773,   @"lon":@(-84.39203), @"heading":@180},
-                  @{@"lat":@33.77132, @"lon":@(-84.3955),  @"heading":@270},
-                  @{@"lat":@33.7788,  @"lon":@(-84.40419), @"heading":@0}];
-    } else if ([route.tag isEqualToString:@"blue"]) {
-        buses = @[@{@"lat":@33.77823, @"lon":@(-84.3973), @"heading":@270},
-                  @{@"lat":@33.776,   @"lon":@(-84.392),  @"heading":@0},
-                  @{@"lat":@33.77125, @"lon":@(-84.3955), @"heading":@90},
-                  @{@"lat":@33.776,   @"lon":@(-84.4025), @"heading":@180}];
+    NSString *agencyTag = [[GBConfig sharedInstance] agency].tag;
+    if ([agencyTag isEqualToString:GBGeorgiaTechAgencyTag]) {
+        if ([route.tag isEqualToString:@"red"]) {
+            buses = @[@{@"lat":@33.77815, @"lon":@(-84.3984),  @"heading":@90},
+                      @{@"lat":@33.773,   @"lon":@(-84.39203), @"heading":@180},
+                      @{@"lat":@33.77132, @"lon":@(-84.3955),  @"heading":@270},
+                      @{@"lat":@33.7788,  @"lon":@(-84.40419), @"heading":@0}];
+        } else if ([route.tag isEqualToString:@"blue"]) {
+            buses = @[@{@"lat":@33.77823, @"lon":@(-84.3973), @"heading":@270},
+                      @{@"lat":@33.776,   @"lon":@(-84.392),  @"heading":@0},
+                      @{@"lat":@33.77125, @"lon":@(-84.3955), @"heading":@90},
+                      @{@"lat":@33.776,   @"lon":@(-84.4025), @"heading":@180}];
+        }
+    } else if ([agencyTag isEqualToString:@"sf-muni"]) { // mit or bronx
+        if ([route.tag isEqualToString:@"boston"]) {
+            buses = @[@{@"lat":@42.35499, @"lon":@(-71.10495),  @"heading":@90},
+                      @{@"lat":@33.773,   @"lon":@(-84.39203), @"heading":@180},
+                      @{@"lat":@33.77132, @"lon":@(-84.3955),  @"heading":@270},
+                      @{@"lat":@33.7788,  @"lon":@(-84.40419), @"heading":@0}];
+        } else if ([route.tag isEqualToString:@"kendchar"]) {
+            buses = @[@{@"lat":@33.77823, @"lon":@(-84.3973), @"heading":@270},
+                      @{@"lat":@33.776,   @"lon":@(-84.392),  @"heading":@0},
+                      @{@"lat":@33.77125, @"lon":@(-84.3955), @"heading":@90},
+                      @{@"lat":@33.776,   @"lon":@(-84.4025), @"heading":@180}];
+        }
     }
     
     NSMutableArray *annotations = [NSMutableArray new];

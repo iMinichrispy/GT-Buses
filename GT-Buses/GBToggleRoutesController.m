@@ -18,6 +18,8 @@
 
 static NSString *const GBRouteCellIdentifier = @"GBRouteCellIdentifier";
 
+// TODO: Add ability to change order of routes instead of just toggling on/off
+
 @interface GBToggleRoutesController () {
     BOOL _didToggleRoutes;
 }

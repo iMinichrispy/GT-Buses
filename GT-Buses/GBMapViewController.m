@@ -369,7 +369,6 @@ int const kRefreshInterval = 5;
 #if APP_STORE_IMAGE
         [_mapView showBusesWithRoute:selectedRoute];
         [self invalidateRefreshTimer];
-        _mapView.showsUserLocation = NO;
 #else
         // TODO: Should the request handlers be reinitialized every time?
         GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithTask:GBRequestVehicleLocationsTask delegate:self];

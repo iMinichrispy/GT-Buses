@@ -1370,6 +1370,8 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"DEFAULT_IMAGE=0",
+					"APP_STORE_IMAGE=0",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1390,7 +1392,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+                COPY_PHASE_STRIP = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

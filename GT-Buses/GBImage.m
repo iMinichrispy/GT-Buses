@@ -25,7 +25,7 @@
         arrowImages = [[NSMutableDictionary alloc] init];
     });
     
-    CGSize size = IS_IPAD ? CGSizeMake(24, 32) : CGSizeMake(18, 23);
+    CGSize size = IS_IPAD ? CGSizeMake(24, 32) : CGSizeMake(20, 26);
     CGFloat lineWidth = 4.0;
     if ([[GBConfig sharedInstance] isParty]) {
         size = CGSizeMake(size.width * 4, size.height * 4);

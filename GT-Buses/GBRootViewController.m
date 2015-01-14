@@ -282,6 +282,7 @@ float const kSettingsViewAnimationSpeed = .2;
 #pragma mark - Ads
 
 - (void)adsVisibleDidChange:(NSNotification *)notification {
+#if !DEFAULT_IMAGE
     GBConfig *sharedConfig = [GBConfig sharedInstance];
     if (sharedConfig.adsEnabled) {
         if (sharedConfig.adsVisible) {
@@ -301,6 +302,7 @@ float const kSettingsViewAnimationSpeed = .2;
             _adBannerView = nil;
         }
     }
+#endif
 }
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner {

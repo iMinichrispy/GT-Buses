@@ -7,13 +7,13 @@ Download on App Store: [itunes.apple.com](https://itunes.apple.com/us/app/gt-bus
 
 ## Screenshots
 
-<img alt="Buses Map" src="http://i.imgur.com/EkuByZj.png" width="170">
+<img alt="Buses Map" src="http://i.imgur.com/JaS8EOT.png" width="170">
 &nbsp;
-<img alt="Notification Center Extensions" src="http://i.imgur.com/Xu3A5l0.png" width="170">
+<img alt="Notification Center Extensions" src="http://i.imgur.com/NpodeZG.png" width="170">
 &nbsp;
-<img alt="Buildings Search" src="http://i.imgur.com/xptjQh5.png" width="170">
+<img alt="Buildings Search" src="http://i.imgur.com/VC0OMAC.png" width="170">
 &nbsp;
-<img alt="Toggle Routes" src="http://i.imgur.com/jhQF6qw.png" width="170">
+<img alt="Toggle Routes" src="http://i.imgur.com/NBUUCmf.png" width="170">
 
 ## License
 

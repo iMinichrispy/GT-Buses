@@ -31,13 +31,9 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-#if APP_STORE_IMAGE
-        _currentTintColor = [GBColors blueColor];
-#else
         NSArray *tintColors = [GBColors tintColors];
         NSInteger colorIndex = [[NSUserDefaults standardUserDefaults] integerForKey:GBUserDefaultsSelectedColorKey];
         _currentTintColor = tintColors[colorIndex][@"color"];
-#endif
     }
     return self;
 }
@@ -103,7 +99,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         color = RGBColor(252, 61, 57);
-//        color = RGBColor(217, 30, 24);
     });
     return color;
 }

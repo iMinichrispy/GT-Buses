@@ -51,7 +51,7 @@
 }
 
 - (void)setupForAnnotation:(GBBusAnnotation *)annotation {
-    // TODO: For reuseable annotations, not yet working
+    // TODO: For reusable annotations, not yet working
     GBBus *bus = annotation.bus;
     UIImage *arrowImage = [UIImage arrowImageWithColor:bus.color];
     _arrowImageView.frame = CGRectMake(0, 0, arrowImage.size.width, arrowImage.size.height);

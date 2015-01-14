@@ -3,14 +3,13 @@
 #### App Store Changelog
 
 ##### 2.0
-- 2 Notification Center widgets for easy access to time predictions for nearby stops, as well as your favorite stops
+- 2 Notification Center widgets for easy access to time predictions for nearby stops as well as your favorite stops
 - Ability to search for campus buildings and see where they are on the map
 - New Settings screen for:
     - Changing time prediction format
     - Showing bus identifiers
     - Toggling routes on/off
-- Switched to new server, so routes no longer take a week to update
-    - All requests now made over HTTPS
+- Switched to new server, so routes no longer take a week to update & all requests are now made over HTTPS
 
 ##### 1.1.1
 - Optimized for iOS 8, iPhone 6/6+
