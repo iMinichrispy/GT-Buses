@@ -34,7 +34,7 @@
         }
         
         _stopImageView = [[UIImageView alloc] init];
-        _stopImageView.alpha = .7;
+        _stopImageView.alpha = .9;
         [self addSubview:_stopImageView];
     }
     return self;
@@ -42,13 +42,13 @@
 
 - (void)setupForAnnotation:(GBStopAnnotation *)annotation {
     [_favoriteButton setStop:annotation.stop];
-    float size = IS_IPAD ? 17.0f : 10.0f;
-    if ([[GBConfig sharedInstance] isParty]) size = size * 2;
-    self.frame = CGRectMake(0, 0, size, size);
     
-    UIColor *color = [annotation.stop.route.color darkerColor:0.2];
-    _stopImageView.image = [UIImage circleStopImageWithColor:color size:self.frame.size.height];
-    _stopImageView.frame = self.bounds;
+    UIColor *color = annotation.stop.route.color;
+    UIImage *circleImage = [UIImage circleStopImageWithColor:color];
+    
+    _stopImageView.image = circleImage;
+    _stopImageView.frame = CGRectMake(0, 0, circleImage.size.width, circleImage.size.height);
+    self.frame = _stopImageView.bounds;
 }
 
 @end

@@ -120,12 +120,14 @@ float const kButtonWidth = 200.0f;
     [self.view addSubview:buttonLayout];
     _removeAdsButton = buttonLayout.removeAdsButton;
     
-    BOOL adsRemoved = [[GBIAPHelper sharedInstance] productPurchased:NBIAPRemoveAdsIdentifier];
-    _removeAdsButton.enabled = !adsRemoved;
-    if (!adsRemoved) {
-        [[GBIAPHelper sharedInstance] requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
-            _products = products;
-        }];
+    if ([[GBConfig sharedInstance] adsEnabled]) {
+        BOOL adsRemoved = [[GBIAPHelper sharedInstance] productPurchased:NBIAPRemoveAdsIdentifier];
+        _removeAdsButton.enabled = !adsRemoved;
+        if (!adsRemoved) {
+            [[GBIAPHelper sharedInstance] requestProductsWithCompletionHandler:^(BOOL success, NSArray *products) {
+                _products = products;
+            }];
+        }
     }
     
     if ([buttonLayout.items count] == 3) {

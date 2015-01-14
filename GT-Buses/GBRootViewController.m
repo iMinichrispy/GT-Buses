@@ -273,6 +273,7 @@ float const kSettingsViewAnimationSpeed = .2;
     [searchBar resignFirstResponder];
     searchBar.text = building.name;
     
+    // TODO: Prevent a building being added multiple times (instead of adding annotation, just select it)
     GBBuildingAnnotation *annotation = [[GBBuildingAnnotation alloc] initWithBuilding:building];
     [_mapViewController.mapView addAnnotation:annotation];
     [_mapViewController.mapView selectAnnotation:annotation animated:YES];
@@ -291,7 +292,7 @@ float const kSettingsViewAnimationSpeed = .2;
             [self.view addSubview:_adBannerView];
             
             NSMutableArray *constraints = [NSMutableArray new];
-            double constant = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? 0.0 : 50.0; // No idea why this is necessary
+            double constant = (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) ? 0.0 : _adBannerView.frame.size.height; // No idea why this is necessary on iOS 6
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_adBannerView]-constant-|" options:0 metrics:@{@"constant":@(constant)} views:NSDictionaryOfVariableBindings(_adBannerView)]];
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_adBannerView]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_adBannerView)]];
             [self.view addConstraints:constraints];

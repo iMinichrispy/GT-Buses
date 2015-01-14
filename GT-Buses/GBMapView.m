@@ -32,6 +32,7 @@
         _mapHandler = [[GBMapHandler alloc] init];
         self.delegate = _mapHandler;
         
+        // TODO: Setting map region doesn't play nice on iOS 6
         if ([[[GBConfig sharedInstance] agency].tag isEqualToString:GBGeorgiaTechAgencyTag]) {
             self.region = GATECH_REGION;
         }

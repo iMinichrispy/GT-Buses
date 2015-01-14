@@ -284,6 +284,8 @@
 		FA75CFEA1A13D163000B9CD6 /* GT-Buses.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "GT-Buses.entitlements"; sourceTree = "<group>"; };
 		FA8A287519C7485900B02EDA /* Predictions.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Predictions.xml; sourceTree = "<group>"; };
 		FA8A287919C7487500B02EDA /* Locations.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Locations.xml; sourceTree = "<group>"; };
+		FA8AFCAA1A65F7A200E3F76A /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		FA8AFCAB1A65F7AE00E3F76A /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		FA8C118919D30758008F5927 /* GBRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBRootViewController.h; sourceTree = "<group>"; };
 		FA8C118A19D30758008F5927 /* GBRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBRootViewController.m; sourceTree = "<group>"; };
 		FA8D788F19C7AACE000A657C /* GBSupportEmail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBSupportEmail.h; sourceTree = "<group>"; };
@@ -455,6 +457,8 @@
 			isa = PBXGroup;
 			children = (
 				FA94503B19EC55620022DF7C /* README.md */,
+				FA8AFCAA1A65F7A200E3F76A /* LICENSE.txt */,
+				FA8AFCAB1A65F7AE00E3F76A /* CHANGELOG.md */,
 				FA1FE92F18A1D8A300757643 /* GT-Buses */,
 				FAC480731A201B330000DC6B /* Shared Extension */,
 				FAC480171A2004D20000DC6B /* GT-Buses Favorites */,

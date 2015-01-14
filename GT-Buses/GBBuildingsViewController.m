@@ -188,14 +188,6 @@ static NSString *const GBBuildingCellIdentifier = @"GBBuildingCellIdentifier";
     [header.textLabel setTextColor:[UIColor whiteColor]];
 }
 
-- (NSMutableDictionary *)fileNamesDictionary {
-    NSMutableDictionary *fileNames = [[[NSUserDefaults standardUserDefaults] objectForKey:GBUserDefaultsBuildingsFileNamesKey] mutableCopy];
-    if (!fileNames) {
-        fileNames = [NSMutableDictionary new];
-    }
-    return fileNames;
-}
-
 #pragma mark - Request Handler
 
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {

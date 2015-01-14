@@ -58,7 +58,7 @@ int const kRefreshInterval = 5;
         _locationManager = [[CLLocationManager alloc] init];
         _locationManager.delegate = self;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(agencyDidChange:) name:GBNotificationAgencyDidChange object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshRouteConfig) name:GBNotificationAgencyDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(togglePartyMode:) name:GBNotificationPartyModeDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTintColor:) name:GBNotificationTintColorDidChange object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateVisibleRoutes:) name:GBNotificationDisabledRoutesDidChange object:nil];
@@ -73,8 +73,8 @@ int const kRefreshInterval = 5;
     [super viewDidLoad];
     
     NSMutableArray *constraints = [NSMutableArray new];
-#warning ios 6 ipad default images
-#if DEFAULT_IMAGE || HIDE_MAPs
+    
+#if DEFAULT_IMAGE || HIDE_MAP
     UIView *blankView = [[UIView alloc] initWithFrame:self.view.bounds];
     blankView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
     blankView.backgroundColor = RGBColor(240, 235, 212);
@@ -151,7 +151,7 @@ int const kRefreshInterval = 5;
 - (void)handleResponse:(RequestHandler *)handler data:(NSData *)data {
     NSError *error;
     NSDictionary *dictionary = [XMLReader dictionaryForXMLData:data error:&error];
-    [_busRouteControlView.activityIndicator stopAnimating];
+    
     if (!error && dictionary) {
         _busRouteControlView.errorLabel.hidden = YES;
         _busRouteControlView.busRouteControl.hidden = NO;
@@ -182,6 +182,7 @@ int const kRefreshInterval = 5;
                 NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:code userInfo:nil];
                 [self handleError:handler error:error];
             }
+            [_busRouteControlView.activityIndicator stopAnimating];
         } else if (handler.task == GBRequestVehicleLocationsTask) {
             NSDictionary *config = dictionary[@"body"][@"config"];
             [[GBConfig sharedInstance] updateConfig:config];
@@ -214,7 +215,7 @@ int const kRefreshInterval = 5;
                                 // Bus annotation was not found on map, so create a new one
                                 GBBus *bus = [[GBBus alloc] init];
                                 bus.identifier = busPosition[@"id"];
-                                bus.color = [selectedRoute.color darkerColor:0.5];
+                                bus.color = selectedRoute.color;//[selectedRoute.color darkerColor:0.5];
                                 bus.heading = [busPosition[@"heading"] intValue];
                                 
                                 annotation = [[GBBusAnnotation alloc] initWithBus:bus];
@@ -226,6 +227,7 @@ int const kRefreshInterval = 5;
                             
                             if (annotation.coordinate.latitude != coordinate.latitude || annotation.coordinate.longitude != coordinate.longitude) {
                                 GBBusAnnotationView *annotationView = (GBBusAnnotationView *)[_mapView viewForAnnotation:annotation];
+                                [[annotationView superview] bringSubviewToFront:annotationView];
                                 [UIView animateWithDuration:.8 animations:^{
                                     // TODO: [Bug] When bus annotation coordinate is being animated and map view window is changed (pan, pinch), bus animation gets thrown off
                                     [annotationView updateArrowImageRotation];
@@ -367,7 +369,9 @@ int const kRefreshInterval = 5;
 #if APP_STORE_IMAGE
         [_mapView showBusesWithRoute:selectedRoute];
         [self invalidateRefreshTimer];
+        _mapView.showsUserLocation = NO;
 #else
+        // TODO: Should the request handlers be reinitialized every time?
         GBRequestHandler *locationHandler = [[GBRequestHandler alloc] initWithTask:GBRequestVehicleLocationsTask delegate:self];
         [locationHandler locationsForRoute:selectedRoute];
         
@@ -457,7 +461,7 @@ int const kRefreshInterval = 5;
 - (void)updateRegion {
     GBRoute *selectedRoute = [self selectedRoute];
     UIEdgeInsets padding = UIEdgeInsetsZero;
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+    if (IS_IPAD || SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         // Increase top padding to account for bus route control overlay
         padding = UIEdgeInsetsMake(50, 7, 10, 7);
     }
@@ -468,11 +472,7 @@ int const kRefreshInterval = 5;
 }
 
 - (void)togglePartyMode:(NSNotification *)notification {
-    // Refreshes route config
-    [_busRouteControlView.busRouteControl removeAllSegments];
-    [self invalidateRefreshTimer];
-    [self requestUpdate];
-    
+    [self refreshRouteConfig];
     BOOL party = [[GBConfig sharedInstance] isParty];
     if (!party) {
         [GBColors  restoreSavedTintColor];
@@ -483,13 +483,14 @@ int const kRefreshInterval = 5;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"class == %@", [GBBusAnnotation class]];
     NSArray *busAnnotations = [_mapView.annotations filteredArrayUsingPredicate:predicate];
     
+    BOOL showsBusIdentifiers = [[GBConfig sharedInstance] showsBusIdentifiers];
     for (MKPointAnnotation *annotation in busAnnotations) {
         GBBusAnnotationView *annotationView = (GBBusAnnotationView *)[_mapView viewForAnnotation:annotation];
-        [annotationView setIdentifierVisible:[[GBConfig sharedInstance] showsBusIdentifiers]];
+        [annotationView setIdentifierVisible:showsBusIdentifiers];
     }
 }
 
-- (void)agencyDidChange:(NSNotification *)notification {
+- (void)refreshRouteConfig {
     [_busRouteControlView.busRouteControl removeAllSegments];
     [self invalidateRefreshTimer];
     [self requestUpdate];

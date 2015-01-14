@@ -30,15 +30,17 @@
                   @{@"lat":@33.776,   @"lon":@(-84.4025), @"heading":@180}];
     }
     
+    NSMutableArray *annotations = [NSMutableArray new];
     for (NSDictionary *dictionary in buses) {
         GBBus *bus = [[GBBus alloc] init];
-        bus.color = [route.color darkerColor:0.5];
+        bus.color = route.color;
         bus.heading = [dictionary[@"heading"] intValue];
         
         GBBusAnnotation *busAnnotation = [[GBBusAnnotation alloc] initWithBus:bus];
         [busAnnotation setCoordinate:CLLocationCoordinate2DMake([dictionary[@"lat"] floatValue], [dictionary[@"lon"] floatValue])];
-        [self addAnnotation:busAnnotation];
+        [annotations addObject:busAnnotation];
     }
+    [self addAnnotations:annotations];
 }
 
 + (NSString *)predictionsStringForRoute:(GBRoute *)route {

@@ -21,6 +21,8 @@
 static NSString *const GBStopAnnotationIdentifier = @"GBStopAnnotationIdentifier";
 static NSString *const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier";
 
+float const kRouteLineAlpha = 0.8f;
+
 // For iOS <=6
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id <MKOverlay>)overlay {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
@@ -28,7 +30,7 @@ static NSString *const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier";
         line.strokeColor = ((GBRoutePolyLine *)overlay).color;
         line.lineWidth = (([[GBConfig sharedInstance] isParty])) ? 20 : 10;
         line.lineCap = kCGLineCapButt;
-        line.alpha = .5;
+        line.alpha = kRouteLineAlpha;
         return line;
     }
     return nil;
@@ -48,7 +50,7 @@ static NSString *const GBBusAnnotationIdentifier = @"GBBusAnnotationIdentifier";
         
         line.lineWidth =  lineWidth;
         line.lineCap = kCGLineCapButt;
-        line.alpha = .5;
+        line.alpha = kRouteLineAlpha;
         return line;
     }
     return nil;

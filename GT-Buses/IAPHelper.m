@@ -64,18 +64,23 @@ NSString *const IAPHelperTransactionFinishedNotification = @"IAPHelperTransactio
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
     _productsRequest = nil;
-    
     NSArray *products = response.products;
     
-    _completionHandler(YES, products);
-    _completionHandler = nil;
+    // Nil check necessary for iOS 6
+    if (_completionHandler) {
+        _completionHandler(YES, products);
+        _completionHandler = nil;
+    }
 }
 
 - (void)request:(SKRequest *)request didFailWithError:(NSError *)error {
     // No need to show an alert here, since the completion handler should take care of that
     _productsRequest = nil;
-    _completionHandler(NO, nil);
-    _completionHandler = nil;
+    
+    if (_completionHandler) {
+        _completionHandler(NO, nil);
+        _completionHandler = nil;
+    }
 }
 
 #pragma mark - SKPaymentTransactionObserver

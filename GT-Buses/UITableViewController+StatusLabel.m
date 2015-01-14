@@ -11,7 +11,7 @@
 #import <objc/runtime.h>
 #import "GBConstants.h"
 
-static char const * const StatusLabelKey = "StatusLabelKey";
+static char const *const StatusLabelKey = "StatusLabelKey";
 
 double const kMaxLabelWidth = 290.0;
 
@@ -53,7 +53,7 @@ double const kMaxLabelWidth = 290.0;
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|->=padding-[statusLabel(<=maxWidth)]->=padding-|" options:0 metrics:@{@"padding":@15, @"maxWidth":@(kMaxLabelWidth)} views:@{@"statusLabel":self.statusLabel}]];
             [self.view addConstraints:constraints];
         } else {
-            // <iOS 7 doesn't play nice with constraints
+            // TODO: <iOS 7 doesn't play nice with constraints, and the label still isn't centered properly
             self.statusLabel.frame = CGRectMake(self.view.frame.size.width / 2 - (kMaxLabelWidth / 2), 47, kMaxLabelWidth, 40);
         }
     } else if (showStatus && self.statusLabel) {

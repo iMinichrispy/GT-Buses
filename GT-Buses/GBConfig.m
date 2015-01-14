@@ -56,6 +56,7 @@
         _requestConfig = [[GBRequestConfig alloc] initWithAgency:_agency.tag];
         _showsArrivalTime = [sharedDefaults boolForKey:GBSharedDefaultsShowsArrivalTimeKey];
         
+        // TODO: Should use method in IAPHelper to check this, but IAPHelper contains code not compatible w/ extension
         _adsVisible = ![[NSUserDefaults standardUserDefaults] boolForKey:NBIAPRemoveAdsIdentifier];
     }
     return self;
@@ -84,7 +85,7 @@
 
 - (void)setAgency:(GBAgency *)agency {
     if (_agency != agency) {
-        BOOL newAgency;
+        BOOL newAgency = NO;
         if (![_agency isEqual:agency]) {
             NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
             [standardDefaults setObject:nil forKey:GBUserDefaultsSelectedRouteKey];

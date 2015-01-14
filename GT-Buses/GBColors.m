@@ -102,7 +102,8 @@
     static UIColor *color;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        color = RGBColor(217, 30, 24);
+        color = RGBColor(252, 61, 57);
+//        color = RGBColor(217, 30, 24);
     });
     return color;
 }
@@ -151,6 +152,10 @@
     if ([self getRed:&r green:&g blue:&b alpha:&a])
         return [UIColor colorWithRed:MAX(r - rate, 0.0) green:MAX(g - rate, 0.0) blue:MAX(b - rate, 0.0) alpha:a];
     return nil;
+}
+
+- (UIColor *)lighterColor:(float)rate {
+    return [self darkerColor:-rate];
 }
 
 + (UIColor *)appTintColor {

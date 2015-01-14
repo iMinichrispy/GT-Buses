@@ -31,6 +31,7 @@ static inline UIColor *RGBColor(CGFloat red, CGFloat green, CGFloat blue) {
 @interface UIColor (GBColors)
 
 - (UIColor *)darkerColor:(float)rate;
+- (UIColor *)lighterColor:(float)rate;
 + (UIColor *)appTintColor;
 + (UIColor *)controlTintColor;
 + (UIColor *)colorWithHexString:(NSString *)hexString;

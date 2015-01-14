@@ -11,11 +11,13 @@
 #import "GBStop.h"
 #import "GBRoute.h"
 #import "GBStopGroup.h"
-#import "GBRouteCell.h"
+#import "GBConfig.h"
+#import "GBColors.h"
+#import "GBConstants.h"
 
 @implementation UIImage (GBImage)
 
-+ (UIImage *)arrowImageWithColor:(UIColor *)color size:(CGSize)size {
++ (UIImage *)arrowImageWithColor:(UIColor *)color {
     // Caches the arrow image so only one needs to be created per color & size
     static NSMutableDictionary *arrowImages;
     static dispatch_once_t onceToken;
@@ -23,27 +25,38 @@
         arrowImages = [[NSMutableDictionary alloc] init];
     });
     
-    id <NSCopying> key = @([color hash] + size.width);
+    CGSize size = IS_IPAD ? CGSizeMake(24, 32) : CGSizeMake(18, 23);
+    CGFloat lineWidth = 4.0;
+    if ([[GBConfig sharedInstance] isParty]) {
+        size = CGSizeMake(size.width * 4, size.height * 4);
+        lineWidth = 10.0;
+    }
+    
+    id <NSCopying> key = @([color hash] / lineWidth);
     UIImage *image = arrowImages[key];
     if (!image) {
         UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
+        size = CGSizeMake(size.width - lineWidth, size.height - lineWidth);
         CGContextRef context = UIGraphicsGetCurrentContext();
         
-        CGContextSetFillColorWithColor(context, color.CGColor);
-        CGContextSetStrokeColorWithColor(context, color.CGColor);
-        CGContextSetLineJoin(context, kCGLineJoinMiter);
-        CGContextSetLineWidth(context, 1.0);
+        CGContextSetFillColorWithColor(context, [[color darkerColor:0.4] colorWithAlphaComponent:1].CGColor);
+        CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+        CGContextSetLineJoin(context, kCGLineJoinRound);
+        CGContextSetLineWidth(context, lineWidth);
         
+        float offset = lineWidth / 2;
         CGMutablePathRef pathRef = CGPathCreateMutable();
-        
-        CGPathMoveToPoint(pathRef, NULL, 0.0, size.height);                     // Bottom left
-        CGPathAddLineToPoint(pathRef, NULL, size.width / 2, 0.0);               // Top of arrow
-        CGPathAddLineToPoint(pathRef, NULL, size.width, size.height);           // Bottom right
-        CGPathAddLineToPoint(pathRef, NULL, size.width / 2, .71 * size.height); // Center
+        CGPathMoveToPoint(pathRef, NULL, offset, size.height);                          // Bottom left
+        CGPathAddLineToPoint(pathRef, NULL, size.width / 2 + offset, offset);           // Top of arrow
+        CGPathAddLineToPoint(pathRef, NULL, size.width + offset, size.height);          // Bottom right
+        CGPathAddLineToPoint(pathRef, NULL, size.width / 2 + offset, .8 * size.height); // Center
         CGPathCloseSubpath(pathRef);
         
         CGContextAddPath(context, pathRef);
+        CGContextStrokePath(context);
+        CGContextAddPath(context, pathRef);
         CGContextFillPath(context);
+        CGPathRelease(pathRef);
         
         image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -54,7 +67,7 @@
 }
 
 
-+ (UIImage *)circleStopImageWithColor:(UIColor *)color size:(float)size {
++ (UIImage *)circleStopImageWithColor:(UIColor *)color {
     // Caches the dot image so only one needs to be created per color & size
     static NSMutableDictionary *circleImages;
     static dispatch_once_t onceToken;
@@ -62,7 +75,10 @@
         circleImages = [[NSMutableDictionary alloc] init];
     });
     
-    id <NSCopying> key = @([color hash] + size);
+    float size = IS_IPAD ? 17.0f : 10.0f;
+    if ([[GBConfig sharedInstance] isParty]) size *= 2;
+    
+    id <NSCopying> key = @([color hash] / size);
     UIImage *image = circleImages[key];
     if (!image) {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(size, size), NO, 0.0f);
@@ -70,7 +86,7 @@
         CGContextSaveGState(context);
         CGContextSetLineWidth(context, 2.0);
         CGRect rect = CGRectMake(0, 0, size, size);
-        CGContextSetFillColorWithColor(context, color.CGColor);
+        CGContextSetFillColorWithColor(context, [color darkerColor:0.3].CGColor);
         CGContextFillEllipseInRect(context, rect);
         
         CGContextRestoreGState(context);
@@ -117,6 +133,7 @@ float const kRouteImageViewSize = 50.0f;
 float const kRouteCircleSize = 20.0f;
 
 + (UIImage *)circleRouteImageWithRoute:(GBRoute *)route {
+    // TODO: Even though this isn't very reuseable (since each route should have a unique color, it still might be good to cache
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(kRouteImageViewSize, kRouteImageViewSize), NO, 0.0f);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);

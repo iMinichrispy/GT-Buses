@@ -13,6 +13,7 @@
 #import "GBConfig.h"
 #import "GBConstants.h"
 #import "GBBus.h"
+#import "GBColors.h"
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
@@ -35,42 +36,28 @@
         GBBusAnnotation *busAnnotation = (GBBusAnnotation *)annotation;
         GBBus *bus = busAnnotation.bus;
         
-        GBConfig *sharedConfig = [GBConfig sharedInstance];
-        
-        CGSize arrowSize = IS_IPAD ? CGSizeMake(24, 32) : CGSizeMake(18, 24);
-        if ([sharedConfig isParty]) {
-            arrowSize = CGSizeMake(arrowSize.width * 4, arrowSize.height * 4);
-        }
-        UIImage *colorArrowImage = [UIImage arrowImageWithColor:bus.color size:arrowSize];
-        
-        _arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, arrowSize.width, arrowSize.height)];
-        _arrowImageView.image = colorArrowImage;
+        UIImage *arrowImage = [UIImage arrowImageWithColor:bus.color];
+        _arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, arrowImage.size.width, arrowImage.size.height)];
+        _arrowImageView.image = arrowImage;
         [self updateArrowImageRotation];
         [self addSubview:_arrowImageView];
         
         self.frame = _arrowImageView.bounds;
         self.canShowCallout = NO;
         
-        [self setIdentifierVisible:[sharedConfig showsBusIdentifiers]];
+        [self setIdentifierVisible:[[GBConfig sharedInstance] showsBusIdentifiers]];
     }
     return self;
 }
 
 - (void)setupForAnnotation:(GBBusAnnotation *)annotation {
+    // TODO: For reuseable annotations, not yet working
     GBBus *bus = annotation.bus;
+    UIImage *arrowImage = [UIImage arrowImageWithColor:bus.color];
+    _arrowImageView.frame = CGRectMake(0, 0, arrowImage.size.width, arrowImage.size.height);
+    _arrowImageView.image = arrowImage;
     
-    GBConfig *sharedConfig = [GBConfig sharedInstance];
-    
-    CGSize arrowSize = IS_IPAD ? CGSizeMake(24, 32) : CGSizeMake(18, 24);
-    if ([sharedConfig isParty]) {
-        arrowSize = CGSizeMake(arrowSize.width * 4, arrowSize.height * 4);
-    }
-    
-    UIImage *colorArrowImage = [UIImage arrowImageWithColor:bus.color size:_arrowImageView.frame.size];
-    _arrowImageView.frame = CGRectMake(0, 0, arrowSize.width, arrowSize.height);
-    _arrowImageView.image = colorArrowImage;
-    
-    if ([sharedConfig showsBusIdentifiers]) {
+    if ([[GBConfig sharedInstance] showsBusIdentifiers]) {
         _identifierLabel.text = bus.identifier;
     }
 }
@@ -85,8 +72,8 @@
     
     if (!_identifierLabel && visible) {
         _identifierLabel = [[UILabel alloc] init];
-        _identifierLabel.textColor = bus.color;
-        _identifierLabel.font = [UIFont systemFontOfSize:12];
+        _identifierLabel.textColor = [bus.color darkerColor:0.5];
+        _identifierLabel.font = [UIFont boldSystemFontOfSize:12];
         _identifierLabel.text = bus.identifier;
         _identifierLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:_identifierLabel];
@@ -112,6 +99,7 @@
                                     constant:-10.0]];
             [self addConstraints:constraints];
         } else {
+            // iOS 6 doesn't play nice with autolayout
             [_identifierLabel sizeToFit];
             _identifierLabel.center = CGPointMake(_arrowImageView.center.x, _arrowImageView.center.y - 20);
         }

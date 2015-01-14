@@ -54,6 +54,7 @@
 - Ability to change nextbus agency
 - Buildings now custom to agencies
 - Buidings cached on device, removed buildings version number
+- New bus image, slight color changes to map elements
 
 ##### 1.1.1
 - Added "No Predictions" default subtitle for annotation

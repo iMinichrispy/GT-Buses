@@ -43,6 +43,7 @@
 - (void)setActivityIndicatorVisible:(BOOL)hidden {
 #if !EXTENSION
     // TODO: Keep track of an activity count to handle when multiple requests are made so the activity indicator isn't hidden before all requests are completed
+    // TODO: How does this work with static library if it doesn't change based on whether it's run in an extension?
     [UIApplication sharedApplication].networkActivityIndicatorVisible = hidden;
 #endif
 }
