@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>7022</string>
+	<string>7032</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -56,11 +56,11 @@
 			<key>TintColor</key>
 			<dict>
 				<key>Blue</key>
-				<real>0.7904</real>
+				<real>0.79039999999999999</real>
 				<key>Green</key>
-				<real>0.4862</real>
+				<real>0.48620000000000002</real>
 				<key>Red</key>
-				<real>0.0941</real>
+				<real>0.094100000000000003</real>
 			</dict>
 		</dict>
 	</dict>

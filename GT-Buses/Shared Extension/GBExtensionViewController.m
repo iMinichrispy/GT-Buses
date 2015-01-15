@@ -144,7 +144,13 @@
             NSArray *stopViews = _sectionView.stopsView.subviews;
             
             for (NSDictionary *busStop in predictions) {
-                NSArray *predictionData = busStop[@"direction"][@"prediction"];
+                NSDictionary *direction = busStop[@"direction"];
+                // TODO: Handle multiple directions (there can be more than one)
+                if ([direction isKindOfClass:[NSArray class]])
+                    direction = [((NSArray *)direction) firstObject];
+                
+                NSArray *predictionData = direction[@"prediction"];
+                
                 NSArray *predictions;
                 if (predictionData) {
                     if (![predictionData isKindOfClass:[NSArray class]])
