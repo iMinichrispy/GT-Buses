@@ -838,7 +838,6 @@
 				FAB9D2621A2270F700EC9736 /* Sources */,
 				FAB9D2631A2270F700EC9736 /* Frameworks */,
 				FAB9D2641A2270F700EC9736 /* Resources */,
-				FA4519141A22732500EC849C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -856,7 +855,6 @@
 				FAC480111A2004D20000DC6B /* Sources */,
 				FAC480121A2004D20000DC6B /* Frameworks */,
 				FAC480131A2004D20000DC6B /* Resources */,
-				FABE52BE1A203CCF00277E4E /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -963,33 +961,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		FA4519141A22732500EC849C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
-		};
 		FABE52BC1A203BB200277E4E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
-		};
-		FABE52BE1A203CCF00277E4E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
