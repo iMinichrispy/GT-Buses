@@ -69,17 +69,17 @@
 
 + (UIImage *)circleStopImageWithColor:(UIColor *)color {
     // Caches the dot image so only one needs to be created per color & size
-    static NSMutableDictionary *circleImages;
+    static NSMutableDictionary *stopImages;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        circleImages = [[NSMutableDictionary alloc] init];
+        stopImages = [[NSMutableDictionary alloc] init];
     });
     
     float size = IS_IPAD ? 17.0f : 10.0f;
     if ([[GBConfig sharedInstance] isParty]) size *= 2;
     
     id <NSCopying> key = @([color hash] / size);
-    UIImage *image = circleImages[key];
+    UIImage *image = stopImages[key];
     if (!image) {
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(size, size), NO, 0.0f);
         CGContextRef context = UIGraphicsGetCurrentContext();
@@ -92,7 +92,7 @@
         CGContextRestoreGState(context);
         image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        circleImages[key] = image;
+        stopImages[key] = image;
     }
     
     return image;
@@ -133,28 +133,39 @@ float const kRouteImageViewSize = 50.0f;
 float const kRouteCircleSize = 20.0f;
 
 + (UIImage *)circleRouteImageWithRoute:(GBRoute *)route {
-    // TODO: Even though this isn't very reuseable (since each route should have a unique color, it still might be good to cache
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(kRouteImageViewSize, kRouteImageViewSize), NO, 0.0f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(context);
+    static NSMutableDictionary *routeImages;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        routeImages = [[NSMutableDictionary alloc] init];
+    });
     
-    CGContextSetLineWidth(context, 2.0);
-    CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
-    CGContextSetShadowWithColor(context, CGSizeZero, 1, [UIColor blackColor].CGColor);
+    id <NSCopying> key = @([route.color hash]);
+    UIImage *image = routeImages[key];
+    if (!image) {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(kRouteImageViewSize, kRouteImageViewSize), NO, 0.0f);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGContextSaveGState(context);
+        
+        CGContextSetLineWidth(context, 2.0);
+        CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+        CGContextSetShadowWithColor(context, CGSizeZero, 1, [UIColor blackColor].CGColor);
+        
+        CGFloat indent = (kRouteImageViewSize - kRouteCircleSize) / 2;
+        CGRect rect = CGRectMake(indent, indent, kRouteCircleSize, kRouteCircleSize);
+        
+        CGContextSetFillColorWithColor(context, route.color.CGColor);
+        
+        CGContextFillEllipseInRect(context, rect);
+        CGContextStrokeEllipseInRect(context, rect);
+        
+        CGContextRestoreGState(context);
+        image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        routeImages[key] = image;
+    }
     
-    CGFloat indent = (kRouteImageViewSize - kRouteCircleSize) / 2;
-    CGRect rect = CGRectMake(indent, indent, kRouteCircleSize, kRouteCircleSize);
-    
-    CGContextSetFillColorWithColor(context, route.color.CGColor);
-    
-    CGContextFillEllipseInRect(context, rect);
-    CGContextStrokeEllipseInRect(context, rect);
-    
-    CGContextRestoreGState(context);
-    UIImage *circle = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return circle;
+    return image;
 }
 
 @end
