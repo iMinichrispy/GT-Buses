@@ -14,7 +14,7 @@ extern NSString *const GBRequestHerokuBaseURL;
 
 typedef NS_ENUM(NSInteger, GBRequestConfigSource) {
     GBRequestConfigSourceHeroku,
-    GBRequestConfigSourceNextbusPublic
+    GBRequestConfigSourceNextBusPublic
 };
 
 - (instancetype)initWithAgency:(NSString *)agency;

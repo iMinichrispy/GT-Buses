@@ -174,9 +174,9 @@ int const kRefreshInterval = 5;
                 NSString *errorString = dictionary[@"body"][@"Error"][kXMLReaderTextNodeKey];
                 NSInteger code;
                 if ([errorString containsString:@"Agency parameter"] && [errorString containsString:@"is not valid."]) {
-                    code = GBRequestNextbusInvalidAgencyError;
+                    code = GBRequestNextBusInvalidAgencyError;
                 } else {
-                    code = GBRequestNextbusError;
+                    code = GBRequestNextBusError;
                 }
                 
                 NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:code userInfo:nil];

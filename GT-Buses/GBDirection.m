@@ -23,7 +23,7 @@
 - (instancetype)initWithTitle:(NSString *)title tag:(NSString *)tag {
     self = [super init];
     if (self) {
-        // TODO: Shouldn't have to remove 'to' from title - this should be fixed by Nextbus
+        // TODO: Shouldn't have to remove 'to' from title - this should be fixed by NextBus
         _title = [title stringByReplacingOccurrencesOfString:@"to " withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, MIN([title length], 3))];
         _tag = tag;
     }

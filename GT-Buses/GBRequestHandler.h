@@ -35,8 +35,8 @@ extern NSString *const GBRequestErrorDomain;
 
 enum {
     GBRequestParseError = 2923,
-    GBRequestNextbusError = 2943,
-    GBRequestNextbusInvalidAgencyError = 2963,
+    GBRequestNextBusError = 2943,
+    GBRequestNextBusInvalidAgencyError = 2963,
 };
 
 @end

@@ -42,7 +42,7 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
     GBRequestConfig *requestConfig = [[GBConfig sharedInstance] requestConfig];
     if (requestConfig.source == GBRequestConfigSourceHeroku) {
         [self getRequestWithURL:FORMAT(@"%@%@", [requestConfig locationsBaseURL], route.tag)];
-    } else if (requestConfig.source == GBRequestConfigSourceNextbusPublic) {
+    } else if (requestConfig.source == GBRequestConfigSourceNextBusPublic) {
         [self getRequestWithURL:FORMAT(@"%@&r=%@", [requestConfig locationsBaseURL], route.tag)];
     }
 }
@@ -52,7 +52,7 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
     if (requestConfig.source == GBRequestConfigSourceHeroku) {
         NSString *baseURL = [requestConfig predictionsBaseURL];
         [self getRequestWithURL:FORMAT(@"%@%@", baseURL, route.tag)];
-    } else if (requestConfig.source == GBRequestConfigSourceNextbusPublic) {
+    } else if (requestConfig.source == GBRequestConfigSourceNextBusPublic) {
         if ([route.stopParameters length]) {
             [self multiPredictionsForStops:route.stopParameters];
         }
@@ -87,8 +87,8 @@ NSString *const GBRequestErrorDomain = @"com.alexperez.gtbuses.requestErrors";
         case 503: errorString = NSLocalizedString(@"TIMED_OUT_ERROR", @"503 Timed out"); break;
         case 1008: case 1009: errorString = NSLocalizedString(@"NO_INTERNET_ERROR", @"1008/1009 No internet connection"); break;
         case GBRequestParseError: errorString = NSLocalizedString(@"PARSING_ERROR", @"Error parsing response xml"); break;
-        case GBRequestNextbusError: errorString = NSLocalizedString(@"NEXTBUS_ERROR", @"Nextubs returned an error"); break;
-        case GBRequestNextbusInvalidAgencyError: errorString = NSLocalizedString(@"NEXTBUS_INVALID_AGNECY_ERROR", @"Invalid Nextbus agency"); break;
+        case GBRequestNextBusError: errorString = NSLocalizedString(@"NEXTBUS_ERROR", @"NextBus returned an error"); break;
+        case GBRequestNextBusInvalidAgencyError: errorString = NSLocalizedString(@"NEXTBUS_INVALID_AGNECY_ERROR", @"Invalid NextBus agency"); break;
         default: errorString = NSLocalizedString(@"DEFAULT_ERROR", @"Default HTTP response error"); break;
     }
     return FORMAT(@"%@ (-%li)", errorString, (long) ABS(code));

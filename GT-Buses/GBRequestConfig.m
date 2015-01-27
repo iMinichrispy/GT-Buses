@@ -22,7 +22,7 @@ NSString *const GBRequestHerokuBaseURL = @"https://gtbuses.herokuapp.com";
     self = [super init];
     if (self) {
         _agency = agency;
-        GBRequestConfigSource source = ([_agency isEqualToString:GBGeorgiaTechAgencyTag]) ? GBRequestConfigSourceHeroku : GBRequestConfigSourceNextbusPublic;
+        GBRequestConfigSource source = ([_agency isEqualToString:GBGeorgiaTechAgencyTag]) ? GBRequestConfigSourceHeroku : GBRequestConfigSourceNextBusPublic;
         _source = source;
         [self setupForSource:_source];
     }
@@ -38,7 +38,7 @@ NSString *const GBRequestHerokuBaseURL = @"https://gtbuses.herokuapp.com";
         _multiPredictionsBaseURL = [_baseURL stringByAppendingString:@"/multiPredictions"];
         _scheduleURL = [_baseURL stringByAppendingString:@"/schedule"];
         _messagesURL = [_baseURL stringByAppendingString:@"/messages"];
-    } else if (source == GBRequestConfigSourceNextbusPublic) {
+    } else if (source == GBRequestConfigSourceNextBusPublic) {
         _baseURL = [NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?a=%@", _agency];
         _routeConfigURL = [_baseURL stringByAppendingString:@"&command=routeConfig"];
         _locationsBaseURL = [_baseURL stringByAppendingString:@"&command=vehicleLocations&t=0"];
