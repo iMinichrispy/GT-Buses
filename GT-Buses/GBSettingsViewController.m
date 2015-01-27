@@ -178,7 +178,10 @@ float const kButtonWidth = 200.0f;
 }
 
 - (void)reviewApp {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.com/apps/gtbuses"]];
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *bundleName = info[@"CFBundleName"];
+    NSString *appStoreURL = [NSString stringWithFormat:@"itms-apps://itunes.com/apps/%@", [bundleName stringByReplacingOccurrencesOfString:@" " withString:@""]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStoreURL]];
 }
 
 - (NSArray *)arrivalTimeItems {
