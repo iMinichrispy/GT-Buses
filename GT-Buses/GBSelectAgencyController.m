@@ -102,28 +102,33 @@ static NSString *const GBAgencyCellIdentifier = @"GBAgencyCellIdentifier";
     [self.refreshControl endRefreshing];
     if (!error && dictionary) {
         NSArray *agencies = dictionary[@"body"][@"agency"];
-        if (![agencies isKindOfClass:[NSArray class]]) agencies = @[agencies];
-        
-        NSMutableDictionary *agenciesDictionary = [NSMutableDictionary new];
-        NSMutableArray *newAgencies = [NSMutableArray new];
-        for (int x = 0; x < [agencies count]; x++) {
-            NSDictionary *dictionary = agencies[x];
-            GBAgency *agency = [dictionary xmlToAgency];
-            agency.selected = ([agency isEqual:[GBConfig sharedInstance].agency]);
-            if (agency.selected) {
-                _selectedPath = [NSIndexPath indexPathForRow:x inSection:0];
-            }
-            [newAgencies addObject:agency];
+        if (agencies) {
+            if (![agencies isKindOfClass:[NSArray class]]) agencies = @[agencies];
             
-            agenciesDictionary[agency.tag] = dictionary;
+            NSMutableDictionary *agenciesDictionary = [NSMutableDictionary new];
+            NSMutableArray *newAgencies = [NSMutableArray new];
+            for (int x = 0; x < [agencies count]; x++) {
+                NSDictionary *dictionary = agencies[x];
+                GBAgency *agency = [dictionary xmlToAgency];
+                agency.selected = ([agency isEqual:[GBConfig sharedInstance].agency]);
+                if (agency.selected) {
+                    _selectedPath = [NSIndexPath indexPathForRow:x inSection:0];
+                }
+                [newAgencies addObject:agency];
+                
+                agenciesDictionary[agency.tag] = dictionary;
+            }
+            _agencies = newAgencies;
+            
+            [[NSUserDefaults standardUserDefaults] setObject:agenciesDictionary forKey:GBUserDefaultsAgenciesKey];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self setStatus:nil];
+            [self.tableView reloadData];
+        } else {
+            NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
+            [self handleError:handler error:error];
         }
-        _agencies = newAgencies;
-        
-        [[NSUserDefaults standardUserDefaults] setObject:agenciesDictionary forKey:GBUserDefaultsAgenciesKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [self setStatus:nil];
-        [self.tableView reloadData];
     } else {
         NSError *error = [NSError errorWithDomain:GBRequestErrorDomain code:GBRequestParseError userInfo:nil];
         [self handleError:handler error:error];
