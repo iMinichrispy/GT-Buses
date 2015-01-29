@@ -2,6 +2,10 @@
 
 #### App Store Changelog
 
+##### 2.0.1
+- Fixed iOS 7 crash affecting buildings search (Thanks psjf!)
+- Other minor bug fixes
+
 ##### 2.0
 - 2 Notification Center widgets for easy access to time predictions for nearby stops as well as your favorite stops
 - Ability to search for campus buildings and see where they are on the map
@@ -24,6 +28,13 @@
 - App icon artwork now displays correctly in iTunes
 
 #### Detailed Changelog
+
+##### 2.0.1
+- Added missing iPhone 6 Plus landscape image
+- Now caching route images for toggle routes
+- Review app url now based on bundle name
+- Added optional icon images
+- Fixed iOS 7 bug causing crash when displaying label on table view
 
 ##### 2.0
 - Bus stop idendifiers shown on stop annotation
