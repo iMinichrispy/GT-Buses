@@ -30,7 +30,7 @@ double const kMaxLabelWidth = 290.0;
         self.statusLabel.backgroundColor = [UIColor clearColor];
         [self.view addSubview:self.statusLabel];
         
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
             self.statusLabel.translatesAutoresizingMaskIntoConstraints = NO;
             
             NSMutableArray *constraints = [NSMutableArray new];
@@ -53,7 +53,7 @@ double const kMaxLabelWidth = 290.0;
             [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|->=padding-[statusLabel(<=maxWidth)]->=padding-|" options:0 metrics:@{@"padding":@15, @"maxWidth":@(kMaxLabelWidth)} views:@{@"statusLabel":self.statusLabel}]];
             [self.view addConstraints:constraints];
         } else {
-            // TODO: <iOS 7 doesn't play nice with constraints, and the label still isn't centered properly
+            // TODO: <iOS 8 doesn't play nice with constraints, and the label still isn't centered properly
             self.statusLabel.frame = CGRectMake(self.view.frame.size.width / 2 - (kMaxLabelWidth / 2), 47, kMaxLabelWidth, 40);
         }
     } else if (showStatus && self.statusLabel) {
