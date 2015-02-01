@@ -31,11 +31,11 @@
     [super userDefaultsDidChange:notification];
     NSUserDefaults *shared = [NSUserDefaults sharedDefaults];
     self.stops = [shared objectForKey:GBSharedDefaultsFavoriteStopsKey];
-    self.sectionView.parameterString = nil;
     [self updateLayout];
 }
 
 - (void)updateLayout {
+    self.sectionView.parameterString = nil;
     NSMutableArray *constraints = [NSMutableArray new];
     for (UIView *view in self.sectionView.stopsView.subviews) {
         [view removeFromSuperview];
